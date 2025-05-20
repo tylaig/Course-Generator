@@ -122,51 +122,91 @@ export default function Phase3() {
       
       console.log("Iniciando geração de conteúdo para todos os módulos...");
       
-      // Chama a API para gerar o conteúdo
-      const response = await fetch('/api/generate/all-content', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          courseId: course?.id,
-          modules: course?.modules,
-          courseDetails: {
-            title: course?.title,
-            theme: course?.theme,
-            estimatedHours: course?.estimatedHours,
-            format: course?.format,
-            platform: course?.platform,
-            deliveryFormat: course?.deliveryFormat,
-            ...course?.phaseData?.phase1
-          },
-          aiConfig: course?.aiConfig
-        }),
-      });
-      
-      if (!response.ok) {
-        throw new Error(`Erro ao gerar conteúdo: ${response.statusText}`);
-      }
-      
-      const data = await response.json();
-      console.log("Conteúdo gerado com sucesso:", data);
-      
-      // Atualiza o status dos módulos para "generated"
-      if (course?.modules) {
-        const updatedModules = course.modules.map(m => ({
-          ...m,
-          status: "generated",
-          content: data[m.title] || m.content
-        }));
+      // Vamos gerar conteúdo sequencialmente para cada módulo
+      if (course?.modules && course.modules.length > 0) {
+        // Criamos cópias dos módulos para atualização
+        let updatedModules = [...course.modules];
         
-        // Atualiza os módulos no contexto do curso
-        updateModules(updatedModules);
+        // Feedback para o usuário
+        alert("Iniciando geração de conteúdo para " + course.modules.length + " módulos. Este processo pode demorar alguns minutos.");
+        
+        // Geramos o conteúdo para cada módulo sequencialmente
+        for (let i = 0; i < course.modules.length; i++) {
+          const module = course.modules[i];
+          
+          try {
+            // Atualiza o status do módulo para "in_progress"
+            updatedModules = updatedModules.map(m => 
+              m.id === module.id ? { ...m, status: "in_progress" } : m
+            );
+            updateModules(updatedModules);
+            
+            // Chama a API para gerar o conteúdo do módulo específico
+            const response = await fetch('/api/generate/module-content', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                moduleId: module.id,
+                moduleInfo: {
+                  title: module.title,
+                  description: module.description,
+                  order: module.order,
+                  estimatedHours: module.estimatedHours
+                },
+                courseDetails: {
+                  title: course.title,
+                  theme: course.theme,
+                  estimatedHours: course.estimatedHours,
+                  format: course.format,
+                  platform: course.platform,
+                  deliveryFormat: course.deliveryFormat,
+                  ...course?.phaseData?.phase1
+                },
+                aiConfig: {
+                  ...course.aiConfig,
+                  contentTypes,
+                  difficultyLevel,
+                  contentDensity,
+                  teachingApproach
+                }
+              }),
+            });
+            
+            if (response.ok) {
+              const moduleContent = await response.json();
+              
+              // Atualiza o módulo com o conteúdo gerado
+              updatedModules = updatedModules.map(m => 
+                m.id === module.id ? { 
+                  ...m, 
+                  status: "generated", 
+                  content: moduleContent 
+                } : m
+              );
+              
+              // Atualiza os módulos no contexto do curso
+              updateModules(updatedModules);
+              console.log(`Módulo ${i+1}/${course.modules.length} gerado com sucesso!`);
+            } else {
+              throw new Error(`Erro ao gerar conteúdo para o módulo ${module.title}`);
+            }
+          } catch (moduleError) {
+            console.error(`Erro no módulo ${module.title}:`, moduleError);
+            // Continua para o próximo módulo mesmo se houver erro
+          }
+        }
         
         // Atualiza o progresso da fase
         updateProgress(3, 100);
         
         // Salva o curso com os novos módulos
         saveCourseToLocalStorage();
+        
+        alert("Geração de conteúdo concluída com sucesso!");
+      } else {
+        alert("Não há módulos para gerar conteúdo. Por favor, crie módulos na Fase 2 primeiro.");
       }
     } catch (error) {
       console.error("Erro ao gerar conteúdo:", error);

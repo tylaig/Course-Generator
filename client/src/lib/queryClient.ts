@@ -12,6 +12,19 @@ export async function apiRequest(
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
+  // Corrigido erro com GET/HEAD requests com body
+  if ((method === "GET" || method === "HEAD") && data) {
+    console.warn("GET/HEAD requests cannot have body. Removing body from request.");
+    const res = await fetch(url, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+    
+    await throwIfResNotOk(res);
+    return res;
+  }
+  
   const res = await fetch(url, {
     method,
     headers: data ? { "Content-Type": "application/json" } : {},

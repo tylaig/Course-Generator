@@ -91,6 +91,9 @@ export default function AISettings() {
               <SelectItem value="Academic">Academic</SelectItem>
               <SelectItem value="Conversational">Conversational</SelectItem>
               <SelectItem value="Technical">Technical</SelectItem>
+              <SelectItem value="Portuguese - Formal">Português - Formal</SelectItem>
+              <SelectItem value="Portuguese - Informal">Português - Informal</SelectItem>
+              <SelectItem value="Portuguese - Technical">Português - Técnico</SelectItem>
             </SelectContent>
           </Select>
         </div>
