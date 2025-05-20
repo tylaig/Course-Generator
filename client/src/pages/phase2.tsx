@@ -415,13 +415,22 @@ export default function Phase2() {
               <CardContent className="flex items-center gap-2">
                 <Input 
                   type="number" 
-                  min={2}
-                  max={10}
+                  min={1}
+                  max={50}
                   value={moduleCount}
-                  onChange={(e) => setModuleCount(parseInt(e.target.value) || 4)}
+                  onChange={(e) => {
+                    const newValue = Math.max(1, parseInt(e.target.value) || 1);
+                    setModuleCount(newValue);
+                    // Salvar no contexto do curso
+                    updatePhaseData(2, {
+                      ...course?.phaseData?.phase2,
+                      moduleCount: newValue,
+                      lessonsPerModule
+                    });
+                  }}
                   className="w-20"
                 />
-                <span className="text-sm text-muted-foreground">(2-10 módulos)</span>
+                <span className="text-sm text-muted-foreground">(1-50 módulos)</span>
               </CardContent>
             </Card>
             
