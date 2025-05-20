@@ -28,7 +28,8 @@ export const useCourse = () => {
   return context;
 };
 
-export const CourseProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+// Removendo o tipo React.FC para resolver possíveis problemas de tipo
+export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
   const [course, setCourse] = useState<Course | null>(null);
   const [generationStatus, setGenerationStatus] = useState<GenerationStatus>("idle");
 

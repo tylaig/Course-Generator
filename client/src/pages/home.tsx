@@ -1,27 +1,74 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "wouter";
-import { useCourse } from "@/context/CourseContext";
+import { useLocation } from "wouter"; 
+import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { Course, CourseModule } from "@/types";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Home() {
-  const navigate = useNavigate();
-  const { course, createNewCourse } = useCourse();
-
-  useEffect(() => {
-    // If user has an in-progress course, redirect to the current phase
-    if (course && course.currentPhase) {
-      navigate(`/phase${course.currentPhase}`);
+  const [location, navigate] = useLocation();
+  const { toast } = useToast();
+  const [currentCourseId, setCurrentCourseId] = useState<string | null>(
+    localStorage.getItem('currentCourseId')
+  );
+  
+  // Fetch course data
+  const { data: course, isLoading } = useQuery({
+    queryKey: ['/api/courses', currentCourseId],
+    queryFn: async () => {
+      if (!currentCourseId) return null;
+      const response = await apiRequest("GET", `/api/courses/${currentCourseId}`, {});
+      const data = await response.json();
+      return data as Course;
+    },
+    enabled: !!currentCourseId,
+  });
+  
+  // Create new course mutation
+  const createCourseMutation = useMutation({
+    mutationFn: async () => {
+      const response = await apiRequest("POST", "/api/courses", {
+        title: "New Course",
+        theme: "General Education",
+        estimatedHours: 10,
+        format: "Online",
+        platform: "Web",
+        deliveryFormat: "Self-paced",
+        currentPhase: 1,
+        modules: [],
+        aiConfig: {
+          model: "gpt-4o",
+          optimization: "balanced",
+          languageStyle: "professional",
+          difficultyLevel: "intermediate",
+          contentDensity: 0.7,
+          teachingApproach: "practical",
+          contentTypes: ["text", "video", "quiz"]
+        }
+      });
+      return response.json();
+    },
+    onSuccess: (data) => {
+      setCurrentCourseId(data.id);
+      localStorage.setItem('currentCourseId', data.id);
+      navigate("/phase1");
+      
+      toast({
+        title: "Course Created",
+        description: "New course has been created successfully.",
+      });
     }
-  }, [course, navigate]);
-
+  });
+  
   const handleCreateNewCourse = () => {
-    createNewCourse();
-    navigate("/phase1");
+    createCourseMutation.mutate();
   };
-
+  
   const handleContinueCourse = () => {
-    if (course) {
+    if (course && course.currentPhase) {
       navigate(`/phase${course.currentPhase}`);
     }
   };

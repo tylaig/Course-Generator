@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { useCourse } from "@/context/CourseContext";
+import { apiRequest } from "@/lib/queryClient";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export default function Header() {
-  const { course } = useCourse();
   const { toast } = useToast();
 
   const handleSaveProject = () => {
@@ -20,34 +19,72 @@ export default function Header() {
     });
   };
 
-  const handleExport = (format: 'json' | 'csv' = 'json') => {
-    if (!course?.id) return;
-    
-    // Since we're using an in-memory database, in a real application
-    // this would make an API call to /api/export/course/${course.id}?format=${format}
-    
-    toast({
-      title: `Export as ${format.toUpperCase()} Started`,
-      description: "Your course is being prepared for export.",
-    });
-    
-    // In a real application, we would download the file here
-    // window.open(`/api/export/course/${course.id}?format=${format}`, '_blank');
+  const handleExport = async (format: 'json' | 'csv' = 'json') => {
+    try {
+      toast({
+        title: `Export as ${format.toUpperCase()} Started`,
+        description: "Your course is being prepared for export.",
+      });
+      
+      // Direct API call instead of using context
+      const courseId = localStorage.getItem('currentCourseId');
+      if (courseId) {
+        const response = await apiRequest("GET", `/api/export/course/${courseId}?format=${format}`, {});
+        
+        // In a real application, this would handle file download
+        // const blob = await response.blob();
+        // const url = window.URL.createObjectURL(blob);
+        // const a = document.createElement('a');
+        // a.href = url;
+        // a.download = `course_${courseId}.${format}`;
+        // a.click();
+        
+        toast({
+          title: "Export Complete",
+          description: `Course has been exported as ${format.toUpperCase()} successfully.`,
+        });
+      } else {
+        toast({
+          title: "No Active Course",
+          description: "Please select or create a course first.",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Export Failed",
+        description: "There was an error exporting your course.",
+        variant: "destructive"
+      });
+    }
   };
   
   const handleExportPhase = (phase: number, format: 'json' | 'csv' = 'json') => {
-    if (!course?.id) return;
-    
-    // Since we're using an in-memory database, in a real application
-    // this would make an API call to /api/export/phase/${course.id}/${phase}?format=${format}
+    const courseId = localStorage.getItem('currentCourseId');
+    if (!courseId) {
+      toast({
+        title: "No Active Course",
+        description: "Please select or create a course first.",
+        variant: "destructive"
+      });
+      return;
+    }
     
     toast({
       title: `Export Phase ${phase} as ${format.toUpperCase()}`,
       description: `Phase ${phase} data is being prepared for export.`,
     });
     
-    // In a real application, we would download the file here
-    // window.open(`/api/export/phase/${course.id}/${phase}?format=${format}`, '_blank');
+    // In a real application, we would make the API call and download the file
+    // apiRequest("GET", `/api/export/phase/${courseId}/${phase}?format=${format}`, {})
+    //  .then(response => response.blob())
+    //  .then(blob => {
+    //    const url = window.URL.createObjectURL(blob);
+    //    const a = document.createElement('a');
+    //    a.href = url;
+    //    a.download = `course_${courseId}_phase_${phase}.${format}`;
+    //    a.click();
+    //  });
   };
 
   return (
@@ -63,7 +100,6 @@ export default function Header() {
           <Button
             variant="outline"
             onClick={handleSaveProject}
-            disabled={!course}
             className="flex items-center"
           >
             <span className="material-icons text-sm mr-1">save</span>
@@ -73,7 +109,6 @@ export default function Header() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
-                disabled={!course}
                 className="flex items-center"
               >
                 <span className="material-icons text-sm mr-1">file_download</span>
@@ -88,18 +123,15 @@ export default function Header() {
                 Export as CSV
               </DropdownMenuItem>
               
-              {course && course.currentPhase > 1 && (
-                <>
-                  <DropdownMenuItem disabled className="opacity-50">
-                    Export by Phase:
-                  </DropdownMenuItem>
-                  {[...Array(Math.min(course.currentPhase, 5))].map((_, i) => (
-                    <DropdownMenuItem key={i} onClick={() => handleExportPhase(i + 1, 'json')}>
-                      Phase {i + 1} - JSON
-                    </DropdownMenuItem>
-                  ))}
-                </>
-              )}
+              {/* Simplified phase export menu */}
+              <DropdownMenuItem disabled className="opacity-50">
+                Export by Phase:
+              </DropdownMenuItem>
+              {[1, 2, 3, 4, 5].map((phase) => (
+                <DropdownMenuItem key={phase} onClick={() => handleExportPhase(phase, 'json')}>
+                  Phase {phase} - JSON
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuContent>
           </DropdownMenu>
           

@@ -33,6 +33,7 @@ export type CourseModule = {
   estimatedHours: number;
   status: "not_started" | "in_progress" | "generated" | "approved";
   content?: ModuleContent;
+  imageUrl?: string;
 };
 
 export type ContentType = "text" | "video" | "quiz" | "exercise" | "case";
