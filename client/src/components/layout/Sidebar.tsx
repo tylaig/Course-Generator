@@ -6,7 +6,7 @@ import { useCourse } from '@/context/CourseContext';
 
 // Organizando o menu em categorias
 const courseMenuItems = [
-  { label: 'Meus Cursos', icon: 'dashboard', path: '/' },
+  { label: 'Meus Cursos', icon: 'dashboard', path: '/courses' },
   { label: 'Criar Novo Curso', icon: 'add_circle', path: '/new-course' },
   { label: 'Visualização LMS', icon: 'school', path: '/lms-view' },
 ];

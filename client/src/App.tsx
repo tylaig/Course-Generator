@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Switch, Route } from "wouter";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
+import CourseList from "@/pages/course-list";
 import Phase1 from "@/pages/phase1";
 import Phase2 from "@/pages/phase2";
 import Phase3 from "@/pages/phase3";
@@ -38,6 +39,8 @@ function App() {
               {isContextReady ? (
                 <Switch>
                   <Route path="/" component={Home} />
+                  <Route path="/courses" component={CourseList} />
+                  <Route path="/new-course" component={Home} />
                   <Route path="/phase1" component={Phase1} />
                   <Route path="/phase2" component={Phase2} />
                   <Route path="/phase3" component={Phase3} />
