@@ -48,6 +48,9 @@ export default function Phase1() {
   const [_, navigate] = useLocation();
   const { course, updatePhaseData, setBasicInfo, moveToNextPhase } = useCourse();
   const [briefingContent, setBriefingContent] = useState("");
+  const [advancedOptions, setAdvancedOptions] = useState(false);
+  const [focusArea, setFocusArea] = useState("balanced");
+  const [audienceLevel, setAudienceLevel] = useState("intermediate");
   const [briefingDialogOpen, setBriefingDialogOpen] = useState(false);
 
   const defaultValues: Partial<Phase1FormData> = {
@@ -89,13 +92,26 @@ export default function Phase1() {
 
   const generateStrategy = useMutation({
     mutationFn: async (data: Phase1FormData) => {
-      const response = await apiRequest("POST", "/api/generate/strategy", data);
+      // Incluir as opções avançadas na solicitação
+      const requestData = {
+        ...data,
+        advancedOptions: advancedOptions ? {
+          focusArea: focusArea,
+          audienceLevel: audienceLevel
+        } : undefined
+      };
+      
+      const response = await apiRequest("POST", "/api/generate/strategy", requestData);
       return response.json();
     },
     onSuccess: (data) => {
       // Use the AI generated strategy data if available
       updatePhaseData(1, {
         ...form.getValues(),
+        advancedOptions: advancedOptions ? {
+          focusArea: focusArea,
+          audienceLevel: audienceLevel
+        } : undefined,
         aiGenerated: data
       });
     }
@@ -556,10 +572,71 @@ export default function Phase1() {
               </div>
             </div>
 
-            <div className="flex justify-end">
-              <Button type="submit" className="w-full sm:w-auto">
-                {generateStrategy.isPending ? "Generating Strategy..." : "Save and Continue"}
-              </Button>
+            <div className="border-t border-neutral-200 pt-4 mt-6">
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="text-sm font-medium text-neutral-700">Opções Avançadas de Estratégia</h4>
+                <button 
+                  type="button" 
+                  className="text-xs text-primary hover:text-primary-dark flex items-center"
+                  onClick={() => setAdvancedOptions(!advancedOptions)}
+                >
+                  <span className="material-icons text-xs mr-1">
+                    {advancedOptions ? "expand_less" : "expand_more"}
+                  </span>
+                  {advancedOptions ? "Ocultar" : "Mostrar"}
+                </button>
+              </div>
+              
+              {advancedOptions && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 bg-neutral-50 p-4 rounded-md border border-neutral-200">
+                  <div>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">
+                      Foco do Curso
+                    </label>
+                    <Select 
+                      value={focusArea} 
+                      onValueChange={setFocusArea}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Selecione o foco" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="balanced">Equilibrado (padrão)</SelectItem>
+                        <SelectItem value="theoretical">Teórico/Conceitual</SelectItem>
+                        <SelectItem value="practical">Prático/Aplicado</SelectItem>
+                        <SelectItem value="problem-solving">Resolução de Problemas</SelectItem>
+                        <SelectItem value="industry">Indústria/Profissional</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">
+                      Nível do Público
+                    </label>
+                    <Select 
+                      value={audienceLevel} 
+                      onValueChange={setAudienceLevel}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Selecione o nível" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="beginner">Iniciante (básico)</SelectItem>
+                        <SelectItem value="intermediate">Intermediário (padrão)</SelectItem>
+                        <SelectItem value="advanced">Avançado (especialista)</SelectItem>
+                        <SelectItem value="mixed">Misto/Variado</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              )}
+            
+              <div className="flex justify-end">
+                <Button type="submit" className="w-full sm:w-auto">
+                  {generateStrategy.isPending ? "Generating Strategy..." : "Save and Continue"}
+                </Button>
+              </div>
             </div>
           </form>
         </Form>
