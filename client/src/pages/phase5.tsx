@@ -32,9 +32,65 @@ import {
 } from "@/components/ui/dialog";
 import { CourseModule } from "@/types";
 
+// Este componente mostra uma avaliação de módulo
+function EvaluationPreview({ evaluation, onClose }: { evaluation: any, onClose: () => void }) {
+  return (
+    <Dialog open={Boolean(evaluation)} onOpenChange={onClose}>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>{evaluation?.title || "Avaliação"}</DialogTitle>
+          <DialogDescription>
+            {evaluation?.description || "Detalhes da avaliação do módulo"}
+          </DialogDescription>
+        </DialogHeader>
+        
+        <div className="space-y-4 mt-4">
+          {evaluation?.type === "quiz" && evaluation?.questions && (
+            <div className="space-y-6">
+              {evaluation.questions.map((question: any, index: number) => (
+                <div key={index} className="border rounded-md p-4 bg-neutral-50">
+                  <h3 className="font-medium mb-2">{index + 1}. {question.question}</h3>
+                  
+                  {question.options && (
+                    <div className="space-y-2 ml-4 mt-3">
+                      {question.options.map((option: string, optionIndex: number) => (
+                        <div key={optionIndex} className={`flex items-start ${
+                          question.answer === optionIndex ? 'text-green-700 font-medium' : ''
+                        }`}>
+                          <span className="inline-block w-5">{String.fromCharCode(65 + optionIndex)}.</span>
+                          <span>{option}</span>
+                          {question.answer === optionIndex && (
+                            <span className="material-icons text-green-500 text-sm ml-2">check_circle</span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  
+                  {question.explanation && (
+                    <div className="mt-3 text-sm bg-neutral-100 p-3 rounded border-l-4 border-blue-400">
+                      <strong>Explicação:</strong> {question.explanation}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+          
+          {evaluation?.type !== "quiz" && (
+            <div className="border rounded-md p-4">
+              <pre className="whitespace-pre-wrap text-sm">{JSON.stringify(evaluation, null, 2)}</pre>
+            </div>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export default function Phase5() {
   const [_, navigate] = useLocation();
-  const { course, updatePhaseData, updateModuleStatus } = useCourse();
+  const { course, updatePhaseData, updateModuleStatus, setCourse } = useCourse();
   const [reviewNotes, setReviewNotes] = useState<string>(
     course?.phaseData?.phase5?.reviewNotes || ""
   );

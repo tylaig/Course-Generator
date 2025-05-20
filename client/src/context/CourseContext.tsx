@@ -5,11 +5,12 @@ import { CourseStorage } from "@/lib/storage";
 
 interface CourseContextType {
   course: Course | null;
+  setCourse: React.Dispatch<React.SetStateAction<Course | null>>;
   setBasicInfo: (data: any) => void;
   updatePhaseData: (phase: Phase, data: any) => void;
   updateModules: (modules: CourseModule[]) => void;
   updateAIConfig: (config: Partial<AIConfig>) => void;
-  updateModuleStatus: (moduleId: string, status: CourseModule["status"]) => void;
+  updateModuleStatus: (moduleId: string, status: CourseModule["status"], imageUrl?: string) => void;
   updateModuleContent: (moduleId: string, content: any) => void;
   moveToNextPhase: () => void;
   updateProgress: (phaseNumber: Phase, progress: number) => void;
@@ -257,12 +258,16 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  const updateModuleStatus = (moduleId: string, status: CourseModule["status"]) => {
+  const updateModuleStatus = (moduleId: string, status: CourseModule["status"], imageUrl?: string) => {
     setCourse((prev) => {
       if (!prev) return null;
       const updatedModules = prev.modules.map(mod => {
         if (mod.id === moduleId) {
-          const updatedModule = { ...mod, status };
+          // Se houver URL de imagem, inclua-a no módulo atualizado
+          const updatedModule = imageUrl 
+            ? { ...mod, status, imageUrl } 
+            : { ...mod, status };
+            
           // Salvar o módulo atualizado individualmente
           CourseStorage.saveModule(prev.id, updatedModule);
           return updatedModule;
@@ -467,6 +472,7 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
     <CourseContext.Provider
       value={{
         course,
+        setCourse,
         setBasicInfo,
         updatePhaseData,
         updateModules,
