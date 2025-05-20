@@ -121,25 +121,56 @@ export default function Phase3() {
       });
       
       console.log("Iniciando geração de conteúdo para todos os módulos...");
-      generateAllContent.mutate(undefined, {
-        onSuccess: (data) => {
-          console.log("Conteúdo gerado com sucesso:", data);
-          
-          // Atualiza o status dos módulos para "generated"
-          if (course?.modules) {
-            const updatedModules = course.modules.map(m => ({
-              ...m,
-              status: "generated",
-              content: data[m.title] || m.content
-            }));
-            
-            // Atualiza os módulos no contexto do curso
-            updateModules(updatedModules);
-          }
-        }
+      
+      // Chama a API para gerar o conteúdo
+      const response = await fetch('/api/generate/all-content', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          courseId: course?.id,
+          modules: course?.modules,
+          courseDetails: {
+            title: course?.title,
+            theme: course?.theme,
+            estimatedHours: course?.estimatedHours,
+            format: course?.format,
+            platform: course?.platform,
+            deliveryFormat: course?.deliveryFormat,
+            ...course?.phaseData?.phase1
+          },
+          aiConfig: course?.aiConfig
+        }),
       });
+      
+      if (!response.ok) {
+        throw new Error(`Erro ao gerar conteúdo: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      console.log("Conteúdo gerado com sucesso:", data);
+      
+      // Atualiza o status dos módulos para "generated"
+      if (course?.modules) {
+        const updatedModules = course.modules.map(m => ({
+          ...m,
+          status: "generated",
+          content: data[m.title] || m.content
+        }));
+        
+        // Atualiza os módulos no contexto do curso
+        updateModules(updatedModules);
+        
+        // Atualiza o progresso da fase
+        updateProgress(3, 100);
+        
+        // Salva o curso com os novos módulos
+        saveCourseToLocalStorage();
+      }
     } catch (error) {
       console.error("Erro ao gerar conteúdo:", error);
+      alert("Erro ao gerar conteúdo para os módulos. Tente novamente.");
     }
   };
 
