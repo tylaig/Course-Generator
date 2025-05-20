@@ -8,6 +8,8 @@ import {
   generateEvaluation,
   generateCourseEvaluation,
   generateCourseReview,
+  generateModuleImage,
+  generateAllModuleImages,
   generateAllContent,
   generateAllEvaluations,
   generateModuleImage,

@@ -96,6 +96,14 @@ export default function Header() {
             <h1 className="text-xl font-heading font-semibold text-primary">EduGen AI</h1>
           </div>
         </Link>
+        <div className="flex items-center space-x-2">
+          <Link href="/lms-view">
+            <Button variant="ghost" className="flex items-center">
+              <span className="material-icons text-sm mr-1">dashboard</span>
+              Visualização LMS
+            </Button>
+          </Link>
+        </div>
         <div className="flex items-center space-x-4">
           <Button
             variant="outline"

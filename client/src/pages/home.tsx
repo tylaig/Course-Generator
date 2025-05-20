@@ -80,9 +80,19 @@ export default function Home() {
           <h1 className="text-4xl font-heading font-bold text-neutral-900 mb-4">
             EduGen AI Course Creator
           </h1>
-          <p className="text-xl text-neutral-600 max-w-2xl mx-auto">
+          <p className="text-xl text-neutral-600 max-w-2xl mx-auto mb-4">
             Create complete educational courses with AI-powered content generation
           </p>
+          {course && (
+            <Button 
+              onClick={() => navigate("/lms-view")}
+              variant="outline"
+              className="mt-2"
+            >
+              <span className="material-icons text-sm mr-2">dashboard</span>
+              Ver Visualização LMS
+            </Button>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
