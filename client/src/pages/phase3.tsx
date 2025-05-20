@@ -104,6 +104,8 @@ export default function Phase3() {
   const [isGeneratingAll, setIsGeneratingAll] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
   const [activeModuleIndex, setActiveModuleIndex] = useState(0);
+  const [showImageDialog, setShowImageDialog] = useState(false);
+  const [expandingContentType, setExpandingContentType] = useState<string | null>(null);
   
   // Activity types
   const activityTypes = [
@@ -120,6 +122,15 @@ export default function Phase3() {
     { id: "technical", label: "Técnico neutro", description: "Objetivo e factual" },
     { id: "conversational", label: "Conversacional", description: "Informal e dialógico" },
     { id: "inspiring", label: "Inspirador", description: "Estimulante e reflexivo" }
+  ];
+  
+  // Lesson types
+  const lessonTypes = [
+    { id: "text", label: "Texto", description: "Conteúdo textual explicativo" },
+    { id: "video", label: "Vídeo", description: "Aula em formato de vídeo com narração" },
+    { id: "interactive", label: "Interativo", description: "Atividade interativa com feedback" },
+    { id: "presentation", label: "Apresentação", description: "Slides com conteúdo visual" },
+    { id: "reading", label: "Leitura", description: "Material de leitura complementar" }
   ];
   
   // Module content tabs
@@ -226,6 +237,126 @@ export default function Phase3() {
       toast({
         title: "Erro ao gerar conteúdo",
         description: "Não foi possível gerar o conteúdo do módulo. Tente novamente.",
+        variant: "destructive",
+      });
+    }
+  });
+  
+  // Generate module image
+  const generateModuleImage = useMutation({
+    mutationFn: async (moduleId: string) => {
+      setGenerationStatus("generating");
+      
+      const moduleToGenerate = course?.modules.find(m => m.id === moduleId);
+      if (!moduleToGenerate) throw new Error("Module not found");
+      
+      const response = await apiRequest(
+        "POST", 
+        "/api/generate/module-image", 
+        {
+          module: moduleToGenerate,
+          courseDetails: {
+            title: course?.title,
+            theme: course?.theme
+          }
+        }
+      );
+      
+      return { module: moduleToGenerate, imageUrl: await response.json() };
+    },
+    onSuccess: (data) => {
+      const { module, imageUrl } = data;
+      
+      // Update module with generated image
+      updateModuleStatus(module.id, module.status, imageUrl.url);
+      
+      setGenerationStatus("success");
+      setShowImageDialog(false);
+      
+      toast({
+        title: "Imagem gerada com sucesso",
+        description: `A imagem para o módulo "${module.title}" foi gerada.`,
+      });
+    },
+    onError: (error) => {
+      console.error("Error generating image:", error);
+      setGenerationStatus("error");
+      
+      toast({
+        title: "Erro ao gerar imagem",
+        description: "Não foi possível gerar a imagem do módulo. Tente novamente.",
+        variant: "destructive",
+      });
+    }
+  });
+  
+  // Expand existing content
+  const expandModuleContent = useMutation({
+    mutationFn: async ({ moduleId, contentType }: { moduleId: string, contentType: string }) => {
+      setGenerationStatus("generating");
+      
+      const moduleToExpand = course?.modules.find(m => m.id === moduleId);
+      if (!moduleToExpand || !moduleToExpand.content) throw new Error("Module not found or has no content");
+      
+      const response = await apiRequest(
+        "POST", 
+        "/api/generate/expand-content", 
+        {
+          module: moduleToExpand,
+          contentType: contentType,
+          courseDetails: {
+            title: course?.title,
+            theme: course?.theme,
+            estimatedHours: course?.estimatedHours,
+            format: course?.format,
+            platform: course?.platform,
+            deliveryFormat: course?.deliveryFormat,
+            phaseData: course?.phaseData?.phase1
+          },
+          aiConfig: {
+            model: course?.aiConfig.model,
+            optimization: course?.aiConfig.optimization,
+            languageStyle: languageStyle,
+            difficultyLevel: difficultyLevel,
+            contentDensity: contentDensity,
+            teachingApproach: teachingApproach,
+            contentTypes: contentTypes
+          }
+        }
+      );
+      
+      return { module: moduleToExpand, expandedContent: await response.json() };
+    },
+    onSuccess: (data) => {
+      const { module, expandedContent } = data;
+      
+      // Merge expanded content with existing content
+      const updatedContent = {
+        ...module.content,
+        ...expandedContent
+      };
+      
+      // Update module with expanded content
+      updateModuleContent(module.id, updatedContent);
+      
+      setGenerationStatus("success");
+      setExpandingContentType(null);
+      
+      toast({
+        title: "Conteúdo expandido com sucesso",
+        description: `O conteúdo do módulo "${module.title}" foi expandido.`,
+      });
+      
+      // Update progress
+      updateProgress(3, calculateModuleProgress());
+    },
+    onError: (error) => {
+      console.error("Error expanding content:", error);
+      setGenerationStatus("error");
+      
+      toast({
+        title: "Erro ao expandir conteúdo",
+        description: "Não foi possível expandir o conteúdo do módulo. Tente novamente.",
         variant: "destructive",
       });
     }
