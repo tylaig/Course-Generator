@@ -1,41 +1,29 @@
-import { useState, useEffect } from "react";
+import { CourseProvider } from "@/context/CourseContext";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Switch, Route } from "wouter";
-import NotFound from "@/pages/not-found";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/toaster";
+
+// Pages
 import Home from "@/pages/home";
 import Phase1 from "@/pages/phase1";
 import Phase2 from "@/pages/phase2";
 import Phase3 from "@/pages/phase3";
 import Phase4 from "@/pages/phase4";
 import Phase5 from "@/pages/phase5";
+import NotFound from "@/pages/not-found";
 import LMSView from "@/pages/LMSView";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import Sidebar from "@/components/layout/Sidebar";
-import { CourseProvider } from "@/context/CourseContext"; 
-import { useToast } from "@/hooks/use-toast";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "@/lib/queryClient";
 
-function App() {
-  const { toast } = useToast();
-  const [isContextReady, setIsContextReady] = useState(false);
-  
-  useEffect(() => {
-    // Verificar se o contexto está pronto
-    setTimeout(() => {
-      setIsContextReady(true);
-    }, 500);
-  }, []);
-  
+const queryClient = new QueryClient();
+
+export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <CourseProvider>
-        <div className="min-h-screen flex flex-col">
-          <Header />
-          <div className="flex flex-1">
-            <Sidebar />
-            <main className="flex-1 ml-60 pt-4 px-6 pb-6">
-              {isContextReady ? (
+      <TooltipProvider>
+        <CourseProvider>
+          <div className="min-h-screen bg-neutral-50">
+            <div className="flex flex-col min-h-screen">
+              <main className="flex-1">
                 <Switch>
                   <Route path="/" component={Home} />
                   <Route path="/phase1" component={Phase1} />
@@ -43,24 +31,15 @@ function App() {
                   <Route path="/phase3" component={Phase3} />
                   <Route path="/phase4" component={Phase4} />
                   <Route path="/phase5" component={Phase5} />
-                  <Route path="/lms-view" component={LMSView} />
+                  <Route path="/lms" component={LMSView} />
                   <Route component={NotFound} />
                 </Switch>
-              ) : (
-                <div className="flex items-center justify-center h-full">
-                  <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mx-auto mb-4"></div>
-                    <p className="text-gray-600">Carregando o ambiente pedagógico...</p>
-                  </div>
-                </div>
-              )}
-            </main>
+              </main>
+            </div>
           </div>
-          <Footer />
-        </div>
-      </CourseProvider>
+          <Toaster />
+        </CourseProvider>
+      </TooltipProvider>
     </QueryClientProvider>
   );
 }
-
-export default App;
