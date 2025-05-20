@@ -521,14 +521,39 @@ export default function Phase5() {
   // Função para iniciar o fluxo de autorização do Google
   const handleGoogleAuth = () => {
     if (googleDriveAuthUrl) {
-      // Abre a janela de autorização do Google
-      window.open(googleDriveAuthUrl, '_blank');
+      // Abre a janela de autorização do Google em uma nova aba
+      const authWindow = window.open(googleDriveAuthUrl, '_blank');
+      
+      // Mostra instruções para o usuário
       setShowDriveAuthModal(false);
       
       toast({
         title: "Autorização Necessária",
-        description: "Complete a autorização no Google para continuar.",
+        description: "Complete a autorização no Google e volte para esta página. Depois tente novamente o upload.",
       });
+      
+      // Configuramos um intervalo para verificar se a autorização foi concluída
+      // Isso é simplificado e em um app real precisaria de uma abordagem mais robusta
+      const checkAuth = () => {
+        try {
+          // Se a janela foi fechada, podemos tentar o upload novamente
+          if (authWindow && authWindow.closed) {
+            toast({
+              title: "Verificando Autorização",
+              description: "Tente fazer o upload novamente para o Google Drive."
+            });
+            clearInterval(checkInterval);
+          }
+        } catch (e) {
+          console.error("Erro ao verificar janela de autenticação:", e);
+          clearInterval(checkInterval);
+        }
+      };
+      
+      const checkInterval = setInterval(checkAuth, 1000);
+      
+      // Limpa o intervalo após 5 minutos para evitar vazamento de memória
+      setTimeout(() => clearInterval(checkInterval), 300000);
     }
   };
 

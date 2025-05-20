@@ -7,7 +7,8 @@ import PDFDocument from 'pdfkit';
 const setupGoogleDriveClient = () => {
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-  const redirectUri = process.env.GOOGLE_REDIRECT_URI || 'http://localhost:5000/api/auth/google/callback';
+  // Ajustando o URL de redirecionamento para corresponder ao configurado no Google Cloud
+  const redirectUri = process.env.GOOGLE_REDIRECT_URI || 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/auth/google/callback';
   const refreshToken = process.env.GOOGLE_REFRESH_TOKEN;
 
   if (!clientId || !clientSecret) {
