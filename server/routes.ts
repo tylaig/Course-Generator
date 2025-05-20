@@ -449,5 +449,138 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // ---- Module Image Generation ----
+  app.post("/api/generate/module-image", async (req, res) => {
+    try {
+      const { moduleId, courseId } = req.body;
+      
+      if (!moduleId || !courseId) {
+        return res.status(400).json({ message: "Module ID and Course ID are required" });
+      }
+      
+      // Retrieve course and module
+      const course = await storage.getCourse(courseId);
+      if (!course) {
+        return res.status(404).json({ message: "Course not found" });
+      }
+      
+      const moduleIndex = course.modules.findIndex(m => m.id === moduleId);
+      if (moduleIndex === -1) {
+        return res.status(404).json({ message: "Module not found" });
+      }
+      
+      const module = course.modules[moduleIndex];
+      
+      // Generate image for the module
+      const imageResult = await generateModuleImage({
+        id: module.id,
+        title: module.title,
+        description: module.description,
+        order: module.order,
+        estimatedHours: module.estimatedHours
+      }, {
+        title: course.title,
+        theme: course.theme,
+        estimatedHours: course.estimatedHours,
+        format: course.format,
+        platform: course.platform,
+        deliveryFormat: course.deliveryFormat
+      });
+      
+      // Update the module with the image URL
+      const updatedModule = {
+        ...module,
+        imageUrl: imageResult.url
+      };
+      
+      course.modules[moduleIndex] = updatedModule;
+      
+      // Update the course in storage
+      await storage.updateCourse(courseId, course);
+      
+      res.json({
+        url: imageResult.url,
+        prompt: imageResult.prompt,
+        moduleId: module.id
+      });
+    } catch (error) {
+      console.error("Error in module image generation:", error);
+      res.status(500).json({ 
+        message: "Failed to generate module image", 
+        error: error instanceof Error ? error.message : "Unknown error" 
+      });
+    }
+  });
+  
+  // ---- Generate All Module Images ----
+  app.post("/api/generate/all-module-images", async (req, res) => {
+    try {
+      const { courseId } = req.body;
+      
+      if (!courseId) {
+        return res.status(400).json({ message: "Course ID is required" });
+      }
+      
+      const course = await storage.getCourse(courseId);
+      if (!course) {
+        return res.status(404).json({ message: "Course not found" });
+      }
+      
+      if (!course.modules || course.modules.length === 0) {
+        return res.status(400).json({ message: "Course has no modules" });
+      }
+      
+      // Get course details for image generation
+      const courseDetails = {
+        title: course.title,
+        theme: course.theme,
+        estimatedHours: course.estimatedHours,
+        format: course.format,
+        platform: course.platform,
+        deliveryFormat: course.deliveryFormat
+      };
+      
+      // Generate images for all modules
+      const modules = course.modules.map(m => ({
+        id: m.id,
+        title: m.title,
+        description: m.description,
+        order: m.order,
+        estimatedHours: m.estimatedHours
+      }));
+      
+      const imageResults = await generateAllModuleImages(modules, courseDetails);
+      
+      // Update all modules with their respective image URLs
+      const updatedModules = course.modules.map(module => {
+        const imageResult = imageResults.find(ir => ir.moduleId === module.id);
+        if (imageResult) {
+          return {
+            ...module,
+            imageUrl: imageResult.url
+          };
+        }
+        return module;
+      });
+      
+      course.modules = updatedModules;
+      
+      // Update the course in storage
+      await storage.updateCourse(courseId, course);
+      
+      // Return the image results
+      res.json({
+        generatedCount: imageResults.length,
+        images: imageResults
+      });
+    } catch (error) {
+      console.error("Error in generating all module images:", error);
+      res.status(500).json({ 
+        message: "Failed to generate module images", 
+        error: error instanceof Error ? error.message : "Unknown error" 
+      });
+    }
+  });
+
   return httpServer;
 }

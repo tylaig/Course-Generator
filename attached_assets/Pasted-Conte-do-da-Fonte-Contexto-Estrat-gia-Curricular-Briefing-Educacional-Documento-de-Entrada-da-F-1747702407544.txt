@@ -1,0 +1,550 @@
+Conteúdo da Fonte "Contexto_Estratégia_Curricular"
+Briefing Educacional – Documento de Entrada da Fase 1
+Documento padrão para ser interpretado pelo agente GPT_Estratégia_Curricular Preencha todos os campos com o máximo de clareza e objetividade possível.
+🧭 1. INFORMAÇÕES GERAIS
+Título provisório do curso: [INSERIR TÍTULO]
+Tema principal: [DESCREVER O TEMA CENTRAL DO CONTEÚDO]
+Carga horária estimada: [TOTAL DE HORAS OU SEMANAS]
+Formato de entrega: [Online / Presencial / Híbrido] [Síncrono / Assíncrono / Misto / Autoinstrucional] [PDF, SCORM, HTML5, Vídeo, Podcast, eBook, etc.]
+Plataforma ou ambiente de aprendizagem: [Ex: Moodle, LMS próprio, Google Classroom, etc.]
+🎯 2. OBJETIVO E CONTEXTO EDUCACIONAL
+Objetivo geral do curso: Ex: Capacitar aprendizes a compreender os fundamentos essenciais de [TEMA] e aplicá-los em [CONTEXTO].
+Demanda de origem: [Empresa / Cliente / Projeto Institucional / Público Geral / Governo]
+Finalidade do curso: [Capacitação profissional / Formação básica / Desenvolvimento contínuo / Conscientização / Outro]
+Vinculação institucional ou pedagógica: [BNCC / CEFR / UNESCO / ODS / Framework próprio / Nenhum]
+🧑‍🎓 3. PERFIL DO PÚBLICO-ALVO
+Faixa etária: [Ex: 14 a 18 anos / Adultos / Idosos]
+Nível educacional atual: [Fundamental / Médio / Técnico / Superior / Pós / Indefinido]
+Nível de familiaridade com o tema: [Nenhum / Básico / Intermediário / Avançado]
+Motivação esperada: [Profissional / Acadêmica / Pessoal / Obrigatória / Outro]
+🧠 4. COMPETÊNCIAS A SEREM DESENVOLVIDAS
+Liste as principais competências que os aprendizes deverão desenvolver ao final do curso:
+Cognitivas (saberes)
+[Ex: pensamento crítico, análise de dados, resolução de problemas]
+Comportamentais (atitudes)
+[Ex: colaboração, empatia, tomada de decisão responsável]
+Técnicas (ferramentas/habilidades)
+[Ex: uso de ferramentas específicas, redação técnica, interpretação de relatórios]
+📚 5. ESTRUTURA PRELIMINAR SUGERIDA
+Preencha com base no que já foi idealizado para o curso. Caso não tenha certeza, deixe em branco.
+Etapas da Trilha Cognitiva (opcional)
+Etapa
+Objetivo Cognitivo
+Estratégia Didática Proposta
+Exploração Inicial
+Lembrar / Compreender
+[Vídeo introdutório / Enquete / Analogias]
+Consolidação de Conceitos
+Compreender
+[Texto com mapa conceitual / Linha do tempo]
+Aplicação Prática
+Aplicar
+[Simulações / Atividades contextualizadas]
+Análise Crítica
+Analisar / Avaliar
+[Estudos de caso / Discussões orientadas]
+Síntese Criativa
+Avaliar / Criar
+[Projeto final / Protótipo / Relatório]
+🧪 6. RESTRIÇÕES E DIRETRIZES IMPORTANTES
+Evitar:
+Regionalismos, marcas comerciais, referências a leis locais.
+Linguagem muito técnica sem explicação.
+Usar linguagem:
+Neutra e internacional
+Acessível (nível de leitura A2-B1 recomendado)
+Inclusiva (sem termos discriminatórios ou jargões complexos)
+Necessidades de acessibilidade: [Ex: audiodescrição, transcrição de vídeos, contraste alto, leitura de tela]
+Idiomas previstos para o curso: [Português / Inglês / Espanhol / Multilíngue]
+⚙️ 7. INFRAESTRUTURA E TECNOLOGIA DISPONÍVEL
+Equipe disponível: [Ex: designer instrucional, redator, revisor, SME, equipe de vídeo]
+Ferramentas e recursos previstos: [IA, banco de imagens, estúdio de gravação, software de autoria]
+🛑 8. ALERTAS OU RISCOS PEDAGÓGICOS ANTECIPADOS
+Se você já identificou riscos ou desafios que podem dificultar a aprendizagem, registre abaixo:
+Risco Identificado
+Ação sugerida ou preocupação
+[Ex: público heterogêneo demais]
+[Ex: criar trilha adaptativa ou alternativa]
+[Ex: complexidade técnica elevada]
+[Ex: usar analogias visuais]
+[Ex: baixa interação esperada]
+[Ex: incluir quizzes com feedback automatizado]
+✅ 9. OUTRAS INFORMAÇÕES RELEVANTES
+[Espaço livre para observações adicionais que impactem o design pedagógico do curso.]
+
+--------------------------------------------------------------------------------
+Conteúdo da Fonte "Extruturação GPTS -"
+Extruturação GPTS -
+Esteira de Agentes GPT para Criação de Cursos
+Cada agente GPT representa uma fase crítica do desenvolvimento de cursos e assume o papel de um ou mais profissionais especializados, com comportamento, entregas e linguagem específicas.
+DOCUMENTO BASE NECESSÁRIO - Contexto_Estratégia_Curricular https://docs.google.com/document/d/1QJE65Zmaq-eXQuPURr3_XG5gC3hlngJ_-wm12jqH06o/edit?usp=sharing
+🔹 FASE 1 — Agente: Arquiteto Pedagógico
+Nome sugerido do GPT: GPT_Estratégia_Curricular
+Objetivo: Validar objetivos educacionais, público-alvo e diretrizes gerais do curso.
+Prompt base:
+Você é o Arquiteto Pedagógico, um GPT especializado na definição estratégica de cursos educacionais. Sua missão é analisar qualquer briefing de curso fornecido e gerar:
+1.
+Matriz de alinhamento entre objetivos gerais, perfil do público e competências a desenvolver.
+2.
+Diretrizes para a trilha de aprendizagem com base em progressão cognitiva (taxonomia de Bloom).
+3.
+Recomendações de abordagem metodológica (ex: storytelling, PBL, gamificação) adequadas ao público.
+Sua linguagem deve ser profissional, clara e acessível, com foco na internacionalização e sem regionalismos. Ao final de cada análise, forneça insights estratégicos para inovação no curso. Atue como Diretor Acadêmico e Designer Instrucional.
+MODELO DE DOCUMENTO GERADO NA FASE 1 -
+https://docs.google.com/document/d/1NHuwk4-_ExNqdq72K7AqyZuD968m6XmugJnzCSHH6IY/edit?usp=sharing
+🔹 FASE 2 — Agente: Estruturador Modular
+Nome sugerido do GPT: GPT_Arquitetura_Modular
+Objetivo: Criar a estrutura modular do curso com coerência pedagógica.
+Prompt base:
+Você é o Estruturador Modular, um GPT que atua como Designer Instrucional e SME. Receberá um tema ou briefing e deve organizar o curso em uma estrutura com:
+1.
+Títulos e descrições dos módulos (de 3 a 8).
+2.
+Objetivos específicos de aprendizagem por módulo (com verbos da taxonomia de Bloom).
+3.
+Sequência lógica com progressão de complexidade.
+Evite regionalismos e mantenha os exemplos universais. A estrutura deve ser aplicável em múltiplos idiomas e contextos. Sinalize se identificar lacunas ou desequilíbrios no desenvolvimento do conteúdo.
+🔹 FASE 3 — Agente: Criador de Conteúdo Didático
+Nome sugerido do GPT: GPT_Conteúdo_Educacional
+Objetivo: Produzir o conteúdo educacional completo, com foco em engajamento.
+Prompt base:
+Você é o Criador de Conteúdo Didático, um GPT que representa o Especialista de Conteúdo (SME) e o Redator Pedagógico. A partir de um módulo ou objetivo específico, você deve criar:
+1.
+Roteiros de vídeos e textos didáticos com storytelling.
+2.
+Sugestão de mídias complementares (ex: animações, simulações, estudos de caso).
+O conteúdo deve ser acessível, neutro, internacional e evitar qualquer menção a marcas, nomes pessoais ou locais específicos. Adote uma linguagem clara, envolvente e didática. Conclua cada entrega com sugestões para recursos visuais ou multimídia.
+🔹 FASE 4 — Agente: Avaliador Pedagógico
+Nome sugerido do GPT: GPT_Avaliação_Educacional
+Objetivo: Criar instrumentos de avaliação alinhados aos objetivos de aprendizagem.
+Prompt base:
+plaintext
+Copiar
+Editar
+Você é o Avaliador Pedagógico, um GPT focado na elaboração de atividades avaliativas. Com base em um módulo ou conteúdo fornecido, gere:
+1.
+Questões de múltipla escolha com justificativas.
+2.
+Atividades práticas, estudos de caso ou quizzes gamificados.
+3.
+Rubricas com critérios claros para avaliação de desempenho.
+As avaliações devem respeitar a taxonomia de Bloom ou SOLO, e promover reflexão crítica. Evite conteúdo regionalizado ou sensível. Atue como Designer Instrucional e Redator Pedagógico.
+🔹 FASE 5 — Agente: Revisor Educacional
+Nome sugerido do GPT: GPT_Revisão_Pedagógica
+Objetivo: Garantir clareza, acessibilidade e qualidade didática do conteúdo.
+Prompt base:
+plaintext
+Copiar
+Editar
+Você é o Revisor Educacional, um GPT especializado em revisão de conteúdo pedagógico. Ao receber um conteúdo completo ou parcial, revise:
+1.
+Clareza didática, fluidez textual e linguagem acessível.
+2.
+Aderência às normas de acessibilidade, linguagem neutra e vocabulário internacional.
+3.
+Consistência conceitual e alinhamento com os objetivos de aprendizagem.
+Atue como Revisor Pedagógico. Se necessário, sugira reestruturações com justificativas claras. Apresente a versão revisada com destaques para cada ajuste.
+
+--------------------------------------------------------------------------------
+Conteúdo da Fonte "Fase 1 - Output Generalista e Padrão para o "
+📘 1. Identificação Geral do Curso
+Campo
+Conteúdo Esperado
+Título do Curso
+Nome provisório, objetivo, universal e sem regionalismos
+Tema Central
+Eixo temático claro e aplicável a contextos globais
+Carga Horária Total
+Total estimado e sugestão de distribuição (ex: 20h em 5 módulos de 4h)
+Formato de Entrega
+Online / Presencial / Híbrido – Síncrono / Assíncrono / Autoinstrucional
+Ambiente de Aprendizagem
+Plataforma (Moodle, Canvas, etc.) + restrições técnicas (ex: SCORM, PDF, etc.)
+Tipos de Conteúdo
+Vídeo, podcast, e-book, HTML5, PDF interativo, quiz, IA, etc.
+🎯 2. Matriz de Alinhamento Estratégico
+Elemento
+Conteúdo Esperado
+Objetivo Geral
+Frase única, com verbo de ação e contexto de aplicação real
+Público-Alvo
+Faixa etária, escolaridade, ocupação, motivação e familiaridade com o tema
+Competências-Alvo
+Cognitivas: [...]<br>Comportamentais: [...]<br>Técnicas: [...]
+Perfil Cognitivo
+Nível estimado de entrada + progressão esperada segundo a Taxonomia de Bloom
+Vinculação Pedagógica
+BNCC, CEFR, ODS, frameworks proprietários, etc.
+🧠 3. Trilha Cognitiva Proposta
+Etapa
+Objetivo Cognitivo
+Estratégia Didática Sugerida
+Exploração Inicial
+Lembrar / Compreender
+Vídeo introdutório, analogia visual, enquete diagnóstica
+Consolidação de Conceitos
+Compreender
+Textos com mapas mentais, linha do tempo, storytelling
+Aplicação Prática
+Aplicar
+Exercício prático, simulações, desafios gamificados
+Análise Crítica
+Analisar / Avaliar
+Estudos de caso, debates estruturados, comparativos
+Síntese Criativa
+Avaliar / Criar
+Projeto autoral, plano de ação, solução aplicada
+🔎 Nota: A estrutura deve seguir progressão lógica e cognitiva, evitando rupturas ou saltos conceituais.
+🧪 4. Estratégia Metodológica
+Abordagem Sugerida: Storytelling educacional, aprendizagem ativa, microlearning, PBL, gamificação leve, trilhas adaptativas.
+Mídias Recomendadas: Vídeo curto, podcast, e-book, simulador, quizzes interativos, recursos IA.
+Tempo por bloco: Microlearning recomendado (5–10 min), exceto quando houver imersão narrativa.
+Formato de avaliação diagnóstica: Checkpoints automáticos, autoavaliação guiada, quiz formativo.
+🌍 5. Internacionalização e Acessibilidade
+Linguagem neutra, acessível (nível A2-B1), sem regionalismos ou jargões locais
+Conteúdo adaptável para tradução multilíngue
+Conformidade com WCAG: contraste, legenda, audiodescrição, texto alternativo
+Sem marcas comerciais, leis locais ou elementos restritivos de aplicação global
+🔍 6. Diagnóstico de Riscos Pedagógicos
+Risco Identificado
+Ação Recomendada
+Complexidade elevada
+Dividir em etapas + analogias visuais
+Público heterogêneo
+Trilha adaptativa ou conteúdos paralelos
+Engajamento baixo previsto
+Checkpoints com feedback, gamificação leve
+Linguagem de difícil acesso
+Glosssário + simplificação e uso de exemplos visuais
+Fase 1 – Estruturação de Curso Gerado por: Agente GPT_Estratégia_Curricular
+Objetivo: consolidar o planejamento pedagógico estratégico para orientar a estruturação modular (Fase 2).
+1. Identificação Geral do Curso
+Esta seção define o escopo geral do curso. Deve apresentar dados claros e objetivos para alinhamento com os setores pedagógico, técnico e editorial.
+Título do Curso: Nome objetivo, direto e universal. Evite títulos com jargões locais, trocadilhos ou termos ambíguos. Ex: “Fundamentos de IA para Tomada de Decisão”.
+Tema Central: Especifique com clareza o assunto principal a ser abordado. Evite simplificações excessivas; prefira expressões que comuniquem valor e escopo do conhecimento.
+Carga Horária Total: Indique a carga em horas e, se possível, a distribuição estimada por módulo (ex: 20h = 5 módulos de 4h).
+Formato de Entrega: Indique se será Online, Presencial ou Híbrido. Especifique se é Síncrono, Assíncrono ou Autoinstrucional.
+Ambiente de Aprendizagem: Plataforma onde será ofertado (ex: Moodle, Thinkific, LMS proprietário). Cite também limitações técnicas (SCORM, PDF, HTML5...).
+Tipos de Conteúdo Planejados: Liste os tipos de mídia que serão produzidos (ex: vídeo, podcast, e-book, infográfico, simulação, quiz).
+2. Matriz de Alinhamento Estratégico
+Aqui se define o alinhamento entre público-alvo, objetivos, competências e frameworks pedagógicos. Deve ser o alicerce da coerência didática do curso.
+Objetivo Geral: Frase única, começando com um verbo de ação (ex: compreender, aplicar, analisar) e descrevendo o que será aprendido e para quê.
+Público-Alvo: Descreva com precisão: faixa etária, escolaridade, ocupação, motivação, familiaridade com o tema e contexto de aprendizagem.
+Competências a Desenvolver: Liste as competências esperadas, separando em três categorias:
+Cognitivas: __________________________________________
+Comportamentais: __________________________________________
+Técnicas: __________________________________________
+Perfil Cognitivo: Indique a faixa da taxonomia de Bloom. Ex: “Inicia em Compreender e avança até Avaliar.”
+Vinculação Pedagógica: Cite os frameworks seguidos, como BNCC, CEFR, ODS ou diretrizes internas da instituição.
+3. Trilha Cognitiva Proposta
+Essa trilha define a lógica de progressão do curso. Deve seguir os níveis da taxonomia de Bloom, respeitando a construção gradual do conhecimento.
+Etapa
+Objetivo Cognitivo
+Estratégia Didática Sugerida
+Exploração Inicial
+_______________________
+__________________________________________
+Consolidação de Conceitos
+_______________________
+__________________________________________
+Aplicação Prática
+_______________________
+__________________________________________
+Análise Crítica
+_______________________
+__________________________________________
+Síntese Criativa
+_______________________
+__________________________________________
+Instrução sênior: Certifique-se de que as estratégias respeitam o nível cognitivo da etapa e sejam globalmente aplicáveis (sem regionalismos ou exemplos locais).
+4. Estratégia Metodológica
+Descreve o “como ensinar”. Deve conter decisões conscientes sobre abordagem, mídias e formas de avaliação coerentes com o público e objetivos.
+Abordagem Didática Recomendada: Ex: Storytelling, aprendizagem baseada em problemas (PBL), ensino híbrido, gamificação leve, trilhas adaptativas.
+Mídias a Serem Produzidas: Ex: Vídeos curtos (microlearning), podcasts temáticos, simuladores, PDFs interativos, quizzes com feedback automático.
+Tempo por Bloco de Conteúdo: Recomendado: microblocos de 5–10 minutos com checkpoints.
+Forma de Avaliação Diagnóstica (pré-Fase 4): Como será avaliado o progresso: quizzes, autoavaliação, checkpoints, desafios de aplicação.
+5. Internacionalização e Acessibilidade
+Linguagem neutra, universal, acessível? ( ) Sim ( ) Não
+Acessibilidade aplicada (WCAG)? ( ) Sim ( ) Não Descrever como: _________________________________
+Pronto para tradução multilíngue? ( ) Sim ( ) Não
+Exemplos, marcas e regionalismos foram evitados? ( ) Sim ( ) Não Se não, por quê? _______________________________
+6. Riscos Pedagógicos Identificados
+Antecipação de riscos permite tomada de decisões corretivas antes da prototipação.
+| Risco Identificado | Ação Recomendada | | -------------------------- | ___________________________________________ | | ___________________________ | ___________________________________________ | | ___________________________ | ___________________________________________ |
+7. Dados Complementares para a Fase 2
+Seção crítica para o trabalho do Agente de Estruturação Modular. Quanto mais clara, melhor a transição para a Fase 2.
+Número estimado de módulos:
+Títulos de módulos sugeridos (opcional):
+Tópicos-chave esperados por módulo (opcional):
+Objetivos específicos por módulo (opcional):
+Carga horária estimada por módulo:
+8. Entregáveis da Fase 1
+Confirme os itens já desenvolvidos e entregues.
+Matriz pedagógica completa
+Trilha cognitiva estruturada
+Estratégia metodológica validada
+Diagnóstico de riscos pedagógicos
+Inovações didáticas propostas
+Dados complementares para a Fase 2 preenchidos
+
+--------------------------------------------------------------------------------
+Conteúdo da Fonte "Fase 2 - Estrutura Modular Instrucional "
+Plano de Estrutura Modular Instrucional
+Fase 2 – Organização de Módulos Gerado por: Agente GPT_Estrutura_Modular Objetivo: detalhar os módulos do curso com lógica instrucional, objetivos específicos, tópicos e tipos de entrega.
+1. Sumário do Curso
+Título do Curso: _________________________________
+Carga Horária Total: _____________________________
+Nº de Módulos: _________________________________
+Público-Alvo: _________________________________
+Formato: _________________________________
+2. Visão Geral da Estrutura Modular
+Módulo
+Título do Módulo
+Carga Horária
+Objetivo Específico (verbo + conteúdo + contexto)
+1
+[Título]
+[Xh]
+[Ex: Compreender conceitos de X em contexto Y]
+2
+[Título]
+[Xh]
+[Ex: Aplicar técnica Y em problema Z]
+...
+...
+...
+...
+3. Mapa Instrucional por Módulo
+Preencha esta seção por módulo. Cada bloco representa o conteúdo mínimo esperado de entrega para produção na Fase 3.
+🔹 Módulo 1 – [Título do Módulo]
+Objetivo Específico: [Verbo da taxonomia + conhecimento + aplicação prática]
+Tópicos a serem abordados:
+[Tópico 1]
+[Tópico 2]
+[Tópico 3]
+Conteúdos esperados (formato):
+[Ex: Vídeo explicativo, infográfico, simulação, quiz, leitura obrigatória]
+Atividades esperadas:
+[Ex: Quiz com 5 questões, exercício prático, estudo de caso]
+Competências desenvolvidas neste módulo:
+Cognitivas: __________
+Comportamentais: __________
+Técnicas: __________
+Tipo de avaliação prevista:
+[Ex: Avaliação objetiva, checklist, autoavaliação com feedback, mini-projeto]
+(Repita o bloco acima para os demais módulos)
+4. Mapeamento de Competências por Módulo
+Esse mapa conecta as competências da Fase 1 com os módulos da Fase 2.
+Competência
+Módulo(s) em que será trabalhada
+[Ex: Analisar dados]
+Módulo 2, 3
+[Ex: Resolver problemas de forma crítica]
+Módulo 3, 5
+[Ex: Aplicar conhecimento técnico]
+Módulo 2, 4
+5. Carga Horária e Progressão Cognitiva
+Módulo
+Carga Horária (h)
+Nível de Bloom
+Justificativa Didática
+1
+Compreender
+Introdução e contextualização
+2
+Aplicar
+Aplicação prática de conceitos
+3
+Analisar
+Estudo crítico e reflexivo
+...
+...
+...
+6. Pré-indicação de Roteiros/Recursos por Módulo
+(Opcional, caso deseje antecipar recursos ou formatos para a Fase 3)
+Módulo
+Recurso Recomendado
+Observações
+1
+Vídeo animado + quiz
+Introdução leve e conceitual
+2
+Infográfico + simulação
+Ferramenta visual + prática
+3
+Estudo de caso interativo
+Construção de pensamento crítico
+7. Entregáveis da Fase 2
+✅ Lista completa de módulos com títulos e objetivos específicos
+✅ Distribuição de carga horária e nível cognitivo por módulo
+✅ Tópicos, tipos de conteúdo e tipos de atividade esperados
+✅ Mapa de competências por módulo
+✅ Documento instrucional pronto para Fase 3: Produção de Conteúdo
+
+--------------------------------------------------------------------------------
+Conteúdo da Fonte "Fase 3: Produção de Conteúdo"
+Modelo Padrão de Output – Fase 3: Produção de Conteúdo
+Gerado por: Agente GPT_Conteúdo_Educacional
+Finalidade: Gerar conteúdos pedagógicos completos por módulo, com linguagem acessível, alinhados ao objetivo específico e prontos para entrega.
+1. Identificação do Módulo
+Título do Módulo: ______________________________________
+Objetivo Específico: ______________________________________
+Nível Cognitivo (Bloom): ______________________________________
+Carga horária estimada: ______ h
+Público-alvo: ______________________________________
+Competências desenvolvidas:
+Cognitivas: ___________________
+Comportamentais: ______________
+Técnicas: ______________________
+2. Estrutura de Conteúdo Didático
+Este é o bloco principal de produção textual. Tudo o que está aqui pode ser roteirizado, narrado ou transformado em vídeo, slide, podcast, leitura ou animação.
+🔹 2.1. Texto Base do Conteúdo
+Escreva como um redator pedagógico. Clareza, fluidez, linguagem acessível. Não deve ser uma cópia de Wikipédia ou artigo técnico. Foco em aprendizagem e retenção.
+csharp
+CopiarEditar
+[TEXTO PEDAGÓGICO INTEGRAL, FORMATADO EM BLOCOS, COM TRANSIÇÕES ENTRE IDEIAS.]
+🔹 2.2. Roteiro para Vídeo ou Narração (se aplicável)
+Transforme o conteúdo anterior em um roteiro conversacional. Curto, dinâmico e envolvente, com linguagem oralizada.
+csharp
+CopiarEditar
+[Exemplo: “Olá! Neste vídeo você vai entender, de forma simples, como funciona o conceito de X...”]
+🔹 2.3. Sugestão de Recursos Visuais (para equipe de design)
+Oriente com base pedagógica. Use analogias visuais, elementos gráficos úteis, mapas, fluxogramas, e indicações para infográficos ou animações.
+Slide 1: Conceito chave com ícone representativo
+Slide 2: Linha do tempo simplificada
+Slide 3: Fluxograma com três passos
+Ilustração recomendada: Comparação lado a lado entre X e Y
+Ícone: Balão de fala para explicação de erro comum
+🔹 2.4. Glossário (caso termos técnicos sejam usados)
+Termo
+Definição pedagógica (simples)
+[Termo 1]
+[Definição clara e não técnica]
+[Termo 2]
+[Explicação com exemplo aplicado]
+3. Atividade Didática Integrada
+Toda unidade deve propor ao menos uma atividade relacionada ao conteúdo apresentado, com clareza e alinhamento ao nível cognitivo.
+Tipo da Atividade: ( ) Quiz ( ) Estudo de caso ( ) Desafio prático ( ) Simulação ( ) Múltipla escolha
+Descrição da Atividade: Ex: "Você irá analisar dois cenários e decidir qual representa melhor o conceito aprendido..."
+Instruções para o aluno: “Leia o texto, responda ao quiz e compare sua resposta com o feedback ao final.”
+Critério de correção (rubrica ou gabarito):
+Resposta esperada: __________
+Feedback positivo: __________
+Feedback corretivo: __________
+4. Recomendações para Multimídia
+Aponte como o conteúdo pode ser transformado para vídeo, podcast, animação ou narrativa interativa.
+O conteúdo pode ser: ( ) Gravado em vídeo ( ) Transformado em podcast ( ) Apresentado como animação ( ) Leitura guiada
+Sugestão de tom: ( ) Motivacional ( ) Técnico neutro ( ) Conversacional ( ) Inspirador
+Observações para adaptação:
+“Evitar termos técnicos no início, usar exemplos visuais logo na abertura...”
+5. Observações Finais
+Espaço para anotações do redator, SME ou revisor. Pode incluir dúvidas, sugestões ou pontos a revisar na Fase 5.
+6. Entregáveis da Fase 3
+✅ Texto base com linguagem pedagógica
+✅ Roteiro de vídeo ou áudio (se necessário)
+✅ Recomendação de visuais (design instrucional)
+✅ Atividade integrada com feedback
+✅ Indicações multimídia claras
+
+--------------------------------------------------------------------------------
+Conteúdo da Fonte "Fase 4 -"
+Fase 4: Avaliação Didática
+Gerado pelo Agente da Fase 4 – Validador de Avaliação
+1. Dados do Curso (resumo técnico para contexto)
+Título do Curso: ___________________________
+Carga Horária Total: _______________________
+Público-Alvo: ___________________________
+Nível Cognitivo Geral: ____________________
+Competências-Alvo: _______________________
+2. Diagnóstico Geral da Avaliação
+Critério de Validação
+Avaliação
+Observações Técnicas
+Objetivos específicos estão claramente mensuráveis?
+( ) Sim ( ) Não ( ) Parcial
+______________________________________________
+Há coerência entre objetivos e tipo de avaliação?
+( ) Sim ( ) Não ( ) Parcial
+______________________________________________
+As atividades abrangem as competências definidas?
+( ) Sim ( ) Não ( ) Parcial
+______________________________________________
+Os níveis de Bloom estão refletidos nas atividades?
+( ) Sim ( ) Não ( ) Parcial
+______________________________________________
+Há diversidade de instrumentos avaliativos?
+( ) Sim ( ) Não ( ) Parcial
+______________________________________________
+Existe feedback claro previsto para o aluno?
+( ) Sim ( ) Não ( ) Parcial
+______________________________________________
+A carga de avaliação é proporcional à carga do módulo?
+( ) Sim ( ) Não ( ) Parcial
+______________________________________________
+3. Mapeamento de Avaliações por Módulo
+Módulo
+Tipo(s) de Avaliação
+Competência Avaliada
+Nível Cognitivo
+Forma de Feedback
+1
+[Quiz, Estudo de caso, Desafio, etc.]
+[Ex: Compreensão de conceito]
+[Ex: Compreender]
+[Feedback automático ou descritivo]
+2
+[...]
+[...]
+[...]
+[...]
+Instrução: Certifique-se de que cada módulo tenha pelo menos um instrumento avaliativo claro e aplicável.
+4. Verificação da Diversidade Avaliativa
+Avaliar a presença e equilíbrio de diferentes tipos de instrumentos:
+( ) Quiz objetivo (formativo)
+( ) Estudo de caso aplicado
+( ) Desafio prático individual
+( ) Rubrica de projeto
+( ) Autoavaliação com orientação
+( ) Avaliação entre pares (peer review)
+( ) Avaliação multimídia (vídeo, áudio, pitch etc.)
+Observações ou faltas detectadas:
+5. Rubricas de Avaliação (opcional)
+Se o curso inclui projetos, desafios, estudos de caso ou entregas abertas, crie ou valide uma rubrica por tipo de entrega:
+Exemplo: Rubrica de Projeto Final
+Critério
+Excelente (4)
+Bom (3)
+Regular (2)
+Insuficiente (1)
+Clareza da proposta
+Muito clara
+Clara
+Confusa
+Incompreensível
+Aplicação do conteúdo
+Aplica com precisão
+Aplica parcialmente
+Aplica com erro
+Não aplica
+Criatividade
+Muito criativa
+Criativa
+Pouco criativa
+Ausente
+Viabilidade
+Totalmente viável
+Viável
+Pouco viável
+Irreal ou desconectada
+6. Recomendação Técnica Final da Fase 4
+A avaliação está coerente com os objetivos e competências
+A carga avaliativa é equilibrada e distribuída
+Os tipos de avaliação atendem diferentes estilos de aprendizagem
+O curso está pronto para revisão pedagógica (Fase 5)
+Comentários técnicos adicionais:
+7. Entregáveis da Fase 4
+✅ Mapeamento de todas as avaliações por módulo
+✅ Verificação de coerência com objetivos e competências
+✅ Diagnóstico de equilíbrio e diversidade avaliativa
+✅ Feedback técnico para reestruturação (caso necessário)
+✅ Rubricas ou gabaritos sugeridos (se aplicável)
