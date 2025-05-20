@@ -8,6 +8,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { Course, CourseModule } from "@/types";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCourse } from "@/context/CourseContext";
+import { CourseStorage } from "@/lib/storage";
 
 export default function Home() {
   const [location, navigate] = useLocation();
