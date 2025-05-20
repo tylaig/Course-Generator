@@ -1,0 +1,307 @@
+Fase 1 - Output Generalista e Padrão para o 
+
+📘 1. Identificação Geral do Curso
+Campo
+Conteúdo Esperado
+Título do Curso
+Nome provisório, objetivo, universal e sem regionalismos
+Tema Central
+Eixo temático claro e aplicável a contextos globais
+Carga Horária Total
+Total estimado e sugestão de distribuição (ex: 20h em 5 módulos de 4h)
+Formato de Entrega
+Online / Presencial / Híbrido – Síncrono / Assíncrono / Autoinstrucional
+Ambiente de Aprendizagem
+Plataforma (Moodle, Canvas, etc.) + restrições técnicas (ex: SCORM, PDF, etc.)
+Tipos de Conteúdo
+Vídeo, podcast, e-book, HTML5, PDF interativo, quiz, IA, etc.
+
+
+🎯 2. Matriz de Alinhamento Estratégico
+Elemento
+Conteúdo Esperado
+Objetivo Geral
+Frase única, com verbo de ação e contexto de aplicação real
+Público-Alvo
+Faixa etária, escolaridade, ocupação, motivação e familiaridade com o tema
+Competências-Alvo
+Cognitivas: [...]
+Comportamentais: [...]
+Técnicas: [...]
+Perfil Cognitivo
+Nível estimado de entrada + progressão esperada segundo a Taxonomia de Bloom
+Vinculação Pedagógica
+BNCC, CEFR, ODS, frameworks proprietários, etc.
+
+
+🧠 3. Trilha Cognitiva Proposta
+Etapa
+Objetivo Cognitivo
+Estratégia Didática Sugerida
+Exploração Inicial
+Lembrar / Compreender
+Vídeo introdutório, analogia visual, enquete diagnóstica
+Consolidação de Conceitos
+Compreender
+Textos com mapas mentais, linha do tempo, storytelling
+Aplicação Prática
+Aplicar
+Exercício prático, simulações, desafios gamificados
+Análise Crítica
+Analisar / Avaliar
+Estudos de caso, debates estruturados, comparativos
+Síntese Criativa
+Avaliar / Criar
+Projeto autoral, plano de ação, solução aplicada
+
+🔎 Nota: A estrutura deve seguir progressão lógica e cognitiva, evitando rupturas ou saltos conceituais.
+
+🧪 4. Estratégia Metodológica
+Abordagem Sugerida:
+ Storytelling educacional, aprendizagem ativa, microlearning, PBL, gamificação leve, trilhas adaptativas.
+
+
+Mídias Recomendadas:
+ Vídeo curto, podcast, e-book, simulador, quizzes interativos, recursos IA.
+
+
+Tempo por bloco:
+ Microlearning recomendado (5–10 min), exceto quando houver imersão narrativa.
+
+
+Formato de avaliação diagnóstica:
+ Checkpoints automáticos, autoavaliação guiada, quiz formativo.
+
+
+
+🌍 5. Internacionalização e Acessibilidade
+Linguagem neutra, acessível (nível A2-B1), sem regionalismos ou jargões locais
+
+
+Conteúdo adaptável para tradução multilíngue
+
+
+Conformidade com WCAG: contraste, legenda, audiodescrição, texto alternativo
+
+
+Sem marcas comerciais, leis locais ou elementos restritivos de aplicação global
+
+
+
+🔍 6. Diagnóstico de Riscos Pedagógicos
+Risco Identificado
+Ação Recomendada
+Complexidade elevada
+Dividir em etapas + analogias visuais
+Público heterogêneo
+Trilha adaptativa ou conteúdos paralelos
+Engajamento baixo previsto
+Checkpoints com feedback, gamificação leve
+Linguagem de difícil acesso
+Glosssário + simplificação e uso de exemplos visuais
+
+____________________________
+
+
+Fase 1 – Estruturação de Curso
+ Gerado por: Agente GPT_Estratégia_Curricular
+Objetivo: consolidar o planejamento pedagógico estratégico para orientar a estruturação modular (Fase 2).
+
+1. Identificação Geral do Curso
+Esta seção define o escopo geral do curso. Deve apresentar dados claros e objetivos para alinhamento com os setores pedagógico, técnico e editorial.
+Título do Curso:
+
+
+ Nome objetivo, direto e universal. Evite títulos com jargões locais, trocadilhos ou termos ambíguos. Ex: “Fundamentos de IA para Tomada de Decisão”.
+
+
+Tema Central:
+
+
+ Especifique com clareza o assunto principal a ser abordado. Evite simplificações excessivas; prefira expressões que comuniquem valor e escopo do conhecimento.
+
+
+Carga Horária Total:
+
+
+ Indique a carga em horas e, se possível, a distribuição estimada por módulo (ex: 20h = 5 módulos de 4h).
+
+
+Formato de Entrega:
+
+
+ Indique se será Online, Presencial ou Híbrido. Especifique se é Síncrono, Assíncrono ou Autoinstrucional.
+
+
+Ambiente de Aprendizagem:
+
+
+ Plataforma onde será ofertado (ex: Moodle, Thinkific, LMS proprietário). Cite também limitações técnicas (SCORM, PDF, HTML5...).
+
+
+Tipos de Conteúdo Planejados:
+
+
+ Liste os tipos de mídia que serão produzidos (ex: vídeo, podcast, e-book, infográfico, simulação, quiz).
+
+
+
+2. Matriz de Alinhamento Estratégico
+Aqui se define o alinhamento entre público-alvo, objetivos, competências e frameworks pedagógicos. Deve ser o alicerce da coerência didática do curso.
+Objetivo Geral:
+
+
+ Frase única, começando com um verbo de ação (ex: compreender, aplicar, analisar) e descrevendo o que será aprendido e para quê.
+
+
+Público-Alvo:
+
+
+ Descreva com precisão: faixa etária, escolaridade, ocupação, motivação, familiaridade com o tema e contexto de aprendizagem.
+
+
+Competências a Desenvolver:
+
+
+ Liste as competências esperadas, separando em três categorias:
+
+
+
+Cognitivas: __________________________________________
+
+
+Comportamentais: __________________________________________
+
+
+Técnicas: __________________________________________
+
+
+Perfil Cognitivo:
+
+
+ Indique a faixa da taxonomia de Bloom. Ex: “Inicia em Compreender e avança até Avaliar.”
+
+
+Vinculação Pedagógica:
+
+
+ Cite os frameworks seguidos, como BNCC, CEFR, ODS ou diretrizes internas da instituição.
+
+
+
+3. Trilha Cognitiva Proposta
+Essa trilha define a lógica de progressão do curso. Deve seguir os níveis da taxonomia de Bloom, respeitando a construção gradual do conhecimento.
+Etapa
+Objetivo Cognitivo
+Estratégia Didática Sugerida
+Exploração Inicial
+_______________________
+__________________________________________
+Consolidação de Conceitos
+_______________________
+__________________________________________
+Aplicação Prática
+_______________________
+__________________________________________
+Análise Crítica
+_______________________
+__________________________________________
+Síntese Criativa
+_______________________
+__________________________________________
+
+Instrução sênior: Certifique-se de que as estratégias respeitam o nível cognitivo da etapa e sejam globalmente aplicáveis (sem regionalismos ou exemplos locais).
+
+4. Estratégia Metodológica
+Descreve o “como ensinar”. Deve conter decisões conscientes sobre abordagem, mídias e formas de avaliação coerentes com o público e objetivos.
+Abordagem Didática Recomendada:
+
+
+ Ex: Storytelling, aprendizagem baseada em problemas (PBL), ensino híbrido, gamificação leve, trilhas adaptativas.
+
+
+Mídias a Serem Produzidas:
+
+
+ Ex: Vídeos curtos (microlearning), podcasts temáticos, simuladores, PDFs interativos, quizzes com feedback automático.
+
+
+Tempo por Bloco de Conteúdo:
+
+
+ Recomendado: microblocos de 5–10 minutos com checkpoints.
+
+
+Forma de Avaliação Diagnóstica (pré-Fase 4):
+
+
+ Como será avaliado o progresso: quizzes, autoavaliação, checkpoints, desafios de aplicação.
+
+
+
+5. Internacionalização e Acessibilidade
+Esta seção garante que o curso seja global, inclusivo e compatível com boas práticas de acessibilidade digital.
+Linguagem neutra, universal, acessível?
+ ( ) Sim ( ) Não
+
+
+Acessibilidade aplicada (WCAG)?
+ ( ) Sim ( ) Não Descrever como: _________________________________
+
+
+Pronto para tradução multilíngue?
+ ( ) Sim ( ) Não
+
+
+Exemplos, marcas e regionalismos foram evitados?
+ ( ) Sim ( ) Não Se não, por quê? _______________________________
+
+
+
+6. Riscos Pedagógicos Identificados
+Antecipação de riscos permite tomada de decisões corretivas antes da prototipação.
+Risco Identificado
+Ação Recomendada
+___________________________
+___________________________________________
+___________________________
+___________________________________________
+___________________________
+___________________________________________
+
+7. Dados Complementares para a Fase 2
+Seção crítica para o trabalho do Agente de Estruturação Modular. Quanto mais clara, melhor a transição para a Fase 2.
+Número estimado de módulos:
+
+Títulos de módulos sugeridos (opcional):
+
+
+
+
+
+Tópicos-chave esperados por módulo (opcional):
+
+Objetivos específicos por módulo (opcional):
+
+Carga horária estimada por módulo:
+
+
+8. Entregáveis da Fase 1
+Confirme os itens já desenvolvidos e entregues.
+Matriz pedagógica completa
+
+
+Trilha cognitiva estruturada
+
+
+Estratégia metodológica validada
+
+
+Diagnóstico de riscos pedagógicos
+
+
+Inovações didáticas propostas
+
+
+Dados complementares para a Fase 2 preenchidos
+

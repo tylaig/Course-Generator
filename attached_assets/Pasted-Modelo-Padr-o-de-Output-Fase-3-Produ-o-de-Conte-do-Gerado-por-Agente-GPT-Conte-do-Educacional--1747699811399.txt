@@ -1,0 +1,145 @@
+Modelo Padrão de Output – Fase 3: Produção de Conteúdo
+Gerado por: Agente GPT_Conteúdo_Educacional
+Finalidade: Gerar conteúdos pedagógicos completos por módulo, com linguagem acessível, alinhados ao objetivo específico e prontos para entrega.
+
+1. Identificação do Módulo
+Título do Módulo: ______________________________________
+
+
+Objetivo Específico: ______________________________________
+
+
+Nível Cognitivo (Bloom): ______________________________________
+
+
+Carga horária estimada: ______ h
+
+
+Público-alvo: ______________________________________
+
+
+Competências desenvolvidas:
+
+
+Cognitivas: ___________________
+
+
+Comportamentais: ______________
+
+
+Técnicas: ______________________
+
+
+
+2. Estrutura de Conteúdo Didático
+Este é o bloco principal de produção textual. Tudo o que está aqui pode ser roteirizado, narrado ou transformado em vídeo, slide, podcast, leitura ou animação.
+🔹 2.1. Texto Base do Conteúdo
+Escreva como um redator pedagógico. Clareza, fluidez, linguagem acessível. Não deve ser uma cópia de Wikipédia ou artigo técnico. Foco em aprendizagem e retenção.
+csharp
+CopiarEditar
+[TEXTO PEDAGÓGICO INTEGRAL, FORMATADO EM BLOCOS, COM TRANSIÇÕES ENTRE IDEIAS.]
+
+
+🔹 2.2. Roteiro para Vídeo ou Narração (se aplicável)
+Transforme o conteúdo anterior em um roteiro conversacional. Curto, dinâmico e envolvente, com linguagem oralizada.
+csharp
+CopiarEditar
+[Exemplo: “Olá! Neste vídeo você vai entender, de forma simples, como funciona o conceito de X...”]
+
+
+🔹 2.3. Sugestão de Recursos Visuais (para equipe de design)
+Oriente com base pedagógica. Use analogias visuais, elementos gráficos úteis, mapas, fluxogramas, e indicações para infográficos ou animações.
+Slide 1: Conceito chave com ícone representativo
+
+
+Slide 2: Linha do tempo simplificada
+
+
+Slide 3: Fluxograma com três passos
+
+
+Ilustração recomendada: Comparação lado a lado entre X e Y
+
+
+Ícone: Balão de fala para explicação de erro comum
+
+
+
+🔹 2.4. Glossário (caso termos técnicos sejam usados)
+Termo
+Definição pedagógica (simples)
+[Termo 1]
+[Definição clara e não técnica]
+[Termo 2]
+[Explicação com exemplo aplicado]
+
+
+3. Atividade Didática Integrada
+Toda unidade deve propor ao menos uma atividade relacionada ao conteúdo apresentado, com clareza e alinhamento ao nível cognitivo.
+Tipo da Atividade:
+ ( ) Quiz ( ) Estudo de caso ( ) Desafio prático ( ) Simulação ( ) Múltipla escolha
+
+
+Descrição da Atividade:
+
+
+ Ex: "Você irá analisar dois cenários e decidir qual representa melhor o conceito aprendido..."
+
+
+
+Instruções para o aluno:
+
+
+ “Leia o texto, responda ao quiz e compare sua resposta com o feedback ao final.”
+
+
+
+Critério de correção (rubrica ou gabarito):
+
+
+Resposta esperada: __________
+
+
+Feedback positivo: __________
+
+
+Feedback corretivo: __________
+
+
+
+4. Recomendações para Multimídia
+Aponte como o conteúdo pode ser transformado para vídeo, podcast, animação ou narrativa interativa.
+O conteúdo pode ser:
+ ( ) Gravado em vídeo ( ) Transformado em podcast ( ) Apresentado como animação ( ) Leitura guiada
+
+
+Sugestão de tom:
+ ( ) Motivacional ( ) Técnico neutro ( ) Conversacional ( ) Inspirador
+
+
+Observações para adaptação:
+
+
+ “Evitar termos técnicos no início, usar exemplos visuais logo na abertura...”
+
+
+
+
+5. Observações Finais
+Espaço para anotações do redator, SME ou revisor. Pode incluir dúvidas, sugestões ou pontos a revisar na Fase 5.
+
+6. Entregáveis da Fase 3
+✅ Texto base com linguagem pedagógica
+
+
+✅ Roteiro de vídeo ou áudio (se necessário)
+
+
+✅ Recomendação de visuais (design instrucional)
+
+
+✅ Atividade integrada com feedback
+
+
+✅ Indicações multimídia claras
+
