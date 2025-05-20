@@ -134,6 +134,129 @@ const aiConfigSchema = z.object({
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
+  
+  // Google Drive Authorization Routes
+  app.get("/api/auth/google", (req, res) => {
+    try {
+      const authUrl = getAuthUrl();
+      res.json({ authUrl });
+    } catch (error) {
+      console.error("Erro ao obter URL de autorização do Google:", error);
+      res.status(500).json({ error: "Falha ao gerar URL de autorização" });
+    }
+  });
+
+  app.get("/api/auth/google/callback", async (req, res) => {
+    try {
+      const { code } = req.query;
+      if (!code || typeof code !== 'string') {
+        return res.status(400).json({ error: "Código de autorização inválido" });
+      }
+      
+      const tokens = await getTokenFromCode(code);
+      
+      // Aqui você pode salvar o refresh_token em algum lugar seguro
+      // como uma variável de ambiente ou banco de dados
+      if (tokens.refresh_token) {
+        console.log("Refresh token obtido:", tokens.refresh_token);
+        // Em um ambiente de produção, você deve salvar isso de forma segura
+        process.env.GOOGLE_REFRESH_TOKEN = tokens.refresh_token;
+      }
+      
+      res.json({ success: true, message: "Autorização concluída com sucesso" });
+    } catch (error) {
+      console.error("Erro no callback de autorização do Google:", error);
+      res.status(500).json({ error: "Falha na autorização" });
+    }
+  });
+
+  // PDF Generation and Google Drive Upload Routes
+  app.get("/api/course/:id/generate-pdf", async (req, res) => {
+    try {
+      const courseId = req.params.id;
+      const course = await storage.getCourse(courseId);
+      
+      if (!course) {
+        return res.status(404).json({ error: "Curso não encontrado" });
+      }
+      
+      const pdfPath = await generateCoursePDF(course);
+      
+      // Retorna o caminho do PDF para download local
+      res.json({ 
+        success: true, 
+        pdfPath,
+        downloadUrl: `/api/course/${courseId}/download-pdf`
+      });
+    } catch (error) {
+      console.error("Erro ao gerar PDF:", error);
+      res.status(500).json({ error: "Falha ao gerar PDF" });
+    }
+  });
+  
+  app.get("/api/course/:id/download-pdf", async (req, res) => {
+    try {
+      const courseId = req.params.id;
+      const course = await storage.getCourse(courseId);
+      
+      if (!course) {
+        return res.status(404).json({ error: "Curso não encontrado" });
+      }
+      
+      const pdfPath = await generateCoursePDF(course);
+      
+      res.download(pdfPath, `curso_${course.title.replace(/\s+/g, '_')}.pdf`, (err) => {
+        if (err) {
+          console.error("Erro ao enviar arquivo:", err);
+        } else {
+          // Limpa o arquivo temporário após o download
+          setTimeout(() => {
+            try {
+              if (require('fs').existsSync(pdfPath)) {
+                require('fs').unlinkSync(pdfPath);
+              }
+            } catch (e) {
+              console.error("Erro ao remover arquivo temporário:", e);
+            }
+          }, 5000);
+        }
+      });
+    } catch (error) {
+      console.error("Erro ao baixar PDF:", error);
+      res.status(500).json({ error: "Falha ao gerar PDF para download" });
+    }
+  });
+  
+  app.post("/api/course/:id/upload-to-drive", async (req, res) => {
+    try {
+      const courseId = req.params.id;
+      const course = await storage.getCourse(courseId);
+      
+      if (!course) {
+        return res.status(404).json({ error: "Curso não encontrado" });
+      }
+      
+      // Verifica se temos as credenciais do Google Drive
+      if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET || !process.env.GOOGLE_REFRESH_TOKEN) {
+        return res.status(400).json({ 
+          error: "Configuração do Google Drive incompleta", 
+          needsAuth: true,
+          authUrl: getAuthUrl()
+        });
+      }
+      
+      const result = await generateAndUploadCourse(course);
+      
+      res.json({
+        success: true,
+        fileId: result.fileId,
+        viewLink: result.viewLink
+      });
+    } catch (error) {
+      console.error("Erro ao fazer upload para o Google Drive:", error);
+      res.status(500).json({ error: "Falha ao enviar para o Google Drive" });
+    }
+  });
 
   // ============ API ROUTES ============
   

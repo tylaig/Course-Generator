@@ -29,6 +29,8 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
+  DialogClose,
 } from "@/components/ui/dialog";
 import { CourseModule } from "@/types";
 
@@ -401,6 +403,135 @@ export default function Phase5() {
     });
   };
 
+  // Estado para controlar a exibição de modais e feedback
+  const [googleDriveAuthUrl, setGoogleDriveAuthUrl] = useState<string | null>(null);
+  const [googleDriveFileUrl, setGoogleDriveFileUrl] = useState<string | null>(null);
+  const [showDriveAuthModal, setShowDriveAuthModal] = useState(false);
+  const [showDriveSuccessModal, setShowDriveSuccessModal] = useState(false);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  const [isUploadingToDrive, setIsUploadingToDrive] = useState(false);
+
+  // Mutação para gerar PDF localmente
+  const generatePdf = useMutation({
+    mutationFn: async () => {
+      if (!course) throw new Error("Nenhum curso selecionado");
+      
+      const response = await apiRequest(
+        "GET", 
+        `/api/course/${course.id}/generate-pdf`, 
+        {}
+      );
+      
+      return response.json();
+    },
+    onMutate: () => {
+      setIsGeneratingPdf(true);
+    },
+    onSuccess: async (data) => {
+      if (data.downloadUrl) {
+        // Abrir o download em uma nova aba
+        window.open(data.downloadUrl, '_blank');
+      }
+      
+      toast({
+        title: "PDF Gerado com Sucesso",
+        description: "Seu curso foi exportado para PDF."
+      });
+    },
+    onError: (error) => {
+      console.error("Erro ao gerar PDF:", error);
+      toast({
+        title: "Falha ao Gerar PDF",
+        description: "Não foi possível criar o PDF do curso.",
+        variant: "destructive"
+      });
+    },
+    onSettled: () => {
+      setIsGeneratingPdf(false);
+    }
+  });
+
+  // Mutação para obter URL de autorização do Google Drive
+  const getGoogleAuthUrl = useMutation({
+    mutationFn: async () => {
+      const response = await apiRequest("GET", "/api/auth/google", {});
+      return response.json();
+    },
+    onSuccess: (data) => {
+      if (data.authUrl) {
+        setGoogleDriveAuthUrl(data.authUrl);
+        setShowDriveAuthModal(true);
+      }
+    },
+    onError: (error) => {
+      console.error("Erro ao obter URL de autorização:", error);
+      toast({
+        title: "Falha na Configuração",
+        description: "Não foi possível conectar ao Google Drive.",
+        variant: "destructive"
+      });
+    }
+  });
+
+  // Mutação para fazer upload do PDF para o Google Drive
+  const uploadToDrive = useMutation({
+    mutationFn: async () => {
+      if (!course) throw new Error("Nenhum curso selecionado");
+      
+      const response = await apiRequest(
+        "POST", 
+        `/api/course/${course.id}/upload-to-drive`, 
+        {}
+      );
+      
+      return response.json();
+    },
+    onMutate: () => {
+      setIsUploadingToDrive(true);
+    },
+    onSuccess: (data) => {
+      if (data.needsAuth && data.authUrl) {
+        // Precisamos de autorização
+        setGoogleDriveAuthUrl(data.authUrl);
+        setShowDriveAuthModal(true);
+      } else if (data.success && data.viewLink) {
+        // Upload bem-sucedido
+        setGoogleDriveFileUrl(data.viewLink);
+        setShowDriveSuccessModal(true);
+        
+        toast({
+          title: "Upload Concluído",
+          description: "Seu curso foi salvo no Google Drive com sucesso."
+        });
+      }
+    },
+    onError: (error) => {
+      console.error("Erro ao fazer upload para o Drive:", error);
+      toast({
+        title: "Falha no Upload",
+        description: "Não foi possível enviar o curso para o Google Drive.",
+        variant: "destructive"
+      });
+    },
+    onSettled: () => {
+      setIsUploadingToDrive(false);
+    }
+  });
+
+  // Função para iniciar o fluxo de autorização do Google
+  const handleGoogleAuth = () => {
+    if (googleDriveAuthUrl) {
+      // Abre a janela de autorização do Google
+      window.open(googleDriveAuthUrl, '_blank');
+      setShowDriveAuthModal(false);
+      
+      toast({
+        title: "Autorização Necessária",
+        description: "Complete a autorização no Google para continuar.",
+      });
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-6">
       <WorkflowProgress />
@@ -408,12 +539,12 @@ export default function Phase5() {
       <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200 mb-8">
         <PhaseNav 
           currentPhase={5}
-          title="Phase 5: Review & Finalization" 
-          description="Review, refine and finalize your course content"
+          title="Fase 5: Revisão e Finalização" 
+          description="Revise, refine e finalize o conteúdo do seu curso"
         />
 
         <div className="mb-8">
-          <h3 className="text-lg font-heading font-medium text-neutral-800 mb-4">Course Overview</h3>
+          <h3 className="text-lg font-heading font-medium text-neutral-800 mb-4">Visão Geral do Curso</h3>
           
           <Card className="mb-6">
             <CardHeader className="pb-2">
