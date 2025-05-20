@@ -469,7 +469,16 @@ export default function Phase2() {
                         <Input 
                           type="number" 
                           value={moduleCount} 
-                          onChange={(e) => setModuleCount(Math.max(1, parseInt(e.target.value) || 1))}
+                          onChange={(e) => {
+                            const newValue = Math.max(1, parseInt(e.target.value) || 1);
+                            setModuleCount(newValue);
+                            // Salvar no contexto do curso
+                            updatePhaseData(2, {
+                              ...course?.phaseData?.phase2,
+                              moduleCount: newValue,
+                              lessonsPerModule
+                            });
+                          }}
                           min={1}
                           max={12}
                           className="w-20 h-10 text-center mx-2"
@@ -477,7 +486,16 @@ export default function Phase2() {
                         <Button 
                           variant="outline" 
                           size="sm"
-                          onClick={() => setModuleCount(prev => Math.min(12, prev + 1))}
+                          onClick={() => {
+                            const newValue = Math.min(12, moduleCount + 1);
+                            setModuleCount(newValue);
+                            // Salvar no contexto do curso
+                            updatePhaseData(2, {
+                              ...course?.phaseData?.phase2,
+                              moduleCount: newValue,
+                              lessonsPerModule
+                            });
+                          }}
                           className="h-10 px-3"
                         >
                           <span className="material-icons" style={{ fontSize: '16px' }}>add</span>
@@ -491,7 +509,16 @@ export default function Phase2() {
                         <Button 
                           variant="outline" 
                           size="sm"
-                          onClick={() => setLessonsPerModule(prev => Math.max(1, prev - 1))}
+                          onClick={() => {
+                            const newValue = Math.max(1, lessonsPerModule - 1);
+                            setLessonsPerModule(newValue);
+                            // Salvar no contexto do curso
+                            updatePhaseData(2, {
+                              ...course?.phaseData?.phase2,
+                              moduleCount,
+                              lessonsPerModule: newValue
+                            });
+                          }}
                           className="h-10 px-3"
                         >
                           <span className="material-icons" style={{ fontSize: '16px' }}>remove</span>
@@ -499,7 +526,16 @@ export default function Phase2() {
                         <Input 
                           type="number" 
                           value={lessonsPerModule} 
-                          onChange={(e) => setLessonsPerModule(Math.max(1, parseInt(e.target.value) || 1))}
+                          onChange={(e) => {
+                            const newValue = Math.max(1, parseInt(e.target.value) || 1);
+                            setLessonsPerModule(newValue);
+                            // Salvar no contexto do curso
+                            updatePhaseData(2, {
+                              ...course?.phaseData?.phase2,
+                              moduleCount,
+                              lessonsPerModule: newValue
+                            });
+                          }}
                           min={1}
                           max={10}
                           className="w-20 h-10 text-center mx-2"
@@ -507,7 +543,16 @@ export default function Phase2() {
                         <Button 
                           variant="outline" 
                           size="sm"
-                          onClick={() => setLessonsPerModule(prev => Math.min(10, prev + 1))}
+                          onClick={() => {
+                            const newValue = Math.min(10, lessonsPerModule + 1);
+                            setLessonsPerModule(newValue);
+                            // Salvar no contexto do curso
+                            updatePhaseData(2, {
+                              ...course?.phaseData?.phase2,
+                              moduleCount,
+                              lessonsPerModule: newValue
+                            });
+                          }}
                           className="h-10 px-3"
                         >
                           <span className="material-icons" style={{ fontSize: '16px' }}>add</span>

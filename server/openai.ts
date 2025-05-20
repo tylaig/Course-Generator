@@ -25,6 +25,7 @@ export type CourseDetails = {
   platform: string;
   deliveryFormat: string;
   moduleCount?: number; // Número de módulos solicitado pelo usuário
+  lessonsPerModule?: number; // Número de aulas por módulo solicitado pelo usuário
   publicTarget?: string;
   educationalLevel?: string;
   familiarityLevel?: string;
