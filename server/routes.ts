@@ -11,9 +11,7 @@ import {
   generateModuleImage,
   generateAllModuleImages,
   generateAllContent,
-  generateAllEvaluations,
-  generateModuleImage,
-  generateAllModuleImages
+  generateAllEvaluations
 } from "./openai";
 import { z } from "zod";
 
