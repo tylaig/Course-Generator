@@ -101,6 +101,110 @@ export default function Phase1() {
     }
   });
 
+  // Função para processar o texto do briefing e extrair informações
+  const processBriefing = () => {
+    try {
+      if (!briefingContent) return;
+      
+      console.log("Processando briefing educacional...");
+      
+      // Analisar o título do curso
+      const titleMatch = briefingContent.match(/Título provisório do curso:\s*\[\s*([^\]]+)\s*\]/);
+      if (titleMatch && titleMatch[1] && titleMatch[1] !== "INSERIR TÍTULO") {
+        form.setValue("title", titleMatch[1].trim());
+      }
+      
+      // Analisar o tema principal
+      const themeMatch = briefingContent.match(/Tema principal:\s*\[\s*([^\]]+)\s*\]/);
+      if (themeMatch && themeMatch[1] && themeMatch[1] !== "DESCREVER O TEMA CENTRAL DO CONTEÚDO") {
+        form.setValue("theme", themeMatch[1].trim());
+      }
+      
+      // Analisar a carga horária estimada
+      const hoursMatch = briefingContent.match(/Carga horária estimada:\s*\[\s*([^\]]+)\s*\]/);
+      if (hoursMatch && hoursMatch[1] && !hoursMatch[1].includes("TOTAL DE HORAS")) {
+        // Extrai apenas o número da string
+        const hoursText = hoursMatch[1].trim();
+        const hoursNumber = parseInt(hoursText.match(/\d+/)?.[0] || "20");
+        form.setValue("estimatedHours", hoursNumber || 20);
+      }
+      
+      // Analisar o formato de entrega
+      const formatMatch = briefingContent.match(/Formato de entrega:[\s\S]*?\[(Online|Presencial|Híbrido)\]/i);
+      if (formatMatch && formatMatch[1]) {
+        form.setValue("format", formatMatch[1].trim());
+      }
+      
+      // Analisar a plataforma
+      const platformMatch = briefingContent.match(/Plataforma ou ambiente de aprendizagem:\s*\[\s*([^\]]+)\s*\]/);
+      if (platformMatch && platformMatch[1] && !platformMatch[1].includes("Ex:")) {
+        form.setValue("platform", platformMatch[1].trim());
+      }
+      
+      // Analisar o público-alvo
+      const targetMatch = briefingContent.match(/Faixa etária:\s*\[\s*([^\]]+)\s*\]/);
+      if (targetMatch && targetMatch[1] && !targetMatch[1].includes("Ex:")) {
+        form.setValue("publicTarget", targetMatch[1].trim());
+      }
+      
+      // Analisar nível educacional
+      const eduLevelMatch = briefingContent.match(/Nível educacional atual:\s*\[\s*([^\]]+)\s*\]/);
+      if (eduLevelMatch && eduLevelMatch[1]) {
+        const eduLevel = eduLevelMatch[1].trim();
+        if (eduLevel.includes("Superior")) {
+          form.setValue("educationalLevel", "Higher Education");
+        } else if (eduLevel.includes("Fundamental")) {
+          form.setValue("educationalLevel", "Primary Education");
+        } else if (eduLevel.includes("Médio")) {
+          form.setValue("educationalLevel", "Secondary Education");
+        }
+      }
+      
+      // Analisar familiaridade
+      const familiarityMatch = briefingContent.match(/Nível de familiaridade com o tema:\s*\[\s*([^\]]+)\s*\]/);
+      if (familiarityMatch && familiarityMatch[1]) {
+        const familiarity = familiarityMatch[1].trim();
+        if (familiarity.includes("Básico") || familiarity.includes("Nenhum")) {
+          form.setValue("familiarityLevel", "Beginner");
+        } else if (familiarity.includes("Intermediário")) {
+          form.setValue("familiarityLevel", "Intermediate");
+        } else if (familiarity.includes("Avançado")) {
+          form.setValue("familiarityLevel", "Advanced");
+        }
+      }
+      
+      // Analisar competências cognitivas
+      const cognitiveMatch = briefingContent.match(/Cognitivas \(saberes\)\s*\[\s*([^\]]+)\s*\]/);
+      if (cognitiveMatch && cognitiveMatch[1] && !cognitiveMatch[1].includes("Ex:")) {
+        form.setValue("cognitiveSkills", cognitiveMatch[1].trim());
+      }
+      
+      // Analisar competências comportamentais
+      const behavioralMatch = briefingContent.match(/Comportamentais \(atitudes\)\s*\[\s*([^\]]+)\s*\]/);
+      if (behavioralMatch && behavioralMatch[1] && !behavioralMatch[1].includes("Ex:")) {
+        form.setValue("behavioralSkills", behavioralMatch[1].trim());
+      }
+      
+      // Analisar competências técnicas
+      const technicalMatch = briefingContent.match(/Técnicas \(ferramentas\/habilidades\)\s*\[\s*([^\]]+)\s*\]/);
+      if (technicalMatch && technicalMatch[1] && !technicalMatch[1].includes("Ex:")) {
+        form.setValue("technicalSkills", technicalMatch[1].trim());
+      }
+      
+      // Salvar o briefing original também
+      form.setValue("briefingDocument", briefingContent);
+      
+      // Fechar o diálogo
+      setBriefingDialogOpen(false);
+      
+      console.log("Briefing processado com sucesso!");
+      
+    } catch (error) {
+      console.error("Erro ao processar briefing:", error);
+      alert("Não foi possível processar o briefing. Verifique o formato e tente novamente.");
+    }
+  };
+
   const onSubmit = async (data: Phase1FormData) => {
     // Update course basic info in context
     setBasicInfo({
@@ -112,8 +216,11 @@ export default function Phase1() {
       deliveryFormat: data.deliveryFormat
     });
 
-    // Save all form data to phase 1 data
-    updatePhaseData(1, data);
+    // Save all form data to phase 1 data including briefing if available
+    updatePhaseData(1, {
+      ...data,
+      briefingDocument: briefingContent || data.briefingDocument
+    });
 
     // Generate AI strategy (optional)
     try {
@@ -140,15 +247,52 @@ export default function Phase1() {
             onNext={form.handleSubmit(onSubmit)}
           />
           
-          <Button 
-            onClick={fillSampleData} 
-            variant="outline" 
-            className="flex items-center" 
-            type="button"
-          >
-            <span className="material-icons text-sm mr-2">bolt</span>
-            Preenchimento Rápido
-          </Button>
+          <div className="flex gap-2">
+            <Dialog open={briefingDialogOpen} onOpenChange={setBriefingDialogOpen}>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  className="flex items-center" 
+                  type="button"
+                >
+                  <span className="material-icons text-sm mr-2">description</span>
+                  Importar Briefing
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-3xl">
+                <DialogHeader>
+                  <DialogTitle>Importar Briefing Educacional</DialogTitle>
+                  <DialogDescription>
+                    Cole o conteúdo do briefing educacional abaixo e clique em "Processar"
+                  </DialogDescription>
+                </DialogHeader>
+                
+                <div className="grid gap-4 py-4">
+                  <Textarea 
+                    placeholder="Cole o conteúdo do briefing aqui..." 
+                    rows={15}
+                    value={briefingContent}
+                    onChange={(e) => setBriefingContent(e.target.value)}
+                    className="font-mono text-sm"
+                  />
+                </div>
+                
+                <div className="flex justify-end">
+                  <Button onClick={processBriefing}>Processar Briefing</Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+            
+            <Button 
+              onClick={fillSampleData} 
+              variant="outline" 
+              className="flex items-center" 
+              type="button"
+            >
+              <span className="material-icons text-sm mr-2">bolt</span>
+              Preenchimento Rápido
+            </Button>
+          </div>
         </div>
 
         <Form {...form}>

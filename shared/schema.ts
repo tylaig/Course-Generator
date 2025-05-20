@@ -108,4 +108,5 @@ export const phase1Schema = z.object({
   cognitiveSkills: z.string().min(3, "Cognitive skills must be at least 3 characters"),
   behavioralSkills: z.string().min(3, "Behavioral skills must be at least 3 characters"),
   technicalSkills: z.string().min(3, "Technical skills must be at least 3 characters"),
+  briefingDocument: z.string().optional(),
 });
