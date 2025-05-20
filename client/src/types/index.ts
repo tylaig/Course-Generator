@@ -48,9 +48,7 @@ export type AIConfig = {
   contentTypes: ContentType[];
 };
 
-export type Phase1FormData = z.infer<typeof phase1Schema> & {
-  briefingDocument?: string;
-};
+export type Phase1FormData = z.infer<typeof phase1Schema>;
 
 export type CourseProgress = {
   phase1: number;
