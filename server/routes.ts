@@ -192,7 +192,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // ---- Structure Generation (Phase 2) ----
   app.post("/api/generate/structure", async (req, res) => {
     try {
-      const { courseId, title, theme, estimatedHours, phaseData } = req.body;
+      const { courseId, title, theme, estimatedHours, moduleCount, phaseData } = req.body;
       
       // Log para debug
       console.log("Recebendo dados para geração de estrutura:", req.body);
@@ -206,6 +206,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         title: title || "Curso sem título",
         theme: theme || "Tema não definido",
         estimatedHours: estimatedHours || 10,
+        moduleCount: moduleCount || 6, // Adiciona o número de módulos solicitado pelo usuário
         format: req.body.format || "Online",
         platform: req.body.platform || "Web",
         deliveryFormat: req.body.deliveryFormat || "HTML5",

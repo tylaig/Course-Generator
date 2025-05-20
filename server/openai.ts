@@ -94,10 +94,12 @@ export async function generateStructure(courseDetails: CourseDetails, phaseData:
           content: `You are the Estruturador Modular, a course structure designer. 
           Based on the course theme and strategy provided, generate a structured course with:
           
-          1. A logical sequence of 3-8 modules with clear titles and descriptions
+          1. A logical sequence of modules with clear titles and descriptions
           2. Specific learning objectives for each module using Bloom's taxonomy verbs
           3. Progressive complexity across modules
           4. Appropriate time allocation for each module
+          
+          IMPORTANT: Generate exactly ${courseDetails.moduleCount || 6} modules, no more and no less.
           
           Format your response as a JSON object with the following structure:
           {
