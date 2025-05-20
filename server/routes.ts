@@ -182,13 +182,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // ---- Structure Generation (Phase 2) ----
   app.post("/api/generate/structure", async (req, res) => {
     try {
-      const { courseId, phaseData } = req.body;
+      const { courseId, title, theme, estimatedHours, phaseData } = req.body;
       
-      if (!courseId) {
-        return res.status(400).json({ message: "Course ID is required" });
+      // Log para debug
+      console.log("Recebendo dados para geração de estrutura:", req.body);
+      
+      if (!title || !theme) {
+        return res.status(400).json({ message: "Informações básicas do curso são necessárias (título e tema)" });
       }
       
-      const courseDetails = phaseData?.phase1 || {};
+      // Criar um objeto de detalhes do curso com todos os dados disponíveis
+      const courseDetails = {
+        title: title || "Curso sem título",
+        theme: theme || "Tema não definido",
+        estimatedHours: estimatedHours || 10,
+        format: req.body.format || "Online",
+        platform: req.body.platform || "Web",
+        deliveryFormat: req.body.deliveryFormat || "HTML5",
+        ...phaseData
+      };
+      
+      console.log("Enviando dados para geração:", courseDetails);
+      
       const structureData = await generateStructure(courseDetails, phaseData);
       
       res.json(structureData);

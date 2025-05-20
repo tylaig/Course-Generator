@@ -52,11 +52,28 @@ export default function Phase2() {
 
   const generateStructure = useMutation({
     mutationFn: async () => {
+      if (!course || !course.id) {
+        console.error("Não há curso ativo para gerar módulos");
+        throw new Error("Curso não encontrado");
+      }
+      
       setGenerationStatus("generating");
+      
+      // Log para debug
+      console.log("Enviando dados do curso para geração:", {
+        id: course.id,
+        title: course.title,
+        phaseData: course.phaseData
+      });
+      
       const courseData = {
-        courseId: course?.id,
-        phaseData: course?.phaseData
+        courseId: course.id,
+        title: course.title,
+        theme: course.theme,
+        estimatedHours: course.estimatedHours,
+        phaseData: course.phaseData?.phase1 || {}
       };
+      
       const response = await apiRequest("POST", "/api/generate/structure", courseData);
       return response.json();
     },

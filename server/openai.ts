@@ -7,8 +7,13 @@ const MODELS = {
   GPT35TURBO: "gpt-3.5-turbo"
 };
 
+// Verificar se a chave API da OpenAI está configurada
+if (!process.env.OPENAI_API_KEY) {
+  console.warn("OPENAI_API_KEY não está configurada, algumas funcionalidades podem não funcionar corretamente.");
+}
+
 const openai = new OpenAI({ 
-  apiKey: process.env.OPENAI_API_KEY || "default_key"
+  apiKey: process.env.OPENAI_API_KEY
 });
 
 // Common types
