@@ -1,0 +1,74 @@
+ Briefing Completo da Plataforma de Agentes GPT para Criação de Cursos
+🎯 Objetivo da Plataforma
+Desenvolver uma esteira automatizada baseada em agentes GPT especializados para criar cursos educacionais completos, modulares, acessíveis e escaláveis, com foco em internacionalização, didática moderna e integração de IA.
+
+🧱 Estrutura Geral da Plataforma
+1. Agente Principal: GPT_Criador_de_Cursos
+Orquestra todas as fases do processo
+
+Executa tools específicas em cada fase
+
+2. Pipeline de Fases (Agentes Especializados)
+Fase	Nome GPT	Função Principal	Output Principal
+1	GPT_Estratégia_Curricular	Planejamento estratégico pedagógico	Matriz de alinhamento + Trilha Cognitiva + Metodologias
+2	GPT_Arquitetura_Modular	Divisão do curso em módulos coerentes	Títulos, objetivos específicos, estrutura sequencial
+3	GPT_Conteúdo_Educacional	Criação de conteúdo textual e roteiros multimídia	Texto didático, roteiro de vídeo, sugestões visuais
+4	GPT_Avaliação_Educacional	Produção de instrumentos avaliativos	Quizzes, estudos de caso, rubricas, autoavaliações
+5	GPT_Revisão_Pedagógica	Revisão e adaptação final para acessibilidade e clareza	Versão final do conteúdo com ajustes e destaques
+
+⚙️ Hierarquia Técnica (Modelo XML)
+xml
+Copiar
+Editar
+<GPT_Criador_de_Cursos>
+  <Tools>
+    <Tool name="GPT_Estratégia_Curricular">
+      <SubTools>
+        <Tool name="AlinhamentoPedagógico"/>
+        <Tool name="TrilhaCognitiva"/>
+      </SubTools>
+    </Tool>
+    <Tool name="GPT_Arquitetura_Modular">
+      <SubTools>
+        <Tool name="MapeamentoMódulos"/>
+        <Tool name="DistribuiçãoCognitiva"/>
+      </SubTools>
+    </Tool>
+    <Tool name="GPT_Conteúdo_Educacional">
+      <SubTools>
+        <Tool name="TextoDidático"/>
+        <Tool name="RoteiroMultimídia"/>
+      </SubTools>
+    </Tool>
+    <Tool name="GPT_Avaliação_Educacional">
+      <SubTools>
+        <Tool name="InstrumentosObjetivos"/>
+        <Tool name="Rubricas"/>
+      </SubTools>
+    </Tool>
+    <Tool name="GPT_Revisão_Pedagógica">
+      <SubTools>
+        <Tool name="Acessibilidade"/>
+        <Tool name="LinguagemClara"/>
+      </SubTools>
+    </Tool>
+  </Tools>
+</GPT_Criador_de_Cursos>
+🧩 Componentes Operacionais
+Documento Base (Input): Contexto_Estratégia_Curricular
+
+Ambiente: Online (LMS, Moodle, SCORM-ready, exportáveis em HTML5, PDF, e-book)
+
+Entrega Final: Curso digital completo com estrutura, conteúdo, atividades e avaliações
+
+Revisão contínua: Fase 5 garante aderência às normas e refinamento didático
+
+🧠 Diferenciais
+Pipeline cognitivo com base na taxonomia de Bloom
+
+Outputs multilíngues, acessíveis e internacionalizáveis
+
+Agentes atuando como papéis educacionais (Designer, SME, Redator, Avaliador, Revisor)
+
+Modularidade para escalabilidade e reuso
+
