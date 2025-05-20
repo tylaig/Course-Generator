@@ -1,0 +1,162 @@
+Briefing Educacional – Documento de Entrada da Fase 1
+Documento padrão para ser interpretado pelo agente GPT_Estratégia_Curricular
+ Preencha todos os campos com o máximo de clareza e objetividade possível.
+
+🧭 1. INFORMAÇÕES GERAIS
+Título provisório do curso:
+ [INSERIR TÍTULO]
+
+
+Tema principal:
+ [DESCREVER O TEMA CENTRAL DO CONTEÚDO]
+
+
+Carga horária estimada:
+ [TOTAL DE HORAS OU SEMANAS]
+
+
+Formato de entrega:
+ [Online / Presencial / Híbrido]
+ [Síncrono / Assíncrono / Misto / Autoinstrucional]
+ [PDF, SCORM, HTML5, Vídeo, Podcast, eBook, etc.]
+
+
+Plataforma ou ambiente de aprendizagem:
+ [Ex: Moodle, LMS próprio, Google Classroom, etc.]
+
+
+
+🎯 2. OBJETIVO E CONTEXTO EDUCACIONAL
+Objetivo geral do curso:
+
+
+ Ex: Capacitar aprendizes a compreender os fundamentos essenciais de [TEMA] e aplicá-los em [CONTEXTO].
+
+
+
+Demanda de origem:
+ [Empresa / Cliente / Projeto Institucional / Público Geral / Governo]
+
+
+Finalidade do curso:
+ [Capacitação profissional / Formação básica / Desenvolvimento contínuo / Conscientização / Outro]
+
+
+Vinculação institucional ou pedagógica:
+ [BNCC / CEFR / UNESCO / ODS / Framework próprio / Nenhum]
+
+
+
+🧑‍🎓 3. PERFIL DO PÚBLICO-ALVO
+Faixa etária:
+ [Ex: 14 a 18 anos / Adultos / Idosos]
+
+
+Nível educacional atual:
+ [Fundamental / Médio / Técnico / Superior / Pós / Indefinido]
+
+
+Nível de familiaridade com o tema:
+ [Nenhum / Básico / Intermediário / Avançado]
+
+
+Motivação esperada:
+ [Profissional / Acadêmica / Pessoal / Obrigatória / Outro]
+
+
+
+🧠 4. COMPETÊNCIAS A SEREM DESENVOLVIDAS
+Liste as principais competências que os aprendizes deverão desenvolver ao final do curso:
+Cognitivas (saberes)
+[Ex: pensamento crítico, análise de dados, resolução de problemas]
+
+
+Comportamentais (atitudes)
+[Ex: colaboração, empatia, tomada de decisão responsável]
+
+
+Técnicas (ferramentas/habilidades)
+[Ex: uso de ferramentas específicas, redação técnica, interpretação de relatórios]
+
+
+
+📚 5. ESTRUTURA PRELIMINAR SUGERIDA
+Preencha com base no que já foi idealizado para o curso. Caso não tenha certeza, deixe em branco.
+Etapas da Trilha Cognitiva (opcional)
+Etapa
+Objetivo Cognitivo
+Estratégia Didática Proposta
+Exploração Inicial
+Lembrar / Compreender
+[Vídeo introdutório / Enquete / Analogias]
+Consolidação de Conceitos
+Compreender
+[Texto com mapa conceitual / Linha do tempo]
+Aplicação Prática
+Aplicar
+[Simulações / Atividades contextualizadas]
+Análise Crítica
+Analisar / Avaliar
+[Estudos de caso / Discussões orientadas]
+Síntese Criativa
+Avaliar / Criar
+[Projeto final / Protótipo / Relatório]
+
+
+🧪 6. RESTRIÇÕES E DIRETRIZES IMPORTANTES
+Evitar:
+
+
+Regionalismos, marcas comerciais, referências a leis locais.
+
+
+Linguagem muito técnica sem explicação.
+
+
+Usar linguagem:
+
+
+Neutra e internacional
+
+
+Acessível (nível de leitura A2-B1 recomendado)
+
+
+Inclusiva (sem termos discriminatórios ou jargões complexos)
+
+
+Necessidades de acessibilidade:
+ [Ex: audiodescrição, transcrição de vídeos, contraste alto, leitura de tela]
+
+
+Idiomas previstos para o curso:
+ [Português / Inglês / Espanhol / Multilíngue]
+
+
+
+⚙️ 7. INFRAESTRUTURA E TECNOLOGIA DISPONÍVEL
+Equipe disponível:
+ [Ex: designer instrucional, redator, revisor, SME, equipe de vídeo]
+
+
+Ferramentas e recursos previstos:
+ [IA, banco de imagens, estúdio de gravação, software de autoria]
+
+
+
+🛑 8. ALERTAS OU RISCOS PEDAGÓGICOS ANTECIPADOS
+Se você já identificou riscos ou desafios que podem dificultar a aprendizagem, registre abaixo:
+Risco Identificado
+Ação sugerida ou preocupação
+[Ex: público heterogêneo demais]
+[Ex: criar trilha adaptativa ou alternativa]
+[Ex: complexidade técnica elevada]
+[Ex: usar analogias visuais]
+[Ex: baixa interação esperada]
+[Ex: incluir quizzes com feedback automatizado]
+
+
+✅ 9. OUTRAS INFORMAÇÕES RELEVANTES
+[Espaço livre para observações adicionais que impactem o design pedagógico do curso.]
+
+

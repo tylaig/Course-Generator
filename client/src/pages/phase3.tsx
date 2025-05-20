@@ -42,11 +42,38 @@ export default function Phase3() {
 
   const generateAllContent = useMutation({
     mutationFn: async () => {
+      if (!course || !course.modules || course.modules.length === 0) {
+        throw new Error("Não há módulos para gerar conteúdo");
+      }
+      
+      // Log para debug
+      console.log("Enviando dados para geração de conteúdo:", {
+        courseId: course.id,
+        moduleCount: course.modules.length,
+        aiConfig: course.aiConfig
+      });
+      
       const response = await apiRequest("POST", "/api/generate/all-content", {
-        courseId: course?.id,
-        aiConfig: course?.aiConfig
+        courseId: course.id,
+        modules: course.modules,
+        courseDetails: {
+          title: course.title,
+          theme: course.theme,
+          estimatedHours: course.estimatedHours,
+          format: course.format,
+          platform: course.platform,
+          deliveryFormat: course.deliveryFormat,
+          ...course.phaseData?.phase1
+        },
+        aiConfig: course.aiConfig
       });
       return response.json();
+    },
+    onSuccess: (data) => {
+      console.log("Conteúdo gerado com sucesso:", data);
+    },
+    onError: (error) => {
+      console.error("Erro ao gerar conteúdo:", error);
     }
   });
 

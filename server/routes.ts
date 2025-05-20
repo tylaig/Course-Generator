@@ -269,15 +269,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // ---- Generate All Content (Phase 3) ----
   app.post("/api/generate/all-content", async (req, res) => {
     try {
-      const { courseId, aiConfig } = req.body;
+      const { courseId, aiConfig, modules, courseDetails } = req.body;
+      
+      // Logs para facilitar depuração
+      console.log("Recebendo solicitação para gerar todo o conteúdo:");
+      console.log("- CourseId:", courseId);
+      console.log("- Número de módulos:", modules?.length || 0);
       
       if (!courseId) {
         return res.status(400).json({ message: "Course ID is required" });
       }
       
-      // For in-memory storage, we get these from the request
-      // In a real database implementation, we would fetch from storage
-      const { modules, courseDetails } = req.body;
+      if (!modules || !Array.isArray(modules) || modules.length === 0) {
+        return res.status(400).json({ message: "Modules are required and must be an array" });
+      }
+      
+      if (!courseDetails) {
+        return res.status(400).json({ message: "Course details are required" });
+      }
       
       const allContent = await generateAllContent(modules, courseDetails, aiConfig);
       
