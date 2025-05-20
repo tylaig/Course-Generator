@@ -26,7 +26,14 @@ import { apiRequest } from "@/lib/queryClient";
 
 export default function Phase3() {
   const [_, navigate] = useLocation();
-  const { course, updateAIConfig, moveToNextPhase } = useCourse();
+  const { 
+    course, 
+    updateAIConfig, 
+    moveToNextPhase,
+    updateModules,
+    saveCourseToLocalStorage,
+    updateProgress 
+  } = useCourse();
   const [contentTypes, setContentTypes] = useState<ContentType[]>(
     course?.aiConfig.contentTypes || ["text", "video", "quiz"]
   );
@@ -103,8 +110,37 @@ export default function Phase3() {
     updateAIConfig({ teachingApproach: value });
   };
 
-  const handleGenerateAll = () => {
-    generateAllContent.mutate();
+  const handleGenerateAll = async () => {
+    try {
+      // Salvamos as configurações de AI antes de gerar o conteúdo
+      updateAIConfig({
+        contentTypes,
+        difficultyLevel,
+        contentDensity,
+        teachingApproach
+      });
+      
+      console.log("Iniciando geração de conteúdo para todos os módulos...");
+      generateAllContent.mutate(undefined, {
+        onSuccess: (data) => {
+          console.log("Conteúdo gerado com sucesso:", data);
+          
+          // Atualiza o status dos módulos para "generated"
+          if (course?.modules) {
+            const updatedModules = course.modules.map(m => ({
+              ...m,
+              status: "generated",
+              content: data[m.title] || m.content
+            }));
+            
+            // Atualiza os módulos no contexto do curso
+            updateModules(updatedModules);
+          }
+        }
+      });
+    } catch (error) {
+      console.error("Erro ao gerar conteúdo:", error);
+    }
   };
 
   const handleNextPhase = () => {
