@@ -270,26 +270,122 @@ export default function Phase5() {
     }
   });
 
+  // Função para gerar e baixar o CSV diretamente
+  const generateAndExportCSV = () => {
+    if (!course) return;
+    
+    // CSV header
+    let csv = "Data Type,ID,Title,Description,Content\n";
+    
+    // Informações básicas do curso
+    csv += `Course,${course.id || ""},${course.title || ""},"${course.theme || ""} (${course.format || ""})","${JSON.stringify({
+      estimatedHours: course.estimatedHours,
+      platform: course.platform,
+      deliveryFormat: course.deliveryFormat,
+      currentPhase: course.currentPhase,
+      progress: course.progress || {}
+    }).replace(/"/g, '""')}"\n`;
+    
+    // Dados das fases (se existirem)
+    if (course.phaseData) {
+      Object.entries(course.phaseData).forEach(([phase, phaseData]) => {
+        if (phaseData) {
+          csv += `PhaseData,${phase},"Phase ${phase.replace('phase', '')} Data","","${JSON.stringify(phaseData).replace(/"/g, '""')}"\n`;
+        }
+      });
+    }
+    
+    // Módulos
+    if (course.modules && Array.isArray(course.modules)) {
+      course.modules.forEach((module) => {
+        // Informações básicas do módulo
+        csv += `Module,${module.id || ""},${module.title || ""},"${module.description || ""}","${JSON.stringify({
+          order: module.order,
+          estimatedHours: module.estimatedHours,
+          status: module.status,
+          imageUrl: module.imageUrl || ""
+        }).replace(/"/g, '""')}"\n`;
+        
+        // Conteúdo do módulo (se existir)
+        if (module.content) {
+          // Conteúdo textual
+          if (module.content.text) {
+            const textContent = module.content.text.replace(/"/g, '""').substring(0, 1000) + (module.content.text.length > 1000 ? "..." : "");
+            csv += `Content,${module.id}_text,"Text Content for ${module.title}","","${textContent}"\n`;
+          }
+          
+          // Script de vídeo
+          if (module.content.videoScript) {
+            const videoScript = module.content.videoScript.replace(/"/g, '""').substring(0, 1000) + (module.content.videoScript.length > 1000 ? "..." : "");
+            csv += `Content,${module.id}_video,"Video Script for ${module.title}","","${videoScript}"\n`;
+          }
+          
+          // Atividades
+          if (module.content.activities && module.content.activities.length > 0) {
+            module.content.activities.forEach((activity, activityIndex) => {
+              csv += `Activity,${module.id}_activity_${activityIndex},${activity.title || ""},"${activity.description || ""}","${JSON.stringify(activity).replace(/"/g, '""')}"\n`;
+            });
+          }
+        }
+      });
+    }
+    
+    // Download do arquivo CSV
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `curso_${course.id}_completo.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+  
+  // Função para gerar e baixar o JSON diretamente
+  const generateAndExportJSON = () => {
+    if (!course) return;
+    
+    const jsonContent = JSON.stringify(course, null, 2);
+    const blob = new Blob([jsonContent], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `curso_${course.id}_completo.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+  
   const exportCourse = useMutation({
     mutationFn: async (format: 'json' | 'csv' = 'json') => {
-      const response = await apiRequest("GET", `/api/export/course/${course?.id}?format=${format}`, {});
-      return response;
+      try {
+        if (format === 'csv') {
+          generateAndExportCSV();
+        } else {
+          generateAndExportJSON();
+        }
+        
+        return { success: true };
+      } catch (error) {
+        console.error("Erro ao exportar curso:", error);
+        throw error;
+      }
     },
-    onSuccess: (response) => {
+    onSuccess: () => {
       toast({
-        title: "Course Exported",
-        description: "Your course has been exported successfully.",
+        title: "Exportação Concluída",
+        description: "Seu curso foi exportado com sucesso.",
+        variant: "success"
       });
-      
-      // In a real application, handle file download here
-      // For example:
-      // response.blob().then(blob => {
-      //   const url = window.URL.createObjectURL(blob);
-      //   const a = document.createElement('a');
-      //   a.href = url;
-      //   a.download = `course_${course?.id}.${format}`;
-      //   a.click();
-      // });
+    },
+    onError: () => {
+      toast({
+        title: "Falha na Exportação",
+        description: "Não foi possível exportar seu curso. Tente novamente.",
+        variant: "destructive"
+      });
     }
   });
 
