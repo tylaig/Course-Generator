@@ -24,6 +24,7 @@ export type CourseDetails = {
   format: string;
   platform: string;
   deliveryFormat: string;
+  moduleCount?: number; // Número de módulos solicitado pelo usuário
   publicTarget?: string;
   educationalLevel?: string;
   familiarityLevel?: string;
@@ -99,7 +100,7 @@ export async function generateStructure(courseDetails: CourseDetails, phaseData:
           3. Progressive complexity across modules
           4. Appropriate time allocation for each module
           
-          IMPORTANT: Generate exactly ${courseDetails.moduleCount || 6} modules, no more and no less.
+          IMPORTANT: You MUST generate EXACTLY ${courseDetails.moduleCount || 6} modules, no more and no less. This is a strict requirement from the user. Your response MUST contain precisely this number of modules in the "modules" array.
           
           Format your response as a JSON object with the following structure:
           {
