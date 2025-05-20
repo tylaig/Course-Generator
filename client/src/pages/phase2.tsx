@@ -35,6 +35,7 @@ export default function Phase2() {
   const { course, updateModules, moveToNextPhase, setGenerationStatus, updatePhaseData } = useCourse();
   const [modules, setModules] = useState<CourseModule[]>([]);
   const [editingModuleId, setEditingModuleId] = useState<string | null>(null);
+  const [moduleCount, setModuleCount] = useState<number>(4); // Número padrão de módulos a gerar
 
   const form = useForm<ModuleFormData>({
     defaultValues: {
@@ -71,6 +72,7 @@ export default function Phase2() {
         title: course.title,
         theme: course.theme,
         estimatedHours: course.estimatedHours,
+        moduleCount: moduleCount, // Enviando o número de módulos desejados
         phaseData: course.phaseData?.phase1 || {}
       };
       
@@ -194,17 +196,43 @@ export default function Phase2() {
           onNext={handleNextPhase}
         />
 
-        <div className="flex justify-between mb-6">
-          <h3 className="text-lg font-heading font-medium text-neutral-800">Course Modules</h3>
-          <Button 
-            onClick={() => generateStructure.mutate()} 
-            variant="secondary"
-            disabled={generateStructure.isPending}
-            className="flex items-center"
-          >
-            <span className="material-icons text-sm mr-1">bolt</span>
-            {generateStructure.isPending ? "Generating..." : "Generate Modules"}
-          </Button>
+        <div className="mb-6">
+          <div className="flex justify-between mb-3">
+            <h3 className="text-lg font-heading font-medium text-neutral-800">Course Modules</h3>
+          </div>
+          
+          <div className="bg-neutral-50 p-4 border border-neutral-200 rounded-md mb-4">
+            <h4 className="text-sm font-medium mb-3">Opções de Geração</h4>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm text-neutral-600 mb-1 block">Número de módulos:</label>
+                <div className="flex items-center">
+                  <input 
+                    type="range" 
+                    min="2" 
+                    max="10" 
+                    value={moduleCount} 
+                    onChange={(e) => setModuleCount(Number(e.target.value))}
+                    className="w-32 mr-3"
+                  />
+                  <span className="text-sm font-medium">{moduleCount} módulos</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-4">
+              <Button 
+                onClick={() => generateStructure.mutate()} 
+                variant="secondary"
+                disabled={generateStructure.isPending}
+                className="flex items-center"
+              >
+                <span className="material-icons text-sm mr-1">bolt</span>
+                {generateStructure.isPending ? "Gerando..." : "Gerar Módulos"}
+              </Button>
+            </div>
+          </div>
         </div>
 
         {modules.length > 0 ? (

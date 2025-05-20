@@ -1,0 +1,151 @@
+Fase 4: Avaliação Didática
+Gerado pelo Agente da Fase 4 – Validador de Avaliação
+
+1. Dados do Curso (resumo técnico para contexto)
+Título do Curso: ___________________________
+
+
+Carga Horária Total: _______________________
+
+
+Público-Alvo: ___________________________
+
+
+Nível Cognitivo Geral: ____________________
+
+
+Competências-Alvo: _______________________
+
+
+
+2. Diagnóstico Geral da Avaliação
+Critério de Validação
+Avaliação
+Observações Técnicas
+Objetivos específicos estão claramente mensuráveis?
+( ) Sim ( ) Não ( ) Parcial
+______________________________________________
+Há coerência entre objetivos e tipo de avaliação?
+( ) Sim ( ) Não ( ) Parcial
+______________________________________________
+As atividades abrangem as competências definidas?
+( ) Sim ( ) Não ( ) Parcial
+______________________________________________
+Os níveis de Bloom estão refletidos nas atividades?
+( ) Sim ( ) Não ( ) Parcial
+______________________________________________
+Há diversidade de instrumentos avaliativos?
+( ) Sim ( ) Não ( ) Parcial
+______________________________________________
+Existe feedback claro previsto para o aluno?
+( ) Sim ( ) Não ( ) Parcial
+______________________________________________
+A carga de avaliação é proporcional à carga do módulo?
+( ) Sim ( ) Não ( ) Parcial
+______________________________________________
+
+
+3. Mapeamento de Avaliações por Módulo
+Módulo
+Tipo(s) de Avaliação
+Competência Avaliada
+Nível Cognitivo
+Forma de Feedback
+1
+[Quiz, Estudo de caso, Desafio, etc.]
+[Ex: Compreensão de conceito]
+[Ex: Compreender]
+[Feedback automático ou descritivo]
+2
+[...]
+[...]
+[...]
+[...]
+
+Instrução: Certifique-se de que cada módulo tenha pelo menos um instrumento avaliativo claro e aplicável.
+
+4. Verificação da Diversidade Avaliativa
+Avaliar a presença e equilíbrio de diferentes tipos de instrumentos:
+( ) Quiz objetivo (formativo)
+
+
+( ) Estudo de caso aplicado
+
+
+( ) Desafio prático individual
+
+
+( ) Rubrica de projeto
+
+
+( ) Autoavaliação com orientação
+
+
+( ) Avaliação entre pares (peer review)
+
+
+( ) Avaliação multimídia (vídeo, áudio, pitch etc.)
+
+
+Observações ou faltas detectadas:
+
+5. Rubricas de Avaliação (opcional)
+Se o curso inclui projetos, desafios, estudos de caso ou entregas abertas, crie ou valide uma rubrica por tipo de entrega:
+Exemplo: Rubrica de Projeto Final
+Critério
+Excelente (4)
+Bom (3)
+Regular (2)
+Insuficiente (1)
+Clareza da proposta
+Muito clara
+Clara
+Confusa
+Incompreensível
+Aplicação do conteúdo
+Aplica com precisão
+Aplica parcialmente
+Aplica com erro
+Não aplica
+Criatividade
+Muito criativa
+Criativa
+Pouco criativa
+Ausente
+Viabilidade
+Totalmente viável
+Viável
+Pouco viável
+Irreal ou desconectada
+
+
+6. Recomendação Técnica Final da Fase 4
+A avaliação está coerente com os objetivos e competências
+
+
+A carga avaliativa é equilibrada e distribuída
+
+
+Os tipos de avaliação atendem diferentes estilos de aprendizagem
+
+
+O curso está pronto para revisão pedagógica (Fase 5)
+
+
+Comentários técnicos adicionais:
+
+7. Entregáveis da Fase 4
+✅ Mapeamento de todas as avaliações por módulo
+
+
+✅ Verificação de coerência com objetivos e competências
+
+
+✅ Diagnóstico de equilíbrio e diversidade avaliativa
+
+
+✅ Feedback técnico para reestruturação (caso necessário)
+
+
+✅ Rubricas ou gabaritos sugeridos (se aplicável)
+
