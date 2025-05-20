@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { 
   Form, 
   FormControl, 
@@ -26,10 +27,28 @@ import { phase1Schema } from "@shared/schema";
 import { Phase1FormData } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
+import { 
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from "@/components/ui/card";
 
 export default function Phase1() {
   const [_, navigate] = useLocation();
   const { course, updatePhaseData, setBasicInfo, moveToNextPhase } = useCourse();
+  const [briefingContent, setBriefingContent] = useState("");
+  const [briefingDialogOpen, setBriefingDialogOpen] = useState(false);
 
   const defaultValues: Partial<Phase1FormData> = {
     title: course?.title || "",
