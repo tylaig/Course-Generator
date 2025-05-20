@@ -17,19 +17,108 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import WorkflowProgress from "@/components/shared/WorkflowProgress";
 import PhaseNav from "@/components/layout/PhaseNav";
+import ContentPreview from "@/components/shared/ContentPreview";
 import { useCourse } from "@/context/CourseContext";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { CourseModule } from "@/types";
 
 export default function Phase5() {
   const [_, navigate] = useLocation();
-  const { course, updatePhaseData } = useCourse();
+  const { course, updatePhaseData, updateModuleStatus } = useCourse();
   const [reviewNotes, setReviewNotes] = useState<string>(
     course?.phaseData?.phase5?.reviewNotes || ""
   );
   const { toast } = useToast();
+  
+  // Estados para visualização de conteúdo
+  const [selectedModule, setSelectedModule] = useState<CourseModule | null>(null);
+  const [contentPreviewOpen, setContentPreviewOpen] = useState(false);
+  
+  // Estados para visualização de avaliação
+  const [selectedEvaluation, setSelectedEvaluation] = useState<any>(null);
+  const [evaluationPreviewOpen, setEvaluationPreviewOpen] = useState(false);
+  
+  // Estados para geração de imagens
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  const [moduleIdForImage, setModuleIdForImage] = useState<string>("");
+  
+  // Função para gerar imagem para um módulo
+  const generateModuleImage = async (moduleId: string) => {
+    try {
+      setIsGeneratingImage(true);
+      setModuleIdForImage(moduleId);
+      
+      const moduleToUpdate = course?.modules.find(m => m.id === moduleId);
+      
+      if (!moduleToUpdate) {
+        throw new Error("Módulo não encontrado");
+      }
+      
+      const response = await apiRequest("POST", "/api/generate/module-image", {
+        courseId: course?.id,
+        moduleId: moduleId,
+        moduleInfo: {
+          title: moduleToUpdate.title,
+          description: moduleToUpdate.description,
+          order: moduleToUpdate.order,
+          estimatedHours: moduleToUpdate.estimatedHours
+        },
+        courseDetails: {
+          title: course?.title,
+          theme: course?.theme,
+          format: course?.format,
+          platform: course?.platform,
+          deliveryFormat: course?.deliveryFormat
+        }
+      });
+      
+      const data = await response.json();
+      
+      if (data && data.imageUrl) {
+        // Atualiza o módulo com a URL da imagem
+        const updatedModule = { ...moduleToUpdate, imageUrl: data.imageUrl };
+        updateModuleStatus(moduleId, moduleToUpdate.status);
+        
+        // Atualize o curso no contexto
+        setCourse(prev => {
+          if (!prev) return null;
+          return {
+            ...prev,
+            modules: prev.modules.map(mod => 
+              mod.id === moduleId ? { ...mod, imageUrl: data.imageUrl } : mod
+            )
+          };
+        });
+        
+        toast({
+          title: "Imagem gerada com sucesso",
+          description: "A imagem para o módulo foi gerada e adicionada.",
+        });
+      } else {
+        throw new Error("Não foi possível gerar a imagem");
+      }
+    } catch (error) {
+      console.error("Erro ao gerar imagem:", error);
+      toast({
+        title: "Erro ao gerar imagem",
+        description: "Não foi possível gerar a imagem para o módulo. Tente novamente.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsGeneratingImage(false);
+      setModuleIdForImage("");
+    }
+  };
 
   const reviewCourse = useMutation({
     mutationFn: async () => {
@@ -208,6 +297,12 @@ export default function Phase5() {
                           size="sm"
                           disabled={!module.content}
                           className="text-xs"
+                          onClick={() => {
+                            if (module.content) {
+                              setSelectedModule(module);
+                              setContentPreviewOpen(true);
+                            }
+                          }}
                         >
                           <span className="material-icons text-xs mr-1">visibility</span>
                           View Content
@@ -217,9 +312,25 @@ export default function Phase5() {
                           size="sm"
                           disabled={!course?.phaseData?.phase4?.evaluations?.[module.id]}
                           className="text-xs"
+                          onClick={() => {
+                            if (course?.phaseData?.phase4?.evaluations?.[module.id]) {
+                              setSelectedEvaluation(course.phaseData.phase4.evaluations[module.id]);
+                              setEvaluationPreviewOpen(true);
+                            }
+                          }}
                         >
                           <span className="material-icons text-xs mr-1">quiz</span>
                           View Evaluation
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          className="text-xs"
+                          onClick={() => generateModuleImage(module.id)}
+                          disabled={isGeneratingImage}
+                        >
+                          <span className="material-icons text-xs mr-1">image</span>
+                          {isGeneratingImage && moduleIdForImage === module.id ? "Generating..." : "Generate Image"}
                         </Button>
                       </div>
                     </CardFooter>
