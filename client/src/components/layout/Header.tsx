@@ -8,7 +8,7 @@ export default function Header() {
         <Link href="/">
           <div className="flex items-center cursor-pointer">
             <span className="material-icons text-primary text-2xl mr-2">school</span>
-            <h1 className="text-xl font-semibold text-slate-800">AI Course Generator</h1>
+            <h1 className="text-xl font-semibold text-slate-800">Gerador de Cursos com IA</h1>
           </div>
         </Link>
         

@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import {
@@ -13,6 +13,13 @@ import {
   generateAllContent,
   generateAllEvaluations
 } from "./openai";
+import {
+  getAuthUrl,
+  getTokenFromCode,
+  generateCoursePDF,
+  uploadFileToDrive,
+  generateAndUploadCourse
+} from "./googleDrive";
 import { z } from "zod";
 
 // Helper function to convert JSON data to CSV format
