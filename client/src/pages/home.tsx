@@ -7,30 +7,21 @@ import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Course, CourseModule } from "@/types";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useCourse } from "@/context/CourseContext";
 
 export default function Home() {
   const [location, navigate] = useLocation();
   const { toast } = useToast();
+  const { course, createNewCourse } = useCourse();
   const [currentCourseId, setCurrentCourseId] = useState<string | null>(
     localStorage.getItem('currentCourseId')
   );
-  
-  // Fetch course data
-  const { data: course, isLoading } = useQuery({
-    queryKey: ['/api/courses', currentCourseId],
-    queryFn: async () => {
-      if (!currentCourseId) return null;
-      const response = await apiRequest("GET", `/api/courses/${currentCourseId}`, {});
-      const data = await response.json();
-      return data as Course;
-    },
-    enabled: !!currentCourseId,
-  });
   
   // Create new course mutation
   const createCourseMutation = useMutation({
     mutationFn: async () => {
       // Criando um novo curso com valores inspirados no framework pedagógico
+      console.log("Iniciando criação de curso...");
       const response = await apiRequest("POST", "/api/courses", {
         title: "Novo Curso Educacional",
         theme: "Educação e Aprendizagem",
@@ -62,6 +53,10 @@ export default function Home() {
       setCurrentCourseId(data.id);
       localStorage.setItem('currentCourseId', data.id);
       
+      if (createNewCourse) {
+        createNewCourse();
+      }
+      
       // Notificando o usuário
       toast({
         title: "Curso Criado",
@@ -82,17 +77,12 @@ export default function Home() {
   });
   
   const handleCreateNewCourse = () => {
-    console.log("Creating new course...");
+    console.log("Solicitando criação de curso...");
     try {
       createCourseMutation.mutate();
-      console.log("Mutation triggered");
+      console.log("Mutation acionada");
     } catch (error) {
-      console.error("Error creating course:", error);
-      toast({
-        title: "Error",
-        description: "Failed to create new course. Please try again.",
-        variant: "destructive"
-      });
+      console.error("Erro ao acionar mutation:", error);
     }
   };
   
@@ -103,96 +93,226 @@ export default function Home() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto py-12">
-        <div className="text-center mb-10">
-          <h1 className="text-4xl font-heading font-bold text-neutral-900 mb-4">
-            EduGen AI Course Creator
-          </h1>
-          <p className="text-xl text-neutral-600 max-w-2xl mx-auto mb-4">
-            Create complete educational courses with AI-powered content generation
-          </p>
-          {course && (
-            <Button 
-              onClick={() => navigate("/lms-view")}
-              variant="outline"
-              className="mt-2"
-            >
-              <span className="material-icons text-sm mr-2">dashboard</span>
-              Ver Visualização LMS
-            </Button>
-          )}
+    <div className="pt-4">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">Dashboard do Criador de Cursos com IA</h1>
+        <p className="text-slate-600">
+          Bem-vindo à plataforma de criação de cursos educacionais usando Inteligência Artificial
+        </p>
+      </div>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+        <div className="lg:col-span-7">
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-100 mb-6">
+            <h2 className="text-xl font-semibold mb-3 text-slate-800">Framework Pedagógico em 5 Estágios</h2>
+            <p className="text-slate-600 mb-4">
+              Nossa plataforma utiliza uma abordagem estruturada para criação de cursos educacionais.
+            </p>
+            
+            <div className="grid grid-cols-5 gap-2 mb-4">
+              {[1, 2, 3, 4, 5].map(phase => (
+                <div key={phase} className="relative">
+                  <div className={`h-2 rounded-full ${course && course.currentPhase >= phase ? 'bg-primary' : 'bg-slate-200'}`}></div>
+                  <div className="text-xs text-center mt-1 text-slate-600">{phase}</div>
+                </div>
+              ))}
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-3 mt-4">
+              <div className="p-3 bg-white rounded border border-slate-200 shadow-sm">
+                <div className="font-medium text-sm text-slate-800 mb-1">Estratégia</div>
+                <div className="text-xs text-slate-500">Definir objetivos e público-alvo</div>
+              </div>
+              <div className="p-3 bg-white rounded border border-slate-200 shadow-sm">
+                <div className="font-medium text-sm text-slate-800 mb-1">Estrutura</div>
+                <div className="text-xs text-slate-500">Organizar módulos e cronograma</div>
+              </div>
+              <div className="p-3 bg-white rounded border border-slate-200 shadow-sm">
+                <div className="font-medium text-sm text-slate-800 mb-1">Conteúdo</div>
+                <div className="text-xs text-slate-500">Gerar material didático</div>
+              </div>
+              <div className="p-3 bg-white rounded border border-slate-200 shadow-sm">
+                <div className="font-medium text-sm text-slate-800 mb-1">Avaliação</div>
+                <div className="text-xs text-slate-500">Criar atividades e testes</div>
+              </div>
+              <div className="p-3 bg-white rounded border border-slate-200 shadow-sm">
+                <div className="font-medium text-sm text-slate-800 mb-1">Revisão</div>
+                <div className="text-xs text-slate-500">Finalizar e exportar</div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg">Iniciar Novo Curso</CardTitle>
+                <CardDescription>
+                  Crie um curso educacional completo com IA
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pb-3">
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start">
+                    <span className="material-icons text-primary text-sm mr-2">check_circle</span>
+                    <span>Definição de metas pedagógicas</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="material-icons text-primary text-sm mr-2">check_circle</span>
+                    <span>Estruturação automática de módulos</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="material-icons text-primary text-sm mr-2">check_circle</span>
+                    <span>Geração de conteúdo didático rico</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="material-icons text-primary text-sm mr-2">check_circle</span>
+                    <span>Criação de atividades e avaliações</span>
+                  </li>
+                </ul>
+              </CardContent>
+              <CardFooter>
+                <Button 
+                  onClick={handleCreateNewCourse} 
+                  className="w-full"
+                  disabled={createCourseMutation.isPending}
+                >
+                  {createCourseMutation.isPending ? (
+                    <>
+                      <span className="animate-spin h-4 w-4 mr-2 border-t-2 border-b-2 border-current rounded-full"></span>
+                      Criando...
+                    </>
+                  ) : (
+                    <>
+                      <span className="material-icons text-sm mr-2">add_circle</span>
+                      Criar Novo Curso
+                    </>
+                  )}
+                </Button>
+              </CardFooter>
+            </Card>
+
+            <Card className={!course ? "opacity-70" : ""}>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg">Continuar Curso</CardTitle>
+                <CardDescription>
+                  Retome seu projeto em andamento
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pb-3">
+                {course ? (
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-slate-700">Curso atual:</span>
+                      <span className="text-sm text-primary font-semibold">{course.title || "Sem título"}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-slate-700">Fase atual:</span>
+                      <div className="flex items-center">
+                        <span className="material-icons text-primary text-sm mr-1">auto_awesome</span>
+                        <span className="text-sm text-primary font-semibold">Fase {course.currentPhase}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-slate-700">Módulos:</span>
+                      <span className="text-sm text-primary font-semibold">{course.modules.length}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-slate-700">Progresso:</span>
+                      <div className="w-24 bg-slate-200 rounded-full h-1.5">
+                        <div className="bg-primary h-1.5 rounded-full" 
+                          style={{ width: `${course.progress?.overall || 0}%` }}></div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-sm text-slate-500">
+                    Você não tem cursos em andamento. Crie um novo curso para começar.
+                  </p>
+                )}
+              </CardContent>
+              <CardFooter>
+                <Button 
+                  onClick={handleContinueCourse} 
+                  disabled={!course}
+                  variant={course ? "default" : "outline"}
+                  className="w-full"
+                >
+                  <span className="material-icons text-sm mr-2">play_arrow</span>
+                  Continuar Curso
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Create New Course</CardTitle>
-              <CardDescription>
-                Start from scratch with a new educational course
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-neutral-600 mb-4">
-                Follow our 5-phase process to create a comprehensive course:
+        
+        <div className="lg:col-span-5">
+          <div className="bg-white rounded-lg border border-slate-200 shadow-sm h-full p-5">
+            <h2 className="text-lg font-semibold mb-4 flex items-center">
+              <span className="material-icons text-slate-700 mr-2">auto_awesome</span>
+              Sobre nosso Gerador de Cursos com IA
+            </h2>
+            
+            <div className="text-sm text-slate-600 space-y-4">
+              <p>
+                Nossa plataforma integra a poderosa API da OpenAI para criar cursos educacionais completos através de um processo estruturado em 5 fases.
               </p>
-              <ul className="list-disc pl-5 space-y-2 text-sm text-neutral-600">
-                <li>Define course objectives and target audience</li>
-                <li>Structure your modules and learning path</li>
-                <li>Generate educational content with AI</li>
-                <li>Create assessments and activities</li>
-                <li>Review and finalize your course</li>
-              </ul>
-            </CardContent>
-            <CardFooter>
-              <Button onClick={handleCreateNewCourse} className="w-full">
-                <span className="material-icons text-sm mr-2">add_circle</span>
-                Create New Course
-              </Button>
-            </CardFooter>
-          </Card>
-
-          <Card className={!course ? "opacity-70" : ""}>
-            <CardHeader>
-              <CardTitle>Continue Course</CardTitle>
-              <CardDescription>
-                Resume work on your existing course
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {course ? (
-                <div>
-                  <div className="flex justify-between mb-4">
-                    <span className="font-medium">Current course:</span>
-                    <span className="text-primary">{course.title || "Untitled Course"}</span>
+              
+              <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                <h3 className="font-medium text-slate-800 mb-2">Framework Pedagógico</h3>
+                <p className="text-xs text-slate-600 mb-3">
+                  Nosso modelo segue uma abordagem estruturada para garantir conteúdo educacional de alta qualidade:
+                </p>
+                <ul className="text-xs text-slate-600 space-y-2">
+                  <li className="flex items-start">
+                    <span className="material-icons text-emerald-500 text-xs mr-1">check</span>
+                    <span>Definição de objetivos claros e mensuráveis</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="material-icons text-emerald-500 text-xs mr-1">check</span>
+                    <span>Estruturação de módulos com carga horária balanceada</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="material-icons text-emerald-500 text-xs mr-1">check</span>
+                    <span>Geração de conteúdo didático em múltiplos formatos</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="material-icons text-emerald-500 text-xs mr-1">check</span>
+                    <span>Desenvolvimento de avaliações alinhadas com objetivos</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="material-icons text-emerald-500 text-xs mr-1">check</span>
+                    <span>Revisão completa de alinhamento pedagógico</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <p>
+                Cada fase do processo permite customização completa, incluindo ajustes no modelo de IA, densidade de conteúdo, abordagem didática e níveis de dificuldade.
+              </p>
+              
+              <div className="mt-4">
+                <h3 className="font-medium text-slate-800 mb-2">Recursos</h3>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="p-2 bg-blue-50 rounded text-xs text-center text-blue-700">
+                    <span className="material-icons text-xs mb-1">description</span>
+                    <div>Exportação JSON/CSV</div>
                   </div>
-                  <div className="flex justify-between mb-4">
-                    <span className="font-medium">Current phase:</span>
-                    <span className="text-primary">Phase {course.currentPhase}</span>
+                  <div className="p-2 bg-purple-50 rounded text-xs text-center text-purple-700">
+                    <span className="material-icons text-xs mb-1">image</span>
+                    <div>Imagens por IA</div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="font-medium">Modules:</span>
-                    <span className="text-primary">{course.modules.length}</span>
+                  <div className="p-2 bg-emerald-50 rounded text-xs text-center text-emerald-700">
+                    <span className="material-icons text-xs mb-1">school</span>
+                    <div>Visualização LMS</div>
+                  </div>
+                  <div className="p-2 bg-amber-50 rounded text-xs text-center text-amber-700">
+                    <span className="material-icons text-xs mb-1">quiz</span>
+                    <div>Avaliações</div>
                   </div>
                 </div>
-              ) : (
-                <p className="text-sm text-neutral-600">
-                  You don't have any courses in progress. Create a new course to get started.
-                </p>
-              )}
-            </CardContent>
-            <CardFooter>
-              <Button 
-                onClick={handleContinueCourse} 
-                disabled={!course}
-                variant={course ? "default" : "outline"}
-                className="w-full"
-              >
-                <span className="material-icons text-sm mr-2">play_arrow</span>
-                Continue Course
-              </Button>
-            </CardFooter>
-          </Card>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
