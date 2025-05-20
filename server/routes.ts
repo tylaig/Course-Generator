@@ -606,5 +606,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // ---- Get Course by ID ----
+  app.get("/api/courses/:courseId", async (req, res) => {
+    try {
+      const { courseId } = req.params;
+      
+      if (!courseId) {
+        return res.status(400).json({ message: "Course ID is required" });
+      }
+      
+      // Obtenha o curso do storage
+      const course = await storage.getCourse(courseId);
+      
+      if (!course) {
+        return res.status(404).json({ message: "Course not found" });
+      }
+      
+      // Obtenha os módulos do curso
+      const modules = await storage.listModulesByCourse(courseId);
+      
+      // Retorne o curso com seus módulos
+      const fullCourse = {
+        ...course,
+        modules: modules
+      };
+      
+      res.json(fullCourse);
+    } catch (error) {
+      console.error("Error getting course:", error);
+      res.status(500).json({ 
+        message: "Failed to get course", 
+        error: error instanceof Error ? error.message : "Unknown error" 
+      });
+    }
+  });
+
   return httpServer;
 }
