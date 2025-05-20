@@ -56,18 +56,133 @@ export default function Phase4() {
 
   const generateAllEvaluations = useMutation({
     mutationFn: async () => {
-      const response = await apiRequest("POST", "/api/generate/all-evaluations", {
-        courseId: course?.id,
-        evaluationType
-      });
-      return response.json();
+      try {
+        // Verificamos se há módulos para gerar avaliações
+        if (!course?.modules || course.modules.length === 0) {
+          alert("Não há módulos para gerar avaliações. Por favor, crie módulos na Fase 2 primeiro.");
+          return null;
+        }
+
+        // Feedback para o usuário
+        alert("Iniciando geração de avaliações para " + course.modules.length + " módulos. Este processo pode demorar alguns minutos.");
+        
+        // Objeto para armazenar todas as avaliações
+        const moduleEvaluations: Record<string, any> = {
+          ...(course?.phaseData?.phase4?.evaluations || {})
+        };
+        
+        // Geramos avaliações para cada módulo sequencialmente
+        for (let i = 0; i < course.modules.length; i++) {
+          const module = course.modules[i];
+          
+          try {
+            console.log(`Gerando avaliação para módulo ${i+1}/${course.modules.length}: ${module.title}`);
+            
+            // Chama a API para gerar a avaliação do módulo específico
+            const response = await fetch('/api/generate/evaluation', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                courseId: course.id,
+                moduleId: module.id,
+                evaluationType,
+                // Passamos informações adicionais para a API
+                moduleInfo: {
+                  title: module.title,
+                  description: module.description,
+                  content: module.content
+                },
+                courseDetails: {
+                  title: course.title,
+                  theme: course.theme,
+                  languageStyle: course.aiConfig.languageStyle
+                }
+              }),
+            });
+            
+            if (response.ok) {
+              const evaluationData = await response.json();
+              
+              // Armazenamos a avaliação gerada
+              moduleEvaluations[module.id] = evaluationData;
+              
+              // Atualizamos a fase 4 com as avaliações geradas até o momento
+              updatePhaseData(4, {
+                ...course?.phaseData?.phase4,
+                evaluations: moduleEvaluations
+              });
+              
+              console.log(`Avaliação para módulo ${module.title} gerada com sucesso!`);
+            } else {
+              throw new Error(`Erro ao gerar avaliação para o módulo ${module.title}`);
+            }
+          } catch (moduleError) {
+            console.error(`Erro na avaliação do módulo ${module.title}:`, moduleError);
+            // Continua para o próximo módulo mesmo se houver erro
+          }
+        }
+        
+        // Agora vamos gerar a avaliação do curso completo
+        console.log("Gerando avaliação para o curso completo...");
+        try {
+          const courseEvalResponse = await fetch('/api/generate/course-evaluation', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              courseId: course.id,
+              courseDetails: {
+                title: course.title,
+                theme: course.theme,
+                estimatedHours: course.estimatedHours,
+                format: course.format,
+                platform: course.platform,
+                deliveryFormat: course.deliveryFormat,
+                languageStyle: course.aiConfig.languageStyle
+              }
+            }),
+          });
+          
+          if (courseEvalResponse.ok) {
+            const courseEvaluation = await courseEvalResponse.json();
+            
+            // Atualizamos a fase 4 com a avaliação do curso completo
+            updatePhaseData(4, {
+              ...course?.phaseData?.phase4,
+              evaluations: moduleEvaluations,
+              courseEvaluation
+            });
+            
+            console.log("Avaliação do curso completo gerada com sucesso!");
+          } else {
+            console.error("Erro ao gerar avaliação do curso completo");
+          }
+        } catch (courseEvalError) {
+          console.error("Erro na avaliação do curso completo:", courseEvalError);
+        }
+        
+        alert("Geração de avaliações concluída com sucesso!");
+        return {
+          moduleEvaluations,
+          courseEvaluation: course?.phaseData?.phase4?.courseEvaluation || null
+        };
+      } catch (error) {
+        console.error("Erro ao gerar avaliações:", error);
+        alert("Erro ao gerar avaliações. Tente novamente.");
+        throw error;
+      }
     },
     onSuccess: (data) => {
-      updatePhaseData(4, {
-        ...course?.phaseData.phase4,
-        evaluations: data.moduleEvaluations,
-        courseEvaluation: data.courseEvaluation
-      });
+      if (data) {
+        updatePhaseData(4, {
+          ...course?.phaseData?.phase4,
+          evaluations: data.moduleEvaluations,
+          courseEvaluation: data.courseEvaluation
+        });
+      }
     }
   });
 
