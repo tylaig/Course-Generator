@@ -432,39 +432,113 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
     if (!course) return;
     
     try {
-      // Primeiro, tentar exportar através da API
-      const response = await apiRequest(
-        "GET", 
-        `/api/courses/${course.id}/export?format=${format}`,
-        {}
-      );
-      
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `course_${course.id}_export.${format}`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-    } catch (error) {
-      console.error("Erro ao exportar dados do curso:", error);
-      
-      // Se a exportação da API falhar, exportar diretamente do armazenamento local
-      if (format === 'json') {
-        const dataStr = JSON.stringify(course, null, 2);
-        const dataUri = `data:application/json;charset=utf-8,${encodeURIComponent(dataStr)}`;
+      if (format === 'csv') {
+        // Implementar exportação CSV diretamente no frontend
+        let csv = "Data Type,ID,Title,Description,Content\n";
         
+        // Informações básicas do curso
+        csv += `Course,${course.id || ""},${course.title || ""},"${course.theme || ""} (${course.format || ""})","${JSON.stringify({
+          estimatedHours: course.estimatedHours,
+          platform: course.platform,
+          deliveryFormat: course.deliveryFormat,
+          currentPhase: course.currentPhase,
+          progress: course.progress || {},
+          aiConfig: course.aiConfig || {}
+        }).replace(/"/g, '""')}"\n`;
+        
+        // Dados das fases (se existirem)
+        if (course.phaseData) {
+          Object.entries(course.phaseData).forEach(([phase, phaseData]) => {
+            if (phaseData) {
+              csv += `PhaseData,${phase},"Phase ${phase.replace('phase', '')} Data","","${JSON.stringify(phaseData).replace(/"/g, '""')}"\n`;
+            }
+          });
+        }
+        
+        // Módulos
+        if (course.modules && Array.isArray(course.modules)) {
+          course.modules.forEach((module) => {
+            // Informações básicas do módulo
+            csv += `Module,${module.id || ""},${module.title || ""},"${module.description || ""}","${JSON.stringify({
+              order: module.order,
+              estimatedHours: module.estimatedHours,
+              status: module.status,
+              imageUrl: module.imageUrl || ""
+            }).replace(/"/g, '""')}"\n`;
+            
+            // Conteúdo do módulo (se existir)
+            if (module.content) {
+              // Conteúdo textual
+              if (module.content.text) {
+                const textContent = module.content.text.replace(/"/g, '""').substring(0, 1000) + (module.content.text.length > 1000 ? "..." : "");
+                csv += `Content,${module.id}_text,"Text Content for ${module.title}","","${textContent}"\n`;
+              }
+              
+              // Script de vídeo
+              if (module.content.videoScript) {
+                const videoScript = module.content.videoScript.replace(/"/g, '""').substring(0, 1000) + (module.content.videoScript.length > 1000 ? "..." : "");
+                csv += `Content,${module.id}_video,"Video Script for ${module.title}","","${videoScript}"\n`;
+              }
+              
+              // Atividades
+              if (module.content.activities && module.content.activities.length > 0) {
+                module.content.activities.forEach((activity, activityIndex) => {
+                  csv += `Activity,${module.id}_activity_${activityIndex},${activity.title || ""},"${activity.description || ""}","${JSON.stringify(activity).replace(/"/g, '""')}"\n`;
+                  
+                  // Questões
+                  if (activity.questions && activity.questions.length > 0) {
+                    activity.questions.forEach((question, questionIndex) => {
+                      csv += `Question,${module.id}_q_${activityIndex}_${questionIndex},${question.question?.replace(/"/g, '""') || ""},"${question.explanation?.replace(/"/g, '""') || ""}","${JSON.stringify(question.options || []).replace(/"/g, '""')}"\n`;
+                    });
+                  }
+                });
+              }
+            }
+          });
+        }
+        
+        // Criar e baixar o arquivo CSV
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.href = dataUri;
-        a.download = `course_${course.id}_export.json`;
+        a.href = url;
+        a.download = `curso_${course.id}_completo.csv`;
         document.body.appendChild(a);
         a.click();
+        URL.revokeObjectURL(url);
         document.body.removeChild(a);
+        
+        toast({
+          title: "Exportação Concluída",
+          description: "Os dados do curso foram exportados como CSV.",
+          variant: "success",
+        });
       } else {
-        alert("Formato CSV não disponível no modo offline. Use JSON para exportar.");
+        // Exportar como JSON
+        const dataStr = JSON.stringify(course, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `curso_${course.id}_completo.json`;
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        
+        toast({
+          title: "Exportação Concluída",
+          description: "Os dados do curso foram exportados como JSON.",
+          variant: "success",
+        });
       }
+    } catch (error) {
+      console.error("Erro ao exportar dados do curso:", error);
+      toast({
+        title: "Falha na Exportação",
+        description: "Não foi possível exportar os dados do curso. Por favor, tente novamente.",
+        variant: "destructive",
+      });
     }
   };
 

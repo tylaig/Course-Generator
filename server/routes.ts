@@ -17,66 +17,76 @@ import { z } from "zod";
 
 // Helper function to convert JSON data to CSV format
 async function convertToCSV(data: any): Promise<string> {
-  // Handle complex nested data structure
-  const flattenData = (obj: any, prefix = '') => {
-    let rows: any[] = [];
+  try {
+    // CSV header
+    let csv = "Data Type,ID,Title,Description,Content\n";
     
-    // Handle modules array separately
-    if (obj.modules && Array.isArray(obj.modules)) {
-      obj.modules.forEach((module: any, index: number) => {
-        rows.push({
-          type: 'module',
-          id: module.id || `module_${index}`,
-          title: module.title || '',
-          description: module.description || '',
-          order: module.order || index + 1,
-          estimatedHours: module.estimatedHours || 0,
-          status: module.status || 'not_started'
-        });
+    // Course basic info
+    csv += `Course,${data.id || ""},${data.title || ""},"${data.theme || ""} (${data.format || ""})","${JSON.stringify({
+      estimatedHours: data.estimatedHours,
+      platform: data.platform,
+      deliveryFormat: data.deliveryFormat,
+      currentPhase: data.currentPhase,
+      progress: data.progress || {},
+      aiConfig: data.aiConfig || {}
+    }).replace(/"/g, '""')}"\n`;
+    
+    // Phase data (if exists)
+    if (data.phaseData) {
+      Object.entries(data.phaseData).forEach(([phase, phaseData]) => {
+        if (phaseData) {
+          csv += `PhaseData,${phase},"Phase ${phase.replace('phase', '')} Data","","${JSON.stringify(phaseData).replace(/"/g, '""')}"\n`;
+        }
       });
     }
     
-    // Course details
-    if (obj.course) {
-      rows.push({
-        type: 'course',
-        id: obj.course.id || '',
-        title: obj.course.title || '',
-        theme: obj.course.theme || '',
-        estimatedHours: obj.course.estimatedHours || 0,
-        format: obj.course.format || '',
-        platform: obj.course.platform || '',
-        deliveryFormat: obj.course.deliveryFormat || ''
+    // Modules
+    if (data.modules && Array.isArray(data.modules)) {
+      data.modules.forEach((module: any) => {
+        // Basic module info
+        csv += `Module,${module.id || ""},${module.title || ""},"${module.description || ""}","${JSON.stringify({
+          order: module.order,
+          estimatedHours: module.estimatedHours,
+          status: module.status,
+          imageUrl: module.imageUrl || ""
+        }).replace(/"/g, '""')}"\n`;
+        
+        // Module content (if exists)
+        if (module.content) {
+          // Text content
+          if (module.content.text) {
+            const textContent = module.content.text.replace(/"/g, '""').substring(0, 1000) + (module.content.text.length > 1000 ? "..." : "");
+            csv += `Content,${module.id}_text,"Text Content for ${module.title}","","${textContent}"\n`;
+          }
+          
+          // Video script
+          if (module.content.videoScript) {
+            const videoScript = module.content.videoScript.replace(/"/g, '""').substring(0, 1000) + (module.content.videoScript.length > 1000 ? "..." : "");
+            csv += `Content,${module.id}_video,"Video Script for ${module.title}","","${videoScript}"\n`;
+          }
+          
+          // Activities
+          if (module.content.activities && module.content.activities.length > 0) {
+            module.content.activities.forEach((activity: any, activityIndex: number) => {
+              csv += `Activity,${module.id}_activity_${activityIndex},${activity.title || ""},"${activity.description || ""}","${JSON.stringify(activity).replace(/"/g, '""')}"\n`;
+              
+              // Questions
+              if (activity.questions && activity.questions.length > 0) {
+                activity.questions.forEach((question: any, questionIndex: number) => {
+                  csv += `Question,${module.id}_q_${activityIndex}_${questionIndex},${question.question?.replace(/"/g, '""') || ""},"${question.explanation?.replace(/"/g, '""') || ""}","${JSON.stringify(question.options || []).replace(/"/g, '""')}"\n`;
+                });
+              }
+            });
+          }
+        }
       });
     }
     
-    return rows;
-  };
-  
-  const rows = flattenData(data);
-  
-  if (rows.length === 0) {
-    return 'No data available';
+    return csv;
+  } catch (error) {
+    console.error("Error converting to CSV:", error);
+    return "Error generating CSV data";
   }
-  
-  // Get headers from first row
-  const headers = Object.keys(rows[0]);
-  
-  // Create CSV string
-  let csvContent = headers.join(',') + '\n';
-  
-  // Add rows
-  rows.forEach(row => {
-    const values = headers.map(header => {
-      const value = row[header] || '';
-      // Handle values that contain commas, quotes, or newlines
-      const escaped = String(value).replace(/"/g, '""');
-      return `"${escaped}"`;
-    });
-    csvContent += values.join(',') + '\n';
-  });
-  
-  return csvContent;
 }
 
 // Validation schemas
