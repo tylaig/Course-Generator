@@ -102,6 +102,8 @@ export async function generateStructure(courseDetails: CourseDetails, phaseData:
           
           IMPORTANT: You MUST generate EXACTLY ${courseDetails.moduleCount || 6} modules, no more and no less. This is a strict requirement from the user. Your response MUST contain precisely this number of modules in the "modules" array.
           
+          Each module should have approximately ${courseDetails.lessonsPerModule || 3} lessons or topics. Make sure the content is properly distributed to accommodate this structure.
+          
           Format your response as a JSON object with the following structure:
           {
             "modules": [

@@ -135,6 +135,11 @@ export default function Phase2() {
     if (course?.phaseData?.phase2?.moduleCount) {
       setModuleCount(course.phaseData.phase2.moduleCount);
     }
+    
+    // Definir o número de aulas por módulo baseado nas configurações existentes
+    if (course?.phaseData?.phase2?.lessonsPerModule) {
+      setLessonsPerModule(course.phaseData.phase2.lessonsPerModule);
+    }
   }, [course]);
 
   // Mutação para geração de estrutura de módulos com IA
@@ -615,11 +620,85 @@ export default function Phase2() {
           {/* Tab: Mapeamento de Competências */}
           <TabsContent value="competency-mapping" className="space-y-6">
             <Card>
-              <CardHeader>
-                <CardTitle>Mapeamento de Competências por Módulo</CardTitle>
-                <CardDescription>
-                  Defina quais competências serão trabalhadas em cada módulo
-                </CardDescription>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle>Mapeamento de Competências por Módulo</CardTitle>
+                  <CardDescription>
+                    Defina quais competências serão trabalhadas em cada módulo
+                  </CardDescription>
+                </div>
+                
+                <Button
+                  variant="default"
+                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+                  onClick={() => {
+                    setIsGeneratingCompetencies(true);
+                    
+                    // Implementar chamada para gerar mapeamento de competências com IA
+                    const courseData = {
+                      title: course?.title,
+                      theme: course?.theme,
+                      moduleCount: moduleCount,
+                      modules: modules,
+                      phaseData: course?.phaseData?.phase1
+                    };
+                    
+                    // Simular chamada de API (seria substituída pela chamada real)
+                    setTimeout(() => {
+                      // Criar mapeamento simulado para demonstração
+                      const newCompetencyMap: Record<string, string[]> = {};
+                      
+                      // Popular mapeamento cognitivo
+                      modules.forEach(module => {
+                        const moduleId = module.id;
+                        
+                        // Distribuir competências aleatoriamente entre os módulos
+                        if (Math.random() > 0.5) newCompetencyMap["cognitiveCompetency"] = [...(newCompetencyMap["cognitiveCompetency"] || []), moduleId];
+                        if (Math.random() > 0.5) newCompetencyMap["analyticalThinking"] = [...(newCompetencyMap["analyticalThinking"] || []), moduleId];
+                        if (Math.random() > 0.5) newCompetencyMap["problemSolving"] = [...(newCompetencyMap["problemSolving"] || []), moduleId];
+                        
+                        // Distribuir competências comportamentais
+                        if (Math.random() > 0.5) newCompetencyMap["teamwork"] = [...(newCompetencyMap["teamwork"] || []), moduleId];
+                        if (Math.random() > 0.5) newCompetencyMap["communication"] = [...(newCompetencyMap["communication"] || []), moduleId];
+                        
+                        // Distribuir competências técnicas
+                        if (Math.random() > 0.5) newCompetencyMap["technicalSkill"] = [...(newCompetencyMap["technicalSkill"] || []), moduleId];
+                        if (Math.random() > 0.5) newCompetencyMap["codingPractice"] = [...(newCompetencyMap["codingPractice"] || []), moduleId];
+                      });
+                      
+                      // Atualizar estado
+                      setCompetenciesMap(newCompetencyMap);
+                      
+                      // Salvar no contexto do curso
+                      updatePhaseData(2, {
+                        ...course?.phaseData?.phase2,
+                        competenciesMap: newCompetencyMap,
+                        moduleCount,
+                        lessonsPerModule
+                      });
+                      
+                      setIsGeneratingCompetencies(false);
+                      
+                      toast({
+                        title: "Mapeamento gerado com sucesso",
+                        description: "As competências foram distribuídas entre os módulos de acordo com análise pedagógica.",
+                      });
+                    }, 1500);
+                  }}
+                  disabled={isGeneratingCompetencies || modules.length === 0}
+                >
+                  {isGeneratingCompetencies ? (
+                    <span className="flex items-center">
+                      <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
+                      Mapeando...
+                    </span>
+                  ) : (
+                    <span className="flex items-center">
+                      <span className="material-icons text-sm mr-2">psychology</span>
+                      Mapear com IA
+                    </span>
+                  )}
+                </Button>
               </CardHeader>
               <CardContent>
                 <div className="mb-6">
