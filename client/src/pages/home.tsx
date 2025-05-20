@@ -30,41 +30,70 @@ export default function Home() {
   // Create new course mutation
   const createCourseMutation = useMutation({
     mutationFn: async () => {
+      // Criando um novo curso com valores inspirados no framework pedagógico
       const response = await apiRequest("POST", "/api/courses", {
-        title: "New Course",
-        theme: "General Education",
-        estimatedHours: 10,
+        title: "Novo Curso Educacional",
+        theme: "Educação e Aprendizagem",
+        estimatedHours: 20,
         format: "Online",
         platform: "Web",
         deliveryFormat: "Self-paced",
         currentPhase: 1,
         modules: [],
         aiConfig: {
-          model: "gpt-4o",
+          model: "gpt-4o", // o modelo mais recente da OpenAI
           optimization: "balanced",
           languageStyle: "professional",
           difficultyLevel: "intermediate",
           contentDensity: 0.7,
           teachingApproach: "practical",
-          contentTypes: ["text", "video", "quiz"]
+          contentTypes: ["text", "video", "quiz", "exercise", "case"]
         }
       });
-      return response.json();
+      
+      return response;
     },
-    onSuccess: (data) => {
+    onSuccess: async (response) => {
+      // Processando a resposta
+      const data = await response.json();
+      console.log("Curso criado com sucesso:", data);
+      
+      // Atualizando o estado local
       setCurrentCourseId(data.id);
       localStorage.setItem('currentCourseId', data.id);
-      navigate("/phase1");
       
+      // Notificando o usuário
       toast({
-        title: "Course Created",
-        description: "New course has been created successfully.",
+        title: "Curso Criado",
+        description: "Um novo curso foi criado com sucesso!",
+      });
+      
+      // Redirecionando para a fase 1
+      navigate("/phase1");
+    },
+    onError: (error) => {
+      console.error("Erro ao criar curso:", error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível criar o curso. Tente novamente.",
+        variant: "destructive"
       });
     }
   });
   
   const handleCreateNewCourse = () => {
-    createCourseMutation.mutate();
+    console.log("Creating new course...");
+    try {
+      createCourseMutation.mutate();
+      console.log("Mutation triggered");
+    } catch (error) {
+      console.error("Error creating course:", error);
+      toast({
+        title: "Error",
+        description: "Failed to create new course. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
   
   const handleContinueCourse = () => {
