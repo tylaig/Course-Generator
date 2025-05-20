@@ -806,26 +806,103 @@ export default function Phase5() {
             onClick={() => navigate("/")}
           >
             <span className="material-icons text-sm mr-1">home</span>
-            Return to Home
+            Voltar ao Início
           </Button>
           <div className="flex space-x-2">
+            <Button 
+              variant="outline"
+              onClick={() => generatePdf.mutate()}
+              disabled={isGeneratingPdf}
+            >
+              <span className="material-icons text-sm mr-1">picture_as_pdf</span>
+              {isGeneratingPdf ? "Gerando..." : "Baixar PDF"}
+            </Button>
             <Button 
               variant="outline"
               onClick={() => exportCourse.mutate('json')}
               disabled={exportCourse.isPending}
             >
               <span className="material-icons text-sm mr-1">code</span>
-              {exportCourse.isPending ? "Exporting..." : "Export as JSON"}
+              {exportCourse.isPending ? "Exportando..." : "Exportar JSON"}
             </Button>
             <Button 
               onClick={() => exportCourse.mutate('csv')}
               disabled={exportCourse.isPending}
             >
-              <span className="material-icons text-sm mr-1">file_download</span>
-              {exportCourse.isPending ? "Exporting..." : "Export as CSV"}
+              <span className="material-icons text-sm mr-1">table_view</span>
+              {exportCourse.isPending ? "Exportando..." : "Exportar CSV"}
+            </Button>
+            <Button 
+              onClick={() => uploadToDrive.mutate()}
+              disabled={isUploadingToDrive}
+            >
+              <span className="material-icons text-sm mr-1">cloud_upload</span>
+              {isUploadingToDrive ? "Enviando..." : "Salvar no Drive"}
             </Button>
           </div>
         </div>
+        
+        {/* Modal de autorização do Google Drive */}
+        <Dialog open={showDriveAuthModal} onOpenChange={setShowDriveAuthModal}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Autorização Necessária</DialogTitle>
+              <DialogDescription>
+                Para salvar o PDF do seu curso no Google Drive, precisamos da sua autorização.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="py-4">
+              <p className="text-sm text-slate-600 mb-4">
+                Ao clicar no botão abaixo, você será redirecionado para a página de autorização do Google.
+                Após autorizar, retorne a esta página para continuar.
+              </p>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setShowDriveAuthModal(false)}>
+                Cancelar
+              </Button>
+              <Button onClick={handleGoogleAuth}>
+                Autorizar Google Drive
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+        
+        {/* Modal de sucesso do Google Drive */}
+        <Dialog open={showDriveSuccessModal} onOpenChange={setShowDriveSuccessModal}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Upload Concluído com Sucesso</DialogTitle>
+              <DialogDescription>
+                Seu curso foi enviado para o Google Drive.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="py-4">
+              <p className="text-sm text-slate-600 mb-4">
+                O PDF do seu curso está disponível no seu Google Drive. Você pode acessá-lo através do link abaixo:
+              </p>
+              
+              {googleDriveFileUrl && (
+                <div className="bg-slate-50 p-3 rounded-md border border-slate-200">
+                  <a 
+                    href={googleDriveFileUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline flex items-center"
+                  >
+                    <span className="material-icons text-sm mr-1">link</span>
+                    Abrir no Google Drive
+                  </a>
+                </div>
+              )}
+            </div>
+            <DialogFooter>
+              <Button onClick={() => setShowDriveSuccessModal(false)}>
+                Fechar
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
       
       {/* Renderizar os componentes de visualização */}
