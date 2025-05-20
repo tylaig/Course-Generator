@@ -7,6 +7,11 @@ export interface ModuleContent {
   text?: string;
   videoScript?: string;
   activities?: ActivityContent[];
+  visualRecommendations?: string;
+  recommendedFormats?: string[];
+  suggestedTone?: string;
+  adaptationNotes?: string;
+  glossary?: {term: string, definition: string}[];
 }
 
 export interface ActivityContent {
