@@ -95,9 +95,11 @@ export default function Phase2() {
   const [modules, setModules] = useState<CourseModule[]>([]);
   const [activeModuleIndex, setActiveModuleIndex] = useState<number | null>(null);
   const [moduleCount, setModuleCount] = useState<number>(4); // Número padrão de módulos
+  const [lessonsPerModule, setLessonsPerModule] = useState<number>(3); // Número padrão de aulas por módulo
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentTab, setCurrentTab] = useState("module-structure");
   const [competenciesMap, setCompetenciesMap] = useState<Record<string, string[]>>({});
+  const [isGeneratingCompetencies, setIsGeneratingCompetencies] = useState(false);
 
   // Formulário para edição de módulos
   const form = useForm<ModuleFormData>({
@@ -147,6 +149,7 @@ export default function Phase2() {
         platform: course?.platform,
         deliveryFormat: course?.deliveryFormat,
         moduleCount: moduleCount,
+        lessonsPerModule: lessonsPerModule,
         phaseData: course?.phaseData?.phase1
       };
       
@@ -445,29 +448,93 @@ export default function Phase2() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex justify-between items-center mb-4">
-                  <div>
-                    <h3 className="text-lg font-semibold">Módulos ({modules.length})</h3>
-                    <p className="text-sm text-muted-foreground">Arraste para reordenar</p>
+                <div className="flex flex-col space-y-4 mb-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex flex-col">
+                      <label className="text-sm font-medium mb-1">Número de Módulos</label>
+                      <div className="flex items-center">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => setModuleCount(prev => Math.max(1, prev - 1))}
+                          className="h-10 px-3"
+                        >
+                          <span className="material-icons" style={{ fontSize: '16px' }}>remove</span>
+                        </Button>
+                        <Input 
+                          type="number" 
+                          value={moduleCount} 
+                          onChange={(e) => setModuleCount(Math.max(1, parseInt(e.target.value) || 1))}
+                          min={1}
+                          max={12}
+                          className="w-20 h-10 text-center mx-2"
+                        />
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => setModuleCount(prev => Math.min(12, prev + 1))}
+                          className="h-10 px-3"
+                        >
+                          <span className="material-icons" style={{ fontSize: '16px' }}>add</span>
+                        </Button>
+                      </div>
+                    </div>
+                    
+                    <div className="flex flex-col">
+                      <label className="text-sm font-medium mb-1">Aulas por Módulo</label>
+                      <div className="flex items-center">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => setLessonsPerModule(prev => Math.max(1, prev - 1))}
+                          className="h-10 px-3"
+                        >
+                          <span className="material-icons" style={{ fontSize: '16px' }}>remove</span>
+                        </Button>
+                        <Input 
+                          type="number" 
+                          value={lessonsPerModule} 
+                          onChange={(e) => setLessonsPerModule(Math.max(1, parseInt(e.target.value) || 1))}
+                          min={1}
+                          max={10}
+                          className="w-20 h-10 text-center mx-2"
+                        />
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => setLessonsPerModule(prev => Math.min(10, prev + 1))}
+                          className="h-10 px-3"
+                        >
+                          <span className="material-icons" style={{ fontSize: '16px' }}>add</span>
+                        </Button>
+                      </div>
+                    </div>
                   </div>
                   
-                  <Button
-                    onClick={() => generateStructure.mutate()}
-                    disabled={isSubmitting}
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium"
-                  >
-                    {isSubmitting ? (
-                      <span className="flex items-center">
-                        <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
-                        Gerando estrutura...
-                      </span>
-                    ) : (
-                      <span className="flex items-center">
-                        <span className="material-icons text-sm mr-2">auto_awesome</span>
-                        Gerar Estrutura com IA
-                      </span>
-                    )}
-                  </Button>
+                  <div className="flex justify-between items-center mt-2">
+                    <div>
+                      <h3 className="text-lg font-semibold">Módulos ({modules.length})</h3>
+                      <p className="text-sm text-muted-foreground">Arraste para reordenar</p>
+                    </div>
+                    
+                    <Button
+                      onClick={() => generateStructure.mutate()}
+                      disabled={isSubmitting}
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium"
+                    >
+                      {isSubmitting ? (
+                        <span className="flex items-center">
+                          <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
+                          Gerando estrutura...
+                        </span>
+                      ) : (
+                        <span className="flex items-center">
+                          <span className="material-icons text-sm mr-2">auto_awesome</span>
+                          Gerar Estrutura com IA
+                        </span>
+                      )}
+                    </Button>
+                  </div>
                 </div>
                 
                 <Table>
