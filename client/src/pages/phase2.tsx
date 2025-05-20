@@ -461,7 +461,16 @@ export default function Phase2() {
                         <Button 
                           variant="outline" 
                           size="sm"
-                          onClick={() => setModuleCount(prev => Math.max(1, prev - 1))}
+                          onClick={() => {
+                            const newValue = Math.max(1, moduleCount - 1);
+                            setModuleCount(newValue);
+                            // Salvar no contexto do curso
+                            updatePhaseData(2, {
+                              ...course?.phaseData?.phase2,
+                              moduleCount: newValue,
+                              lessonsPerModule
+                            });
+                          }}
                           className="h-10 px-3"
                         >
                           <span className="material-icons" style={{ fontSize: '16px' }}>remove</span>
@@ -480,14 +489,14 @@ export default function Phase2() {
                             });
                           }}
                           min={1}
-                          max={12}
+                          max={50}
                           className="w-20 h-10 text-center mx-2"
                         />
                         <Button 
                           variant="outline" 
                           size="sm"
                           onClick={() => {
-                            const newValue = Math.min(12, moduleCount + 1);
+                            const newValue = Math.min(50, moduleCount + 1);
                             setModuleCount(newValue);
                             // Salvar no contexto do curso
                             updatePhaseData(2, {
