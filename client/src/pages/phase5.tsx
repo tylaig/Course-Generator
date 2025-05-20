@@ -32,6 +32,77 @@ import {
 } from "@/components/ui/dialog";
 import { CourseModule } from "@/types";
 
+// Este componente mostra uma visualização do conteúdo do módulo
+function ModuleContentPreview({ module, onClose }: { module: CourseModule | null, onClose: () => void }) {
+  if (!module || !module.content) return null;
+  
+  return (
+    <Dialog open={Boolean(module)} onOpenChange={onClose}>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>{module.title}</DialogTitle>
+          <DialogDescription>
+            {module.description}
+          </DialogDescription>
+        </DialogHeader>
+        
+        <div className="space-y-4 mt-4">
+          {module.content.text && (
+            <div className="prose prose-sm max-w-none">
+              <div dangerouslySetInnerHTML={{ __html: module.content.text.replace(/\n/g, '<br>') }} />
+            </div>
+          )}
+          
+          {module.content.videoScript && (
+            <div className="mt-6">
+              <h3 className="text-lg font-medium mb-2">Roteiro de Vídeo</h3>
+              <div className="bg-neutral-50 p-4 rounded-md border border-neutral-200">
+                <pre className="whitespace-pre-wrap text-sm">{module.content.videoScript}</pre>
+              </div>
+            </div>
+          )}
+          
+          {module.content.activities && module.content.activities.length > 0 && (
+            <div className="mt-6">
+              <h3 className="text-lg font-medium mb-2">Atividades</h3>
+              <div className="space-y-4">
+                {module.content.activities.map((activity, index) => (
+                  <div key={index} className="bg-neutral-50 p-4 rounded-md border border-neutral-200">
+                    <h4 className="font-medium">{activity.title}</h4>
+                    <p className="mt-1 text-sm">{activity.description}</p>
+                    
+                    {activity.questions && activity.questions.length > 0 && (
+                      <div className="mt-3">
+                        <h5 className="text-sm font-medium mb-2">Questões</h5>
+                        <div className="space-y-2">
+                          {activity.questions.map((question, qIndex) => (
+                            <div key={qIndex} className="ml-3">
+                              <p className="text-sm font-medium">{qIndex + 1}. {question.question}</p>
+                              {question.options && (
+                                <div className="ml-4 mt-1 text-xs space-y-1">
+                                  {question.options.map((option, oIndex) => (
+                                    <div key={oIndex}>
+                                      <span>{String.fromCharCode(65 + oIndex)}.</span> {option}
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 // Este componente mostra uma avaliação de módulo
 function EvaluationPreview({ evaluation, onClose }: { evaluation: any, onClose: () => void }) {
   return (
@@ -529,6 +600,17 @@ export default function Phase5() {
           </div>
         </div>
       </div>
+      
+      {/* Renderizar os componentes de visualização */}
+      <ModuleContentPreview 
+        module={selectedModule} 
+        onClose={() => setContentPreviewOpen(false)} 
+      />
+      
+      <EvaluationPreview 
+        evaluation={selectedEvaluation} 
+        onClose={() => setEvaluationPreviewOpen(false)} 
+      />
     </div>
   );
 }
