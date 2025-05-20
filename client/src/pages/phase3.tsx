@@ -124,15 +124,6 @@ export default function Phase3() {
     { id: "inspiring", label: "Inspirador", description: "Estimulante e reflexivo" }
   ];
   
-  // Lesson types
-  const lessonTypes = [
-    { id: "text", label: "Texto", description: "Conteúdo textual explicativo" },
-    { id: "video", label: "Vídeo", description: "Aula em formato de vídeo com narração" },
-    { id: "interactive", label: "Interativo", description: "Atividade interativa com feedback" },
-    { id: "presentation", label: "Apresentação", description: "Slides com conteúdo visual" },
-    { id: "reading", label: "Leitura", description: "Material de leitura complementar" }
-  ];
-  
   // Module content tabs
   const contentTabs = [
     { id: "text", label: "Texto Principal" },
@@ -476,6 +467,12 @@ export default function Phase3() {
     return Math.round((generatedModules / course.modules.length) * 100);
   };
   
+  // Handle module selection
+  const handleSelectModule = (module: CourseModule) => {
+    setSelectedModule(module);
+    setCurrentView('content');
+  };
+  
   // Handle moving to the next phase
   const handleNextPhase = () => {
     // Check if we have at least one module with content
@@ -734,11 +731,7 @@ export default function Phase3() {
     );
   };
   
-  // Handle selecting a module
-  const handleSelectModule = (module: CourseModule) => {
-    setSelectedModule(module);
-    setCurrentView('content');
-  };
+  // This was already defined earlier, removing duplicate
   
   // Render different views
   const renderView = () => {
@@ -1296,6 +1289,39 @@ export default function Phase3() {
         
         {renderView()}
       </div>
+      
+      {/* Dialog for generating module image */}
+      <AlertDialog open={showImageDialog} onOpenChange={setShowImageDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Gerar imagem para o módulo</AlertDialogTitle>
+            <AlertDialogDescription>
+              Vamos usar IA para gerar uma imagem representativa para este módulo com base em seu título e descrição.
+              Este processo pode levar alguns instantes.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="p-4 bg-gray-50 rounded-md my-4">
+            <p className="font-medium">{selectedModule?.title}</p>
+            <p className="text-sm text-gray-600 mt-1">{selectedModule?.description}</p>
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => generateModuleImage.mutate(selectedModule?.id || '')}
+              disabled={generationStatus === "generating" || !selectedModule}
+            >
+              {generationStatus === "generating" ? (
+                <span className="flex items-center">
+                  <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
+                  Gerando imagem...
+                </span>
+              ) : (
+                'Gerar Imagem'
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
