@@ -40,16 +40,11 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Carregar curso salvo quando o componente é montado
   useEffect(() => {
-    try {
-      const savedCourse = CourseStorage.getCurrentCourse();
-      if (savedCourse) {
-        console.log("Loading saved course:", savedCourse);
-        setCourse(savedCourse);
-      }
-      setIsInitialized(true);
-    } catch (error) {
-      console.error("Error loading course:", error);
+    const savedCourse = CourseStorage.getCurrentCourse();
+    if (savedCourse) {
+      setCourse(savedCourse);
     }
+    setIsInitialized(true);
   }, []);
 
   // Salvar automaticamente sempre que o curso mudar
