@@ -19,15 +19,31 @@ export default function LMSView() {
     localStorage.getItem('currentCourseId')
   );
   
-  // Fetch current course data
+  // Fetch current course data from local storage
   const { data: course, isLoading } = useQuery({
     queryKey: ['/api/courses', currentCourseId],
     queryFn: async () => {
       if (!currentCourseId) return null;
       try {
-        const response = await apiRequest("GET", `/api/courses/${currentCourseId}`, {});
-        const data = await response.json();
-        return data as Course;
+        // Tentamos obter dados da API primeiro
+        try {
+          const response = await apiRequest("GET", `/api/courses/${currentCourseId}`, {});
+          if (response.ok) {
+            const data = await response.json();
+            return data as Course;
+          }
+        } catch (apiError) {
+          console.log("API request failed, falling back to localStorage:", apiError);
+        }
+        
+        // Se a API falhar, usamos os dados do localStorage
+        console.log("Carregando curso do localStorage");
+        const courseData = localStorage.getItem(`course_${currentCourseId}`);
+        if (courseData) {
+          return JSON.parse(courseData) as Course;
+        } else {
+          throw new Error("Course not found in localStorage");
+        }
       } catch (error) {
         console.error("Error fetching course:", error);
         return null;

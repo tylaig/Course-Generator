@@ -365,9 +365,49 @@ export default function Phase4() {
                     <p className="text-neutral-600">No course evaluation has been generated yet.</p>
                     <Button 
                       className="mt-4"
-                      onClick={() => {
-                        setSelectedModule("course");
-                        generateEvaluation.mutate();
+                      onClick={async () => {
+                        try {
+                          // Feedback para o usuário
+                          alert("Iniciando geração da avaliação do curso completo...");
+                          
+                          // Chama a API específica para avaliação do curso
+                          const response = await fetch('/api/generate/course-evaluation', {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                              courseId: course?.id,
+                              courseDetails: {
+                                title: course?.title,
+                                theme: course?.theme,
+                                estimatedHours: course?.estimatedHours,
+                                format: course?.format,
+                                platform: course?.platform,
+                                deliveryFormat: course?.deliveryFormat,
+                                languageStyle: course?.aiConfig?.languageStyle
+                              }
+                            }),
+                          });
+                          
+                          if (response.ok) {
+                            const courseEvaluation = await response.json();
+                            
+                            // Atualiza os dados da fase 4 com a avaliação do curso
+                            updatePhaseData(4, {
+                              ...course?.phaseData?.phase4,
+                              courseEvaluation
+                            });
+                            
+                            console.log("Avaliação do curso completo gerada com sucesso!");
+                            alert("Avaliação do curso gerada com sucesso!");
+                          } else {
+                            throw new Error("Erro ao gerar a avaliação do curso");
+                          }
+                        } catch (error) {
+                          console.error("Erro ao gerar avaliação do curso:", error);
+                          alert("Erro ao gerar a avaliação do curso. Tente novamente.");
+                        }
                       }}
                       disabled={generateEvaluation.isPending}
                     >
