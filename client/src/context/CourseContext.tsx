@@ -72,9 +72,19 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
   const createNewCourse = () => {
     console.log("Criando novo curso no CourseContext...");
     
-    // Verificar se há um ID de curso existente
+    // Verificar se há um curso em rascunho que pode ser continuado
     const currentId = localStorage.getItem('currentCourseId');
-    // Se existir, limpar os dados desse curso para evitar conflitos
+    const currentCourse = currentId ? CourseStorage.getCourse(currentId) : null;
+    
+    // Se já temos um curso em rascunho na fase 1, vamos permitir continuar onde parou
+    if (currentCourse && currentCourse.currentPhase === 1 && 
+        (!currentCourse.progress || currentCourse.progress.phase1 < 100)) {
+      console.log("Curso em rascunho encontrado na fase 1. Continuando...", currentCourse);
+      setCourse(currentCourse);
+      return currentCourse;
+    }
+    
+    // Se temos um ID atual mas não estamos continuando, limpar os dados deste curso
     if (currentId) {
       CourseStorage.clearCourseData(currentId);
     }
@@ -112,7 +122,9 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
       },
       modules: [],
       phaseData: {
-        phase1: {},
+        phase1: {
+          lastUpdated: new Date().toISOString()
+        },
         phase2: {},
         phase3: {},
         phase4: {},
@@ -284,120 +296,119 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const moveToNextPhase = () => {
-    // Verificar se temos um curso ativo
-    if (!course) {
-      console.error("Não há curso ativo para avançar para a próxima fase");
-      return;
-    }
-    
-    // Determinar a próxima fase
-    const nextPhase = course.currentPhase < 5 ? (course.currentPhase + 1) as Phase : course.currentPhase;
-    
-    // Se já estamos na fase final, não fazer nada
-    if (course.currentPhase === 5) {
-      console.log("Já estamos na fase final do curso");
-      return;
-    }
-    
-    // Atualizar progresso da fase atual para 100%
-    const updatedProgress = course.progress || {
-      phase1: 0, phase2: 0, phase3: 0, phase4: 0, phase5: 0, overall: 0,
-      lastUpdated: new Date().toISOString()
-    };
-    
-    // Marcar fase atual como concluída
-    updatedProgress[`phase${course.currentPhase}` as keyof typeof updatedProgress] = 100;
-    
-    // Calcular o progresso geral
-    const phases = [1, 2, 3, 4, 5] as Phase[];
-    const overallProgress = phases.reduce((sum, phase) => {
-      const phaseProgress = updatedProgress[`phase${phase}` as keyof typeof updatedProgress] as number;
-      return sum + (phaseProgress || 0);
-    }, 0) / 5;
-    
-    // Garantir que os dados da fase atual estão salvos
-    if (course.phaseData) {
-      const currentPhaseKey = `phase${course.currentPhase}` as keyof typeof course.phaseData;
-      const currentPhaseData = course.phaseData[currentPhaseKey];
-      if (currentPhaseData) {
-        // Salvar no armazenamento específico de fase
-        CourseStorage.savePhaseData(course.id, course.currentPhase, currentPhaseData);
+    setCourse((prev) => {
+      if (!prev) return null;
+      
+      // Determinar a próxima fase
+      const nextPhase = prev.currentPhase < 5 ? (prev.currentPhase + 1) as Phase : prev.currentPhase;
+      
+      // Se já estamos na fase final, não fazer nada
+      if (prev.currentPhase === 5) {
+        console.log("Já estamos na fase final do curso");
+        return prev;
       }
-    }
-    
-    // Criar o curso atualizado com a nova fase
-    const updatedCourse: Course = {
-      ...course,
-      currentPhase: nextPhase,
-      progress: {
-        ...updatedProgress,
-        overall: Math.round(overallProgress),
+      
+      // Atualizar progresso da fase atual para 100%
+      const updatedProgress = prev.progress || {
+        phase1: 0, phase2: 0, phase3: 0, phase4: 0, phase5: 0, overall: 0,
         lastUpdated: new Date().toISOString()
+      };
+      
+      // Marcar fase atual como concluída
+      const currentPhaseKey = `phase${prev.currentPhase}`;
+      (updatedProgress as any)[currentPhaseKey] = 100;
+      
+      // Calcular o progresso geral
+      const phases = [1, 2, 3, 4, 5] as Phase[];
+      let totalProgress = 0;
+      
+      phases.forEach(phase => {
+        const key = `phase${phase}`;
+        totalProgress += ((updatedProgress as any)[key] || 0);
+      });
+      
+      const overallProgress = totalProgress / phases.length;
+      
+      // Garantir que os dados da fase atual estão salvos
+      if (prev.phaseData) {
+        const phaseKey = `phase${prev.currentPhase}` as keyof typeof prev.phaseData;
+        const phaseData = prev.phaseData[phaseKey];
+        if (phaseData) {
+          // Salvar no armazenamento específico de fase
+          CourseStorage.savePhaseData(prev.id, prev.currentPhase, phaseData);
+        }
       }
-    };
-    
-    // Atualizar o estado
-    setCourse(updatedCourse);
-    
-    // Salvar imediatamente o curso atualizado
-    CourseStorage.saveCourse(updatedCourse);
-    
-    console.log(`Avançando do curso para a fase ${nextPhase}. Todos os dados salvos.`);
+      
+      // Criar o curso atualizado com a nova fase
+      const updatedCourse: Course = {
+        ...prev,
+        currentPhase: nextPhase,
+        progress: {
+          ...updatedProgress,
+          overall: Math.round(overallProgress),
+          lastUpdated: new Date().toISOString()
+        }
+      };
+      
+      // Salvar imediatamente o curso atualizado
+      CourseStorage.saveCourse(updatedCourse);
+      
+      console.log(`Avançando do curso para a fase ${nextPhase}. Todos os dados salvos.`);
+      
+      return updatedCourse;
+    });
   };
   
   const updateProgress = (phaseNumber: Phase, progress: number) => {
-    // Verificar se temos um curso ativo
-    if (!course) {
-      console.error("Não há curso ativo para atualizar o progresso");
-      return;
-    }
-    
-    // Obter o progresso atual ou criar um novo objeto com valores padrão
-    const currentProgress = course.progress || {
-      phase1: 0, 
-      phase2: 0, 
-      phase3: 0, 
-      phase4: 0, 
-      phase5: 0, 
-      overall: 0,
-      lastUpdated: new Date().toISOString()
-    };
-    
-    // Criar uma cópia do progresso para atualização
-    const updatedProgress = { ...currentProgress };
-    
-    // Atualizar o progresso da fase específica
-    const progressKey = `phase${phaseNumber}` as keyof typeof updatedProgress;
-    updatedProgress[progressKey] = Math.min(100, Math.max(0, progress));
-    
-    // Calcular o progresso geral
-    const phases = [1, 2, 3, 4, 5] as Phase[];
-    let totalProgress = 0;
-    
-    phases.forEach(phase => {
-      const phaseKey = `phase${phase}` as keyof typeof updatedProgress;
-      totalProgress += (updatedProgress[phaseKey] as number) || 0;
+    setCourse((prev) => {
+      if (!prev) return null;
+      
+      // Criar progresso padrão se não existir
+      const currentProgress = prev.progress || {
+        phase1: 0, 
+        phase2: 0, 
+        phase3: 0, 
+        phase4: 0, 
+        phase5: 0, 
+        overall: 0,
+        lastUpdated: new Date().toISOString()
+      };
+      
+      // Criar uma cópia do progresso
+      const updatedProgress = { ...currentProgress };
+      
+      // Atualizar o progresso da fase específica
+      const phaseKey = `phase${phaseNumber}`;
+      (updatedProgress as any)[phaseKey] = Math.min(100, Math.max(0, progress));
+      
+      // Calcular o progresso geral
+      const phases = [1, 2, 3, 4, 5] as Phase[];
+      let totalProgress = 0;
+      
+      phases.forEach(phase => {
+        const key = `phase${phase}`;
+        totalProgress += ((updatedProgress as any)[key] || 0);
+      });
+      
+      const overallProgress = totalProgress / phases.length;
+      
+      // Atualizar o timestamp e o progresso geral
+      updatedProgress.lastUpdated = new Date().toISOString();
+      updatedProgress.overall = Math.round(overallProgress);
+      
+      // Criar o curso atualizado
+      const updatedCourse = {
+        ...prev,
+        progress: updatedProgress
+      };
+      
+      // Salvar imediatamente no armazenamento local
+      CourseStorage.saveCourse(updatedCourse);
+      
+      console.log(`Progresso da fase ${phaseNumber} atualizado para ${progress}%. Progresso geral: ${updatedProgress.overall}%`);
+      
+      return updatedCourse;
     });
-    
-    const overallProgress = totalProgress / phases.length;
-    
-    // Atualizar o timestamp
-    updatedProgress.lastUpdated = new Date().toISOString();
-    updatedProgress.overall = Math.round(overallProgress);
-    
-    // Criar o curso atualizado com o novo progresso
-    const updatedCourse: Course = {
-      ...course,
-      progress: updatedProgress
-    };
-    
-    // Atualizar o estado
-    setCourse(updatedCourse);
-    
-    // Salvar imediatamente o curso atualizado
-    CourseStorage.saveCourse(updatedCourse);
-    
-    console.log(`Progresso da fase ${phaseNumber} atualizado para ${progress}%. Progresso geral: ${updatedProgress.overall}%`);
   };
   
   const calculateOverallProgress = (): number => {

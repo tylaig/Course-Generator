@@ -16,6 +16,24 @@ export default function Home() {
   const [currentCourseId, setCurrentCourseId] = useState<string | null>(
     localStorage.getItem('currentCourseId')
   );
+  const [hasDraft, setHasDraft] = useState<boolean>(false);
+  
+  // Verificar se existe um rascunho ao carregar a página
+  useEffect(() => {
+    if (course) {
+      setHasDraft(true);
+      console.log("Curso em andamento encontrado:", course);
+    } else {
+      const draftId = localStorage.getItem('currentCourseId');
+      if (draftId) {
+        const draftCourse = CourseStorage.getCourse(draftId);
+        if (draftCourse) {
+          setHasDraft(true);
+          console.log("Rascunho encontrado no armazenamento local:", draftCourse);
+        }
+      }
+    }
+  }, [course]);
   
   // Create new course mutation
   const createCourseMutation = useMutation({
@@ -78,17 +96,73 @@ export default function Home() {
   
   const handleCreateNewCourse = () => {
     console.log("Solicitando criação de curso...");
-    try {
-      createCourseMutation.mutate();
-      console.log("Mutation acionada");
-    } catch (error) {
-      console.error("Erro ao acionar mutation:", error);
+    
+    // Criar curso localmente sem depender do servidor
+    if (createNewCourse) {
+      try {
+        const newCourseData = createNewCourse();
+        console.log("Curso criado localmente:", newCourseData);
+        
+        // Notificar o usuário
+        toast({
+          title: "Curso Criado",
+          description: "Um novo curso foi criado com sucesso!"
+        });
+        
+        // Redirecionar para a fase 1
+        navigate("/phase1");
+      } catch (error) {
+        console.error("Erro ao criar curso local:", error);
+        toast({
+          title: "Erro",
+          description: "Não foi possível criar o curso. Tente novamente.",
+          variant: "destructive"
+        });
+      }
+    } else {
+      console.error("Função createNewCourse não disponível");
+      toast({
+        title: "Erro",
+        description: "Sistema indisponível. Recarregue a página e tente novamente.",
+        variant: "destructive"
+      });
     }
   };
   
   const handleContinueCourse = () => {
     if (course && course.currentPhase) {
+      // Se temos um curso ativo, navegue para a fase atual
       navigate(`/phase${course.currentPhase}`);
+    } else {
+      // Se não temos um curso ativo mas temos um ID, tente carregar do armazenamento
+      const draftId = localStorage.getItem('currentCourseId');
+      if (draftId) {
+        const draftCourse = CourseStorage.getCourse(draftId);
+        if (draftCourse && draftCourse.currentPhase) {
+          if (createNewCourse) {
+            // Isso vai carregar o curso existente em vez de criar um novo
+            createNewCourse();
+          }
+          
+          toast({
+            title: "Curso Carregado",
+            description: "Continuando seu curso em andamento."
+          });
+          
+          navigate(`/phase${draftCourse.currentPhase}`);
+        } else {
+          toast({
+            title: "Erro",
+            description: "Não foi possível carregar o curso em andamento. Tente criar um novo.",
+            variant: "destructive"
+          });
+        }
+      } else {
+        toast({
+          title: "Nenhum Curso Encontrado",
+          description: "Você não tem cursos em andamento. Crie um novo curso para começar."
+        });
+      }
     }
   };
 
