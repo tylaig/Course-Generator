@@ -144,16 +144,23 @@ export default function Phase1() {
         deliveryFormat: data.deliveryFormat,
       });
       
+      // Atualizar o progresso da fase 1
+      updateProgress(1, 100);
+      
       // Gerar a estratégia do curso com OpenAI
-      generateStrategy.mutate(data);
+      await generateStrategy.mutateAsync(data);
+      
+      // Avançar para a próxima fase após geração bem-sucedida
+      moveToNextPhase();
+      navigate("/phase2");
       
     } catch (error) {
       console.error("Erro ao enviar formulário:", error);
       setIsSubmitting(false);
       
       toast({
-        title: "Erro ao salvar dados",
-        description: "Não foi possível salvar os dados do curso. Tente novamente.",
+        title: "Erro ao gerar estratégia",
+        description: "Não foi possível gerar a estratégia do curso. Verifique os dados e tente novamente.",
         variant: "destructive",
       });
     }
@@ -616,8 +623,19 @@ export default function Phase1() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium"
               >
-                {isSubmitting ? "Processando..." : "Continuar para Fase 2"}
+                {isSubmitting ? (
+                  <span className="flex items-center">
+                    <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
+                    Gerando estratégia...
+                  </span>
+                ) : (
+                  <span className="flex items-center">
+                    <span className="material-icons text-sm mr-2">auto_awesome</span>
+                    Gerar Estratégia com IA
+                  </span>
+                )}
               </Button>
             </div>
           </form>

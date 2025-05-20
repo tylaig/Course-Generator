@@ -34,6 +34,15 @@ export type CourseModule = {
   status: "not_started" | "in_progress" | "generated" | "approved";
   content?: ModuleContent;
   imageUrl?: string;
+  objective?: string;
+  topics?: string;
+  contents?: string;
+  activities?: string;
+  cognitiveSkills?: string;
+  behavioralSkills?: string;
+  technicalSkills?: string;
+  evaluationType?: string;
+  bloomLevel?: string;
 };
 
 export type ContentType = "text" | "video" | "quiz" | "exercise" | "case";
