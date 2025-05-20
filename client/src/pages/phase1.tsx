@@ -46,6 +46,22 @@ export default function Phase1() {
     behavioralSkills: course?.phaseData?.phase1?.behavioralSkills || "",
     technicalSkills: course?.phaseData?.phase1?.technicalSkills || "",
   };
+  
+  const fillSampleData = () => {
+    form.setValue("title", "Fundamentos de Programação em JavaScript");
+    form.setValue("theme", "Desenvolvimento Web");
+    form.setValue("estimatedHours", 20);
+    form.setValue("format", "Online");
+    form.setValue("platform", "Web");
+    form.setValue("deliveryFormat", "HTML5");
+    form.setValue("publicTarget", "Estudantes e profissionais iniciantes em programação");
+    form.setValue("educationalLevel", "Higher Education");
+    form.setValue("familiarityLevel", "Beginner");
+    form.setValue("motivation", "Professional");
+    form.setValue("cognitiveSkills", "Lógica de programação, resolução de problemas, pensamento crítico");
+    form.setValue("behavioralSkills", "Perseverança, colaboração, autogestão de tempo");
+    form.setValue("technicalSkills", "Navegação web, básico de HTML/CSS");
+  };
 
   const form = useForm<Phase1FormData>({
     resolver: zodResolver(phase1Schema),
@@ -97,12 +113,24 @@ export default function Phase1() {
       <WorkflowProgress />
       
       <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200 mb-8">
-        <PhaseNav 
-          currentPhase={1}
-          title="Phase 1: Strategy Definition" 
-          description="Define the core educational strategy and objectives for your course"
-          onNext={form.handleSubmit(onSubmit)}
-        />
+        <div className="flex justify-between items-center mb-4">
+          <PhaseNav 
+            currentPhase={1}
+            title="Phase 1: Strategy Definition" 
+            description="Define the core educational strategy and objectives for your course"
+            onNext={form.handleSubmit(onSubmit)}
+          />
+          
+          <Button 
+            onClick={fillSampleData} 
+            variant="outline" 
+            className="flex items-center" 
+            type="button"
+          >
+            <span className="material-icons text-sm mr-2">bolt</span>
+            Preenchimento Rápido
+          </Button>
+        </div>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

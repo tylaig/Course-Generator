@@ -72,9 +72,19 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
   const createNewCourse = () => {
     console.log("Criando novo curso no CourseContext...");
     
+    // Verificar se há um ID de curso existente
+    const currentId = localStorage.getItem('currentCourseId');
+    // Se existir, limpar os dados desse curso para evitar conflitos
+    if (currentId) {
+      CourseStorage.clearCourseData(currentId);
+    }
+    
+    // Criar o objeto do curso com ID único
+    const courseId = `course_${Date.now().toString()}`;
+    
     // Criar o objeto do curso
     const newCourse: Course = {
-      id: `course_${Date.now().toString()}`,
+      id: courseId,
       title: "Novo Curso Educacional",
       theme: "Educação e Aprendizagem",
       estimatedHours: 20,
@@ -110,32 +120,35 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
     
-    // Atualizar o estado
+    // Atualizar o estado do React
     setCourse(newCourse);
     
     // Persistir no armazenamento local
     CourseStorage.saveCourse(newCourse);
+    localStorage.setItem('currentCourseId', courseId);
     
-    // Vamos tentar também persistir no servidor (mas não vamos depender disso)
-    try {
-      apiRequest("POST", "/api/courses", {
-        title: newCourse.title,
-        theme: newCourse.theme,
-        estimatedHours: newCourse.estimatedHours,
-        format: newCourse.format,
-        platform: newCourse.platform,
-        deliveryFormat: newCourse.deliveryFormat,
-        currentPhase: newCourse.currentPhase,
-        aiConfig: newCourse.aiConfig,
-        modules: newCourse.modules
-      }).catch(error => {
-        console.warn("Erro ao salvar curso no servidor, mas o armazenamento local está funcionando:", error);
-      });
-    } catch (error) {
-      console.warn("Falha ao comunicar com o servidor:", error);
-    }
+    // Tentativa de sincronização com o servidor (não bloqueante)
+    setTimeout(() => {
+      try {
+        apiRequest("POST", "/api/courses", {
+          title: newCourse.title,
+          theme: newCourse.theme,
+          estimatedHours: newCourse.estimatedHours,
+          format: newCourse.format,
+          platform: newCourse.platform,
+          deliveryFormat: newCourse.deliveryFormat,
+          currentPhase: newCourse.currentPhase,
+          aiConfig: newCourse.aiConfig,
+          modules: newCourse.modules
+        }).catch(error => {
+          console.warn("Erro ao salvar curso no servidor, mas o armazenamento local está funcionando:", error);
+        });
+      } catch (error) {
+        console.warn("Falha ao comunicar com o servidor:", error);
+      }
+    }, 0);
     
-    console.log("Novo curso criado:", newCourse);
+    console.log("Novo curso criado com sucesso:", newCourse);
     return newCourse;
   };
 
