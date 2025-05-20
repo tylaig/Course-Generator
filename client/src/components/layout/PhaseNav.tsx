@@ -2,6 +2,7 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useCourse } from "@/context/CourseContext";
 import { Phase } from "@/types";
+import { CourseStorage } from "@/lib/storage";
 
 interface PhaseNavProps {
   currentPhase: Phase;
@@ -23,8 +24,29 @@ export default function PhaseNav({
 
   const handlePrevious = () => {
     if (onPrevious) {
+      // Usar o callback personalizado se fornecido
       onPrevious();
     } else if (currentPhase > 1) {
+      // Garantir que os dados atuais são salvos antes de voltar
+      if (course) {
+        // Forçar salvamento do curso atual
+        const courseData = course;
+        localStorage.setItem('currentCourseId', courseData.id);
+        CourseStorage.saveCourse(courseData);
+        
+        // Se estiver na fase de dados, salvar dados específicos da fase
+        if (course.phaseData) {
+          const currentPhaseKey = `phase${currentPhase}` as keyof typeof course.phaseData;
+          const phaseData = course.phaseData[currentPhaseKey];
+          if (phaseData) {
+            CourseStorage.savePhaseData(courseData.id, currentPhase, phaseData);
+          }
+        }
+        
+        console.log("Dados salvos antes de voltar para a fase anterior");
+      }
+      
+      // Navegação para fase anterior
       navigate(`/phase${currentPhase - 1}`);
     }
   };
