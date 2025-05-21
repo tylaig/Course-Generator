@@ -729,27 +729,123 @@ export async function generateCourseReview(
   reviewNotes: string
 ) {
   try {
+    // Criar um sumário dos módulos para análise
+    const modulesSummary = modules.map(m => 
+      `- Módulo ${m.order}: "${m.title}" (${m.estimatedHours}h) - ${m.description.substring(0, 150)}...`
+    ).join("\n");
+    
+    // Extrair parâmetros chave do curso para análise mais específica
+    const getCourseParameters = (courseDetails: CourseDetails) => {
+      return {
+        title: courseDetails.title || "Curso sem título",
+        theme: courseDetails.theme || "Tema não especificado",
+        estimatedHours: courseDetails.estimatedHours || 0,
+        format: courseDetails.format || "Formato não especificado",
+        targetAudience: courseDetails.publicTarget || "Público-alvo não especificado",
+        educationalLevel: courseDetails.educationalLevel || "Nível educacional não especificado",
+        moduleCount: modules.length,
+        totalLessons: modules.reduce((acc, m) => acc + (m.lessons?.length || 0), 0),
+        skillsFocus: {
+          cognitive: courseDetails.cognitiveSkills || "Não especificado",
+          behavioral: courseDetails.behavioralSkills || "Não especificado", 
+          technical: courseDetails.technicalSkills || "Não especificado"
+        }
+      };
+    };
+    
+    const courseParams = getCourseParameters(courseDetails);
+
     const response = await openai.chat.completions.create({
       model: MODELS.GPT4O,
       messages: [
         {
           role: "system",
-          content: `You are the Revisor Educacional, a pedagogical reviewer specialized in educational content quality.
-          Review the complete course information provided and:
-          
-          1. Analyze overall educational coherence and alignment with objectives
-          2. Assess content clarity, accessibility, and international applicability
-          3. Evaluate progression and structure of learning materials
-          4. Check for consistency in language, approach, and difficulty level
-          5. Consider the review notes provided by the course creator
-          
-          Present your review with:
-          - General assessment of course quality and educational value
-          - Specific strengths of the course design
-          - Areas for improvement with specific suggestions
-          - Recommendations for enhancing the learning experience
-          
-          Use professional language and provide actionable feedback.`
+          content: `Você é o Revisor Educacional, um especialista em design instrucional e avaliação pedagógica com vasta experiência na análise e desenvolvimento de cursos educacionais de alta qualidade. 
+
+TAREFA:
+Realizar uma análise educacional profunda e crítica do curso apresentado, oferecendo uma avaliação detalhada de sua qualidade pedagógica e eficácia instrucional.
+
+ESTRUTURA DE ANÁLISE:
+
+1. COERÊNCIA CURRICULAR (25%)
+   - Alinhamento entre objetivos, conteúdo e avaliações
+   - Progressão lógica entre módulos e lições
+   - Encadeamento e interdependência de conceitos
+   - Consistência da abordagem pedagógica
+
+2. DESIGN INSTRUCIONAL (25%)
+   - Adequação das estratégias de ensino ao público-alvo
+   - Qualidade e variedade das atividades de aprendizagem
+   - Eficácia da sequência de apresentação dos conteúdos
+   - Aplicação de princípios de aprendizagem adulta
+
+3. CONTEÚDO E RECURSOS (20%)
+   - Precisão e atualidade do conteúdo
+   - Profundidade e amplitude apropriadas
+   - Clareza da linguagem e acessibilidade
+   - Adequação dos recursos visuais e exemplos
+
+4. AVALIAÇÃO E FEEDBACK (15%)
+   - Alinhamento das avaliações com os objetivos
+   - Variedade e adequação dos métodos de avaliação
+   - Oportunidades para feedback formativo
+   - Mecanismos para monitorar o progresso do aluno
+
+5. ACESSIBILIDADE E INCLUSÃO (15%)
+   - Consideração de diferentes estilos de aprendizagem
+   - Acomodações para alunos com necessidades diversas
+   - Sensibilidade cultural e contextual
+   - Universalidade da aplicação do conteúdo
+
+FORMATO DA SUA ANÁLISE:
+
+I. RESUMO EXECUTIVO
+   Avaliação concisa da qualidade geral do curso, destacando pontos fortes e áreas críticas para melhoria.
+
+II. ANÁLISE DETALHADA
+   Avaliação específica de cada categoria acima, com exemplos concretos e referências a elementos específicos do curso.
+
+III. PONTOS FORTES
+   Identificação clara de 3-5 elementos excepcionais do design do curso que devem ser mantidos ou expandidos.
+
+IV. OPORTUNIDADES DE MELHORIA
+   Identificação de 3-5 áreas específicas que requerem refinamento, com sugestões práticas e detalhadas para cada uma.
+
+V. RECOMENDAÇÕES ESTRATÉGICAS
+   Sugestões específicas, práticas e priorizadas para melhorar a eficácia educacional geral do curso.
+
+VI. CONCLUSÃO
+   Avaliação final da prontidão do curso para implementação e seu potencial impacto educacional.
+
+INFORMAÇÕES DO CURSO:
+- Título: ${courseParams.title}
+- Tema: ${courseParams.theme}
+- Carga horária: ${courseParams.estimatedHours} horas
+- Formato: ${courseParams.format}
+- Público-alvo: ${courseParams.targetAudience}
+- Nível educacional: ${courseParams.educationalLevel}
+- Quantidade de módulos: ${courseParams.moduleCount}
+- Total de lições/aulas: ${courseParams.totalLessons}
+
+FOCO EM COMPETÊNCIAS:
+- Cognitivas: ${courseParams.skillsFocus.cognitive}
+- Comportamentais: ${courseParams.skillsFocus.behavioral}
+- Técnicas: ${courseParams.skillsFocus.technical}
+
+ESTRUTURA DO CURSO:
+${modulesSummary}
+
+NOTAS DO CRIADOR:
+${reviewNotes || "Nenhuma nota adicional fornecida pelo criador do curso."}
+
+DIRETRIZES PARA SUA ANÁLISE:
+- Seja específico e cite exemplos concretos do conteúdo do curso
+- Mantenha uma perspectiva baseada em evidências e princípios atuais de design instrucional
+- Equilibre crítica construtiva com reconhecimento de pontos fortes
+- Priorize sugestões com maior potencial de impacto na experiência de aprendizagem
+- Considere o contexto e limitações do formato do curso
+- Ofereça feedback acionável e específico, não generalidades
+- Adote um tom profissional mas acessível e construtivo`
         },
         {
           role: "user",
@@ -757,7 +853,7 @@ export async function generateCourseReview(
             courseDetails,
             modules,
             phaseData,
-            reviewNotes
+            reviewNotes: reviewNotes || "Solicito uma análise completa do curso, destacando pontos fortes e oportunidades de melhoria."
           })
         }
       ],
@@ -766,7 +862,7 @@ export async function generateCourseReview(
 
     return response.choices[0].message.content;
   } catch (error) {
-    console.error("Error generating course review:", error);
+    console.error("Erro ao gerar revisão do curso:", error);
     throw error;
   }
 }
@@ -899,23 +995,99 @@ export async function generateCompetencyMapping(modules: any[], courseDetails: C
 // Generate image for a module
 export async function generateModuleImage(moduleInfo: Module, courseDetails: CourseDetails) {
   try {
-    // Create a prompt that describes an image suitable for the module
-    const prompt = `Create an educational illustration for a course module titled "${moduleInfo.title}" 
-    for a course about "${courseDetails.theme}". 
-    The image should be professional, conceptual, and suitable for educational context.
-    Use a clean, modern style with a color scheme appropriate for education.
-    Should be abstract enough to represent the concepts but clear enough to understand the topic at a glance.`;
+    // Define estilos visuais com base no tipo de curso
+    const getVisualStyle = (theme: string) => {
+      const themeStyles: Record<string, string> = {
+        "Desenvolvimento Web": "digital, modern, with code elements, UI/UX components, and web design concepts",
+        "Programação": "digital, coding symbols, algorithms visualization, data structures, modern programming concepts",
+        "Data Science": "data visualization elements, graphs, charts, analytics concepts, modern tech aesthetic",
+        "Marketing Digital": "digital marketing visuals, social media elements, analytics, modern business concepts",
+        "Negócios": "professional business setting, modern corporate elements, strategic concept visualization",
+        "Saúde": "clean medical aesthetic, professional healthcare imagery, anatomical concepts, wellness elements",
+        "Educação": "engaging learning environment, knowledge sharing concepts, educational tools visualization",
+        "Design": "creative design elements, artistic components, visual communication concepts, color theory"
+      };
+      
+      return themeStyles[theme] || "modern educational illustration with conceptual elements and clear visual metaphors";
+    };
+    
+    // Define paletas de cores com base no nível educacional
+    const getColorPalette = (level: string) => {
+      const levelPalettes: Record<string, string> = {
+        "Beginner": "bright and engaging colors with blue, green, and orange highlights on a light background",
+        "Intermediate": "balanced professional palette with teal, navy, amber, and slate on a neutral background",
+        "Advanced": "sophisticated color scheme with deep purple, charcoal, teal, and burgundy on a subtle background"
+      };
+      
+      return levelPalettes[level || "Intermediate"] || "balanced professional color palette suitable for educational content";
+    };
+    
+    // Extrair palavras-chave do módulo para informar a imagem
+    const extractKeywords = (moduleInfo: Module) => {
+      // Combinar título e descrição para extrair palavras-chave
+      const content = `${moduleInfo.title} ${moduleInfo.description}`;
+      
+      // Lista de palavras de parada (comuns e não específicas)
+      const stopWords = ["a", "o", "e", "de", "da", "do", "para", "com", "em", "no", "na", "um", "uma", "os", "as"];
+      
+      // Dividir em palavras, filtrar palavras de parada e curtas, e pegar as 5 mais relevantes
+      return content
+        .split(/\s+/)
+        .filter(word => word.length > 3 && !stopWords.includes(word.toLowerCase()))
+        .slice(0, 5)
+        .join(", ");
+    };
+    
+    // Gerar uma descrição abrangente para a imagem
+    const generateImageDescription = (moduleInfo: Module, courseDetails: CourseDetails) => {
+      // Extrair elementos
+      const keywords = extractKeywords(moduleInfo);
+      const visualStyle = getVisualStyle(courseDetails.theme);
+      const colorPalette = getColorPalette(courseDetails.educationalLevel || "");
+      
+      // Construir descrição da imagem
+      return `
+      Create a high-quality educational illustration for a module titled "${moduleInfo.title}" in a course about "${courseDetails.theme}".
+      
+      CONCEPT:
+      The image should visually represent key concepts: ${keywords}.
+      Module focuses on: ${moduleInfo.description}
+      
+      VISUAL STYLE:
+      ${visualStyle}
+      Professional and conceptual illustration suitable for ${courseDetails.educationalLevel || "intermediate"} level education
+      ${colorPalette}
+      
+      COMPOSITION:
+      - Central visual metaphor that clearly communicates the module topic
+      - Clean, uncluttered layout with strong focal point
+      - Subtle educational elements that enhance understanding
+      - Modern design with balanced composition
+      - No text or minimal text elements only if absolutely necessary
+      
+      IMPORTANT:
+      - Must be instantly recognizable as representing "${moduleInfo.title}"
+      - Appropriate for professional educational context
+      - Culturally neutral and internationally relevant
+      - Should work well as a module thumbnail at various sizes
+      - Avoid stereotypical or cliché educational imagery
+      - No watermarks, borders, or extraneous elements
+      `;
+    };
+
+    const prompt = generateImageDescription(moduleInfo, courseDetails);
 
     const response = await openai.images.generate({
       model: "dall-e-3",
       prompt: prompt,
       n: 1,
       size: "1024x1024",
-      quality: "standard",
+      quality: "hd",
+      style: "natural",
     });
 
     return { 
-      url: response.data[0].url,
+      url: response.data[0]?.url,
       prompt: prompt,
       moduleId: moduleInfo.title
     };
@@ -928,20 +1100,70 @@ export async function generateModuleImage(moduleInfo: Module, courseDetails: Cou
 // Generate images for all modules
 export async function generateAllModuleImages(modules: Module[], courseDetails: CourseDetails) {
   try {
+    console.log(`Iniciando geração de imagens para ${modules.length} módulos...`);
+    
+    // Validar que a API key da OpenAI está configurada
+    if (!process.env.OPENAI_API_KEY) {
+      console.error("Não foi possível gerar imagens: OPENAI_API_KEY não está configurada.");
+      throw new Error("OPENAI_API_KEY não está configurada para geração de imagens");
+    }
+    
+    // Ordenar módulos para garantir que sejam processados na ordem correta
+    const sortedModules = [...modules].sort((a, b) => a.order - b.order);
+    
+    // Parâmetros para processamento em lote
+    const batchSize = 3; // Quantidade de módulos para processar por vez
+    const delayBetweenBatches = 2000; // Delay entre lotes (ms)
+    const delayBetweenModules = 500; // Delay entre módulos individuais (ms)
+    
     const results: { [key: string]: any } = {};
     
-    for (const module of modules) {
-      try {
-        results[module.title] = await generateModuleImage(module, courseDetails);
-      } catch (error) {
-        console.error(`Error generating image for module ${module.title}:`, error);
-        results[module.title] = { error: "Failed to generate image" };
+    // Processar módulos em lotes
+    for (let i = 0; i < sortedModules.length; i += batchSize) {
+      console.log(`Processando lote ${Math.floor(i/batchSize) + 1} de ${Math.ceil(sortedModules.length/batchSize)}`);
+      
+      // Pegar o próximo lote de módulos
+      const batch = sortedModules.slice(i, i + batchSize);
+      
+      // Processar cada módulo no lote
+      for (const module of batch) {
+        try {
+          console.log(`Gerando imagem para módulo ${module.order}: ${module.title}`);
+          
+          results[module.title] = await generateModuleImage(module, courseDetails);
+          
+          console.log(`✓ Imagem gerada com sucesso para módulo ${module.order}: ${module.title}`);
+          
+          // Pequeno intervalo entre requisições de API para o mesmo lote
+          if (batch.indexOf(module) < batch.length - 1) {
+            await new Promise(resolve => setTimeout(resolve, delayBetweenModules));
+          }
+        } catch (err) {
+          console.error(`Erro ao gerar imagem para módulo ${module.title}:`, err);
+          
+          // Registrar erro no resultado
+          results[module.title] = { 
+            error: true, 
+            moduleId: module.title,
+            errorMessage: err.message || "Erro desconhecido na geração de imagem" 
+          };
+        }
+      }
+      
+      // Delay entre lotes para evitar limitações de taxa da API
+      if (i + batchSize < sortedModules.length) {
+        console.log(`Aguardando ${delayBetweenBatches/1000} segundos antes do próximo lote...`);
+        await new Promise(resolve => setTimeout(resolve, delayBetweenBatches));
       }
     }
     
+    // Calcular estatísticas
+    const successCount = Object.values(results).filter(r => !r.error).length;
+    console.log(`Geração de imagens concluída: ${successCount} de ${modules.length} com sucesso`);
+    
     return results;
   } catch (error) {
-    console.error("Error generating all module images:", error);
+    console.error("Erro ao gerar todas as imagens de módulos:", error);
     throw error;
   }
 }
