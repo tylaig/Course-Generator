@@ -1610,7 +1610,7 @@ export default function Phase2() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setNumLessons(Math.max(1, numLessons - 1))}
+                  onClick={() => setLessonsPerModule(Math.max(1, lessonsPerModule - 1))}
                   className="h-10 px-3"
                 >
                   -
@@ -1619,14 +1619,14 @@ export default function Phase2() {
                   type="number"
                   min="1"
                   max="20"
-                  value={numLessons}
-                  onChange={(e) => setNumLessons(parseInt(e.target.value) || 1)}
+                  value={lessonsPerModule}
+                  onChange={(e) => setLessonsPerModule(parseInt(e.target.value) || 1)}
                   className="text-center h-10 mx-2 w-20"
                 />
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setNumLessons(numLessons + 1)}
+                  onClick={() => setLessonsPerModule(lessonsPerModule + 1)}
                   className="h-10 px-3"
                 >
                   +
