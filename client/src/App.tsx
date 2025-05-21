@@ -25,7 +25,7 @@ function App() {
     // Verificar se o contexto está pronto
     setTimeout(() => {
       setIsContextReady(true);
-    }, 500);
+    }, 1000);
   }, []);
   
   return (
@@ -34,8 +34,8 @@ function App() {
         <div className="min-h-screen flex flex-col">
           <Header />
           <div className="flex flex-1">
-            <Sidebar />
-            <main className="flex-1 ml-60 pt-4 px-6 pb-6">
+            {isContextReady && <Sidebar />}
+            <main className={`flex-1 ${isContextReady ? 'ml-60' : ''} pt-4 px-6 pb-6`}>
               {isContextReady ? (
                 <Switch>
                   <Route path="/" component={Home} />

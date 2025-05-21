@@ -114,6 +114,77 @@ export default function Phase2() {
   const [lessonConfigModalOpen, setLessonConfigModalOpen] = useState(false);
   const [selectedModule, setSelectedModule] = useState<CourseModule | null>(null);
   const [isGeneratingLessonContent, setIsGeneratingLessonContent] = useState(false);
+  
+  // Função para gerar módulos com IA
+  const handleGenerateModules = async () => {
+    if (!course) return;
+    
+    setIsGeneratingModules(true);
+    try {
+      // Dados para a API
+      const requestData = {
+        courseId: course.id,
+        courseDetails: {
+          ...course,
+          moduleCount: moduleCount,
+          lessonsPerModule
+        },
+        moduleCount: moduleCount,
+        lessonsPerModule: lessonsPerModule
+      };
+      
+      // Chamada à API
+      const response = await fetch('/api/generate/modules', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Falha ao gerar módulos');
+      }
+      
+      const data = await response.json();
+      
+      if (data.success && data.modules && Array.isArray(data.modules)) {
+        // Adicionar lições a cada módulo
+        const modulesWithLessons = data.modules.map((module: any) => ({
+          ...module,
+          lessons: Array.from({ length: lessonsPerModule }, (_, i) => ({
+            id: `lesson_${module.id}_${i+1}`,
+            title: `Aula ${i+1}: ${module.title.split(' ').slice(0, 3).join(' ')}...`,
+            description: `Conteúdo da aula ${i+1} do módulo ${module.title}`,
+            order: i+1,
+            status: 'not_started'
+          }))
+        }));
+        
+        setModules(modulesWithLessons);
+        updateModules(modulesWithLessons);
+        
+        // Atualizar progresso
+        updateProgress(2, 50);
+        
+        toast({
+          title: "Módulos gerados com sucesso",
+          description: `Foram gerados ${modulesWithLessons.length} módulos para o curso`,
+        });
+      } else {
+        throw new Error('Formato de resposta inválido');
+      }
+    } catch (error) {
+      console.error("Erro ao gerar módulos:", error);
+      toast({
+        title: "Erro na geração de módulos",
+        description: "Não foi possível gerar os módulos. Tente novamente mais tarde.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGeneratingModules(false);
+    }
+  };
 
   // Formulário para edição de módulos
   const form = useForm<ModuleFormData>({
@@ -691,7 +762,7 @@ export default function Phase2() {
                     <h3 className="text-lg font-medium">Gerenciar Módulos</h3>
                     <div className="flex gap-2">
                       <Button
-                        onClick={generateModulesWithAI}
+                        onClick={handleGenerateModules}
                         className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
                         disabled={isGeneratingModules}
                       >
