@@ -59,6 +59,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 // Schema para validação de módulos
 const moduleSchema = z.object({
@@ -98,8 +106,11 @@ export default function Phase2() {
   const [lessonsPerModule, setLessonsPerModule] = useState<number>(3); // Número padrão de aulas por módulo
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentTab, setCurrentTab] = useState("module-structure");
-  const [competenciesMap, setCompetenciesMap] = useState<Record<string, string[]>>({});
+  const [competenciesMap, setCompetenciesMap] = useState<Record<string, string[]>>({}); 
   const [isGeneratingCompetencies, setIsGeneratingCompetencies] = useState(false);
+  const [lessonConfigModalOpen, setLessonConfigModalOpen] = useState(false);
+  const [selectedModule, setSelectedModule] = useState<CourseModule | null>(null);
+  const [isGeneratingLessonContent, setIsGeneratingLessonContent] = useState(false);
 
   // Formulário para edição de módulos
   const form = useForm<ModuleFormData>({
@@ -708,9 +719,18 @@ export default function Phase2() {
                                                   Adicionar Aula
                                                 </Button>
                                                 <div className="space-x-1">
-                                                  <Button variant="outline" size="sm" className="text-xs h-8">
-                                                    <span className="material-icons text-xs mr-1">edit_note</span>
-                                                    Configurar
+                                                  <Button 
+                                                    variant="default" 
+                                                    size="sm" 
+                                                    className="text-xs h-8 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+                                                    onClick={() => {
+                                                      // Abrir o modal de configuração de aulas
+                                                      setLessonConfigModalOpen(true);
+                                                      setSelectedModule(module);
+                                                    }}
+                                                  >
+                                                    <span className="material-icons text-xs mr-1">auto_awesome</span>
+                                                    Configurar Aulas
                                                   </Button>
                                                 </div>
                                               </div>
