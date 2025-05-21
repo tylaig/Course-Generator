@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Card,
   CardContent,
@@ -30,7 +31,6 @@ import { CourseModule } from "@/types";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
-import { useToast } from "@/hooks/use-toast";
 import {
   Table,
   TableBody,
@@ -104,7 +104,10 @@ export default function Phase2() {
   const [activeModuleIndex, setActiveModuleIndex] = useState<number | null>(null);
   const [moduleCount, setModuleCount] = useState<number>(4); // Número padrão de módulos
   const [lessonsPerModule, setLessonsPerModule] = useState<number>(3); // Número padrão de aulas por módulo
+  const [numLessons, setNumLessons] = useState<number>(3); // Número de aulas para geração
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showModuleForm, setShowModuleForm] = useState(false);
+  const [isGeneratingModules, setIsGeneratingModules] = useState(false);
   const [currentTab, setCurrentTab] = useState("module-structure");
   const [competenciesMap, setCompetenciesMap] = useState<Record<string, string[]>>({}); 
   const [isGeneratingCompetencies, setIsGeneratingCompetencies] = useState(false);
@@ -218,7 +221,7 @@ export default function Phase2() {
           content: {},
           activities: [],
           resources: [],
-          status: "pending"
+          status: "not_started"
         }));
       }
       
@@ -253,7 +256,7 @@ export default function Phase2() {
             content: lessonData.content || {},
             activities: lessonData.activities || [],
             resources: lessonData.resources || [],
-            status: "completed"
+            status: "generated"
           };
         });
         
@@ -300,7 +303,7 @@ export default function Phase2() {
       evaluationType: data.evaluationType,
       bloomLevel: data.bloomLevel,
       order: modules.length + 1,
-      status: "pending",
+      status: "not_started",
       lessons: []
     };
     
@@ -311,6 +314,9 @@ export default function Phase2() {
     
     // Resetar o formulário
     form.reset();
+    
+    // Fechar o formulário
+    setShowModuleForm(false);
     
     // Atualizar o progresso para a fase 2
     updateProgress(2, Math.min(90, 20 + (updatedModules.length * 10)));
@@ -348,6 +354,9 @@ export default function Phase2() {
     // Resetar o formulário e o índice do módulo ativo
     form.reset();
     setActiveModuleIndex(null);
+    
+    // Fechar o formulário
+    setShowModuleForm(false);
     
     toast({
       title: "Módulo atualizado com sucesso",
@@ -397,6 +406,7 @@ export default function Phase2() {
     });
     
     setActiveModuleIndex(index);
+    setShowModuleForm(true);
   };
 
   // Função para lidar com o arraste e solte de módulos
@@ -429,6 +439,108 @@ export default function Phase2() {
       moduleCount,
       lessonsPerModule
     });
+  };
+
+  // Função para gerar módulos automaticamente com IA
+  const generateModulesWithAI = async () => {
+    setIsGeneratingModules(true);
+    toast({
+      title: "Gerando módulos...",
+      description: "Aguarde enquanto a IA cria os módulos com base no briefing."
+    });
+    
+    try {
+      // Obter os dados do curso e fase da Fase 1
+      const courseData = {
+        id: course?.id,
+        title: course?.title,
+        theme: course?.theme,
+        estimatedHours: course?.estimatedHours,
+        format: course?.format,
+        platform: course?.platform,
+        deliveryFormat: course?.deliveryFormat,
+        ...course?.phaseData?.phase1
+      };
+      
+      // Fazer a chamada para a API
+      const response = await fetch('/api/generate/structure', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          courseId: course?.id,
+          courseDetails: courseData,
+          phaseData: course?.phaseData?.phase1,
+          moduleCount: moduleCount,
+          lessonsPerModule: lessonsPerModule
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Erro na geração de estrutura: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data.success && data.modules) {
+        // Criar novos módulos com os dados retornados
+        const newModules = data.modules.map((mod: any, index: number) => {
+          // Gerar um ID único para cada módulo
+          const moduleId = `module-${Date.now()}-${index}`;
+          
+          // Criar array de aulas vazias para cada módulo
+          const lessons = Array.from({ length: lessonsPerModule }, (_, i) => ({
+            id: `lesson-${Date.now()}-${i}`,
+            title: `Aula ${i + 1}: ${mod.lessonTitles?.[i] || 'A ser definido'}`,
+            moduleId,
+            order: i + 1,
+            content: null,
+            status: 'not_started'
+          }));
+          
+          return {
+            id: moduleId,
+            title: mod.title,
+            description: mod.description,
+            order: index + 1,
+            estimatedHours: mod.estimatedHours || Math.floor(course?.estimatedHours / moduleCount),
+            objective: mod.objective || '',
+            topics: mod.topics?.join(', ') || '',
+            contents: mod.contents?.join(', ') || '',
+            activities: mod.activities?.join(', ') || '',
+            evaluationType: mod.evaluationType || '',
+            bloomLevel: mod.bloomLevel || '',
+            cognitiveSkills: mod.cognitiveSkills?.join(', ') || '',
+            behavioralSkills: mod.behavioralSkills?.join(', ') || '',
+            technicalSkills: mod.technicalSkills?.join(', ') || '',
+            status: 'not_started',
+            lessons: lessons // Adicionar as aulas ao módulo
+          };
+        });
+        
+        setModules(newModules);
+        
+        toast({
+          title: "Módulos gerados com sucesso!",
+          description: `Foram criados ${newModules.length} módulos com ${lessonsPerModule} aulas cada.`,
+          variant: "default"
+        });
+        
+        // Atualizar o contexto do curso com os módulos
+        updateModules(newModules);
+        updateProgress(2, 50);
+      }
+    } catch (error) {
+      console.error('Erro ao gerar módulos:', error);
+      toast({
+        title: "Erro na geração de módulos",
+        description: "Não foi possível gerar os módulos. Tente novamente mais tarde.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsGeneratingModules(false);
+    }
   };
 
   // Função para continuar para a próxima fase
@@ -485,61 +597,76 @@ export default function Phase2() {
                   Defina os módulos que compõem seu curso. Arraste os módulos para reorganizá-los.
                 </CardDescription>
               </CardHeader>
+              
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                  <div>
-                    <label className="block text-sm font-medium mb-1">
-                      Quantidade de Módulos
-                    </label>
-                    <div className="flex items-center space-x-2">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setModuleCount(Math.max(1, moduleCount - 1))}
-                      >
-                        -
-                      </Button>
-                      <span className="min-w-[40px] text-center">{moduleCount}</span>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setModuleCount(Math.min(50, moduleCount + 1))}
-                      >
-                        +
-                      </Button>
+                <div className="mb-6">
+                  <h3 className="text-lg font-medium mb-2">Configuração Geral</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Quantidade de Módulos</label>
+                      <div className="flex items-center">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setModuleCount(Math.max(1, moduleCount - 1))}
+                          className="h-10 px-3"
+                        >
+                          -
+                        </Button>
+                        <Input
+                          type="number"
+                          min="1"
+                          max="50"
+                          value={moduleCount}
+                          onChange={(e) => setModuleCount(parseInt(e.target.value) || 1)}
+                          className="text-center h-10 mx-2 w-24"
+                        />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setModuleCount(moduleCount + 1)}
+                          className="h-10 px-3"
+                        >
+                          +
+                        </Button>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Aulas por Módulo</label>
+                      <div className="flex items-center">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setLessonsPerModule(Math.max(1, lessonsPerModule - 1))}
+                          className="h-10 px-3"
+                        >
+                          -
+                        </Button>
+                        <Input
+                          type="number"
+                          min="1"
+                          max="20"
+                          value={lessonsPerModule}
+                          onChange={(e) => setLessonsPerModule(parseInt(e.target.value) || 1)}
+                          className="text-center h-10 mx-2 w-24"
+                        />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setLessonsPerModule(lessonsPerModule + 1)}
+                          className="h-10 px-3"
+                        >
+                          +
+                        </Button>
+                      </div>
                     </div>
                   </div>
                   
-                  <div>
-                    <label className="block text-sm font-medium mb-1">
-                      Aulas por Módulo
-                    </label>
-                    <div className="flex items-center space-x-2">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setLessonsPerModule(Math.max(1, lessonsPerModule - 1))}
-                      >
-                        -
-                      </Button>
-                      <span className="min-w-[40px] text-center">{lessonsPerModule}</span>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setLessonsPerModule(Math.min(10, lessonsPerModule + 1))}
-                      >
-                        +
-                      </Button>
-                    </div>
-                  </div>
-                  
-                  <div className="flex flex-col gap-2">
-                    <Button 
-                      className="w-full"
+                  <div className="mt-4 flex justify-end">
+                    <Button
+                      className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
                       onClick={() => {
                         updatePhaseData(2, {
                           ...course?.phaseData?.phase2,
@@ -548,321 +675,351 @@ export default function Phase2() {
                         });
                         
                         toast({
-                          title: "Configurações salvas",
-                          description: `O curso terá ${moduleCount} módulos com ${lessonsPerModule} aulas cada.`
+                          title: "Configuração salva",
+                          description: `Curso configurado com ${moduleCount} módulos e ${lessonsPerModule} aulas por módulo.`
                         });
                       }}
                     >
+                      <span className="material-icons mr-2">save</span>
                       Salvar Configuração
-                    </Button>
-                    
-                    <Button 
-                      className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
-                      onClick={() => {
-                        // Esta funcionalidade poderia gerar automaticamente os módulos com base no briefing da Fase 1
-                        toast({
-                          title: "Gerar Módulos com IA",
-                          description: "Esta funcionalidade será implementada na próxima atualização."
-                        });
-                      }}
-                    >
-                      <span className="material-icons mr-2">auto_awesome</span>
-                      Gerar Módulos com IA
-                    </Button>
-                    
-                    <Button 
-                      className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
-                      onClick={() => setLessonConfigModalOpen(true)}
-                    >
-                      <span className="material-icons mr-2">class</span>
-                      Configurar Aulas
                     </Button>
                   </div>
                 </div>
                 
                 <div className="mb-6">
-                  <h3 className="text-lg font-medium mb-2">Adicionar/Editar Módulo</h3>
-                  
-                  <Form {...form}>
-                    <form onSubmit={form.handleSubmit(activeModuleIndex !== null ? handleUpdateModule : handleAddModule)}>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <FormField
-                          control={form.control}
-                          name="title"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Título do Módulo</FormLabel>
-                              <FormControl>
-                                <Input placeholder="Introdução ao tema" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        
-                        <FormField
-                          control={form.control}
-                          name="estimatedHours"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Carga Horária (horas)</FormLabel>
-                              <FormControl>
-                                <Input type="number" min="1" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-                      
-                      <FormField
-                        control={form.control}
-                        name="description"
-                        render={({ field }) => (
-                          <FormItem className="mb-4">
-                            <FormLabel>Descrição</FormLabel>
-                            <FormControl>
-                              <Textarea placeholder="Breve descrição do módulo" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <Accordion type="single" collapsible className="w-full mb-4">
-                        <AccordionItem value="section-1">
-                          <AccordionTrigger className="text-base font-semibold">
-                            Detalhes do Módulo
-                          </AccordionTrigger>
-                          <AccordionContent className="space-y-6">
-                            <FormField
-                              control={form.control}
-                              name="objective"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Objetivo do Módulo</FormLabel>
-                                  <FormDescription>
-                                    Descreva o objetivo principal deste módulo
-                                  </FormDescription>
-                                  <FormControl>
-                                    <Textarea placeholder="Capacitar o aluno a..." {...field} />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            
-                            <FormField
-                              control={form.control}
-                              name="topics"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Tópicos Abordados</FormLabel>
-                                  <FormDescription>
-                                    Liste os principais tópicos abordados no módulo (separados por vírgula)
-                                  </FormDescription>
-                                  <FormControl>
-                                    <Textarea placeholder="Conceitos básicos, fundamentos..." {...field} />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            
-                            <FormField
-                              control={form.control}
-                              name="contents"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Conteúdos Propostos</FormLabel>
-                                  <FormDescription>
-                                    Liste os tipos de conteúdo que serão abordados (separados por vírgula)
-                                  </FormDescription>
-                                  <FormControl>
-                                    <Textarea placeholder="Vídeos, textos, atividades práticas..." {...field} />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            
-                            <FormField
-                              control={form.control}
-                              name="activities"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Atividades Previstas</FormLabel>
-                                  <FormDescription>
-                                    Liste as atividades propostas para este módulo (separadas por vírgula)
-                                  </FormDescription>
-                                  <FormControl>
-                                    <Textarea placeholder="Exercícios, projetos, discussões..." {...field} />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            
-                            <FormField
-                              control={form.control}
-                              name="evaluationType"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Método de Avaliação</FormLabel>
-                                  <FormDescription>
-                                    Como os alunos serão avaliados neste módulo
-                                  </FormDescription>
-                                  <FormControl>
-                                    <Textarea placeholder="Questionário, projeto, apresentação..." {...field} />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            
-                            <FormField
-                              control={form.control}
-                              name="bloomLevel"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Nível da Taxonomia de Bloom</FormLabel>
-                                  <FormDescription>
-                                    Selecione o nível cognitivo principal trabalhado neste módulo
-                                  </FormDescription>
-                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                      <SelectTrigger>
-                                        <SelectValue placeholder="Selecione um nível" />
-                                      </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                      {bloomLevels.map((level) => (
-                                        <SelectItem key={level.value} value={level.value}>
-                                          {level.label} - {level.description}
-                                        </SelectItem>
-                                      ))}
-                                    </SelectContent>
-                                  </Select>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          </AccordionContent>
-                        </AccordionItem>
-                        
-                        <AccordionItem value="section-2">
-                          <AccordionTrigger className="text-base font-semibold">
-                            Competências Desenvolvidas
-                          </AccordionTrigger>
-                          <AccordionContent className="space-y-6">
-                            <FormField
-                              control={form.control}
-                              name="cognitiveSkills"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Competências Cognitivas</FormLabel>
-                                  <FormDescription>
-                                    Liste as principais competências cognitivas desenvolvidas neste módulo
-                                  </FormDescription>
-                                  <FormControl>
-                                    <Textarea placeholder="Análise crítica, resolução de problemas..." {...field} />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            
-                            <FormField
-                              control={form.control}
-                              name="behavioralSkills"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Competências Comportamentais</FormLabel>
-                                  <FormDescription>
-                                    Liste as principais competências comportamentais desenvolvidas neste módulo
-                                  </FormDescription>
-                                  <FormControl>
-                                    <Textarea placeholder="Trabalho em equipe, comunicação..." {...field} />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            
-                            <FormField
-                              control={form.control}
-                              name="technicalSkills"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Competências Técnicas</FormLabel>
-                                  <FormDescription>
-                                    Liste as principais competências técnicas desenvolvidas neste módulo
-                                  </FormDescription>
-                                  <FormControl>
-                                    <Textarea placeholder="Programação, design, análise de dados..." {...field} />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          </AccordionContent>
-                        </AccordionItem>
-                      </Accordion>
-                      
-                      <div className="space-y-3">
-                        {/* Botões de geração com IA */}
-                        <div className="flex gap-2 justify-start">
-                          <Button
-                            type="button"
-                            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
-                            onClick={() => {
-                              toast({
-                                title: "Geração de Detalhes com IA",
-                                description: "Esta funcionalidade de preenchimento automático será disponibilizada em breve."
-                              });
-                            }}
-                          >
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-lg font-medium">Gerenciar Módulos</h3>
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={generateModulesWithAI}
+                        className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
+                        disabled={isGeneratingModules}
+                      >
+                        {isGeneratingModules ? (
+                          <>
+                            <span className="animate-spin mr-2">⟳</span>
+                            Gerando...
+                          </>
+                        ) : (
+                          <>
                             <span className="material-icons mr-2">auto_awesome</span>
-                            Preencher Detalhes com IA
-                          </Button>
-                          
-                          <Button
-                            type="button"
-                            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
-                            onClick={() => {
-                              toast({
-                                title: "Geração de Competências",
-                                description: "Esta funcionalidade será disponibilizada em breve."
-                              });
-                            }}
-                          >
-                            <span className="material-icons mr-2">psychology</span>
-                            Gerar Competências
-                          </Button>
-                        </div>
-                        
-                        {/* Botões de controle do formulário */}
-                        <div className="flex justify-end gap-2">
-                          {activeModuleIndex !== null && (
-                            <Button
-                              type="button"
-                              variant="outline"
-                              onClick={() => {
-                                form.reset();
-                                setActiveModuleIndex(null);
-                              }}
-                            >
-                              Cancelar
-                            </Button>
-                          )}
-                          
-                          <Button type="submit">
-                            {activeModuleIndex !== null ? "Atualizar Módulo" : "Adicionar Módulo"}
-                          </Button>
-                        </div>
+                            Gerar Módulos com IA
+                          </>
+                        )}
+                      </Button>
+                      
+                      <Button
+                        onClick={() => setShowModuleForm(true)}
+                        className="bg-blue-600 hover:bg-blue-700"
+                      >
+                        <span className="material-icons mr-2">add</span>
+                        Adicionar Módulo
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  {showModuleForm && (
+                    <div className="border p-4 rounded-lg shadow-sm mb-6 bg-gray-50">
+                      <div className="flex justify-between items-center mb-4">
+                        <h4 className="font-medium">
+                          {activeModuleIndex !== null ? "Editar Módulo" : "Adicionar Novo Módulo"}
+                        </h4>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            setShowModuleForm(false);
+                            if (activeModuleIndex !== null) {
+                              setActiveModuleIndex(null);
+                              form.reset();
+                            }
+                          }}
+                        >
+                          <span className="material-icons">close</span>
+                        </Button>
                       </div>
-                    </form>
-                  </Form>
+                      
+                      <Form {...form}>
+                        <form onSubmit={form.handleSubmit(activeModuleIndex !== null ? handleUpdateModule : handleAddModule)}>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <FormField
+                              control={form.control}
+                              name="title"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Título do Módulo</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="Introdução ao tema" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            
+                            <FormField
+                              control={form.control}
+                              name="estimatedHours"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Carga Horária (horas)</FormLabel>
+                                  <FormControl>
+                                    <Input type="number" min="1" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                          
+                          <FormField
+                            control={form.control}
+                            name="description"
+                            render={({ field }) => (
+                              <FormItem className="mb-4">
+                                <FormLabel>Descrição</FormLabel>
+                                <FormControl>
+                                  <Textarea placeholder="Breve descrição do módulo" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <Accordion type="single" collapsible className="w-full mb-4">
+                            <AccordionItem value="section-1">
+                              <AccordionTrigger className="text-base font-semibold">
+                                Detalhes do Módulo
+                              </AccordionTrigger>
+                              <AccordionContent className="space-y-6">
+                                <FormField
+                                  control={form.control}
+                                  name="objective"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Objetivo do Módulo</FormLabel>
+                                      <FormDescription>
+                                        Descreva o objetivo principal deste módulo
+                                      </FormDescription>
+                                      <FormControl>
+                                        <Textarea placeholder="Capacitar o aluno a..." {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                
+                                <FormField
+                                  control={form.control}
+                                  name="topics"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Tópicos Abordados</FormLabel>
+                                      <FormDescription>
+                                        Liste os principais tópicos abordados no módulo (separados por vírgula)
+                                      </FormDescription>
+                                      <FormControl>
+                                        <Textarea placeholder="Conceitos básicos, fundamentos..." {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                
+                                <FormField
+                                  control={form.control}
+                                  name="contents"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Conteúdos Propostos</FormLabel>
+                                      <FormDescription>
+                                        Liste os tipos de conteúdo que serão abordados (separados por vírgula)
+                                      </FormDescription>
+                                      <FormControl>
+                                        <Textarea placeholder="Vídeos, textos, atividades práticas..." {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                
+                                <FormField
+                                  control={form.control}
+                                  name="activities"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Atividades Previstas</FormLabel>
+                                      <FormDescription>
+                                        Liste as atividades propostas para este módulo (separadas por vírgula)
+                                      </FormDescription>
+                                      <FormControl>
+                                        <Textarea placeholder="Exercícios, projetos, discussões..." {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                
+                                <FormField
+                                  control={form.control}
+                                  name="evaluationType"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Método de Avaliação</FormLabel>
+                                      <FormDescription>
+                                        Como os alunos serão avaliados neste módulo
+                                      </FormDescription>
+                                      <FormControl>
+                                        <Textarea placeholder="Questionário, projeto, apresentação..." {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                
+                                <FormField
+                                  control={form.control}
+                                  name="bloomLevel"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Nível da Taxonomia de Bloom</FormLabel>
+                                      <FormDescription>
+                                        Selecione o nível cognitivo principal trabalhado neste módulo
+                                      </FormDescription>
+                                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                          <SelectTrigger>
+                                            <SelectValue placeholder="Selecione um nível" />
+                                          </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                          {bloomLevels.map((level) => (
+                                            <SelectItem key={level.value} value={level.value}>
+                                              {level.label} - {level.description}
+                                            </SelectItem>
+                                          ))}
+                                        </SelectContent>
+                                      </Select>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              </AccordionContent>
+                            </AccordionItem>
+                            
+                            <AccordionItem value="section-2">
+                              <AccordionTrigger className="text-base font-semibold">
+                                Competências Desenvolvidas
+                              </AccordionTrigger>
+                              <AccordionContent className="space-y-6">
+                                <FormField
+                                  control={form.control}
+                                  name="cognitiveSkills"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Competências Cognitivas</FormLabel>
+                                      <FormDescription>
+                                        Liste as principais competências cognitivas desenvolvidas neste módulo
+                                      </FormDescription>
+                                      <FormControl>
+                                        <Textarea placeholder="Análise crítica, resolução de problemas..." {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                
+                                <FormField
+                                  control={form.control}
+                                  name="behavioralSkills"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Competências Comportamentais</FormLabel>
+                                      <FormDescription>
+                                        Liste as principais competências comportamentais desenvolvidas neste módulo
+                                      </FormDescription>
+                                      <FormControl>
+                                        <Textarea placeholder="Trabalho em equipe, comunicação..." {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                
+                                <FormField
+                                  control={form.control}
+                                  name="technicalSkills"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Competências Técnicas</FormLabel>
+                                      <FormDescription>
+                                        Liste as principais competências técnicas desenvolvidas neste módulo
+                                      </FormDescription>
+                                      <FormControl>
+                                        <Textarea placeholder="Programação, design, análise de dados..." {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              </AccordionContent>
+                            </AccordionItem>
+                          </Accordion>
+                          
+                          <div className="space-y-3">
+                            {/* Botões de geração com IA */}
+                            <div className="flex gap-2 justify-start">
+                              <Button
+                                type="button"
+                                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
+                                onClick={() => {
+                                  toast({
+                                    title: "Geração de Detalhes com IA",
+                                    description: "Esta funcionalidade de preenchimento automático será disponibilizada em breve."
+                                  });
+                                }}
+                              >
+                                <span className="material-icons mr-2">auto_awesome</span>
+                                Preencher Detalhes com IA
+                              </Button>
+                              
+                              <Button
+                                type="button"
+                                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
+                                onClick={() => {
+                                  toast({
+                                    title: "Geração de Competências",
+                                    description: "Esta funcionalidade será disponibilizada em breve."
+                                  });
+                                }}
+                              >
+                                <span className="material-icons mr-2">psychology</span>
+                                Gerar Competências
+                              </Button>
+                            </div>
+                            
+                            {/* Botões de controle do formulário */}
+                            <div className="flex justify-end gap-2">
+                              <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() => {
+                                  form.reset();
+                                  setActiveModuleIndex(null);
+                                  setShowModuleForm(false);
+                                }}
+                              >
+                                Cancelar
+                              </Button>
+                              
+                              <Button type="submit">
+                                {activeModuleIndex !== null ? "Atualizar Módulo" : "Adicionar Módulo"}
+                              </Button>
+                            </div>
+                          </div>
+                        </form>
+                      </Form>
+                    </div>
+                  )}
                 </div>
                 
                 <div className="mb-6">
@@ -1081,16 +1238,16 @@ export default function Phase2() {
                                 } else if (course?.phaseData?.phase1?.technicalSkills?.includes(key)) {
                                   formattedMap[`tecnica:${key}`] = moduleIds as string[];
                                 } else {
-                                  // Se não for possível determinar, usar como está
-                                  formattedMap[key] = moduleIds as string[];
+                                  // Se não conseguir determinar o tipo, usar o padrão
+                                  formattedMap[`competencia:${key}`] = moduleIds as string[];
                                 }
                               }
                             });
                             
-                            // Atualizar estado
+                            // Atualizar o estado com o novo mapeamento
                             setCompetenciesMap(formattedMap);
                             
-                            // Salvar no contexto do curso
+                            // Atualizar os dados da fase
                             updatePhaseData(2, {
                               ...course?.phaseData?.phase2,
                               competenciesMap: formattedMap,
@@ -1099,17 +1256,15 @@ export default function Phase2() {
                             });
                             
                             toast({
-                              title: "Mapeamento gerado com sucesso",
-                              description: "As competências foram distribuídas entre os módulos de acordo com análise pedagógica.",
+                              title: "Mapeamento de competências gerado",
+                              description: "Verifique e ajuste as competências conforme necessário."
                             });
-                          } else {
-                            throw new Error('Formato de resposta inválido ou erro na geração');
                           }
                         } catch (error) {
-                          console.error("Erro ao mapear competências:", error);
+                          console.error('Erro ao gerar mapeamento de competências:', error);
                           toast({
-                            title: "Erro ao mapear competências",
-                            description: error instanceof Error ? error.message : "Ocorreu um erro desconhecido",
+                            title: "Erro na geração do mapeamento",
+                            description: "Não foi possível gerar o mapeamento de competências. Tente novamente mais tarde.",
                             variant: "destructive"
                           });
                         } finally {
@@ -1117,189 +1272,205 @@ export default function Phase2() {
                         }
                       };
                       
-                      // Executar o mapeamento
                       generateMapping();
                     }}
                     disabled={isGeneratingCompetencies || modules.length === 0}
                   >
                     {isGeneratingCompetencies ? (
                       <>
-                        <span className="animate-spin mr-2">
-                          <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                        </span>
-                        Gerando Mapeamento...
+                        <span className="animate-spin mr-2">⟳</span>
+                        Gerando mapeamento...
                       </>
                     ) : (
                       <>
-                        <span className="material-icons mr-2">auto_awesome</span>
-                        Mapear com IA
+                        <span className="material-icons mr-2">psychology</span>
+                        Gerar Mapeamento com IA
                       </>
                     )}
                   </Button>
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold mb-2">Competências Cognitivas</h3>
-                  {Object.entries(competenciesMap)
-                    .filter(([key]) => key.startsWith('cognitiva:'))
-                    .map(([key, moduleIds], index) => (
-                      <div key={key} className="mb-4 p-3 border rounded-md">
-                        <div className="flex justify-between items-center mb-2">
-                          <span className="font-medium">{key.replace('cognitiva:', '')}</span>
-                          <div className="flex gap-2">
-                            {modules.map((module, moduleIndex) => (
-                              <Button
-                                key={module.id}
-                                variant={moduleIds.includes(module.id) ? "default" : "outline"}
-                                size="sm"
-                                onClick={() => {
-                                  const newModuleIds = moduleIds.includes(module.id)
-                                    ? moduleIds.filter(id => id !== module.id)
-                                    : [...moduleIds, module.id];
-                                  updateCompetencyMapping(key, newModuleIds);
-                                }}
-                              >
-                                M{module.order}
-                              </Button>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          Módulos que trabalham esta competência:
-                          {moduleIds.length > 0 ? (
-                            <div className="flex flex-wrap gap-1 mt-1">
-                              {moduleIds.map(moduleId => {
-                                const module = modules.find(m => m.id === moduleId);
-                                return module ? (
-                                  <span key={moduleId} className="inline-block bg-blue-50 text-blue-700 px-2 py-1 rounded">
-                                    Módulo {module.order}: {module.title}
-                                  </span>
-                                ) : null;
-                              })}
-                            </div>
-                          ) : (
-                            <span className="text-gray-400 ml-1">Nenhum módulo selecionado</span>
-                          )}
+                {/* Mapear as competências organizadas por tipo */}
+                {Object.keys(competenciesMap).length > 0 ? (
+                  <div className="space-y-8">
+                    {/* Competências Cognitivas */}
+                    <div>
+                      <h3 className="text-lg font-medium mb-3">Competências Cognitivas</h3>
+                      <div className="space-y-4">
+                        {Object.entries(competenciesMap)
+                          .filter(([key]) => key.startsWith('cognitiva:'))
+                          .map(([key, moduleIds]) => {
+                            const competencyName = key.replace('cognitiva:', '');
+                            return (
+                              <div key={key} className="border p-3 rounded-md">
+                                <div className="flex items-start justify-between">
+                                  <div>
+                                    <h4 className="font-medium">{competencyName}</h4>
+                                    <p className="text-sm text-gray-500">
+                                      Presente em {moduleIds.length} módulo(s)
+                                    </p>
+                                  </div>
+                                  <Button variant="ghost" size="sm">
+                                    <span className="material-icons">edit</span>
+                                  </Button>
+                                </div>
+                                <div className="mt-2 flex flex-wrap gap-1">
+                                  {moduleIds.map((moduleId) => {
+                                    const module = modules.find(m => m.id === moduleId);
+                                    return module ? (
+                                      <div key={moduleId} className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
+                                        {module.title}
+                                      </div>
+                                    ) : null;
+                                  })}
+                                </div>
+                              </div>
+                            );
+                          })}
+                      </div>
+                    </div>
+                    
+                    {/* Competências Comportamentais */}
+                    <div>
+                      <h3 className="text-lg font-medium mb-3">Competências Comportamentais</h3>
+                      <div className="space-y-4">
+                        {Object.entries(competenciesMap)
+                          .filter(([key]) => key.startsWith('comportamental:'))
+                          .map(([key, moduleIds]) => {
+                            const competencyName = key.replace('comportamental:', '');
+                            return (
+                              <div key={key} className="border p-3 rounded-md">
+                                <div className="flex items-start justify-between">
+                                  <div>
+                                    <h4 className="font-medium">{competencyName}</h4>
+                                    <p className="text-sm text-gray-500">
+                                      Presente em {moduleIds.length} módulo(s)
+                                    </p>
+                                  </div>
+                                  <Button variant="ghost" size="sm">
+                                    <span className="material-icons">edit</span>
+                                  </Button>
+                                </div>
+                                <div className="mt-2 flex flex-wrap gap-1">
+                                  {moduleIds.map((moduleId) => {
+                                    const module = modules.find(m => m.id === moduleId);
+                                    return module ? (
+                                      <div key={moduleId} className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">
+                                        {module.title}
+                                      </div>
+                                    ) : null;
+                                  })}
+                                </div>
+                              </div>
+                            );
+                          })}
+                      </div>
+                    </div>
+                    
+                    {/* Competências Técnicas */}
+                    <div>
+                      <h3 className="text-lg font-medium mb-3">Competências Técnicas</h3>
+                      <div className="space-y-4">
+                        {Object.entries(competenciesMap)
+                          .filter(([key]) => key.startsWith('tecnica:'))
+                          .map(([key, moduleIds]) => {
+                            const competencyName = key.replace('tecnica:', '');
+                            return (
+                              <div key={key} className="border p-3 rounded-md">
+                                <div className="flex items-start justify-between">
+                                  <div>
+                                    <h4 className="font-medium">{competencyName}</h4>
+                                    <p className="text-sm text-gray-500">
+                                      Presente em {moduleIds.length} módulo(s)
+                                    </p>
+                                  </div>
+                                  <Button variant="ghost" size="sm">
+                                    <span className="material-icons">edit</span>
+                                  </Button>
+                                </div>
+                                <div className="mt-2 flex flex-wrap gap-1">
+                                  {moduleIds.map((moduleId) => {
+                                    const module = modules.find(m => m.id === moduleId);
+                                    return module ? (
+                                      <div key={moduleId} className="px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs">
+                                        {module.title}
+                                      </div>
+                                    ) : null;
+                                  })}
+                                </div>
+                              </div>
+                            );
+                          })}
+                      </div>
+                    </div>
+                    
+                    {/* Outras Competências */}
+                    {Object.entries(competenciesMap)
+                      .filter(([key]) => 
+                        !key.startsWith('cognitiva:') && 
+                        !key.startsWith('comportamental:') && 
+                        !key.startsWith('tecnica:')
+                      ).length > 0 && (
+                      <div>
+                        <h3 className="text-lg font-medium mb-3">Outras Competências</h3>
+                        <div className="space-y-4">
+                          {Object.entries(competenciesMap)
+                            .filter(([key]) => 
+                              !key.startsWith('cognitiva:') && 
+                              !key.startsWith('comportamental:') && 
+                              !key.startsWith('tecnica:')
+                            )
+                            .map(([key, moduleIds]) => {
+                              const competencyName = key.startsWith('competencia:') 
+                                ? key.replace('competencia:', '') 
+                                : key;
+                              return (
+                                <div key={key} className="border p-3 rounded-md">
+                                  <div className="flex items-start justify-between">
+                                    <div>
+                                      <h4 className="font-medium">{competencyName}</h4>
+                                      <p className="text-sm text-gray-500">
+                                        Presente em {moduleIds.length} módulo(s)
+                                      </p>
+                                    </div>
+                                    <Button variant="ghost" size="sm">
+                                      <span className="material-icons">edit</span>
+                                    </Button>
+                                  </div>
+                                  <div className="mt-2 flex flex-wrap gap-1">
+                                    {moduleIds.map((moduleId) => {
+                                      const module = modules.find(m => m.id === moduleId);
+                                      return module ? (
+                                        <div key={moduleId} className="px-2 py-1 bg-gray-100 text-gray-800 rounded text-xs">
+                                          {module.title}
+                                        </div>
+                                      ) : null;
+                                    })}
+                                  </div>
+                                </div>
+                              );
+                            })}
                         </div>
                       </div>
-                    ))}
+                    )}
+                  </div>
+                ) : (
+                  <div className="border rounded-md p-8 text-center bg-gray-50">
+                    <p className="text-gray-500 mb-4">Nenhum mapeamento de competências definido</p>
+                    <p className="text-sm text-gray-400 mb-4">
+                      Utilize o botão "Gerar Mapeamento com IA" para identificar automaticamente as competências desenvolvidas em cada módulo.
+                    </p>
                     
-                  {Object.entries(competenciesMap).filter(([key]) => key.startsWith('cognitiva:')).length === 0 && (
-                    <div className="text-gray-500 mb-4">
-                      Nenhuma competência cognitiva mapeada. Use o botão "Mapear com IA" para gerar automaticamente.
-                    </div>
-                  )}
-                </div>
-                
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold mb-2">Competências Comportamentais</h3>
-                  {Object.entries(competenciesMap)
-                    .filter(([key]) => key.startsWith('comportamental:'))
-                    .map(([key, moduleIds], index) => (
-                      <div key={key} className="mb-4 p-3 border rounded-md">
-                        <div className="flex justify-between items-center mb-2">
-                          <span className="font-medium">{key.replace('comportamental:', '')}</span>
-                          <div className="flex gap-2">
-                            {modules.map((module, moduleIndex) => (
-                              <Button
-                                key={module.id}
-                                variant={moduleIds.includes(module.id) ? "default" : "outline"}
-                                size="sm"
-                                onClick={() => {
-                                  const newModuleIds = moduleIds.includes(module.id)
-                                    ? moduleIds.filter(id => id !== module.id)
-                                    : [...moduleIds, module.id];
-                                  updateCompetencyMapping(key, newModuleIds);
-                                }}
-                              >
-                                M{module.order}
-                              </Button>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          Módulos que trabalham esta competência:
-                          {moduleIds.length > 0 ? (
-                            <div className="flex flex-wrap gap-1 mt-1">
-                              {moduleIds.map(moduleId => {
-                                const module = modules.find(m => m.id === moduleId);
-                                return module ? (
-                                  <span key={moduleId} className="inline-block bg-blue-50 text-blue-700 px-2 py-1 rounded">
-                                    Módulo {module.order}: {module.title}
-                                  </span>
-                                ) : null;
-                              })}
-                            </div>
-                          ) : (
-                            <span className="text-gray-400 ml-1">Nenhum módulo selecionado</span>
-                          )}
-                        </div>
+                    {modules.length === 0 && (
+                      <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-md">
+                        <p className="text-amber-700 text-sm">
+                          É necessário adicionar módulos ao curso antes de gerar o mapeamento de competências.
+                        </p>
                       </div>
-                    ))}
-                    
-                  {Object.entries(competenciesMap).filter(([key]) => key.startsWith('comportamental:')).length === 0 && (
-                    <div className="text-gray-500 mb-4">
-                      Nenhuma competência comportamental mapeada. Use o botão "Mapear com IA" para gerar automaticamente.
-                    </div>
-                  )}
-                </div>
-                
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold mb-2">Competências Técnicas</h3>
-                  {Object.entries(competenciesMap)
-                    .filter(([key]) => key.startsWith('tecnica:'))
-                    .map(([key, moduleIds], index) => (
-                      <div key={key} className="mb-4 p-3 border rounded-md">
-                        <div className="flex justify-between items-center mb-2">
-                          <span className="font-medium">{key.replace('tecnica:', '')}</span>
-                          <div className="flex gap-2">
-                            {modules.map((module, moduleIndex) => (
-                              <Button
-                                key={module.id}
-                                variant={moduleIds.includes(module.id) ? "default" : "outline"}
-                                size="sm"
-                                onClick={() => {
-                                  const newModuleIds = moduleIds.includes(module.id)
-                                    ? moduleIds.filter(id => id !== module.id)
-                                    : [...moduleIds, module.id];
-                                  updateCompetencyMapping(key, newModuleIds);
-                                }}
-                              >
-                                M{module.order}
-                              </Button>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          Módulos que trabalham esta competência:
-                          {moduleIds.length > 0 ? (
-                            <div className="flex flex-wrap gap-1 mt-1">
-                              {moduleIds.map(moduleId => {
-                                const module = modules.find(m => m.id === moduleId);
-                                return module ? (
-                                  <span key={moduleId} className="inline-block bg-blue-50 text-blue-700 px-2 py-1 rounded">
-                                    Módulo {module.order}: {module.title}
-                                  </span>
-                                ) : null;
-                              })}
-                            </div>
-                          ) : (
-                            <span className="text-gray-400 ml-1">Nenhum módulo selecionado</span>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                    
-                  {Object.entries(competenciesMap).filter(([key]) => key.startsWith('tecnica:')).length === 0 && (
-                    <div className="text-gray-500 mb-4">
-                      Nenhuma competência técnica mapeada. Use o botão "Mapear com IA" para gerar automaticamente.
-                    </div>
-                  )}
-                </div>
+                    )}
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
@@ -1309,136 +1480,164 @@ export default function Phase2() {
               <CardHeader>
                 <CardTitle>Planejamento Detalhado</CardTitle>
                 <CardDescription>
-                  Visualize a distribuição completa de competências e aulas ao longo do curso.
+                  Visualize a organização geral do curso e revise o planejamento dos conteúdos.
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Table>
-                  <TableCaption>
-                    Planejamento de Módulos e Competências
-                  </TableCaption>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[100px]">Módulo</TableHead>
-                      <TableHead>Título</TableHead>
-                      <TableHead>Competências Desenvolvidas</TableHead>
-                      <TableHead className="text-right">Aulas</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {modules.sort((a, b) => a.order - b.order).map((module) => (
-                      <TableRow key={module.id}>
-                        <TableCell className="font-medium">Módulo {module.order}</TableCell>
-                        <TableCell>
-                          <div>
-                            <div className="font-medium">{module.title}</div>
-                            <div className="text-sm text-muted-foreground">
-                              {module.estimatedHours}h • {module.bloomLevel && bloomLevels.find(b => b.value === module.bloomLevel)?.label}
+                <div className="space-y-6">
+                  {/* Resumo da Estrutura */}
+                  <div>
+                    <h3 className="text-lg font-medium mb-3">Resumo da Estrutura</h3>
+                    <div className="bg-gray-50 p-4 rounded-md">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-sm font-medium text-gray-500">Título do Curso</p>
+                          <p>{course?.title}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-gray-500">Carga Horária</p>
+                          <p>{course?.estimatedHours} horas</p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-gray-500">Módulos</p>
+                          <p>{modules.length}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-gray-500">Total de Aulas</p>
+                          <p>{modules.length * lessonsPerModule}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Distribuição de Carga Horária */}
+                  <div>
+                    <h3 className="text-lg font-medium mb-3">Distribuição de Carga Horária</h3>
+                    <div className="overflow-x-auto">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Módulo</TableHead>
+                            <TableHead className="w-[100px]">Horas</TableHead>
+                            <TableHead className="w-[100px]">% do Total</TableHead>
+                            <TableHead className="text-right">Aulas</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {modules.map((module) => {
+                            const percentOfTotal = course?.estimatedHours 
+                              ? Math.round((module.estimatedHours / course.estimatedHours) * 100) 
+                              : 0;
+                            
+                            return (
+                              <TableRow key={module.id}>
+                                <TableCell className="font-medium">{module.title}</TableCell>
+                                <TableCell>{module.estimatedHours}h</TableCell>
+                                <TableCell>{percentOfTotal}%</TableCell>
+                                <TableCell className="text-right">{lessonsPerModule}</TableCell>
+                              </TableRow>
+                            );
+                          })}
+                          
+                          {modules.length === 0 && (
+                            <TableRow>
+                              <TableCell colSpan={4} className="text-center py-4 text-gray-500">
+                                Nenhum módulo adicionado
+                              </TableCell>
+                            </TableRow>
+                          )}
+                        </TableBody>
+                      </Table>
+                    </div>
+                  </div>
+                  
+                  {/* Planejamento de Avaliações */}
+                  <div>
+                    <h3 className="text-lg font-medium mb-3">Planejamento de Avaliações</h3>
+                    
+                    {modules.length > 0 ? (
+                      <div className="space-y-4">
+                        {modules.map((module) => (
+                          <div key={module.id} className="border p-4 rounded-md">
+                            <h4 className="font-medium">{module.title}</h4>
+                            <div className="mt-2">
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                  <p className="text-sm font-medium text-gray-500">Métodos de Avaliação</p>
+                                  <p className="text-sm">{module.evaluationType || "Não definido"}</p>
+                                </div>
+                                <div>
+                                  <p className="text-sm font-medium text-gray-500">Nível de Bloom</p>
+                                  <p className="text-sm">
+                                    {bloomLevels.find(b => b.value === module.bloomLevel)?.label || "Não definido"}
+                                  </p>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex flex-wrap gap-1">
-                            {Object.entries(competenciesMap)
-                              .filter(([_, moduleIds]) => moduleIds.includes(module.id))
-                              .map(([key]) => {
-                                let type = "";
-                                let color = "";
-                                let cleanKey = key;
-                                
-                                if (key.startsWith('cognitiva:')) {
-                                  type = "C";
-                                  color = "bg-blue-50 text-blue-700";
-                                  cleanKey = key.replace('cognitiva:', '');
-                                } else if (key.startsWith('comportamental:')) {
-                                  type = "B";
-                                  color = "bg-green-50 text-green-700";
-                                  cleanKey = key.replace('comportamental:', '');
-                                } else if (key.startsWith('tecnica:')) {
-                                  type = "T";
-                                  color = "bg-purple-50 text-purple-700";
-                                  cleanKey = key.replace('tecnica:', '');
-                                }
-                                
-                                return (
-                                  <span key={key} className={`inline-block px-2 py-0.5 rounded text-xs ${color}`}>
-                                    {type && `${type}: `}{cleanKey}
-                                  </span>
-                                );
-                              })}
-                              
-                            {Object.entries(competenciesMap)
-                              .filter(([_, moduleIds]) => moduleIds.includes(module.id))
-                              .length === 0 && (
-                              <span className="text-xs text-gray-400">
-                                Nenhuma competência mapeada
-                              </span>
-                            )}
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {lessonsPerModule}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="border rounded-md p-4 text-center bg-gray-50">
+                        <p className="text-gray-500">
+                          Sem módulos para exibir o planejamento de avaliações
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
         </Tabs>
       </div>
       
-      {/* Modal de Configuração de Aulas */}
+      {/* Modal de configuração de aulas */}
       <Dialog open={lessonConfigModalOpen} onOpenChange={setLessonConfigModalOpen}>
-        <DialogContent className="sm:max-w-[600px]">
+        <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
             <DialogTitle>Configurar Aulas do Módulo</DialogTitle>
             <DialogDescription>
-              {selectedModule ? `Módulo: ${selectedModule.title}` : 'Selecione um módulo'}
+              Configure as aulas para o módulo "{selectedModule?.title}". 
+              Este processo irá gerar automaticamente o conteúdo de cada aula com base no tema e objetivos do módulo.
             </DialogDescription>
           </DialogHeader>
           
           <div className="py-4">
-            <div className="mb-4 p-4 bg-muted rounded-lg">
-              <h3 className="text-lg font-semibold mb-2">Configurações do Módulo</h3>
-              <p className="text-sm text-muted-foreground mb-2">
-                Esse módulo terá {lessonsPerModule} aulas geradas automaticamente com base na estratégia didática definida.
-              </p>
-              
-              <div className="grid grid-cols-2 gap-2 mt-4">
-                <div>
-                  <p className="text-sm font-medium">Objetivos:</p>
-                  <p className="text-xs text-muted-foreground">{selectedModule?.objective || "Não definido"}</p>
-                </div>
-                <div>
-                  <p className="text-sm font-medium">Tópicos:</p>
-                  <p className="text-xs text-muted-foreground">{selectedModule?.topics || "Não definido"}</p>
-                </div>
+            <div className="mb-4">
+              <label className="text-sm font-medium block mb-1">Número de Aulas</label>
+              <div className="flex items-center">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setNumLessons(Math.max(1, numLessons - 1))}
+                  className="h-10 px-3"
+                >
+                  -
+                </Button>
+                <Input
+                  type="number"
+                  min="1"
+                  max="20"
+                  value={numLessons}
+                  onChange={(e) => setNumLessons(parseInt(e.target.value) || 1)}
+                  className="text-center h-10 mx-2 w-20"
+                />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setNumLessons(numLessons + 1)}
+                  className="h-10 px-3"
+                >
+                  +
+                </Button>
               </div>
             </div>
             
-            <div className="p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
-              <h3 className="text-lg font-semibold mb-2 text-blue-700 dark:text-blue-300">Geração de Conteúdo com IA</h3>
-              <p className="text-sm text-blue-600 dark:text-blue-400 mb-4">
-                O sistema vai gerar automaticamente o conteúdo para as {lessonsPerModule} aulas deste módulo, 
-                distribuindo os tópicos e competências definidos no módulo.
+            <div className="bg-gray-50 p-3 rounded-md mb-4">
+              <p className="text-sm text-gray-700">
+                Ao clicar em "Gerar Conteúdo", a IA criará automaticamente o conteúdo para cada aula com base no objetivo e tópicos do módulo.
               </p>
-              
-              <div className="flex flex-col space-y-2">
-                <div className="flex items-center">
-                  <span className="material-icons text-blue-600 mr-2">auto_awesome</span>
-                  <span className="text-sm">Títulos e descrições personalizadas para cada aula</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="material-icons text-blue-600 mr-2">auto_awesome</span>
-                  <span className="text-sm">Conteúdo pedagógico alinhado ao objetivo do módulo</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="material-icons text-blue-600 mr-2">auto_awesome</span>
-                  <span className="text-sm">Atividades e recursos educacionais para cada aula</span>
-                </div>
-              </div>
             </div>
           </div>
           
@@ -1447,24 +1646,19 @@ export default function Phase2() {
               Cancelar
             </Button>
             <Button 
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
               onClick={generateLessonContent}
               disabled={isGeneratingLessonContent}
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
             >
               {isGeneratingLessonContent ? (
                 <>
-                  <span className="animate-spin mr-2">
-                    <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                  </span>
-                  Gerando Aulas...
+                  <span className="animate-spin mr-2">⟳</span>
+                  Gerando...
                 </>
               ) : (
                 <>
                   <span className="material-icons mr-2">auto_awesome</span>
-                  Gerar Aulas com IA
+                  Gerar Conteúdo
                 </>
               )}
             </Button>
