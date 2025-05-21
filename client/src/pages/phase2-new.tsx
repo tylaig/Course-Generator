@@ -153,10 +153,15 @@ export default function Phase2() {
         setCompetenciesMap(phaseData.competenciesMap);
       }
     }
-    
-    // Atualizar o progresso para a fase 2
-    updateProgress(2, modules.length > 0 ? 50 : 10);
   }, [course]);
+  
+  // Efeito separado para atualizar o progresso
+  useEffect(() => {
+    if (course) {
+      // Atualizar o progresso para a fase 2
+      updateProgress(2, modules.length > 0 ? 50 : 10);
+    }
+  }, [course, modules.length, updateProgress]);
 
   // Função para lidar com o redirecionamento para a fase 1
   const handleGoBack = () => {
