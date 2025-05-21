@@ -765,47 +765,103 @@ export default function Phase2() {
                       phaseData: course?.phaseData?.phase1
                     };
                     
-                    // Simular chamada de API (seria substituída pela chamada real)
-                    setTimeout(() => {
-                      // Criar mapeamento simulado para demonstração
-                      const newCompetencyMap: Record<string, string[]> = {};
-                      
-                      // Popular mapeamento cognitivo
-                      modules.forEach(module => {
-                        const moduleId = module.id;
+                    // Chamar a API para mapeamento de competências
+                    const generateMapping = async () => {
+                      try {
+                        // Obter os dados do curso e fase da Fase 1
+                        const courseData = {
+                          id: course?.id,
+                          title: course?.title,
+                          theme: course?.theme,
+                          estimatedHours: course?.estimatedHours,
+                          format: course?.format,
+                          platform: course?.platform,
+                          deliveryFormat: course?.deliveryFormat,
+                          ...course?.phaseData?.phase1
+                        };
                         
-                        // Distribuir competências aleatoriamente entre os módulos
-                        if (Math.random() > 0.5) newCompetencyMap["cognitiveCompetency"] = [...(newCompetencyMap["cognitiveCompetency"] || []), moduleId];
-                        if (Math.random() > 0.5) newCompetencyMap["analyticalThinking"] = [...(newCompetencyMap["analyticalThinking"] || []), moduleId];
-                        if (Math.random() > 0.5) newCompetencyMap["problemSolving"] = [...(newCompetencyMap["problemSolving"] || []), moduleId];
+                        // Fazer a chamada para a API
+                        const response = await fetch('/api/generate/competency-mapping', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify({
+                            courseId: course?.id,
+                            modules: modules,
+                            courseDetails: courseData
+                          })
+                        });
                         
-                        // Distribuir competências comportamentais
-                        if (Math.random() > 0.5) newCompetencyMap["teamwork"] = [...(newCompetencyMap["teamwork"] || []), moduleId];
-                        if (Math.random() > 0.5) newCompetencyMap["communication"] = [...(newCompetencyMap["communication"] || []), moduleId];
+                        if (!response.ok) {
+                          throw new Error(`Erro na geração do mapeamento: ${response.status}`);
+                        }
                         
-                        // Distribuir competências técnicas
-                        if (Math.random() > 0.5) newCompetencyMap["technicalSkill"] = [...(newCompetencyMap["technicalSkill"] || []), moduleId];
-                        if (Math.random() > 0.5) newCompetencyMap["codingPractice"] = [...(newCompetencyMap["codingPractice"] || []), moduleId];
-                      });
-                      
-                      // Atualizar estado
-                      setCompetenciesMap(newCompetencyMap);
-                      
-                      // Salvar no contexto do curso
-                      updatePhaseData(2, {
-                        ...course?.phaseData?.phase2,
-                        competenciesMap: newCompetencyMap,
-                        moduleCount,
-                        lessonsPerModule
-                      });
-                      
-                      setIsGeneratingCompetencies(false);
-                      
-                      toast({
-                        title: "Mapeamento gerado com sucesso",
-                        description: "As competências foram distribuídas entre os módulos de acordo com análise pedagógica.",
-                      });
-                    }, 1500);
+                        const data = await response.json();
+                        
+                        // Verificar se temos o mapeamento de competências
+                        if (data.success && data.competenciesMap) {
+                          // Formatar e adicionar os prefixos às competências, caso não tenham
+                          const formattedMap: Record<string, string[]> = {};
+                          
+                          // Processar o mapa retornado pela API, garantindo que as competências 
+                          // tenham os prefixos corretos (cognitiva:, comportamental:, tecnica:)
+                          Object.entries(data.competenciesMap).forEach(([key, moduleIds]) => {
+                            // Verificar se a chave já tem um dos prefixos
+                            const hasPrefix = key.startsWith('cognitiva:') || 
+                                             key.startsWith('comportamental:') || 
+                                             key.startsWith('tecnica:');
+                            
+                            if (hasPrefix) {
+                              formattedMap[key] = moduleIds as string[];
+                            } else {
+                              // Tentar determinar o tipo de competência pelo conteúdo
+                              // e adicionar o prefixo apropriado
+                              if (course?.phaseData?.phase1?.cognitiveSkills?.includes(key)) {
+                                formattedMap[`cognitiva:${key}`] = moduleIds as string[];
+                              } else if (course?.phaseData?.phase1?.behavioralSkills?.includes(key)) {
+                                formattedMap[`comportamental:${key}`] = moduleIds as string[];
+                              } else if (course?.phaseData?.phase1?.technicalSkills?.includes(key)) {
+                                formattedMap[`tecnica:${key}`] = moduleIds as string[];
+                              } else {
+                                // Se não for possível determinar, usar como está
+                                formattedMap[key] = moduleIds as string[];
+                              }
+                            }
+                          });
+                          
+                          // Atualizar estado
+                          setCompetenciesMap(formattedMap);
+                          
+                          // Salvar no contexto do curso
+                          updatePhaseData(2, {
+                            ...course?.phaseData?.phase2,
+                            competenciesMap: formattedMap,
+                            moduleCount,
+                            lessonsPerModule
+                          });
+                          
+                          toast({
+                            title: "Mapeamento gerado com sucesso",
+                            description: "As competências foram distribuídas entre os módulos de acordo com análise pedagógica.",
+                          });
+                        } else {
+                          throw new Error('Formato de resposta inválido ou erro na geração');
+                        }
+                      } catch (error) {
+                        console.error("Erro ao mapear competências:", error);
+                        toast({
+                          title: "Erro ao mapear competências",
+                          description: error instanceof Error ? error.message : "Ocorreu um erro desconhecido",
+                          variant: "destructive"
+                        });
+                      } finally {
+                        setIsGeneratingCompetencies(false);
+                      }
+                    };
+                    
+                    // Executar o mapeamento
+                    generateMapping();
                   }}
                   disabled={isGeneratingCompetencies || modules.length === 0}
                 >

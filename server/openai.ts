@@ -460,6 +460,71 @@ export async function generateAllEvaluations(
   }
 }
 
+// Gerar mapeamento de competências para os módulos do curso
+export async function generateCompetencyMapping(modules: any[], courseDetails: CourseDetails) {
+  try {
+    console.log("Gerando mapeamento de competências com IA...");
+    
+    // Extrair as competências do curso dos detalhes
+    const cognitiveSkills = courseDetails.cognitiveSkills?.split(',').map(skill => skill.trim()).filter(Boolean) || [];
+    const behavioralSkills = courseDetails.behavioralSkills?.split(',').map(skill => skill.trim()).filter(Boolean) || [];
+    const technicalSkills = courseDetails.technicalSkills?.split(',').map(skill => skill.trim()).filter(Boolean) || [];
+    
+    // Preparando o prompt para a IA
+    const prompt = `
+      Com base nos detalhes do curso e módulos abaixo, crie um mapeamento de competências, indicando quais módulos desenvolvem cada competência. 
+      
+      Sobre o curso:
+      Título: ${courseDetails.title}
+      Tema: ${courseDetails.theme}
+      Público-alvo: ${courseDetails.publicTarget || 'Não especificado'}
+      Nível educacional: ${courseDetails.educationalLevel || 'Não especificado'}
+      
+      Competências cognitivas a serem desenvolvidas: ${cognitiveSkills.join(', ')}
+      Competências comportamentais a serem desenvolvidas: ${behavioralSkills.join(', ')}
+      Competências técnicas a serem desenvolvidas: ${technicalSkills.join(', ')}
+      
+      Módulos do curso:
+      ${modules.map((module, index) => `
+        Módulo ${module.order}: ${module.title}
+        Descrição: ${module.description}
+        Objetivo: ${module.objective || 'Não especificado'}
+      `).join('\n')}
+      
+      Gere um JSON com o seguinte formato:
+      {
+        "competenciesMap": {
+          "cognitiva:NOME_DA_COMPETENCIA": ["ID_MODULO1", "ID_MODULO2"],
+          "comportamental:NOME_DA_COMPETENCIA": ["ID_MODULO1", "ID_MODULO3"],
+          "tecnica:NOME_DA_COMPETENCIA": ["ID_MODULO1"]
+        }
+      }
+      
+      Onde cada competência deve ter o prefixo do tipo (cognitiva:, comportamental: ou tecnica:) e a lista deve conter os IDs dos módulos que desenvolvem essa competência.
+      Distribua as competências de maneira pedagógica e coerente, e NÃO crie competências adicionais além das listadas acima.
+    `;
+    
+    // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { role: "system", content: "Você é um especialista em design instrucional e pedagogia, capaz de mapear competências para módulos de um curso." },
+        { role: "user", content: prompt }
+      ],
+      response_format: { type: "json_object" },
+      temperature: 0.5,
+    });
+    
+    const mappingData = JSON.parse(response.choices[0].message.content);
+    console.log("Mapeamento de competências gerado:", mappingData);
+    
+    return mappingData;
+  } catch (error) {
+    console.error("Erro ao gerar mapeamento de competências:", error);
+    throw error;
+  }
+}
+
 // Generate image for a module
 export async function generateModuleImage(moduleInfo: Module, courseDetails: CourseDetails) {
   try {

@@ -471,6 +471,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // ---- Generate Competency Mapping (Phase 2) ----
+  app.post("/api/generate/competency-mapping", async (req, res) => {
+    try {
+      const { courseId, modules, courseDetails } = req.body;
+      
+      console.log("Recebendo solicitação para mapeamento de competências:", {
+        courseId,
+        modulesCount: modules?.length || 0
+      });
+      
+      if (!courseId) {
+        return res.status(400).json({ message: "Course ID is required" });
+      }
+      
+      if (!modules || !Array.isArray(modules) || modules.length === 0) {
+        return res.status(400).json({ message: "Modules are required and must be an array" });
+      }
+      
+      if (!courseDetails) {
+        return res.status(400).json({ message: "Course details are required" });
+      }
+      
+      const mappingData = await generateCompetencyMapping(modules, courseDetails);
+      
+      res.json({
+        success: true,
+        ...mappingData
+      });
+    } catch (error) {
+      console.error("Error in competency mapping generation:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to generate competency mapping", 
+        error: error instanceof Error ? error.message : "Unknown error" 
+      });
+    }
+  });
+
   // ---- Generate All Content (Phase 3) ----
   app.post("/api/generate/all-content", async (req, res) => {
     try {
