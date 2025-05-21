@@ -575,6 +575,8 @@ export async function generateAllModuleImages(modules: Module[], courseDetails: 
   }
 }
 
+// Segunda implementação removida para evitar duplicação
+
 export default {
   generateStrategy,
   generateStructure,
@@ -585,5 +587,6 @@ export default {
   generateAllContent,
   generateAllEvaluations,
   generateModuleImage,
-  generateAllModuleImages
+  generateAllModuleImages,
+  generateCompetencyMapping
 };
