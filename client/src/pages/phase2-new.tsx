@@ -537,7 +537,7 @@ export default function Phase2() {
                     </div>
                   </div>
                   
-                  <div className="flex items-end">
+                  <div className="flex flex-col gap-2">
                     <Button 
                       className="w-full"
                       onClick={() => {
@@ -554,6 +554,28 @@ export default function Phase2() {
                       }}
                     >
                       Salvar Configuração
+                    </Button>
+                    
+                    <Button 
+                      className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
+                      onClick={() => {
+                        // Esta funcionalidade poderia gerar automaticamente os módulos com base no briefing da Fase 1
+                        toast({
+                          title: "Gerar Módulos com IA",
+                          description: "Esta funcionalidade será implementada na próxima atualização."
+                        });
+                      }}
+                    >
+                      <span className="material-icons mr-2">auto_awesome</span>
+                      Gerar Módulos com IA
+                    </Button>
+                    
+                    <Button 
+                      className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
+                      onClick={() => setLessonConfigModalOpen(true)}
+                    >
+                      <span className="material-icons mr-2">class</span>
+                      Configurar Aulas
                     </Button>
                   </div>
                 </div>
