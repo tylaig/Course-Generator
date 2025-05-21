@@ -43,6 +43,7 @@ export type CourseModule = {
   topics?: string;
   contents?: string;
   activities?: string;
+  contentTypes?: string[];
   cognitiveSkills?: string;
   behavioralSkills?: string;
   technicalSkills?: string;
