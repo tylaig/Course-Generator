@@ -1,0 +1,224 @@
+CourseContext.tsx:368 Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
+    at Phase2 (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/pages/phase2-new.tsx?t=1747787194343:107:25)
+    at Route (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=1810c90e:323:16)
+    at Switch (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=1810c90e:379:17)
+    at main
+    at div
+    at div
+    at CourseProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/context/CourseContext.tsx:31:34)
+    at QueryClientProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=1810c90e:2805:3)
+    at App (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/App.tsx?t=1747787194343&v=1bCNQGcWIWbjSIQuIbsqq:38:21)
+    at CourseProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/context/CourseContext.tsx?v=1bCNQGcWIWbjSIQuIbsqq:31:34)
+    at Provider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-W6PG6DRF.js?v=1810c90e:38:15)
+    at TooltipProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=1810c90e:59:5)
+    at QueryClientProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=1810c90e:2805:3)
+printWarning @ chunk-RPCDYKBN.js?v=1810c90e:521
+error @ chunk-RPCDYKBN.js?v=1810c90e:505
+checkForNestedUpdates @ chunk-RPCDYKBN.js?v=1810c90e:19665
+scheduleUpdateOnFiber @ chunk-RPCDYKBN.js?v=1810c90e:18533
+dispatchSetState @ chunk-RPCDYKBN.js?v=1810c90e:12403
+updateProgress @ CourseContext.tsx:368
+(anonymous) @ phase2-new.tsx:162
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=1810c90e:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=1810c90e:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=1810c90e:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=1810c90e:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=1810c90e:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=1810c90e:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=1810c90e:19447
+(anonymous) @ chunk-RPCDYKBN.js?v=1810c90e:19328
+workLoop @ chunk-RPCDYKBN.js?v=1810c90e:197
+flushWork @ chunk-RPCDYKBN.js?v=1810c90e:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=1810c90e:384
+CourseContext.tsx:368 Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
+    at Phase2 (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/pages/phase2-new.tsx?t=1747787194343:107:25)
+    at Route (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=1810c90e:323:16)
+    at Switch (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=1810c90e:379:17)
+    at main
+    at div
+    at div
+    at CourseProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/context/CourseContext.tsx:31:34)
+    at QueryClientProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=1810c90e:2805:3)
+    at App (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/App.tsx?t=1747787194343&v=1bCNQGcWIWbjSIQuIbsqq:38:21)
+    at CourseProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/context/CourseContext.tsx?v=1bCNQGcWIWbjSIQuIbsqq:31:34)
+    at Provider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-W6PG6DRF.js?v=1810c90e:38:15)
+    at TooltipProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=1810c90e:59:5)
+    at QueryClientProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=1810c90e:2805:3)
+printWarning @ chunk-RPCDYKBN.js?v=1810c90e:521
+error @ chunk-RPCDYKBN.js?v=1810c90e:505
+checkForNestedUpdates @ chunk-RPCDYKBN.js?v=1810c90e:19665
+scheduleUpdateOnFiber @ chunk-RPCDYKBN.js?v=1810c90e:18533
+dispatchSetState @ chunk-RPCDYKBN.js?v=1810c90e:12403
+updateProgress @ CourseContext.tsx:368
+(anonymous) @ phase2-new.tsx:162
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=1810c90e:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=1810c90e:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=1810c90e:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=1810c90e:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=1810c90e:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=1810c90e:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=1810c90e:19447
+(anonymous) @ chunk-RPCDYKBN.js?v=1810c90e:19328
+workLoop @ chunk-RPCDYKBN.js?v=1810c90e:197
+flushWork @ chunk-RPCDYKBN.js?v=1810c90e:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=1810c90e:384
+CourseContext.tsx:368 Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
+    at Phase2 (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/pages/phase2-new.tsx?t=1747787194343:107:25)
+    at Route (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=1810c90e:323:16)
+    at Switch (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=1810c90e:379:17)
+    at main
+    at div
+    at div
+    at CourseProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/context/CourseContext.tsx:31:34)
+    at QueryClientProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=1810c90e:2805:3)
+    at App (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/App.tsx?t=1747787194343&v=1bCNQGcWIWbjSIQuIbsqq:38:21)
+    at CourseProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/context/CourseContext.tsx?v=1bCNQGcWIWbjSIQuIbsqq:31:34)
+    at Provider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-W6PG6DRF.js?v=1810c90e:38:15)
+    at TooltipProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=1810c90e:59:5)
+    at QueryClientProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=1810c90e:2805:3)
+printWarning @ chunk-RPCDYKBN.js?v=1810c90e:521
+error @ chunk-RPCDYKBN.js?v=1810c90e:505
+checkForNestedUpdates @ chunk-RPCDYKBN.js?v=1810c90e:19665
+scheduleUpdateOnFiber @ chunk-RPCDYKBN.js?v=1810c90e:18533
+dispatchSetState @ chunk-RPCDYKBN.js?v=1810c90e:12403
+updateProgress @ CourseContext.tsx:368
+(anonymous) @ phase2-new.tsx:162
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=1810c90e:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=1810c90e:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=1810c90e:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=1810c90e:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=1810c90e:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=1810c90e:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=1810c90e:19447
+(anonymous) @ chunk-RPCDYKBN.js?v=1810c90e:19328
+workLoop @ chunk-RPCDYKBN.js?v=1810c90e:197
+flushWork @ chunk-RPCDYKBN.js?v=1810c90e:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=1810c90e:384
+CourseContext.tsx:368 Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
+    at Phase2 (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/pages/phase2-new.tsx?t=1747787194343:107:25)
+    at Route (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=1810c90e:323:16)
+    at Switch (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=1810c90e:379:17)
+    at main
+    at div
+    at div
+    at CourseProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/context/CourseContext.tsx:31:34)
+    at QueryClientProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=1810c90e:2805:3)
+    at App (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/App.tsx?t=1747787194343&v=1bCNQGcWIWbjSIQuIbsqq:38:21)
+    at CourseProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/context/CourseContext.tsx?v=1bCNQGcWIWbjSIQuIbsqq:31:34)
+    at Provider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-W6PG6DRF.js?v=1810c90e:38:15)
+    at TooltipProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=1810c90e:59:5)
+    at QueryClientProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=1810c90e:2805:3)
+printWarning @ chunk-RPCDYKBN.js?v=1810c90e:521
+error @ chunk-RPCDYKBN.js?v=1810c90e:505
+checkForNestedUpdates @ chunk-RPCDYKBN.js?v=1810c90e:19665
+scheduleUpdateOnFiber @ chunk-RPCDYKBN.js?v=1810c90e:18533
+dispatchSetState @ chunk-RPCDYKBN.js?v=1810c90e:12403
+updateProgress @ CourseContext.tsx:368
+(anonymous) @ phase2-new.tsx:162
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=1810c90e:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=1810c90e:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=1810c90e:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=1810c90e:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=1810c90e:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=1810c90e:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=1810c90e:19447
+(anonymous) @ chunk-RPCDYKBN.js?v=1810c90e:19328
+workLoop @ chunk-RPCDYKBN.js?v=1810c90e:197
+flushWork @ chunk-RPCDYKBN.js?v=1810c90e:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=1810c90e:384
+CourseContext.tsx:368 Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
+    at Phase2 (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/pages/phase2-new.tsx?t=1747787194343:107:25)
+    at Route (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=1810c90e:323:16)
+    at Switch (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=1810c90e:379:17)
+    at main
+    at div
+    at div
+    at CourseProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/context/CourseContext.tsx:31:34)
+    at QueryClientProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=1810c90e:2805:3)
+    at App (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/App.tsx?t=1747787194343&v=1bCNQGcWIWbjSIQuIbsqq:38:21)
+    at CourseProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/context/CourseContext.tsx?v=1bCNQGcWIWbjSIQuIbsqq:31:34)
+    at Provider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-W6PG6DRF.js?v=1810c90e:38:15)
+    at TooltipProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=1810c90e:59:5)
+    at QueryClientProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=1810c90e:2805:3)
+printWarning @ chunk-RPCDYKBN.js?v=1810c90e:521
+error @ chunk-RPCDYKBN.js?v=1810c90e:505
+checkForNestedUpdates @ chunk-RPCDYKBN.js?v=1810c90e:19665
+scheduleUpdateOnFiber @ chunk-RPCDYKBN.js?v=1810c90e:18533
+dispatchSetState @ chunk-RPCDYKBN.js?v=1810c90e:12403
+updateProgress @ CourseContext.tsx:368
+(anonymous) @ phase2-new.tsx:162
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=1810c90e:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=1810c90e:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=1810c90e:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=1810c90e:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=1810c90e:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=1810c90e:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=1810c90e:19447
+(anonymous) @ chunk-RPCDYKBN.js?v=1810c90e:19328
+workLoop @ chunk-RPCDYKBN.js?v=1810c90e:197
+flushWork @ chunk-RPCDYKBN.js?v=1810c90e:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=1810c90e:384
+CourseContext.tsx:368 Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
+    at Phase2 (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/pages/phase2-new.tsx?t=1747787194343:107:25)
+    at Route (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=1810c90e:323:16)
+    at Switch (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=1810c90e:379:17)
+    at main
+    at div
+    at div
+    at CourseProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/context/CourseContext.tsx:31:34)
+    at QueryClientProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=1810c90e:2805:3)
+    at App (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/App.tsx?t=1747787194343&v=1bCNQGcWIWbjSIQuIbsqq:38:21)
+    at CourseProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/context/CourseContext.tsx?v=1bCNQGcWIWbjSIQuIbsqq:31:34)
+    at Provider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-W6PG6DRF.js?v=1810c90e:38:15)
+    at TooltipProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=1810c90e:59:5)
+    at QueryClientProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=1810c90e:2805:3)
+printWarning @ chunk-RPCDYKBN.js?v=1810c90e:521
+error @ chunk-RPCDYKBN.js?v=1810c90e:505
+checkForNestedUpdates @ chunk-RPCDYKBN.js?v=1810c90e:19665
+scheduleUpdateOnFiber @ chunk-RPCDYKBN.js?v=1810c90e:18533
+dispatchSetState @ chunk-RPCDYKBN.js?v=1810c90e:12403
+updateProgress @ CourseContext.tsx:368
+(anonymous) @ phase2-new.tsx:162
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=1810c90e:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=1810c90e:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=1810c90e:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=1810c90e:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=1810c90e:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=1810c90e:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=1810c90e:19447
+(anonymous) @ chunk-RPCDYKBN.js?v=1810c90e:19328
+workLoop @ chunk-RPCDYKBN.js?v=1810c90e:197
+flushWork @ chunk-RPCDYKBN.js?v=1810c90e:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=1810c90e:384
+CourseContext.tsx:368 Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
+    at Phase2 (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/pages/phase2-new.tsx?t=1747787194343:107:25)
+    at Route (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=1810c90e:323:16)
+    at Switch (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=1810c90e:379:17)
+    at main
+    at div
+    at div
+    at CourseProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/context/CourseContext.tsx:31:34)
+    at QueryClientProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=1810c90e:2805:3)
+    at App (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/App.tsx?t=1747787194343&v=1bCNQGcWIWbjSIQuIbsqq:38:21)
+    at CourseProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/context/CourseContext.tsx?v=1bCNQGcWIWbjSIQuIbsqq:31:34)
+    at Provider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-W6PG6DRF.js?v=1810c90e:38:15)
+    at TooltipProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=1810c90e:59:5)
+    at QueryClientProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=1810c90e:2805:3)
+printWarning @ chunk-RPCDYKBN.js?v=1810c90e:521
+error @ chunk-RPCDYKBN.js?v=1810c90e:505
+checkForNestedUpdates @ chunk-RPCDYKBN.js?v=1810c90e:19665
+scheduleUpdateOnFiber @ chunk-RPCDYKBN.js?v=1810c90e:18533
+dispatchSetState @ chunk-RPCDYKBN.js?v=1810c90e:12403
+updateProgress @ CourseContext.tsx:368
+(anonymous) @ phase2-new.tsx:162
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=1810c90e:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=1810c90e:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=1810c90e:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=1810c90e:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=1810c90e:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=1810c90e:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=1810c90e:19447
+(anonymous) @ chunk-RPCDYKBN.js?v=1810c90e:19328
+workLoop @ chunk-RPCDYKBN.js?v=1810c90e:197
+flushWork @ chunk-RPCDYKBN.js?v=1810c90e:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=1810c90e:384

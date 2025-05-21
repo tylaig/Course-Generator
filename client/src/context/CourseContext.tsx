@@ -368,6 +368,11 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
     setCourse((prev) => {
       if (!prev) return null;
       
+      // Verificar se o progresso já está atualizado para evitar ciclos
+      if (prev.progress && prev.progress[`phase${phaseNumber}` as keyof CourseProgress] === progress) {
+        return prev; // Não atualizar se o progresso for o mesmo
+      }
+      
       // Criar progresso padrão se não existir
       const currentProgress = prev.progress || {
         phase1: 0, 
