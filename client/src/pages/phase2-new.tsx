@@ -809,23 +809,57 @@ export default function Phase2() {
                         </AccordionItem>
                       </Accordion>
                       
-                      <div className="flex justify-end gap-2">
-                        {activeModuleIndex !== null && (
+                      <div className="space-y-3">
+                        {/* Botões de geração com IA */}
+                        <div className="flex gap-2 justify-start">
                           <Button
                             type="button"
-                            variant="outline"
+                            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
                             onClick={() => {
-                              form.reset();
-                              setActiveModuleIndex(null);
+                              toast({
+                                title: "Geração de Detalhes com IA",
+                                description: "Esta funcionalidade de preenchimento automático será disponibilizada em breve."
+                              });
                             }}
                           >
-                            Cancelar
+                            <span className="material-icons mr-2">auto_awesome</span>
+                            Preencher Detalhes com IA
                           </Button>
-                        )}
+                          
+                          <Button
+                            type="button"
+                            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
+                            onClick={() => {
+                              toast({
+                                title: "Geração de Competências",
+                                description: "Esta funcionalidade será disponibilizada em breve."
+                              });
+                            }}
+                          >
+                            <span className="material-icons mr-2">psychology</span>
+                            Gerar Competências
+                          </Button>
+                        </div>
                         
-                        <Button type="submit">
-                          {activeModuleIndex !== null ? "Atualizar Módulo" : "Adicionar Módulo"}
-                        </Button>
+                        {/* Botões de controle do formulário */}
+                        <div className="flex justify-end gap-2">
+                          {activeModuleIndex !== null && (
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => {
+                                form.reset();
+                                setActiveModuleIndex(null);
+                              }}
+                            >
+                              Cancelar
+                            </Button>
+                          )}
+                          
+                          <Button type="submit">
+                            {activeModuleIndex !== null ? "Atualizar Módulo" : "Adicionar Módulo"}
+                          </Button>
+                        </div>
                       </div>
                     </form>
                   </Form>
