@@ -137,7 +137,6 @@ export default function Phase2() {
       cognitiveSkills: "",
       behavioralSkills: "",
       technicalSkills: "",
-      evaluationType: "",
       bloomLevel: "understanding"
     }
   });
@@ -174,15 +173,18 @@ export default function Phase2() {
     }
   }, [course, modules.length, updateProgress]);
 
+  // Obter a função de navegação
+  const [, setLocation] = useLocation();
+
   // Função para lidar com o redirecionamento para a fase 1
   const handleGoBack = () => {
-    navigate("/phase1");
+    setLocation("/phase1");
   };
 
   // Função para lidar com o redirecionamento para a fase 3
   const handleSubmit = () => {
     moveToNextPhase();
-    navigate("/phase3");
+    setLocation("/phase3");
   };
   
   // Função para configurar aulas do módulo
