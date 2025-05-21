@@ -1299,6 +1299,89 @@ export default function Phase2() {
           </TabsContent>
         </Tabs>
       </div>
+      
+      {/* Modal de Configuração de Aulas */}
+      <Dialog open={lessonConfigModalOpen} onOpenChange={setLessonConfigModalOpen}>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle>Configurar Aulas do Módulo</DialogTitle>
+            <DialogDescription>
+              {selectedModule ? `Módulo: ${selectedModule.title}` : 'Selecione um módulo'}
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="py-4">
+            <div className="mb-4 p-4 bg-muted rounded-lg">
+              <h3 className="text-lg font-semibold mb-2">Configurações do Módulo</h3>
+              <p className="text-sm text-muted-foreground mb-2">
+                Esse módulo terá {lessonsPerModule} aulas geradas automaticamente com base na estratégia didática definida.
+              </p>
+              
+              <div className="grid grid-cols-2 gap-2 mt-4">
+                <div>
+                  <p className="text-sm font-medium">Objetivos:</p>
+                  <p className="text-xs text-muted-foreground">{selectedModule?.objective || "Não definido"}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium">Tópicos:</p>
+                  <p className="text-xs text-muted-foreground">{selectedModule?.topics || "Não definido"}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
+              <h3 className="text-lg font-semibold mb-2 text-blue-700 dark:text-blue-300">Geração de Conteúdo com IA</h3>
+              <p className="text-sm text-blue-600 dark:text-blue-400 mb-4">
+                O sistema vai gerar automaticamente o conteúdo para as {lessonsPerModule} aulas deste módulo, 
+                distribuindo os tópicos e competências definidos no módulo.
+              </p>
+              
+              <div className="flex flex-col space-y-2">
+                <div className="flex items-center">
+                  <span className="material-icons text-blue-600 mr-2">auto_awesome</span>
+                  <span className="text-sm">Títulos e descrições personalizadas para cada aula</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="material-icons text-blue-600 mr-2">auto_awesome</span>
+                  <span className="text-sm">Conteúdo pedagógico alinhado ao objetivo do módulo</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="material-icons text-blue-600 mr-2">auto_awesome</span>
+                  <span className="text-sm">Atividades e recursos educacionais para cada aula</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setLessonConfigModalOpen(false)}>
+              Cancelar
+            </Button>
+            <Button 
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+              onClick={generateLessonContent}
+              disabled={isGeneratingLessonContent}
+            >
+              {isGeneratingLessonContent ? (
+                <>
+                  <span className="animate-spin mr-2">
+                    <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                  </span>
+                  Gerando Aulas...
+                </>
+              ) : (
+                <>
+                  <span className="material-icons mr-2">auto_awesome</span>
+                  Gerar Aulas com IA
+                </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
