@@ -318,6 +318,70 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     }
   });
+  
+  // ---- Course Strategy (Direct API for Phase 1) ----
+  app.post("/api/courses/strategy", async (req, res) => {
+    try {
+      console.log("Recebendo solicitação para gerar estratégia de curso:", req.body);
+      
+      // Validação básica dos campos necessários
+      if (!req.body.title || !req.body.theme) {
+        return res.status(400).json({ 
+          success: false,
+          message: "Campos obrigatórios faltando. Título e tema são necessários." 
+        });
+      }
+      
+      // Passar para a função de geração de estratégia
+      const courseDetails = {
+        title: req.body.title,
+        theme: req.body.theme,
+        estimatedHours: req.body.estimatedHours || 10,
+        format: req.body.format || "Online",
+        platform: req.body.platform || "Web",
+        deliveryFormat: req.body.deliveryFormat || "PDF",
+        publicTarget: req.body.publicTarget,
+        educationalLevel: req.body.educationalLevel,
+        familiarityLevel: req.body.familiarityLevel,
+        motivation: req.body.motivation,
+        cognitiveSkills: req.body.cognitiveSkills,
+        behavioralSkills: req.body.behavioralSkills,
+        technicalSkills: req.body.technicalSkills
+      };
+      
+      try {
+        const strategyData = await generateStrategy(courseDetails);
+        
+        res.json({
+          success: true,
+          strategy: strategyData,
+          strategySummary: {
+            keyPoints: [
+              "Estratégia alinhada ao perfil do público-alvo",
+              "Abordagem pedagógica personalizada",
+              "Progressão cognitiva estruturada",
+              "Desenvolvimento de competências específicas"
+            ],
+            recommendedApproach: "Abordagem construtivista com elementos práticos"
+          }
+        });
+      } catch (error) {
+        console.error("Erro ao gerar estratégia:", error);
+        res.status(500).json({ 
+          success: false,
+          message: "Falha ao gerar estratégia de curso",
+          error: error instanceof Error ? error.message : "Erro desconhecido"
+        });
+      }
+    } catch (error) {
+      console.error("Erro no endpoint de estratégia:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Falha no processamento da solicitação", 
+        error: error instanceof Error ? error.message : "Erro desconhecido" 
+      });
+    }
+  });
 
   // ---- Structure Generation (Phase 2) ----
   app.post("/api/generate/structure", async (req, res) => {

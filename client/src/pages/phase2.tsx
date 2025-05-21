@@ -605,77 +605,136 @@ export default function Phase2() {
                   </div>
                 </div>
                 
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-12">Ordem</TableHead>
-                      <TableHead>Título do Módulo</TableHead>
-                      <TableHead>Objetivo Específico</TableHead>
-                      <TableHead className="w-20">Horas</TableHead>
-                      <TableHead className="w-24">Nível de Bloom</TableHead>
-                      <TableHead className="w-32 text-right">Ações</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {modules.length === 0 ? (
-                      <TableRow>
-                        <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
-                          Nenhum módulo definido. Gere a estrutura com IA ou adicione manualmente.
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      <DragDropContext onDragEnd={handleDragEnd}>
-                        <Droppable droppableId="modules">
-                          {(provided) => (
-                            <tbody
-                              {...provided.droppableProps}
-                              ref={provided.innerRef}
-                            >
-                              {modules.map((module, index) => (
+                <div className="w-full">
+                  {modules.length === 0 ? (
+                    <div className="text-center py-8 text-muted-foreground border rounded-md">
+                      Nenhum módulo definido. Gere a estrutura com IA ou adicione manualmente.
+                    </div>
+                  ) : (
+                    <DragDropContext onDragEnd={handleDragEnd}>
+                      <Droppable droppableId="modules" type="MODULE">
+                        {(provided) => (
+                          <div
+                            className="space-y-4"
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                          >
+                            {modules.map((module, index) => {
+                              // Gerar lições para este módulo com base no lessonsPerModule
+                              const moduleLessons = Array.from({ length: lessonsPerModule }, (_, i) => ({
+                                id: `${module.id}_lesson_${i+1}`,
+                                title: `Aula ${i+1}: ${i === 0 ? 'Introdução' : i === lessonsPerModule-1 ? 'Conclusão' : `Conteúdo ${i}`}`,
+                                type: 'lesson',
+                                estimatedHours: Math.round((module.estimatedHours / lessonsPerModule) * 10) / 10,
+                                status: module.status || 'pending'
+                              }));
+                              
+                              return (
                                 <Draggable key={module.id} draggableId={module.id} index={index}>
                                   {(provided) => (
-                                    <TableRow
+                                    <div
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
+                                      className="border rounded-lg shadow-sm overflow-hidden"
                                     >
-                                      <TableCell className="font-medium">{module.order}</TableCell>
-                                      <TableCell>{module.title}</TableCell>
-                                      <TableCell>{module.objective}</TableCell>
-                                      <TableCell>{module.estimatedHours}h</TableCell>
-                                      <TableCell>
-                                        {bloomLevels.find(b => b.value === module.bloomLevel)?.label || "Compreender"}
-                                      </TableCell>
-                                      <TableCell className="text-right">
-                                        <Button
-                                          variant="ghost"
-                                          size="sm"
-                                          onClick={() => handleEditModule(index)}
-                                          className="mr-1"
-                                        >
-                                          <span className="material-icons text-sm">edit</span>
-                                        </Button>
-                                        <Button
-                                          variant="ghost"
-                                          size="sm"
-                                          onClick={() => handleRemoveModule(index)}
-                                          className="text-red-500"
-                                        >
-                                          <span className="material-icons text-sm">delete</span>
-                                        </Button>
-                                      </TableCell>
-                                    </TableRow>
+                                      {/* Cabeçalho do Módulo */}
+                                      <div 
+                                        className="bg-slate-50 dark:bg-slate-800 border-b flex items-center justify-between p-3"
+                                        {...provided.dragHandleProps}
+                                      >
+                                        <div className="flex items-center space-x-3">
+                                          <span className="flex items-center justify-center bg-blue-600 text-white w-7 h-7 rounded-full font-medium text-sm">
+                                            {module.order}
+                                          </span>
+                                          <div>
+                                            <h3 className="font-medium">{module.title}</h3>
+                                            <p className="text-xs text-muted-foreground">
+                                              {module.estimatedHours}h • {bloomLevels.find(b => b.value === module.bloomLevel)?.label || "Compreender"}
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <div className="flex space-x-1">
+                                          <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => handleEditModule(index)}
+                                            className="h-8 w-8 p-0"
+                                          >
+                                            <span className="material-icons text-sm">edit</span>
+                                          </Button>
+                                          <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => handleRemoveModule(index)}
+                                            className="h-8 w-8 p-0 text-red-500"
+                                          >
+                                            <span className="material-icons text-sm">delete</span>
+                                          </Button>
+                                        </div>
+                                      </div>
+                                      
+                                      {/* Aulas do Módulo */}
+                                      <Accordion type="multiple" defaultValue={[`module-${module.id}`]} className="px-2 py-1">
+                                        <AccordionItem value={`module-${module.id}`} className="border-0">
+                                          <AccordionTrigger className="py-2 text-sm hover:no-underline">
+                                            <span className="flex items-center">
+                                              <span className="material-icons text-sm mr-2">menu_book</span>
+                                              Aulas ({lessonsPerModule})
+                                            </span>
+                                          </AccordionTrigger>
+                                          <AccordionContent>
+                                            <div className="grid grid-cols-1 gap-2 pl-6 pr-2 pb-2">
+                                              {moduleLessons.map((lesson, lessonIndex) => (
+                                                <div 
+                                                  key={lesson.id}
+                                                  className="flex items-center justify-between p-2 rounded-md border bg-white dark:bg-slate-900"
+                                                >
+                                                  <div className="flex items-center space-x-2">
+                                                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-xs text-blue-600 dark:bg-blue-900 dark:text-blue-100">
+                                                      {lessonIndex + 1}
+                                                    </span>
+                                                    <span className="text-sm">{lesson.title}</span>
+                                                  </div>
+                                                  <span className="text-xs text-muted-foreground">
+                                                    {lesson.estimatedHours}h
+                                                  </span>
+                                                </div>
+                                              ))}
+                                              
+                                              {/* Botões de gestão de aulas */}
+                                              <div className="flex justify-between items-center mt-2">
+                                                <Button variant="outline" size="sm" className="text-xs h-8">
+                                                  <span className="material-icons text-xs mr-1">add</span>
+                                                  Adicionar Aula
+                                                </Button>
+                                                <div className="space-x-1">
+                                                  <Button variant="outline" size="sm" className="text-xs h-8">
+                                                    <span className="material-icons text-xs mr-1">edit_note</span>
+                                                    Configurar
+                                                  </Button>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </AccordionContent>
+                                        </AccordionItem>
+                                      </Accordion>
+                                      
+                                      {/* Resumo do Objetivo */}
+                                      <div className="px-4 py-2 border-t text-xs text-muted-foreground">
+                                        <span className="font-medium">Objetivo:</span> {module.objective}
+                                      </div>
+                                    </div>
                                   )}
                                 </Draggable>
-                              ))}
-                              {provided.placeholder}
-                            </tbody>
-                          )}
-                        </Droppable>
-                      </DragDropContext>
-                    )}
-                  </TableBody>
-                </Table>
+                              );
+                            })}
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
+                    </DragDropContext>
+                  )}
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
