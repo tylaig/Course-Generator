@@ -11,7 +11,8 @@ import {
   generateModuleImage,
   generateAllModuleImages,
   generateAllContent,
-  generateAllEvaluations
+  generateAllEvaluations,
+  generateCompetencyMapping
 } from "./openai";
 import {
   getAuthUrl,
