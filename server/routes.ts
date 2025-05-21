@@ -472,6 +472,62 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // ---- Generate Modules (Phase 2) ----
+  app.post("/api/generate/modules", async (req, res) => {
+    try {
+      const { courseId, courseDetails, moduleCount, lessonsPerModule } = req.body;
+      
+      console.log("Recebendo dados para geração de módulos:", {
+        courseId,
+        moduleCount,
+        lessonsPerModule
+      });
+      
+      if (!courseId || !courseDetails) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "ID do curso e detalhes do curso são obrigatórios" 
+        });
+      }
+      
+      // Formatar os dados do curso para a geração
+      const formattedDetails = {
+        title: courseDetails.title,
+        theme: courseDetails.theme,
+        estimatedHours: courseDetails.estimatedHours || 10,
+        moduleCount: moduleCount || 4, // Número padrão de módulos
+        lessonsPerModule: lessonsPerModule || 3, // Número padrão de aulas por módulo
+        format: courseDetails.format || "Online",
+        platform: courseDetails.platform || "Web",
+        deliveryFormat: courseDetails.deliveryFormat || "HTML5",
+        publicTarget: courseDetails.publicTarget,
+        educationalLevel: courseDetails.educationalLevel,
+        familiarityLevel: courseDetails.familiarityLevel,
+        motivation: courseDetails.motivation,
+        cognitiveSkills: courseDetails.cognitiveSkills,
+        behavioralSkills: courseDetails.behavioralSkills,
+        technicalSkills: courseDetails.technicalSkills,
+        languageLevel: courseDetails.languageLevel,
+        courseLanguage: courseDetails.courseLanguage || "Português"
+      };
+      
+      // Gerar a estrutura dos módulos usando a mesma função que já temos
+      const structureData = await generateStructure(formattedDetails, {});
+      
+      res.json({
+        success: true,
+        modules: structureData.modules || []
+      });
+    } catch (error) {
+      console.error("Erro na geração de módulos:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Falha ao gerar módulos", 
+        error: error instanceof Error ? error.message : "Erro desconhecido" 
+      });
+    }
+  });
+
   // ---- Generate Competency Mapping (Phase 2) ----
   app.post("/api/generate/competency-mapping", async (req, res) => {
     try {
