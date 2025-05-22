@@ -12,7 +12,8 @@ import {
   generateAllModuleImages,
   generateAllContent,
   generateAllEvaluations,
-  generateCompetencyMapping
+  generateCompetencyMapping,
+  expandContent
 } from "./openai";
 import {
   getAuthUrl,
@@ -937,6 +938,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ 
         message: "Failed to get course", 
         error: error instanceof Error ? error.message : "Unknown error" 
+      });
+    }
+  });
+
+  // Route for expanding specific content
+  app.post("/api/content/expand", async (req, res) => {
+    try {
+      const { originalContent, contentType, expansionType, courseDetails, aiConfig } = req.body;
+      
+      // Validar parâmetros obrigatórios
+      if (!originalContent || !contentType || !expansionType) {
+        return res.status(400).json({ 
+          error: "Parâmetros obrigatórios: originalContent, contentType, expansionType" 
+        });
+      }
+      
+      // Validar tipos de expansão disponíveis
+      const validExpansionTypes = ["detailed", "examples", "simplified", "advanced", "practical", "theoretical"];
+      if (!validExpansionTypes.includes(expansionType)) {
+        return res.status(400).json({ 
+          error: `Tipo de expansão inválido. Tipos válidos: ${validExpansionTypes.join(', ')}` 
+        });
+      }
+      
+      const expandedContent = await expandContent(
+        originalContent,
+        contentType,
+        expansionType,
+        courseDetails,
+        aiConfig
+      );
+      
+      res.json(expandedContent);
+    } catch (error) {
+      console.error("Erro ao expandir conteúdo:", error);
+      res.status(500).json({ 
+        error: "Falha ao expandir conteúdo",
+        details: error instanceof Error ? error.message : "Unknown error" 
       });
     }
   });

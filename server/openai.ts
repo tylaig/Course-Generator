@@ -1217,7 +1217,113 @@ export async function generateAllModuleImages(modules: Module[], courseDetails: 
   }
 }
 
-// Segunda implementação removida para evitar duplicação
+// Expand specific content sections
+export async function expandContent(
+  originalContent: string,
+  contentType: string,
+  expansionType: string,
+  courseDetails: CourseDetails,
+  aiConfig: AIConfig
+) {
+  try {
+    // Obter configuração de idioma
+    const langConfig = getLanguageConfig(aiConfig.language || "pt-BR");
+    
+    // Definir tipos de expansão disponíveis
+    const expansionTypes = {
+      "detailed": "Expandir com mais detalhes e exemplos práticos",
+      "examples": "Adicionar mais exemplos e casos de uso",
+      "simplified": "Simplificar e tornar mais acessível",
+      "advanced": "Aprofundar com conceitos avançados",
+      "practical": "Focar em aplicações práticas e hands-on",
+      "theoretical": "Expandir com fundamentação teórica"
+    };
+    
+    const expansionInstruction = expansionTypes[expansionType as keyof typeof expansionTypes] || "Expandir o conteúdo";
+    
+    const response = await openai.chat.completions.create({
+      model: aiConfig.model || MODELS.GPT4O,
+      messages: [
+        {
+          role: "system",
+          content: `${langConfig.systemRole} especializado em expandir e enriquecer conteúdo educacional existente.
+
+SUA TAREFA:
+${expansionInstruction} do conteúdo fornecido, mantendo a qualidade pedagógica e alinhamento com os objetivos educacionais.
+
+IMPORTANTE: ${langConfig.instructions} mantendo consistência com o conteúdo original.
+
+TIPO DE CONTEÚDO: ${contentType}
+TIPO DE EXPANSÃO: ${expansionType}
+
+DIRETRIZES PARA EXPANSÃO:
+1. CONSISTÊNCIA: Manter o tom, estilo e nível de dificuldade do conteúdo original
+2. RELEVÂNCIA: Adicionar apenas informações que enriquecem o aprendizado
+3. ESTRUTURA: Preservar a organização lógica e fluxo do conteúdo original
+4. QUALIDADE: Garantir precisão técnica e pedagógica em todas as adições
+5. CONTEXTUALIZAÇÃO: Conectar novo conteúdo ao tema do curso: ${courseDetails.theme}
+
+FORMATO DE RESPOSTA:
+Forneça o conteúdo expandido em formato JSON estruturado:
+
+{
+  "expandedContent": "Conteúdo expandido mantendo a estrutura original...",
+  "addedSections": [
+    {
+      "title": "Título da nova seção",
+      "content": "Conteúdo da nova seção...",
+      "type": "detalhamento|exemplo|exercício|conceito"
+    }
+  ],
+  "suggestions": [
+    "Sugestão para melhoria adicional...",
+    "Outra sugestão para expandir ainda mais..."
+  ],
+  "metadata": {
+    "wordsAdded": 150,
+    "sectionsAdded": 2,
+    "difficultyLevel": "${aiConfig.difficultyLevel}",
+    "expansionFocus": "${expansionType}"
+  }
+}
+
+QUALIDADE E PADRÕES:
+- Use linguagem clara e apropriada ao nível educacional
+- Inclua exemplos concretos e relevantes quando apropriado
+- Mantenha organização lógica e progressão de conceitos
+- Evite redundância com o conteúdo original
+- Assegure que as adições agreguem valor educacional real`
+        },
+        {
+          role: "user",
+          content: JSON.stringify({
+            originalContent,
+            contentType,
+            expansionType,
+            courseDetails: {
+              title: courseDetails.title,
+              theme: courseDetails.theme,
+              educationalLevel: courseDetails.educationalLevel,
+              publicTarget: courseDetails.publicTarget
+            },
+            aiConfig: {
+              difficultyLevel: aiConfig.difficultyLevel,
+              languageStyle: aiConfig.languageStyle,
+              teachingApproach: aiConfig.teachingApproach
+            }
+          })
+        }
+      ],
+      response_format: { type: "json_object" },
+      temperature: 0.7,
+    });
+
+    return JSON.parse(response.choices[0].message.content);
+  } catch (error) {
+    console.error("Erro ao expandir conteúdo:", error);
+    throw error;
+  }
+}
 
 export default {
   generateStrategy,
@@ -1230,5 +1336,6 @@ export default {
   generateAllEvaluations,
   generateModuleImage,
   generateAllModuleImages,
-  generateCompetencyMapping
+  generateCompetencyMapping,
+  expandContent
 };
