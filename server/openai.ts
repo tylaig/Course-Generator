@@ -126,53 +126,53 @@ export async function generateStrategy(courseDetails: CourseDetails) {
 
 // Generate course structure with modules based on strategy
 export async function generateStructure(courseDetails: CourseDetails, phaseData: any) {
-  try {
-    const languageConfig = getLanguageConfig(courseDetails.courseLanguage || "pt-BR");
+  console.log("📚 Iniciando geração de estrutura - SEM OpenAI por enquanto");
+  console.log("📚 Dados recebidos:", {
+    title: courseDetails.title,
+    moduleCount: courseDetails.moduleCount,
+    lessonsPerModule: courseDetails.lessonsPerModule
+  });
+
+  // Gerar estrutura diretamente sem OpenAI por enquanto
+  const moduleCount = courseDetails.moduleCount || 6;
+  const lessonsPerModule = courseDetails.lessonsPerModule || 5;
+  
+  const modules = [];
+  
+  for (let i = 1; i <= moduleCount; i++) {
+    const lessons = [];
     
-    const response = await openai.chat.completions.create({
-      model: MODELS.GPT4O,
-      messages: [
-        {
-          role: "system",
-          content: `Você é o Estruturador Modular Avançado, um arquiteto educacional especializado em criação de estruturas de curso inteligentes e pedagogicamente robustas.
-
-MISSÃO: Criar uma estrutura modular completa e avançada baseada na estratégia do curso e dados fornecidos. Responda sempre em formato JSON válido.
-
-DIRETRIZES AVANÇADAS:
-1. Análise Pedagógica Profunda:
-   - Aplicar taxonomia de Bloom de forma progressiva
-   - Considerar estilos de aprendizagem múltiplos
-   - Implementar scaffolding educacional
-   - Balancear carga cognitiva por módulo
-
-2. Estruturação Hierárquica Inteligente:
-   - Módulos com dependências claras
-   - Progressão de complexidade natural
-   - Pontos de verificação e consolidação
-   - Trilhas alternativas para diferentes perfis
-
-3. Geração de Aulas Detalhadas:
-   - Cada módulo deve ter 4-7 aulas estruturadas
-   - Aulas com objetivos específicos mensuráveis
-   - Conteúdo dividido em seções lógicas
-   - Atividades práticas integradas
-   - Recursos didáticos diversificados
-
-4. Avaliação Formativa e Somativa:
-   - Múltiplos tipos de avaliação por módulo
-   - Critérios de sucesso claros
-   - Feedback personalizado
-   - Autoavaliação e peer assessment
-
-5. Adaptabilidade e Personalização:
-   - Conteúdo adaptável ao nível do aluno
-   - Recursos de expansão para alunos avançados
-   - Suporte para diferentes ritmos de aprendizagem
-   - Caminhos de recuperação para dificuldades
-
-IMPORTANTE: Você DEVE gerar EXATAMENTE ${courseDetails.moduleCount || 5} módulos. Cada módulo deve ter entre 4-7 aulas detalhadas.
-
-Responda com um objeto JSON estruturado seguindo o formato obrigatório:
+    for (let j = 1; j <= lessonsPerModule; j++) {
+      lessons.push({
+        id: `lesson_${i}_${j}`,
+        title: `Aula ${j}: Fundamentos ${i}.${j}`,
+        description: `Desenvolvimento do tópico ${j} do módulo ${i} sobre ${courseDetails.theme}`,
+        order: j,
+        duration: "45min",
+        content: `Conteúdo educacional estruturado`
+      });
+    }
+    
+    modules.push({
+      id: `module_${i}`,
+      title: `Módulo ${i}: ${courseDetails.theme} - Parte ${i}`,
+      description: `Este módulo aborda aspectos de ${courseDetails.theme}, desenvolvendo competências essenciais.`,
+      order: i,
+      estimatedHours: Math.ceil(courseDetails.estimatedHours / moduleCount),
+      status: "not_started",
+      content: {
+        lessons: lessons
+      }
+    });
+  }
+  
+  console.log("✅ Estrutura gerada:", modules.length, "módulos");
+  
+  return { 
+    modules,
+    totalHours: courseDetails.estimatedHours
+  };
+}
 {
   "courseStructure": {
     "totalModules": ${courseDetails.moduleCount || 5},
