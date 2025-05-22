@@ -57,48 +57,75 @@ export async function generateStructure(courseDetails: CourseDetails, phaseData:
   const lessonsPerModule = courseDetails.lessonsPerModule || 5;
   
   try {
+    console.log("🤖 [AI] Chamando OpenAI para gerar conteúdo real...");
+    
+    // Verificar se temos chave da OpenAI
+    if (!process.env.OPENAI_API_KEY) {
+      console.log("⚠️ [AI] Chave OpenAI não configurada, usando fallback");
+      return generateFallbackStructure(courseDetails, moduleCount, lessonsPerModule);
+    }
+
     // Usar OpenAI para gerar módulos mais detalhados baseados na Phase 1
     const response = await openai.chat.completions.create({
       model: MODELS.GPT4O,
       messages: [
         {
           role: "system",
-          content: `Você é um especialista em design educacional especializado em criar cursos estilo Hotmart. Crie módulos detalhados com aulas estruturadas baseados na estratégia educacional fornecida.`
+          content: `Você é um especialista em design educacional que cria cursos no estilo Hotmart. 
+          
+Crie uma estrutura de curso detalhada e pedagógica baseada nos dados da estratégia educacional fornecida.`
         },
         {
           role: "user",
           content: `Crie ${moduleCount} módulos para o curso "${courseDetails.title}" sobre ${courseDetails.theme}.
 
-DADOS DA ESTRATÉGIA (PHASE 1):
+DADOS DA ESTRATÉGIA EDUCACIONAL (PHASE 1):
 ${JSON.stringify(phaseData, null, 2)}
 
 ESPECIFICAÇÕES DO CURSO:
+- Título: ${courseDetails.title}
+- Tema: ${courseDetails.theme}
 - Público-alvo: ${courseDetails.publicTarget}
-- Nível: ${courseDetails.educationalLevel}
-- Competências Cognitivas: ${courseDetails.cognitiveSkills}
-- Competências Comportamentais: ${courseDetails.behavioralSkills}
-- Competências Técnicas: ${courseDetails.technicalSkills}
+- Nível educacional: ${courseDetails.educationalLevel}
+- Familiaridade: ${courseDetails.familiarityLevel}
+- Motivação: ${courseDetails.motivation}
 
-Cada módulo deve ter ${lessonsPerModule} aulas detalhadas no estilo Hotmart:
-- Títulos atrativos e práticos
-- Objetivos específicos por aula
-- Conteúdo estruturado com seções
-- Duração estimada realista
-- Progressão pedagógica clara
+COMPETÊNCIAS A DESENVOLVER:
+- Cognitivas: ${courseDetails.cognitiveSkills}
+- Comportamentais: ${courseDetails.behavioralSkills}
+- Técnicas: ${courseDetails.technicalSkills}
 
-Responda apenas com uma lista numerada dos módulos e suas aulas, sem formatação JSON.`
+REQUISITOS:
+- ${moduleCount} módulos progressivos
+- ${lessonsPerModule} aulas por módulo
+- Estilo Hotmart: títulos atrativos, objetivos claros, progressão lógica
+- Adequado para ${courseDetails.publicTarget} no nível ${courseDetails.educationalLevel}
+
+Estruture sua resposta assim:
+
+Módulo 1: [Título do Módulo]
+- Aula 1: [Título da Aula]
+- Aula 2: [Título da Aula]
+- Aula 3: [Título da Aula]
+(continue...)
+
+Módulo 2: [Título do Módulo]
+- Aula 1: [Título da Aula]
+(continue...)
+
+Seja específico, prático e pedagógico.`
         }
       ],
       temperature: 0.7,
     });
 
     const aiContent = response.choices[0].message.content || '';
-    console.log("📚 [STRUCTURE] Resposta da OpenAI recebida");
+    console.log("🤖 [AI] Resposta da OpenAI recebida:", aiContent.substring(0, 200) + "...");
     
     // Processar resposta da OpenAI e estruturar dados
     const modules = await processAIResponse(aiContent, courseDetails, moduleCount, lessonsPerModule);
     
-    console.log("✅ [STRUCTURE] Estrutura final:", {
+    console.log("✅ [AI] Estrutura com IA gerada:", {
       totalModules: modules.length,
       totalLessons: modules.reduce((acc, mod) => acc + mod.content.lessons.length, 0)
     });
@@ -107,11 +134,13 @@ Responda apenas com uma lista numerada dos módulos e suas aulas, sem formataç�
       modules,
       totalHours: courseDetails.estimatedHours,
       totalModules: modules.length,
-      totalLessons: modules.reduce((acc, mod) => acc + mod.content.lessons.length, 0)
+      totalLessons: modules.reduce((acc, mod) => acc + mod.content.lessons.length, 0),
+      generatedWithAI: true
     };
     
   } catch (error) {
-    console.error("❌ [STRUCTURE] Erro na OpenAI, usando fallback:", error);
+    console.error("❌ [AI] Erro na OpenAI:", error.message);
+    console.log("🔄 [AI] Usando estrutura de fallback...");
     return generateFallbackStructure(courseDetails, moduleCount, lessonsPerModule);
   }
 }
@@ -279,7 +308,8 @@ function generateFallbackStructure(courseDetails: CourseDetails, moduleCount: nu
     modules,
     totalHours: courseDetails.estimatedHours,
     totalModules: modules.length,
-    totalLessons: modules.reduce((acc, mod) => acc + mod.content.lessons.length, 0)
+    totalLessons: modules.reduce((acc, mod) => acc + mod.content.lessons.length, 0),
+    generatedWithAI: false
   };
 }
 
