@@ -601,18 +601,18 @@ export default function Phase2() {
                     
                     <Button
                       onClick={() => generateStructure.mutate()}
-                      disabled={isSubmitting}
+                      disabled={generateStructure.isPending}
                       className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium"
                     >
-                      {isSubmitting ? (
+                      {generateStructure.isPending ? (
                         <span className="flex items-center">
                           <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
-                          Gerando estrutura...
+                          Gerando {moduleCount} módulos...
                         </span>
                       ) : (
                         <span className="flex items-center">
                           <span className="material-icons text-sm mr-2">auto_awesome</span>
-                          Gerar Estrutura com IA
+                          Gerar Estrutura com IA ({moduleCount} módulos)
                         </span>
                       )}
                     </Button>

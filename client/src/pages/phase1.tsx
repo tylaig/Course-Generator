@@ -52,7 +52,7 @@ import {
 
 export default function Phase1() {
   const [_, navigate] = useLocation();
-  const { course, updatePhaseData, setBasicInfo, moveToNextPhase, updateProgress, updateModules } = useCourse();
+  const { course, updatePhaseData, setBasicInfo, moveToNextPhase, updateProgress } = useCourse();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -79,49 +79,7 @@ export default function Phase1() {
     },
   });
 
-  // Mutação para gerar a estrutura de módulos após a estratégia
-  const generateStructure = useMutation({
-    mutationFn: async (courseData: any) => {
-      const response = await apiRequest(
-        "POST", 
-        "/api/courses/structure", 
-        { 
-          courseDetails: courseData,
-          moduleCount: 6,
-          lessonsPerModule: 5
-        }
-      );
-      return response.json();
-    },
-    onSuccess: (structureData) => {
-      console.log("Estrutura gerada:", structureData);
-      
-      // Atualizar os módulos no contexto
-      if (structureData.modules && Array.isArray(structureData.modules)) {
-        const formattedModules = structureData.modules.map((module: any, index: number) => ({
-          id: `module-${Date.now()}-${index}`,
-          title: module.title,
-          description: module.description,
-          order: index + 1,
-          estimatedHours: module.estimatedHours || 3,
-          status: "not_started" as const,
-          content: null,
-          imageUrl: null
-        }));
-        
-        updateModules(formattedModules);
-        updateProgress(2, 10); // Progresso inicial da Phase 2
-      }
-    },
-    onError: (error) => {
-      console.error("Erro ao gerar estrutura:", error);
-      toast({
-        title: "Aviso",
-        description: "Estratégia gerada com sucesso, mas houve um problema ao gerar a estrutura. Você pode gerar manualmente na Fase 2.",
-        variant: "default",
-      });
-    }
-  });
+
 
   // Mutação para gerar a estratégia do curso com a API OpenAI
   const generateStrategy = useMutation({
@@ -133,7 +91,7 @@ export default function Phase1() {
       );
       return response.json();
     },
-    onSuccess: async (data) => {
+    onSuccess: (data) => {
       const formValues = form.getValues();
       
       // Atualizar os dados da fase com a estratégia gerada
@@ -155,17 +113,8 @@ export default function Phase1() {
       });
       
       updateProgress(1, 100);
-      
-      // Gerar automaticamente a estrutura de módulos para a Phase 2
-      const courseData = {
-        ...formValues,
-        strategy: data.strategy
-      };
-      
-      // Chamar a geração de estrutura automaticamente
-      await generateStructure.mutateAsync(courseData);
-      
       moveToNextPhase();
+      navigate("/phase2");
     },
     onError: (error) => {
       console.error("Erro ao gerar estratégia:", error);
@@ -205,10 +154,6 @@ export default function Phase1() {
       
       // Gerar a estratégia do curso com OpenAI
       await generateStrategy.mutateAsync(data);
-      
-      // Avançar para a próxima fase após geração bem-sucedida
-      moveToNextPhase();
-      navigate("/phase2");
       
     } catch (error) {
       console.error("Erro ao enviar formulário:", error);
