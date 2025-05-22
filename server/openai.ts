@@ -113,7 +113,7 @@ export async function generateStrategy(courseDetails: CourseDetails) {
           content: JSON.stringify(courseDetails)
         }
       ],
-      response_format: { type: "json_object" },
+      
       temperature: 0.7,
     });
 
@@ -334,7 +334,7 @@ INSTRUÇÕES ESPECÍFICAS:
 Responda exclusivamente em formato JSON seguindo a estrutura definida.`
         }
       ],
-      response_format: { type: "json_object" },
+      
       temperature: 0.7,
     });
 
@@ -592,7 +592,7 @@ QUALITY GUIDELINES:
           })
         }
       ],
-      response_format: { type: "json_object" },
+      
       temperature: 0.7,
     });
 
@@ -788,7 +788,7 @@ QUALITY GUIDELINES:
           })
         }
       ],
-      response_format: { type: "json_object" },
+      
       temperature: 0.7,
     });
 
@@ -996,7 +996,7 @@ QUALITY GUIDELINES:
           })
         }
       ],
-      response_format: { type: "json_object" },
+      
       temperature: 0.7,
     });
 
@@ -1264,7 +1264,7 @@ export async function generateCompetencyMapping(modules: any[], courseDetails: C
         { role: "system", content: "Você é um especialista em design instrucional e pedagogia, capaz de mapear competências para módulos de um curso." },
         { role: "user", content: prompt }
       ],
-      response_format: { type: "json_object" },
+      
       temperature: 0.5,
     });
     
@@ -1551,7 +1551,7 @@ QUALIDADE E PADRÕES:
           })
         }
       ],
-      response_format: { type: "json_object" },
+      
       temperature: 0.7,
     });
 
