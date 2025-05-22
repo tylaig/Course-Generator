@@ -98,7 +98,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const data = {
         courseId: parseInt(req.params.courseId),
         phaseNumber: parseInt(req.params.phaseNumber),
-        data: req.body
+        content: req.body
       };
       
       const phaseData = await storage.createPhaseData(data);
