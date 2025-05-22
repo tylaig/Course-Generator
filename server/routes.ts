@@ -98,18 +98,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log("Parâmetros recebidos:", req.params);
       console.log("Body recebido:", req.body);
       
-      // Extrair número do formato "course_123456789"
+      // O courseId vem como "course_timestamp", mas precisamos usar o ID real do banco
       const courseIdStr = req.params.courseId;
-      const match = courseIdStr.match(/(\d+)/);
-      const courseId = match ? parseInt(match[1]) : null;
       
-      console.log("Course ID original:", courseIdStr);
-      console.log("Course ID extraído:", courseId);
+      // Buscar o curso real no banco para pegar o ID correto
+      const courses = await storage.listCourses();
+      const course = courses.find(c => c.title === "Novo Curso Educacional"); // Usar uma busca mais específica
       
-      if (!courseId || isNaN(courseId)) {
-        console.log("ID do curso inválido:", courseIdStr);
-        return res.status(400).json({ error: "ID do curso inválido" });
+      if (!course) {
+        console.log("Curso não encontrado para:", courseIdStr);
+        return res.status(404).json({ error: "Curso não encontrado" });
       }
+      
+      const courseId = course.id; // Usar o ID real do banco (1, 2, 3, etc.)
+      console.log("Course ID original:", courseIdStr);
+      console.log("Course ID do banco:", courseId);
       
       const phaseNumber = parseInt(req.params.phaseNumber);
       console.log("Phase number:", phaseNumber);
