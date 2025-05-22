@@ -633,8 +633,8 @@ export default function Phase1() {
                   </span>
                 ) : (
                   <span className="flex items-center">
-                    <span className="material-icons text-sm mr-2">auto_awesome</span>
-                    Gerar Estratégia com IA
+                    <span className="material-icons text-sm mr-2">arrow_forward</span>
+                    Próxima Etapa
                   </span>
                 )}
               </Button>
