@@ -59,6 +59,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 // Schema para validação de módulos
 const moduleSchema = z.object({
@@ -95,9 +103,14 @@ export default function Phase2() {
   const [modules, setModules] = useState<CourseModule[]>([]);
   const [activeModuleIndex, setActiveModuleIndex] = useState<number | null>(null);
   const [moduleCount, setModuleCount] = useState<number>(4); // Número padrão de módulos
+  const [lessonsPerModule, setLessonsPerModule] = useState<number>(3); // Número padrão de aulas por módulo
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentTab, setCurrentTab] = useState("module-structure");
-  const [competenciesMap, setCompetenciesMap] = useState<Record<string, string[]>>({});
+  const [competenciesMap, setCompetenciesMap] = useState<Record<string, string[]>>({}); 
+  const [isGeneratingCompetencies, setIsGeneratingCompetencies] = useState(false);
+  const [lessonConfigModalOpen, setLessonConfigModalOpen] = useState(false);
+  const [selectedModule, setSelectedModule] = useState<CourseModule | null>(null);
+  const [isGeneratingLessonContent, setIsGeneratingLessonContent] = useState(false);
 
   // Formulário para edição de módulos
   const form = useForm<ModuleFormData>({
@@ -133,12 +146,16 @@ export default function Phase2() {
     if (course?.phaseData?.phase2?.moduleCount) {
       setModuleCount(course.phaseData.phase2.moduleCount);
     }
+    
+    // Definir o número de aulas por módulo baseado nas configurações existentes
+    if (course?.phaseData?.phase2?.lessonsPerModule) {
+      setLessonsPerModule(course.phaseData.phase2.lessonsPerModule);
+    }
   }, [course]);
 
   // Mutação para geração de estrutura de módulos com IA
   const generateStructure = useMutation({
     mutationFn: async () => {
-      setIsSubmitting(true);
       const courseDetails = {
         title: course?.title,
         theme: course?.theme,
@@ -146,63 +163,68 @@ export default function Phase2() {
         format: course?.format,
         platform: course?.platform,
         deliveryFormat: course?.deliveryFormat,
-        moduleCount: moduleCount,
-        phaseData: course?.phaseData?.phase1
+        publicTarget: course?.phaseData?.phase1?.publicTarget,
+        educationalLevel: course?.phaseData?.phase1?.educationalLevel,
+        familiarityLevel: course?.phaseData?.phase1?.familiarityLevel,
+        motivation: course?.phaseData?.phase1?.motivation,
+        cognitiveSkills: course?.phaseData?.phase1?.cognitiveSkills,
+        behavioralSkills: course?.phaseData?.phase1?.behavioralSkills,
+        technicalSkills: course?.phaseData?.phase1?.technicalSkills,
+        courseLanguage: course?.phaseData?.phase1?.courseLanguage || "Português"
       };
       
-      const response = await apiRequest("POST", "/api/generate/structure", courseDetails);
+      const response = await apiRequest("POST", "/api/courses/structure", {
+        courseDetails,
+        moduleCount,
+        lessonsPerModule
+      });
       return response.json();
     },
     onSuccess: (data) => {
+      console.log("Dados recebidos da API:", data);
       if (data.modules && Array.isArray(data.modules)) {
         // Converter os módulos gerados para o formato esperado
-        const newModules = data.modules.map((module, index) => ({
+        const newModules = data.modules.map((module: any, index: number) => ({
           id: `module-${Date.now()}-${index}`,
           title: module.title,
           description: module.description,
           order: index + 1,
-          estimatedHours: module.estimatedHours || Math.ceil(course?.estimatedHours! / moduleCount),
-          status: "not_started",
-          objective: module.objective || "",
-          topics: module.topics?.join("\n") || "",
-          contents: module.contents?.join("\n") || "",
-          activities: module.activities?.join("\n") || "",
-          cognitiveSkills: module.cognitiveSkills?.join(", ") || "",
-          behavioralSkills: module.behavioralSkills?.join(", ") || "",
-          technicalSkills: module.technicalSkills?.join(", ") || "",
-          evaluationType: module.evaluationType || "",
-          bloomLevel: module.bloomLevel || "understanding"
+          estimatedHours: module.estimatedHours || Math.ceil((course?.estimatedHours || 20) / moduleCount),
+          status: "not_started" as const,
+          content: null,
+          imageUrl: null
         }));
         
         setModules(newModules);
         updateModules(newModules);
         
-        // Salvar mapeamento de competências se disponível
-        if (data.competenciesMap) {
-          setCompetenciesMap(data.competenciesMap);
-          updatePhaseData(2, {
-            moduleCount,
-            competenciesMap: data.competenciesMap,
-            bloomLevelDistribution: data.bloomLevelDistribution,
-            completed: true
-          });
-        }
+        // Salvar dados da fase 2
+        updatePhaseData(2, {
+          moduleCount,
+          lessonsPerModule,
+          modules: newModules,
+          completed: true
+        });
         
-        updateProgress(2, 100);
+        updateProgress(2, 80);
         
         toast({
-          title: "Estrutura gerada com sucesso",
-          description: `Foram gerados ${newModules.length} módulos para o curso.`
+          title: "Estrutura gerada com sucesso!",
+          description: `${newModules.length} módulos foram criados com IA baseados nas suas configurações.`
+        });
+      } else {
+        toast({
+          title: "Erro na resposta",
+          description: "A API retornou dados inválidos.",
+          variant: "destructive"
         });
       }
-      setIsSubmitting(false);
     },
     onError: (error) => {
       console.error("Erro ao gerar estrutura:", error);
-      setIsSubmitting(false);
       toast({
         title: "Erro ao gerar estrutura",
-        description: "Não foi possível gerar a estrutura de módulos. Tente novamente.",
+        description: "Não foi possível gerar a estrutura de módulos. Verifique sua conexão e tente novamente.",
         variant: "destructive"
       });
     }
@@ -407,13 +429,22 @@ export default function Phase2() {
               <CardContent className="flex items-center gap-2">
                 <Input 
                   type="number" 
-                  min={2}
-                  max={10}
+                  min={1}
+                  max={50}
                   value={moduleCount}
-                  onChange={(e) => setModuleCount(parseInt(e.target.value) || 4)}
+                  onChange={(e) => {
+                    const newValue = Math.max(1, parseInt(e.target.value) || 1);
+                    setModuleCount(newValue);
+                    // Salvar no contexto do curso
+                    updatePhaseData(2, {
+                      ...course?.phaseData?.phase2,
+                      moduleCount: newValue,
+                      lessonsPerModule
+                    });
+                  }}
                   className="w-20"
                 />
-                <span className="text-sm text-muted-foreground">(2-10 módulos)</span>
+                <span className="text-sm text-muted-foreground">(1-50 módulos)</span>
               </CardContent>
             </Card>
             
@@ -445,102 +476,288 @@ export default function Phase2() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex justify-between items-center mb-4">
-                  <div>
-                    <h3 className="text-lg font-semibold">Módulos ({modules.length})</h3>
-                    <p className="text-sm text-muted-foreground">Arraste para reordenar</p>
+                <div className="flex flex-col space-y-4 mb-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex flex-col">
+                      <label className="text-sm font-medium mb-1">Número de Módulos</label>
+                      <div className="flex items-center">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => {
+                            const newValue = Math.max(1, moduleCount - 1);
+                            setModuleCount(newValue);
+                            // Salvar no contexto do curso
+                            updatePhaseData(2, {
+                              ...course?.phaseData?.phase2,
+                              moduleCount: newValue,
+                              lessonsPerModule
+                            });
+                          }}
+                          className="h-10 px-3"
+                        >
+                          <span className="material-icons" style={{ fontSize: '16px' }}>remove</span>
+                        </Button>
+                        <Input 
+                          type="number" 
+                          value={moduleCount} 
+                          onChange={(e) => {
+                            const newValue = Math.max(1, parseInt(e.target.value) || 1);
+                            setModuleCount(newValue);
+                            // Salvar no contexto do curso
+                            updatePhaseData(2, {
+                              ...course?.phaseData?.phase2,
+                              moduleCount: newValue,
+                              lessonsPerModule
+                            });
+                          }}
+                          min={1}
+                          max={50}
+                          className="w-20 h-10 text-center mx-2"
+                        />
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => {
+                            const newValue = Math.min(50, moduleCount + 1);
+                            setModuleCount(newValue);
+                            // Salvar no contexto do curso
+                            updatePhaseData(2, {
+                              ...course?.phaseData?.phase2,
+                              moduleCount: newValue,
+                              lessonsPerModule
+                            });
+                          }}
+                          className="h-10 px-3"
+                        >
+                          <span className="material-icons" style={{ fontSize: '16px' }}>add</span>
+                        </Button>
+                      </div>
+                    </div>
+                    
+                    <div className="flex flex-col">
+                      <label className="text-sm font-medium mb-1">Aulas por Módulo</label>
+                      <div className="flex items-center">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => {
+                            const newValue = Math.max(1, lessonsPerModule - 1);
+                            setLessonsPerModule(newValue);
+                            // Salvar no contexto do curso
+                            updatePhaseData(2, {
+                              ...course?.phaseData?.phase2,
+                              moduleCount,
+                              lessonsPerModule: newValue
+                            });
+                          }}
+                          className="h-10 px-3"
+                        >
+                          <span className="material-icons" style={{ fontSize: '16px' }}>remove</span>
+                        </Button>
+                        <Input 
+                          type="number" 
+                          value={lessonsPerModule} 
+                          onChange={(e) => {
+                            const newValue = Math.max(1, parseInt(e.target.value) || 1);
+                            setLessonsPerModule(newValue);
+                            // Salvar no contexto do curso
+                            updatePhaseData(2, {
+                              ...course?.phaseData?.phase2,
+                              moduleCount,
+                              lessonsPerModule: newValue
+                            });
+                          }}
+                          min={1}
+                          max={10}
+                          className="w-20 h-10 text-center mx-2"
+                        />
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => {
+                            const newValue = Math.min(10, lessonsPerModule + 1);
+                            setLessonsPerModule(newValue);
+                            // Salvar no contexto do curso
+                            updatePhaseData(2, {
+                              ...course?.phaseData?.phase2,
+                              moduleCount,
+                              lessonsPerModule: newValue
+                            });
+                          }}
+                          className="h-10 px-3"
+                        >
+                          <span className="material-icons" style={{ fontSize: '16px' }}>add</span>
+                        </Button>
+                      </div>
+                    </div>
                   </div>
                   
-                  <Button
-                    onClick={() => generateStructure.mutate()}
-                    disabled={isSubmitting}
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium"
-                  >
-                    {isSubmitting ? (
-                      <span className="flex items-center">
-                        <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
-                        Gerando estrutura...
-                      </span>
-                    ) : (
-                      <span className="flex items-center">
-                        <span className="material-icons text-sm mr-2">auto_awesome</span>
-                        Gerar Estrutura com IA
-                      </span>
-                    )}
-                  </Button>
+                  <div className="flex justify-between items-center mt-2">
+                    <div>
+                      <h3 className="text-lg font-semibold">Módulos ({modules.length})</h3>
+                      <p className="text-sm text-muted-foreground">Arraste para reordenar</p>
+                    </div>
+                    
+                    <Button
+                      onClick={() => generateStructure.mutate()}
+                      disabled={generateStructure.isPending}
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium"
+                    >
+                      {generateStructure.isPending ? (
+                        <span className="flex items-center">
+                          <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
+                          Gerando {moduleCount} módulos...
+                        </span>
+                      ) : (
+                        <span className="flex items-center">
+                          <span className="material-icons text-sm mr-2">auto_awesome</span>
+                          Gerar Estrutura com IA ({moduleCount} módulos)
+                        </span>
+                      )}
+                    </Button>
+                  </div>
                 </div>
                 
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-12">Ordem</TableHead>
-                      <TableHead>Título do Módulo</TableHead>
-                      <TableHead>Objetivo Específico</TableHead>
-                      <TableHead className="w-20">Horas</TableHead>
-                      <TableHead className="w-24">Nível de Bloom</TableHead>
-                      <TableHead className="w-32 text-right">Ações</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {modules.length === 0 ? (
-                      <TableRow>
-                        <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
-                          Nenhum módulo definido. Gere a estrutura com IA ou adicione manualmente.
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      <DragDropContext onDragEnd={handleDragEnd}>
-                        <Droppable droppableId="modules">
-                          {(provided) => (
-                            <tbody
-                              {...provided.droppableProps}
-                              ref={provided.innerRef}
-                            >
-                              {modules.map((module, index) => (
+                <div className="w-full">
+                  {modules.length === 0 ? (
+                    <div className="text-center py-8 text-muted-foreground border rounded-md">
+                      Nenhum módulo definido. Gere a estrutura com IA ou adicione manualmente.
+                    </div>
+                  ) : (
+                    <DragDropContext onDragEnd={handleDragEnd}>
+                      <Droppable droppableId="modules" type="MODULE">
+                        {(provided) => (
+                          <div
+                            className="space-y-4"
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                          >
+                            {modules.map((module, index) => {
+                              // Gerar lições para este módulo com base no lessonsPerModule
+                              const moduleLessons = Array.from({ length: lessonsPerModule }, (_, i) => ({
+                                id: `${module.id}_lesson_${i+1}`,
+                                title: `Aula ${i+1}: ${i === 0 ? 'Introdução' : i === lessonsPerModule-1 ? 'Conclusão' : `Conteúdo ${i}`}`,
+                                type: 'lesson',
+                                estimatedHours: Math.round((module.estimatedHours / lessonsPerModule) * 10) / 10,
+                                status: module.status || 'pending'
+                              }));
+                              
+                              return (
                                 <Draggable key={module.id} draggableId={module.id} index={index}>
                                   {(provided) => (
-                                    <TableRow
+                                    <div
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
+                                      className="border rounded-lg shadow-sm overflow-hidden"
                                     >
-                                      <TableCell className="font-medium">{module.order}</TableCell>
-                                      <TableCell>{module.title}</TableCell>
-                                      <TableCell>{module.objective}</TableCell>
-                                      <TableCell>{module.estimatedHours}h</TableCell>
-                                      <TableCell>
-                                        {bloomLevels.find(b => b.value === module.bloomLevel)?.label || "Compreender"}
-                                      </TableCell>
-                                      <TableCell className="text-right">
-                                        <Button
-                                          variant="ghost"
-                                          size="sm"
-                                          onClick={() => handleEditModule(index)}
-                                          className="mr-1"
-                                        >
-                                          <span className="material-icons text-sm">edit</span>
-                                        </Button>
-                                        <Button
-                                          variant="ghost"
-                                          size="sm"
-                                          onClick={() => handleRemoveModule(index)}
-                                          className="text-red-500"
-                                        >
-                                          <span className="material-icons text-sm">delete</span>
-                                        </Button>
-                                      </TableCell>
-                                    </TableRow>
+                                      {/* Cabeçalho do Módulo */}
+                                      <div 
+                                        className="bg-slate-50 dark:bg-slate-800 border-b flex items-center justify-between p-3"
+                                        {...provided.dragHandleProps}
+                                      >
+                                        <div className="flex items-center space-x-3">
+                                          <span className="flex items-center justify-center bg-blue-600 text-white w-7 h-7 rounded-full font-medium text-sm">
+                                            {module.order}
+                                          </span>
+                                          <div>
+                                            <h3 className="font-medium">{module.title}</h3>
+                                            <p className="text-xs text-muted-foreground">
+                                              {module.estimatedHours}h • {bloomLevels.find(b => b.value === module.bloomLevel)?.label || "Compreender"}
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <div className="flex space-x-1">
+                                          <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => handleEditModule(index)}
+                                            className="h-8 w-8 p-0"
+                                          >
+                                            <span className="material-icons text-sm">edit</span>
+                                          </Button>
+                                          <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => handleRemoveModule(index)}
+                                            className="h-8 w-8 p-0 text-red-500"
+                                          >
+                                            <span className="material-icons text-sm">delete</span>
+                                          </Button>
+                                        </div>
+                                      </div>
+                                      
+                                      {/* Aulas do Módulo */}
+                                      <Accordion type="multiple" defaultValue={[`module-${module.id}`]} className="px-2 py-1">
+                                        <AccordionItem value={`module-${module.id}`} className="border-0">
+                                          <AccordionTrigger className="py-2 text-sm hover:no-underline">
+                                            <span className="flex items-center">
+                                              <span className="material-icons text-sm mr-2">menu_book</span>
+                                              Aulas ({lessonsPerModule})
+                                            </span>
+                                          </AccordionTrigger>
+                                          <AccordionContent>
+                                            <div className="grid grid-cols-1 gap-2 pl-6 pr-2 pb-2">
+                                              {moduleLessons.map((lesson, lessonIndex) => (
+                                                <div 
+                                                  key={lesson.id}
+                                                  className="flex items-center justify-between p-2 rounded-md border bg-white dark:bg-slate-900"
+                                                >
+                                                  <div className="flex items-center space-x-2">
+                                                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-xs text-blue-600 dark:bg-blue-900 dark:text-blue-100">
+                                                      {lessonIndex + 1}
+                                                    </span>
+                                                    <span className="text-sm">{lesson.title}</span>
+                                                  </div>
+                                                  <span className="text-xs text-muted-foreground">
+                                                    {lesson.estimatedHours}h
+                                                  </span>
+                                                </div>
+                                              ))}
+                                              
+                                              {/* Botões de gestão de aulas */}
+                                              <div className="flex justify-between items-center mt-2">
+                                                <Button variant="outline" size="sm" className="text-xs h-8">
+                                                  <span className="material-icons text-xs mr-1">add</span>
+                                                  Adicionar Aula
+                                                </Button>
+                                                <div className="space-x-1">
+                                                  <Button 
+                                                    variant="default" 
+                                                    size="sm" 
+                                                    className="text-xs h-8 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+                                                    onClick={() => {
+                                                      // Abrir o modal de configuração de aulas
+                                                      setLessonConfigModalOpen(true);
+                                                      setSelectedModule(module);
+                                                    }}
+                                                  >
+                                                    <span className="material-icons text-xs mr-1">auto_awesome</span>
+                                                    Configurar Aulas
+                                                  </Button>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </AccordionContent>
+                                        </AccordionItem>
+                                      </Accordion>
+                                      
+                                      {/* Resumo do Objetivo */}
+                                      <div className="px-4 py-2 border-t text-xs text-muted-foreground">
+                                        <span className="font-medium">Objetivo:</span> {module.objective}
+                                      </div>
+                                    </div>
                                   )}
                                 </Draggable>
-                              ))}
-                              {provided.placeholder}
-                            </tbody>
-                          )}
-                        </Droppable>
-                      </DragDropContext>
-                    )}
-                  </TableBody>
-                </Table>
+                              );
+                            })}
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
+                    </DragDropContext>
+                  )}
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
@@ -548,11 +765,141 @@ export default function Phase2() {
           {/* Tab: Mapeamento de Competências */}
           <TabsContent value="competency-mapping" className="space-y-6">
             <Card>
-              <CardHeader>
-                <CardTitle>Mapeamento de Competências por Módulo</CardTitle>
-                <CardDescription>
-                  Defina quais competências serão trabalhadas em cada módulo
-                </CardDescription>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle>Mapeamento de Competências por Módulo</CardTitle>
+                  <CardDescription>
+                    Defina quais competências serão trabalhadas em cada módulo
+                  </CardDescription>
+                </div>
+                
+                <Button
+                  variant="default"
+                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+                  onClick={() => {
+                    setIsGeneratingCompetencies(true);
+                    
+                    // Implementar chamada para gerar mapeamento de competências com IA
+                    const courseData = {
+                      title: course?.title,
+                      theme: course?.theme,
+                      moduleCount: moduleCount,
+                      modules: modules,
+                      phaseData: course?.phaseData?.phase1
+                    };
+                    
+                    // Chamar a API para mapeamento de competências
+                    const generateMapping = async () => {
+                      try {
+                        // Obter os dados do curso e fase da Fase 1
+                        const courseData = {
+                          id: course?.id,
+                          title: course?.title,
+                          theme: course?.theme,
+                          estimatedHours: course?.estimatedHours,
+                          format: course?.format,
+                          platform: course?.platform,
+                          deliveryFormat: course?.deliveryFormat,
+                          ...course?.phaseData?.phase1
+                        };
+                        
+                        // Fazer a chamada para a API
+                        const response = await fetch('/api/generate/competency-mapping', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify({
+                            courseId: course?.id,
+                            modules: modules,
+                            courseDetails: courseData
+                          })
+                        });
+                        
+                        if (!response.ok) {
+                          throw new Error(`Erro na geração do mapeamento: ${response.status}`);
+                        }
+                        
+                        const data = await response.json();
+                        
+                        // Verificar se temos o mapeamento de competências
+                        if (data.success && data.competenciesMap) {
+                          // Formatar e adicionar os prefixos às competências, caso não tenham
+                          const formattedMap: Record<string, string[]> = {};
+                          
+                          // Processar o mapa retornado pela API, garantindo que as competências 
+                          // tenham os prefixos corretos (cognitiva:, comportamental:, tecnica:)
+                          Object.entries(data.competenciesMap).forEach(([key, moduleIds]) => {
+                            // Verificar se a chave já tem um dos prefixos
+                            const hasPrefix = key.startsWith('cognitiva:') || 
+                                             key.startsWith('comportamental:') || 
+                                             key.startsWith('tecnica:');
+                            
+                            if (hasPrefix) {
+                              formattedMap[key] = moduleIds as string[];
+                            } else {
+                              // Tentar determinar o tipo de competência pelo conteúdo
+                              // e adicionar o prefixo apropriado
+                              if (course?.phaseData?.phase1?.cognitiveSkills?.includes(key)) {
+                                formattedMap[`cognitiva:${key}`] = moduleIds as string[];
+                              } else if (course?.phaseData?.phase1?.behavioralSkills?.includes(key)) {
+                                formattedMap[`comportamental:${key}`] = moduleIds as string[];
+                              } else if (course?.phaseData?.phase1?.technicalSkills?.includes(key)) {
+                                formattedMap[`tecnica:${key}`] = moduleIds as string[];
+                              } else {
+                                // Se não for possível determinar, usar como está
+                                formattedMap[key] = moduleIds as string[];
+                              }
+                            }
+                          });
+                          
+                          // Atualizar estado
+                          setCompetenciesMap(formattedMap);
+                          
+                          // Salvar no contexto do curso
+                          updatePhaseData(2, {
+                            ...course?.phaseData?.phase2,
+                            competenciesMap: formattedMap,
+                            moduleCount,
+                            lessonsPerModule
+                          });
+                          
+                          toast({
+                            title: "Mapeamento gerado com sucesso",
+                            description: "As competências foram distribuídas entre os módulos de acordo com análise pedagógica.",
+                          });
+                        } else {
+                          throw new Error('Formato de resposta inválido ou erro na geração');
+                        }
+                      } catch (error) {
+                        console.error("Erro ao mapear competências:", error);
+                        toast({
+                          title: "Erro ao mapear competências",
+                          description: error instanceof Error ? error.message : "Ocorreu um erro desconhecido",
+                          variant: "destructive"
+                        });
+                      } finally {
+                        setIsGeneratingCompetencies(false);
+                      }
+                    };
+                    
+                    // Executar o mapeamento
+                    generateMapping();
+                  }}
+                  disabled={isGeneratingCompetencies || modules.length === 0}
+                >
+                  {isGeneratingCompetencies ? (
+                    <span className="flex items-center">
+                      <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
+                      Mapeando...
+                    </span>
+                  ) : (
+                    <span className="flex items-center">
+                      <span className="material-icons text-sm mr-2">psychology</span>
+                      Mapear com IA
+                    </span>
+                  )}
+                </Button>
               </CardHeader>
               <CardContent>
                 <div className="mb-6">
@@ -955,6 +1302,89 @@ export default function Phase2() {
           </TabsContent>
         </Tabs>
       </div>
+      
+      {/* Modal de Configuração de Aulas */}
+      <Dialog open={lessonConfigModalOpen} onOpenChange={setLessonConfigModalOpen}>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle>Configurar Aulas do Módulo</DialogTitle>
+            <DialogDescription>
+              {selectedModule ? `Módulo: ${selectedModule.title}` : 'Selecione um módulo'}
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="py-4">
+            <div className="mb-4 p-4 bg-muted rounded-lg">
+              <h3 className="text-lg font-semibold mb-2">Configurações do Módulo</h3>
+              <p className="text-sm text-muted-foreground mb-2">
+                Esse módulo terá {lessonsPerModule} aulas geradas automaticamente com base na estratégia didática definida.
+              </p>
+              
+              <div className="grid grid-cols-2 gap-2 mt-4">
+                <div>
+                  <p className="text-sm font-medium">Objetivos:</p>
+                  <p className="text-xs text-muted-foreground">{selectedModule?.objective || "Não definido"}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium">Tópicos:</p>
+                  <p className="text-xs text-muted-foreground">{selectedModule?.topics || "Não definido"}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
+              <h3 className="text-lg font-semibold mb-2 text-blue-700 dark:text-blue-300">Geração de Conteúdo com IA</h3>
+              <p className="text-sm text-blue-600 dark:text-blue-400 mb-4">
+                O sistema vai gerar automaticamente o conteúdo para as {lessonsPerModule} aulas deste módulo, 
+                distribuindo os tópicos e competências definidos no módulo.
+              </p>
+              
+              <div className="flex flex-col space-y-2">
+                <div className="flex items-center">
+                  <span className="material-icons text-blue-600 mr-2">auto_awesome</span>
+                  <span className="text-sm">Títulos e descrições personalizadas para cada aula</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="material-icons text-blue-600 mr-2">auto_awesome</span>
+                  <span className="text-sm">Conteúdo pedagógico alinhado ao objetivo do módulo</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="material-icons text-blue-600 mr-2">auto_awesome</span>
+                  <span className="text-sm">Atividades e recursos educacionais para cada aula</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setLessonConfigModalOpen(false)}>
+              Cancelar
+            </Button>
+            <Button 
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+              onClick={generateLessonContent}
+              disabled={isGeneratingLessonContent}
+            >
+              {isGeneratingLessonContent ? (
+                <>
+                  <span className="animate-spin mr-2">
+                    <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                  </span>
+                  Gerando Aulas...
+                </>
+              ) : (
+                <>
+                  <span className="material-icons mr-2">auto_awesome</span>
+                  Gerar Aulas com IA
+                </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
