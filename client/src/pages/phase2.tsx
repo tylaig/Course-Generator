@@ -66,6 +66,8 @@ export default function Phase2() {
 
   // Função para salvar configurações
   const saveConfigurations = () => {
+    console.log("Salvando configurações:", { moduleCount, lessonsPerModule: lessonsPerModule[0] });
+    
     if (course) {
       updatePhaseData(2, {
         moduleCount,
@@ -78,8 +80,17 @@ export default function Phase2() {
       
       toast({
         title: "Configurações Salvas",
-        description: "As configurações da estrutura foram salvas com sucesso.",
+        description: `Salvou ${moduleCount} módulos com ${lessonsPerModule[0]} aulas cada.`,
         variant: "default",
+      });
+      
+      console.log("Configurações salvas com sucesso!");
+    } else {
+      console.error("Curso não encontrado!");
+      toast({
+        title: "Erro",
+        description: "Curso não encontrado. Por favor, volte à Phase 1.",
+        variant: "destructive",
       });
     }
   };
@@ -332,7 +343,10 @@ export default function Phase2() {
             {/* Botão Salvar Configurações */}
             <div className="flex justify-center">
               <Button 
-                onClick={saveConfigurations}
+                onClick={() => {
+                  console.log("Botão clicado!");
+                  saveConfigurations();
+                }}
                 disabled={configurationsSaved}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium px-8 py-2"
               >
