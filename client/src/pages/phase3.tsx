@@ -29,6 +29,7 @@ import WorkflowProgress from "@/components/shared/WorkflowProgress";
 import PhaseNav from "@/components/layout/PhaseNav";
 import AISettings from "@/components/shared/AISettings";
 import ModuleCard from "@/components/shared/ModuleCard";
+import ContentExpander from "@/components/content/ContentExpander";
 import { useCourse } from "@/context/CourseContext";
 import { ContentType, CourseModule } from "@/types";
 import { useMutation } from "@tanstack/react-query";
