@@ -40,16 +40,26 @@ export default function Phase2() {
   
   // Estados para módulos e competências
   const [modules, setModules] = useState<CourseModule[]>([]);
-  const [showModules, setShowModules] = useState(false);
   const [competenciesMap, setCompetenciesMap] = useState<Record<string, string[]>>({});
-  const [showCompetencyMapping, setShowCompetencyMapping] = useState(false);
+
+  const toggleModuleExpansion = (moduleId: string) => {
+    const newExpanded = new Set(expandedModules);
+    if (newExpanded.has(moduleId)) {
+      newExpanded.delete(moduleId);
+    } else {
+      newExpanded.add(moduleId);
+    }
+    setExpandedModules(newExpanded);
+  };
+
+  // Estados derivados
+  const showModules = configurationsSaved;
+  const showCompetencyMapping = modules.length > 0;
 
   // Caregar dados existentes
   useEffect(() => {
     if (course?.modules && course.modules.length > 0) {
       setModules(course.modules);
-      setShowModules(true);
-      setShowCompetencyMapping(true);
     }
     
     if (course?.phaseData?.phase2?.moduleCount) {
@@ -255,8 +265,8 @@ export default function Phase2() {
         <Tabs defaultValue="configurations" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="configurations">Configurações</TabsTrigger>
-            <TabsTrigger value="modules" disabled={!showModules}>Módulos</TabsTrigger>
-            <TabsTrigger value="competencies" disabled={!showCompetencyMapping}>Mapeamento</TabsTrigger>
+            <TabsTrigger value="modules" disabled={!configurationsSaved}>Módulos</TabsTrigger>
+            <TabsTrigger value="competencies" disabled={modules.length === 0}>Mapeamento</TabsTrigger>
           </TabsList>
           
           {/* ABA 1: CONFIGURAÇÕES */}
@@ -478,7 +488,7 @@ export default function Phase2() {
                                   </div>
                                   <div className="flex items-center space-x-2 ml-4">
                                     <Badge variant="default" className="bg-green-100 text-green-800">
-                                      {module.content?.lessons?.length || 0} aulas
+                                      {(module.content as any)?.lessons?.length || 0} aulas
                                     </Badge>
                                     <Badge variant="outline" className="text-blue-600 border-blue-300">
                                       {module.estimatedHours}h
@@ -495,14 +505,14 @@ export default function Phase2() {
                               </CardHeader>
                               
                               {/* Exibir aulas em formato estilo Hotmart - só quando expandido */}
-                              {expandedModules.has(module.id) && module.content && module.content.lessons && module.content.lessons.length > 0 && (
+                              {expandedModules.has(module.id) && module.content && (module.content as any)?.lessons && (module.content as any)?.lessons.length > 0 && (
                                 <CardContent className="pt-0">
                                   <div className="space-y-3">
                                     <h4 className="font-semibold text-gray-800 text-sm uppercase tracking-wide border-b pb-2">
                                       📚 Aulas do Módulo
                                     </h4>
                                     <div className="grid gap-2">
-                                      {module.content.lessons.map((lesson: any, i: number) => (
+                                      {((module.content as any)?.lessons || []).map((lesson: any, i: number) => (
                                         <div key={i} className="flex items-center p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors">
                                           <div className="flex items-center justify-center w-8 h-8 bg-blue-500 text-white rounded-full text-sm font-semibold mr-3">
                                             {i + 1}
@@ -535,7 +545,7 @@ export default function Phase2() {
                                     <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
                                       <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium text-blue-800">
-                                          Total: {module.content.lessons.length} aulas
+                                          Total: {((module.content as any)?.lessons || []).length} aulas
                                         </span>
                                         <span className="text-blue-600">
                                           ⏱️ {module.estimatedHours} horas de conteúdo

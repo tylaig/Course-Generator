@@ -121,6 +121,7 @@ Seja específico, prático e pedagógico.`
 
     const aiContent = response.choices[0].message.content || '';
     console.log("🤖 [AI] Resposta da OpenAI recebida:", aiContent.substring(0, 200) + "...");
+    console.log("🤖 [AI] Resposta COMPLETA:", aiContent);
     
     // Processar resposta da OpenAI e estruturar dados
     const modules = await processAIResponse(aiContent, courseDetails, moduleCount, lessonsPerModule);
