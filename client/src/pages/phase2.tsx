@@ -464,34 +464,74 @@ export default function Phase2() {
                             >
                               <CardHeader>
                                 <div className="flex items-center justify-between">
-                                  <div>
-                                    <CardTitle className="text-lg">
-                                      Módulo {module.order}: {module.title}
+                                  <div className="flex-1">
+                                    <CardTitle className="text-lg font-semibold text-gray-900">
+                                      {module.title}
                                     </CardTitle>
-                                    <CardDescription>
+                                    <CardDescription className="mt-1 text-gray-600">
                                       {module.description}
                                     </CardDescription>
                                   </div>
-                                  <div className="flex items-center space-x-2">
-                                    <Badge variant="secondary">
-                                      {lessonsPerModule[0]} aulas
+                                  <div className="flex items-center space-x-2 ml-4">
+                                    <Badge variant="default" className="bg-green-100 text-green-800">
+                                      {module.content?.lessons?.length || 0} aulas
                                     </Badge>
-                                    <Badge variant="outline">
+                                    <Badge variant="outline" className="text-blue-600 border-blue-300">
                                       {module.estimatedHours}h
                                     </Badge>
                                   </div>
                                 </div>
                               </CardHeader>
-                              {module.content && module.content.lessons && (
-                                <CardContent>
-                                  <h4 className="font-medium mb-2">Aulas:</h4>
-                                  <ul className="list-disc list-inside space-y-1 text-sm">
-                                    {module.content.lessons.map((lesson: any, i: number) => (
-                                      <li key={i} className="text-muted-foreground">
-                                        {lesson.title || lesson}
-                                      </li>
-                                    ))}
-                                  </ul>
+                              
+                              {/* Exibir aulas em formato estilo Hotmart */}
+                              {module.content && module.content.lessons && module.content.lessons.length > 0 && (
+                                <CardContent className="pt-0">
+                                  <div className="space-y-3">
+                                    <h4 className="font-semibold text-gray-800 text-sm uppercase tracking-wide border-b pb-2">
+                                      📚 Aulas do Módulo
+                                    </h4>
+                                    <div className="grid gap-2">
+                                      {module.content.lessons.map((lesson: any, i: number) => (
+                                        <div key={i} className="flex items-center p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors">
+                                          <div className="flex items-center justify-center w-8 h-8 bg-blue-500 text-white rounded-full text-sm font-semibold mr-3">
+                                            {i + 1}
+                                          </div>
+                                          <div className="flex-1">
+                                            <p className="font-medium text-gray-900 text-sm leading-tight">
+                                              {lesson.title || `Aula ${i + 1}`}
+                                            </p>
+                                            {lesson.description && (
+                                              <p className="text-xs text-gray-500 mt-1">
+                                                {lesson.description}
+                                              </p>
+                                            )}
+                                          </div>
+                                          <div className="text-right">
+                                            <span className="text-xs font-medium text-gray-600 bg-gray-200 px-2 py-1 rounded">
+                                              {lesson.duration || "45min"}
+                                            </span>
+                                            {lesson.type && (
+                                              <p className="text-xs text-gray-400 mt-1">
+                                                📹 {lesson.type === 'video' ? 'Vídeo aula' : lesson.type}
+                                              </p>
+                                            )}
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                    
+                                    {/* Resumo do módulo */}
+                                    <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                                      <div className="flex items-center justify-between text-sm">
+                                        <span className="font-medium text-blue-800">
+                                          Total: {module.content.lessons.length} aulas
+                                        </span>
+                                        <span className="text-blue-600">
+                                          ⏱️ {module.estimatedHours} horas de conteúdo
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
                                 </CardContent>
                               )}
                             </Card>
