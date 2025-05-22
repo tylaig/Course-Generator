@@ -127,54 +127,250 @@ export async function generateStrategy(courseDetails: CourseDetails) {
 // Generate course structure with modules based on strategy
 export async function generateStructure(courseDetails: CourseDetails, phaseData: any) {
   try {
+    const languageConfig = getLanguageConfig(courseDetails.courseLanguage || "pt-BR");
+    
     const response = await openai.chat.completions.create({
       model: MODELS.GPT4O,
       messages: [
         {
           role: "system",
-          content: `You are the Estruturador Modular, a course structure designer. 
-          Based on the course theme and strategy provided, generate a structured course with:
-          
-          1. A logical sequence of modules with clear titles and descriptions
-          2. Specific learning objectives for each module using Bloom's taxonomy verbs
-          3. Progressive complexity across modules
-          4. Appropriate time allocation for each module
-          
-          IMPORTANT: You MUST generate EXACTLY ${courseDetails.moduleCount || 6} modules, no more and no less. This is a strict requirement from the user. Your response MUST contain precisely this number of modules in the "modules" array.
-          
-          Each module should have approximately ${courseDetails.lessonsPerModule || 3} lessons or topics. Make sure the content is properly distributed to accommodate this structure.
-          
-          Format your response as a JSON object with the following structure:
-          {
-            "modules": [
-              {
-                "title": "Module title",
-                "description": "Module description",
-                "estimatedHours": number,
-                "objectives": ["objective 1", "objective 2"]
-              }
-            ],
-            "sequence_rationale": "Explanation of why this sequence works",
-            "progression_strategy": "How complexity increases across modules"
-          }
-          
-          Ensure language is neutral, international, and avoids any region-specific examples.`
+          content: `Você é o Estruturador Modular Avançado, um arquiteto educacional especializado em criação de estruturas de curso inteligentes e pedagogicamente robustas.
+
+MISSÃO: Criar uma estrutura modular completa e avançada baseada na estratégia do curso e dados fornecidos.
+
+DIRETRIZES AVANÇADAS:
+1. Análise Pedagógica Profunda:
+   - Aplicar taxonomia de Bloom de forma progressiva
+   - Considerar estilos de aprendizagem múltiplos
+   - Implementar scaffolding educacional
+   - Balancear carga cognitiva por módulo
+
+2. Estruturação Hierárquica Inteligente:
+   - Módulos com dependências claras
+   - Progressão de complexidade natural
+   - Pontos de verificação e consolidação
+   - Trilhas alternativas para diferentes perfis
+
+3. Geração de Aulas Detalhadas:
+   - Cada módulo deve ter 4-7 aulas estruturadas
+   - Aulas com objetivos específicos mensuráveis
+   - Conteúdo dividido em seções lógicas
+   - Atividades práticas integradas
+   - Recursos didáticos diversificados
+
+4. Avaliação Formativa e Somativa:
+   - Múltiplos tipos de avaliação por módulo
+   - Critérios de sucesso claros
+   - Feedback personalizado
+   - Autoavaliação e peer assessment
+
+5. Adaptabilidade e Personalização:
+   - Conteúdo adaptável ao nível do aluno
+   - Recursos de expansão para alunos avançados
+   - Suporte para diferentes ritmos de aprendizagem
+   - Caminhos de recuperação para dificuldades
+
+IMPORTANTE: Você DEVE gerar EXATAMENTE ${courseDetails.moduleCount || 5} módulos. Cada módulo deve ter entre 4-7 aulas detalhadas.
+
+ESTRUTURA DE OUTPUT OBRIGATÓRIA:
+{
+  "courseStructure": {
+    "totalModules": ${courseDetails.moduleCount || 5},
+    "totalLessons": "número total de aulas",
+    "learningPath": "descrição da jornada de aprendizagem",
+    "pedagogicalApproach": "metodologia principal adotada",
+    "difficultyProgression": "como a dificuldade evolui",
+    "innovativeElements": ["elemento inovador 1", "elemento inovador 2"]
+  },
+  "modules": [
+    {
+      "id": "module_1",
+      "title": "Título do Módulo",
+      "description": "Descrição pedagógica detalhada (mín. 100 palavras)",
+      "order": 1,
+      "estimatedHours": "número de horas",
+      "difficultyLevel": "beginner|intermediate|advanced",
+      "bloomLevel": "remember|understand|apply|analyze|evaluate|create",
+      "competencyType": "cognitive|behavioral|technical",
+      "prerequisites": ["pré-requisito 1", "pré-requisito 2"],
+      "learningObjectives": [
+        "Objetivo específico com verbo de ação",
+        "Objetivo mensurável e alcançável"
+      ],
+      "keyCompetencies": ["competência principal 1", "competência principal 2"],
+      "lessons": [
+        {
+          "id": "lesson_1_1",
+          "title": "Título da Aula",
+          "description": "Descrição detalhada do que será abordado",
+          "order": 1,
+          "estimatedDuration": "45 minutos",
+          "objectives": ["objetivo específico da aula"],
+          "contentSections": [
+            {
+              "type": "introduction",
+              "title": "Introdução",
+              "content": "Conteúdo introdutório detalhado",
+              "duration": "5 minutos",
+              "techniques": ["técnica pedagógica utilizada"]
+            },
+            {
+              "type": "main_content",
+              "title": "Conteúdo Principal",
+              "content": "Desenvolvimento completo do tópico",
+              "duration": "25 minutos",
+              "techniques": ["exposição", "demonstração", "discussão"]
+            },
+            {
+              "type": "practice",
+              "title": "Prática Dirigida",
+              "content": "Atividade prática step-by-step",
+              "duration": "10 minutos",
+              "techniques": ["prática guiada", "exercícios"]
+            },
+            {
+              "type": "conclusion",
+              "title": "Síntese e Próximos Passos",
+              "content": "Consolidação e preparação para próxima aula",
+              "duration": "5 minutos",
+              "techniques": ["síntese", "preview"]
+            }
+          ],
+          "activities": [
+            {
+              "type": "quiz|exercise|project|discussion|simulation",
+              "title": "Nome da atividade",
+              "description": "Descrição completa da atividade",
+              "difficulty": "easy|medium|hard",
+              "estimatedTime": "tempo estimado",
+              "learningOutcome": "resultado esperado"
+            }
+          ],
+          "resources": [
+            {
+              "type": "reading|video|interactive|tool|simulation",
+              "title": "Nome do recurso",
+              "description": "Descrição do recurso",
+              "purpose": "propósito pedagógico"
+            }
+          ],
+          "assessmentCriteria": ["critério 1", "critério 2"]
+        }
+      ],
+      "moduleAssessment": {
+        "type": "quiz|project|assignment|portfolio|presentation",
+        "title": "Nome da avaliação do módulo",
+        "description": "Descrição completa da avaliação",
+        "weight": "porcentagem na nota final",
+        "criteria": ["critério detalhado 1", "critério detalhado 2"],
+        "rubric": "descrição da rubrica de avaliação"
+      },
+      "adaptiveElements": {
+        "beginnerSupport": "suporte adicional para iniciantes",
+        "advancedChallenges": "desafios extras para avançados",
+        "alternativePaths": "caminhos alternativos de aprendizagem"
+      },
+      "resources": ["recurso adicional 1", "recurso adicional 2"],
+      "nextModule": "module_2 ou null se último"
+    }
+  ],
+  "assessmentStrategy": {
+    "formativeAssessments": "estratégia de avaliação contínua detalhada",
+    "summativeAssessments": "estratégia de avaliação final detalhada",
+    "feedbackMechanism": "como o feedback será fornecido",
+    "progressTracking": "como o progresso será acompanhado"
+  },
+  "innovationFeatures": {
+    "gamificationElements": ["elemento de gamificação 1", "elemento 2"],
+    "adaptiveLearning": "como o sistema se adapta ao aluno",
+    "collaborativeFeatures": "recursos de colaboração",
+    "realWorldApplication": "conexões com mundo real"
+  },
+  "qualityAssurance": {
+    "pedagogicalValidation": "validação pedagógica aplicada",
+    "contentReview": "processo de revisão de conteúdo",
+    "accessibilityFeatures": "recursos de acessibilidade"
+  }
+}
+
+${languageConfig.instructions}`
         },
         {
           role: "user",
-          content: JSON.stringify({
-            courseDetails,
-            strategyData: phaseData?.phase1?.aiGenerated || {}
-          })
+          content: `DADOS DO CURSO PARA ESTRUTURAÇÃO:
+
+Informações Básicas:
+- Título: ${courseDetails.title}
+- Tema: ${courseDetails.theme}
+- Horas Estimadas: ${courseDetails.estimatedHours}
+- Formato: ${courseDetails.format}
+- Plataforma: ${courseDetails.platform}
+- Público-alvo: ${courseDetails.publicTarget}
+- Nível Educacional: ${courseDetails.educationalLevel}
+- Familiaridade: ${courseDetails.familiarityLevel}
+- Motivação: ${courseDetails.motivation}
+
+Competências a Desenvolver:
+- Cognitivas: ${courseDetails.cognitiveSkills}
+- Comportamentais: ${courseDetails.behavioralSkills}
+- Técnicas: ${courseDetails.technicalSkills}
+
+Parâmetros Estruturais:
+- Número de Módulos: ${courseDetails.moduleCount || 5}
+- Aulas por Módulo: ${courseDetails.lessonsPerModule || 5}
+- Idioma do Curso: ${courseDetails.courseLanguage || 'Português'}
+
+Estratégia Pedagógica (Fase 1):
+${JSON.stringify(phaseData?.phase1?.aiGenerated || {}, null, 2)}
+
+INSTRUÇÕES ESPECÍFICAS:
+1. Crie módulos com progressão pedagógica clara
+2. Inclua aulas detalhadas com seções estruturadas
+3. Adicione elementos inovativos apropriados ao tema
+4. Garanta avaliações formativas e somativas
+5. Implemente recursos de adaptabilidade
+6. Foque na aplicação prática do conhecimento`
         }
       ],
       response_format: { type: "json_object" },
       temperature: 0.7,
     });
 
-    return JSON.parse(response.choices[0].message.content);
+    const structureData = JSON.parse(response.choices[0].message.content || '{}');
+    
+    // Validar e enriquecer a estrutura gerada
+    if (structureData.modules) {
+      structureData.modules = structureData.modules.map((module: any, index: number) => ({
+        ...module,
+        id: module.id || `module_${index + 1}`,
+        order: index + 1,
+        status: "not_started" as const,
+        // Garantir que as aulas tenham IDs únicos
+        lessons: module.lessons?.map((lesson: any, lessonIndex: number) => ({
+          ...lesson,
+          id: lesson.id || `lesson_${index + 1}_${lessonIndex + 1}`,
+          moduleId: module.id || `module_${index + 1}`,
+          order: lessonIndex + 1
+        })) || []
+      }));
+
+      // Adicionar estatísticas da estrutura
+      structureData.statistics = {
+        totalModules: structureData.modules.length,
+        totalLessons: structureData.modules.reduce((total: number, module: any) => 
+          total + (module.lessons?.length || 0), 0),
+        averageLessonsPerModule: Math.round(
+          structureData.modules.reduce((total: number, module: any) => 
+            total + (module.lessons?.length || 0), 0) / structureData.modules.length
+        ),
+        totalEstimatedHours: structureData.modules.reduce((total: number, module: any) => 
+          total + (module.estimatedHours || 0), 0)
+      };
+    }
+
+    return structureData;
   } catch (error) {
-    console.error("Error generating structure:", error);
+    console.error("Erro ao gerar estrutura avançada:", error);
     throw error;
   }
 }

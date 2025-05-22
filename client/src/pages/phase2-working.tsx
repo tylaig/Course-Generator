@@ -153,14 +153,34 @@ export default function Phase2() {
           ...module,
           id: module.id || uuidv4(),
           order: index + 1,
-          status: "not_started" as const
+          status: "not_started" as const,
+          objectives: module.learningObjectives || module.objectives || [],
+          competencyType: module.competencyType || "cognitive",
+          difficultyLevel: module.difficultyLevel || "intermediate",
+          evaluationType: module.moduleAssessment?.type || "quiz",
+          bloomLevel: module.bloomLevel || "understand"
         }));
         setModules(formattedModules);
         updateModules(formattedModules);
+        
+        // Salvar dados estruturais avançados
+        if (data.courseStructure || data.assessmentStrategy || data.innovationFeatures) {
+          updatePhaseData(2, {
+            ...data,
+            advancedStructure: {
+              courseStructure: data.courseStructure,
+              assessmentStrategy: data.assessmentStrategy,
+              innovationFeatures: data.innovationFeatures,
+              qualityAssurance: data.qualityAssurance,
+              statistics: data.statistics
+            }
+          });
+        }
       }
+      
       toast({
-        title: "Estrutura gerada com sucesso!",
-        description: `${data.modules?.length || 0} módulos foram criados.`
+        title: "🚀 Estrutura Avançada Criada!",
+        description: `${data.modules?.length || 0} módulos com ${data.statistics?.totalLessons || 0} aulas detalhadas foram gerados com IA.`
       });
     },
     onError: (error) => {
