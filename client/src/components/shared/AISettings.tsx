@@ -24,7 +24,8 @@ export default function AISettings() {
     difficultyLevel: "Intermediate",
     contentDensity: 3,
     teachingApproach: "Balanced",
-    contentTypes: ["text", "video", "quiz"]
+    contentTypes: ["text", "video", "quiz"],
+    language: "pt-BR"
   });
 
   useEffect(() => {

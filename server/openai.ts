@@ -50,6 +50,45 @@ export type AIConfig = {
   contentDensity: number;
   teachingApproach: string;
   contentTypes: string[];
+  language: string; // "pt-BR" | "en-US"
+};
+
+// Language configuration helper
+const getLanguageConfig = (language: string) => {
+  const configs = {
+    "pt-BR": {
+      systemRole: "Você é um especialista em criação de conteúdo educacional",
+      instructions: "Responda em português brasileiro",
+      terminology: {
+        course: "curso",
+        module: "módulo", 
+        lesson: "aula",
+        evaluation: "avaliação",
+        content: "conteúdo",
+        objective: "objetivo",
+        description: "descrição",
+        exercise: "exercício",
+        quiz: "questionário"
+      }
+    },
+    "en-US": {
+      systemRole: "You are an expert in educational content creation",
+      instructions: "Respond in English",
+      terminology: {
+        course: "course",
+        module: "module",
+        lesson: "lesson", 
+        evaluation: "evaluation",
+        content: "content",
+        objective: "objective",
+        description: "description",
+        exercise: "exercise",
+        quiz: "quiz"
+      }
+    }
+  };
+  
+  return configs[language as keyof typeof configs] || configs["en-US"];
 };
 
 // Generate course strategy based on inputs from phase1
@@ -221,15 +260,20 @@ export async function generateModuleContent(
       return approaches[approach] || "balanced combination of concepts and applications";
     };
 
+    // Obter configuração de idioma
+    const langConfig = getLanguageConfig(aiConfig.language || "pt-BR");
+    
     const response = await openai.chat.completions.create({
       model: aiConfig.model || MODELS.GPT4O,
       messages: [
         {
           role: "system",
-          content: `You are the Criador de Conteúdo Didático, an expert in creating high-quality educational content tailored to specific learning needs.
+          content: `${langConfig.systemRole} especializado em criar conteúdo educacional de alta qualidade adaptado às necessidades específicas de aprendizagem.
 
-YOUR TASK:
-Create comprehensive educational content for the module based on the course specifications provided. Your content should be pedagogically sound, engaging, and aligned with the specified learning objectives and target audience.
+SUA TAREFA:
+Criar conteúdo educacional abrangente para o módulo com base nas especificações do curso fornecidas. Seu conteúdo deve ser pedagogicamente sólido, envolvente e alinhado com os objetivos de aprendizagem especificados e o público-alvo.
+
+IMPORTANTE: ${langConfig.instructions} com qualidade profissional e linguagem clara.
 
 CONTENT SPECIFICATIONS:
 - Difficulty Level: ${aiConfig.difficultyLevel || "Intermediate"} 
@@ -327,9 +371,12 @@ export async function generateEvaluation(
   moduleId: string,
   moduleInfo: Module,
   courseDetails: CourseDetails,
-  evaluationType: string
+  evaluationType: string,
+  aiConfig?: AIConfig
 ) {
   try {
+    // Obter configuração de idioma
+    const langConfig = getLanguageConfig(aiConfig?.language || "pt-BR");
     // Mapeamento de tipos de avaliação para instruções detalhadas
     const evaluationTypeDetails: Record<string, {description: string, structure: string}> = {
       "quiz": {
@@ -392,7 +439,9 @@ export async function generateEvaluation(
       messages: [
         {
           role: "system",
-          content: `You are the Avaliador Pedagógico, an expert in educational assessment design with deep understanding of pedagogical principles, learning theories, and effective evaluation methodologies.
+          content: `${langConfig.systemRole} especializado em design de avaliação educacional com profundo conhecimento de princípios pedagógicos, teorias de aprendizagem e metodologias de avaliação eficazes.
+
+IMPORTANTE: ${langConfig.instructions} mantendo alta qualidade pedagógica.
 
 YOUR TASK:
 Design a comprehensive ${evaluationType} assessment for the specified module that accurately measures learning outcomes while providing valuable feedback to both learners and instructors.
