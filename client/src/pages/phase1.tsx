@@ -52,7 +52,7 @@ import {
 
 export default function Phase1() {
   const [_, navigate] = useLocation();
-  const { course, updatePhaseData, setBasicInfo, moveToNextPhase, updateProgress } = useCourse();
+  const { course, updatePhaseData, setBasicInfo, moveToNextPhase, updateProgress, updateModules } = useCourse();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 

@@ -201,6 +201,7 @@ export class MemStorage implements IStorage {
 // Create and export a storage instance
 import { db } from "./db";
 import { eq, and } from "drizzle-orm";
+import { courses, modules, phaseData, aiSettings } from "@shared/schema";
 
 export class DatabaseStorage implements IStorage {
   async getCourse(id: string): Promise<Course | undefined> {
@@ -231,7 +232,7 @@ export class DatabaseStorage implements IStorage {
 
   async deleteCourse(id: string): Promise<boolean> {
     const result = await db.delete(courses).where(eq(courses.id, parseInt(id)));
-    return result.rowCount > 0;
+    return (result.rowCount || 0) > 0;
   }
 
   async getModule(id: string): Promise<Module | undefined> {
@@ -258,7 +259,7 @@ export class DatabaseStorage implements IStorage {
 
   async deleteModule(id: string): Promise<boolean> {
     const result = await db.delete(modules).where(eq(modules.id, parseInt(id)));
-    return result.rowCount > 0;
+    return (result.rowCount || 0) > 0;
   }
 
   async listModulesByCourse(courseId: string): Promise<Module[]> {
@@ -267,8 +268,12 @@ export class DatabaseStorage implements IStorage {
 
   async getPhaseData(courseId: string, phaseNumber: number): Promise<PhaseData | undefined> {
     const [data] = await db.select().from(phaseData)
-      .where(eq(phaseData.courseId, parseInt(courseId)))
-      .where(eq(phaseData.phaseNumber, phaseNumber));
+      .where(
+        and(
+          eq(phaseData.courseId, parseInt(courseId)),
+          eq(phaseData.phaseNumber, phaseNumber)
+        )
+      );
     return data || undefined;
   }
 
