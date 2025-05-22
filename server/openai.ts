@@ -372,6 +372,45 @@ Responda exclusivamente em formato JSON seguindo a estrutura definida.`
 
     return structureData;
   } catch (error) {
+    console.error("Erro na geração de estrutura:", error);
+    // Retornar estrutura padrão em caso de erro
+    return generateDefaultStructure(courseDetails);
+  }
+}
+
+// Função para gerar estrutura padrão como fallback
+function generateDefaultStructure(courseDetails: CourseDetails) {
+  const moduleCount = courseDetails.moduleCount || 6;
+  const lessonsPerModule = courseDetails.lessonsPerModule || 5;
+  
+  const modules = [];
+  
+  for (let i = 1; i <= moduleCount; i++) {
+    const lessons = [];
+    
+    for (let j = 1; j <= lessonsPerModule; j++) {
+      lessons.push({
+        id: `lesson_${i}_${j}`,
+        title: `Aula ${j}: Tópico ${j} do Módulo ${i}`,
+        description: `Conteúdo da aula ${j} do módulo ${i} sobre ${courseDetails.theme}`,
+        order: j,
+        duration: "45min",
+        content: `Desenvolvimento do tópico ${j} relacionado a ${courseDetails.theme}`
+      });
+    }
+    
+    modules.push({
+      id: `module_${i}`,
+      title: `Módulo ${i}: ${courseDetails.theme} - Parte ${i}`,
+      description: `Este módulo aborda aspectos fundamentais de ${courseDetails.theme}, desenvolvendo competências ${i === 1 ? 'básicas' : i === moduleCount ? 'avançadas' : 'intermediárias'}.`,
+      order: i,
+      estimatedHours: Math.ceil(courseDetails.estimatedHours / moduleCount),
+      lessons: lessons
+    });
+  }
+  
+  return { modules };
+  } catch (error) {
     console.error("Erro ao gerar estrutura avançada:", error);
     throw error;
   }
