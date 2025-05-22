@@ -199,4 +199,118 @@ export class MemStorage implements IStorage {
 }
 
 // Create and export a storage instance
-export const storage = new MemStorage();
+import { courses, modules, phaseData, aiSettings, type Course, type InsertCourse, type Module, type InsertModule, type PhaseData, type InsertPhaseData, type AISettings, type InsertAISettings } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
+
+export class DatabaseStorage implements IStorage {
+  async getCourse(id: string): Promise<Course | undefined> {
+    const [course] = await db.select().from(courses).where(eq(courses.id, parseInt(id)));
+    return course || undefined;
+  }
+
+  async listCourses(): Promise<Course[]> {
+    return await db.select().from(courses);
+  }
+
+  async createCourse(course: InsertCourse): Promise<Course> {
+    const [newCourse] = await db
+      .insert(courses)
+      .values(course)
+      .returning();
+    return newCourse;
+  }
+
+  async updateCourse(id: string, courseUpdate: Partial<Course>): Promise<Course | undefined> {
+    const [updatedCourse] = await db
+      .update(courses)
+      .set(courseUpdate)
+      .where(eq(courses.id, parseInt(id)))
+      .returning();
+    return updatedCourse || undefined;
+  }
+
+  async deleteCourse(id: string): Promise<boolean> {
+    const result = await db.delete(courses).where(eq(courses.id, parseInt(id)));
+    return result.rowCount > 0;
+  }
+
+  async getModule(id: string): Promise<Module | undefined> {
+    const [module] = await db.select().from(modules).where(eq(modules.id, parseInt(id)));
+    return module || undefined;
+  }
+
+  async createModule(module: InsertModule): Promise<Module> {
+    const [newModule] = await db
+      .insert(modules)
+      .values(module)
+      .returning();
+    return newModule;
+  }
+
+  async updateModule(id: string, moduleUpdate: Partial<Module>): Promise<Module | undefined> {
+    const [updatedModule] = await db
+      .update(modules)
+      .set(moduleUpdate)
+      .where(eq(modules.id, parseInt(id)))
+      .returning();
+    return updatedModule || undefined;
+  }
+
+  async deleteModule(id: string): Promise<boolean> {
+    const result = await db.delete(modules).where(eq(modules.id, parseInt(id)));
+    return result.rowCount > 0;
+  }
+
+  async listModulesByCourse(courseId: string): Promise<Module[]> {
+    return await db.select().from(modules).where(eq(modules.courseId, parseInt(courseId)));
+  }
+
+  async getPhaseData(courseId: string, phaseNumber: number): Promise<PhaseData | undefined> {
+    const [data] = await db.select().from(phaseData)
+      .where(eq(phaseData.courseId, parseInt(courseId)))
+      .where(eq(phaseData.phaseNumber, phaseNumber));
+    return data || undefined;
+  }
+
+  async createPhaseData(data: InsertPhaseData): Promise<PhaseData> {
+    const [newPhaseData] = await db
+      .insert(phaseData)
+      .values(data)
+      .returning();
+    return newPhaseData;
+  }
+
+  async updatePhaseData(id: string, phaseDataUpdate: Partial<PhaseData>): Promise<PhaseData | undefined> {
+    const [updatedPhaseData] = await db
+      .update(phaseData)
+      .set(phaseDataUpdate)
+      .where(eq(phaseData.id, parseInt(id)))
+      .returning();
+    return updatedPhaseData || undefined;
+  }
+
+  async getAISettings(courseId: string): Promise<AISettings | undefined> {
+    const [settings] = await db.select().from(aiSettings).where(eq(aiSettings.courseId, parseInt(courseId)));
+    return settings || undefined;
+  }
+
+  async createAISettings(settings: InsertAISettings): Promise<AISettings> {
+    const [newSettings] = await db
+      .insert(aiSettings)
+      .values(settings)
+      .returning();
+    return newSettings;
+  }
+
+  async updateAISettings(id: string, settingsUpdate: Partial<AISettings>): Promise<AISettings | undefined> {
+    const [updatedSettings] = await db
+      .update(aiSettings)
+      .set(settingsUpdate)
+      .where(eq(aiSettings.id, parseInt(id)))
+      .returning();
+    return updatedSettings || undefined;
+  }
+}
+
+export const storage = new DatabaseStorage();
