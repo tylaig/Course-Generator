@@ -28,8 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { WorkflowProgress } from "@/components/layout/WorkflowProgress";
-import { PhaseNav } from "@/components/layout/PhaseNav";
+// Removed imports for components that don't exist
 
 // Schema de validação para o formulário da Phase 1
 const phase1Schema = z.object({
@@ -138,15 +137,11 @@ export default function Phase1() {
 
   return (
     <div className="container mx-auto px-4 py-6">
-      <WorkflowProgress />
-      
       <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200 mb-8">
-        <PhaseNav 
-          currentPhase={1}
-          title="Fase 1: Estratégia" 
-          description="Defina os objetivos e o público-alvo do curso"
-          onNext={form.handleSubmit(onSubmit)}
-        />
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-primary">Fase 1: Estratégia</h1>
+          <p className="text-muted-foreground">Defina os objetivos e o público-alvo do curso</p>
+        </div>
         
         {/* Progress Steps */}
         <div className="mb-8">
