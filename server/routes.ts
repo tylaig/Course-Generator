@@ -95,8 +95,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/courses/:courseId/phase/:phaseNumber", async (req, res) => {
     try {
+      // Extrair apenas o número do ID se for um string como "course_123"
+      const courseIdStr = req.params.courseId;
+      let courseId = parseInt(courseIdStr);
+      
+      // Se não conseguir fazer parse direto, tentar extrair número do formato "course_123"
+      if (isNaN(courseId)) {
+        const match = courseIdStr.match(/\d+/);
+        courseId = match ? parseInt(match[0]) : null;
+      }
+      
+      if (!courseId || isNaN(courseId)) {
+        return res.status(400).json({ error: "ID do curso inválido" });
+      }
+      
       const data = {
-        courseId: parseInt(req.params.courseId),
+        courseId: courseId,
         phaseNumber: parseInt(req.params.phaseNumber),
         content: req.body
       };

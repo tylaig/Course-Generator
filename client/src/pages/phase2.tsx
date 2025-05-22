@@ -98,8 +98,8 @@ export default function Phase2() {
           setShowModules(true);
           
           toast({
-            title: "Configurações Salvas",
-            description: `Salvou ${moduleCount} módulos com ${lessonsPerModule[0]} aulas cada no banco de dados.`,
+            title: "Salvo!",
+            description: `${moduleCount} módulos com ${lessonsPerModule[0]} aulas cada.`,
             variant: "default",
           });
           
@@ -385,7 +385,7 @@ export default function Phase2() {
                 }}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium px-8 py-2"
               >
-                {configurationsSaved ? "✓ Configurações Salvas - Clique para Salvar Novamente" : "Salvar Configurações no PostgreSQL"}
+                {configurationsSaved ? "✓ Salvar" : "Salvar"}
               </Button>
             </div>
           </TabsContent>
