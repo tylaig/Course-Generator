@@ -231,12 +231,21 @@ export default function Phase2() {
         throw new Error("Nenhum módulo encontrado. Gere a estrutura primeiro.");
       }
 
+      // Enviar apenas dados essenciais dos módulos para evitar payload muito grande
+      const modulesSummary = modules.map(module => ({
+        id: module.id,
+        title: module.title,
+        description: module.description,
+        order: module.order,
+        estimatedHours: module.estimatedHours
+      }));
+
       const response = await apiRequest(
         "POST", 
         "/api/courses/competency-mapping", 
         { 
           courseDetails: phase1Data,
-          modules: modules
+          modules: modulesSummary
         }
       );
       return response.json();
