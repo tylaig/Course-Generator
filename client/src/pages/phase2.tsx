@@ -72,7 +72,6 @@ export default function Phase2() {
 
     if (course?.phaseData?.phase2?.configurationsSaved) {
       setConfigurationsSaved(true);
-      setShowModules(true);
     }
   }, [course]);
 
