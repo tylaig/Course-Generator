@@ -173,16 +173,28 @@ export default function Phase2() {
       console.log("Dados recebidos da API:", data);
       if (data.modules && Array.isArray(data.modules)) {
         // Converter os módulos gerados para o formato esperado
-        const newModules = data.modules.map((module: any, index: number) => ({
-          id: `module-${Date.now()}-${index}`,
-          title: module.title,
-          description: module.description,
-          order: index + 1,
-          estimatedHours: module.estimatedHours || 3,
-          status: "not_started" as const,
-          content: module,
-          imageUrl: null
-        }));
+        const newModules = data.modules.map((module: any, index: number) => {
+          // Verificar se o módulo tem a estrutura de content.lessons
+          const lessons = module.content?.lessons || [];
+          console.log(`Módulo ${index + 1}: ${module.title} - ${lessons.length} aulas`);
+          
+          return {
+            id: `module-${Date.now()}-${index}`,
+            title: module.title,
+            description: module.description,
+            order: index + 1,
+            estimatedHours: module.estimatedHours || 3,
+            status: "not_started" as const,
+            content: {
+              lessons: lessons, // Preservar a estrutura de aulas
+              ...module.content // Preservar outros dados do conteúdo
+            },
+            imageUrl: null
+          };
+        });
+        
+        const totalLessons = newModules.reduce((acc, mod) => acc + (mod.content?.lessons?.length || 0), 0);
+        console.log(`Total de aulas criadas: ${totalLessons}`);
         
         setModules(newModules);
         updateModules(newModules);
@@ -190,7 +202,7 @@ export default function Phase2() {
         
         toast({
           title: "Estrutura Gerada!",
-          description: `${data.modules.length} módulos foram criados com sucesso.`,
+          description: `${data.modules.length} módulos criados com ${totalLessons} aulas no total.`,
           variant: "default",
         });
       } else {
