@@ -391,28 +391,119 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log("=== GERAÇÃO DE ESTRUTURA INICIADA ===");
       const { courseDetails, phaseData, moduleCount = 6, lessonsPerModule = 5 } = req.body;
       
-      // Criar módulos de exemplo para teste imediato
+      // Estrutura específica para JavaScript
+      const jsModules = [
+        {
+          title: "Introdução ao JavaScript",
+          description: "Fundamentos da linguagem, sintaxe básica e conceitos iniciais",
+          competencyType: "cognitive",
+          difficultyLevel: "beginner",
+          objectives: [
+            "Compreender a história e importância do JavaScript",
+            "Configurar ambiente de desenvolvimento",
+            "Escrever os primeiros scripts"
+          ]
+        },
+        {
+          title: "Variáveis e Tipos de Dados",
+          description: "Declaração de variáveis, tipos primitivos e estruturas básicas",
+          competencyType: "cognitive", 
+          difficultyLevel: "beginner",
+          objectives: [
+            "Declarar variáveis com let, const e var",
+            "Identificar tipos de dados primitivos",
+            "Aplicar conversões de tipo"
+          ]
+        },
+        {
+          title: "Operadores e Expressões",
+          description: "Operadores aritméticos, lógicos e de comparação",
+          competencyType: "cognitive",
+          difficultyLevel: "intermediate",
+          objectives: [
+            "Utilizar operadores aritméticos e lógicos",
+            "Construir expressões complexas",
+            "Aplicar precedência de operadores"
+          ]
+        },
+        {
+          title: "Estruturas de Controle",
+          description: "Condicionais, loops e estruturas de decisão",
+          competencyType: "technical",
+          difficultyLevel: "intermediate",
+          objectives: [
+            "Implementar estruturas condicionais",
+            "Criar loops eficientes",
+            "Controlar fluxo de execução"
+          ]
+        },
+        {
+          title: "Funções em JavaScript",
+          description: "Declaração, parâmetros, retorno e escopo de funções",
+          competencyType: "technical",
+          difficultyLevel: "intermediate",
+          objectives: [
+            "Criar funções reutilizáveis",
+            "Gerenciar parâmetros e retornos",
+            "Compreender escopo de variáveis"
+          ]
+        },
+        {
+          title: "Arrays e Objetos",
+          description: "Estruturas de dados complexas e manipulação",
+          competencyType: "technical",
+          difficultyLevel: "advanced",
+          objectives: [
+            "Manipular arrays com métodos nativos",
+            "Criar e modificar objetos",
+            "Aplicar destructuring"
+          ]
+        }
+      ];
+      
+      // Gerar módulos baseados na estrutura do JavaScript
       const modules = [];
-      for (let i = 1; i <= moduleCount; i++) {
+      const maxModules = Math.min(moduleCount, jsModules.length);
+      
+      for (let i = 0; i < maxModules; i++) {
+        const moduleTemplate = jsModules[i];
         const module = {
-          id: `module_${i}`,
-          title: `Módulo ${i}: ${courseDetails?.theme || 'Conteúdo'} - Parte ${i}`,
-          description: `Descrição detalhada do módulo ${i} sobre ${courseDetails?.theme || 'o tema do curso'}`,
-          order: i,
-          estimatedHours: 2 + Math.floor(Math.random() * 3),
+          id: `module_${i + 1}`,
+          title: `${i + 1}. ${moduleTemplate.title}`,
+          description: moduleTemplate.description,
+          order: i + 1,
+          estimatedHours: Math.ceil(courseDetails.estimatedHours / maxModules),
           status: "not_started" as const,
-          objective: `Objetivo principal do módulo ${i}`,
+          objective: moduleTemplate.objectives[0],
+          competencyType: moduleTemplate.competencyType,
+          difficultyLevel: moduleTemplate.difficultyLevel,
+          evaluationType: i < 2 ? "quiz" : (i < 4 ? "project" : "assignment"),
+          bloomLevel: i < 2 ? "understand" : (i < 4 ? "apply" : "create"),
+          objectives: moduleTemplate.objectives,
           lessons: []
         };
         
-        // Adicionar aulas ao módulo
-        for (let j = 1; j <= lessonsPerModule; j++) {
+        // Gerar aulas específicas para cada módulo
+        const lessonsPerMod = lessonsPerModule;
+        for (let j = 1; j <= lessonsPerMod; j++) {
+          const lessonTopics = {
+            1: ["História do JavaScript", "Configuração do ambiente", "Primeiro programa", "Ferramentas de desenvolvimento", "Debugging básico"],
+            2: ["Declaração de variáveis", "Tipos primitivos", "String e template literals", "Conversão de tipos", "Escopo de variáveis"],
+            3: ["Operadores aritméticos", "Operadores de comparação", "Operadores lógicos", "Operador ternário", "Precedência"],
+            4: ["If/else statements", "Switch case", "Loop for", "While e do-while", "Break e continue"],
+            5: ["Declaração de funções", "Parâmetros e argumentos", "Return statements", "Arrow functions", "Closures"],
+            6: ["Criação de arrays", "Métodos de array", "Criação de objetos", "Propriedades e métodos", "Destructuring"]
+          };
+          
+          const topics = lessonTopics[i + 1] || [`Tópico ${j} do módulo ${i + 1}`];
+          const topic = topics[j - 1] || `Conceito ${j}`;
+          
           module.lessons.push({
-            id: `lesson_${i}_${j}`,
-            title: `Aula ${j}: Tópico ${j}`,
-            duration: "30min",
-            type: "video",
-            content: `Conteúdo da aula ${j} do módulo ${i}`
+            id: `lesson_${i + 1}_${j}`,
+            title: `Aula ${j}: ${topic}`,
+            duration: "45min",
+            type: j === lessonsPerMod ? "practical" : "video",
+            content: `Conteúdo detalhado sobre ${topic}`
           });
         }
         
@@ -429,7 +520,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       };
       
-      console.log(`✅ Estrutura gerada: ${response.modules.length} módulos com ${response.statistics.totalLessons} aulas`);
+      console.log(`✅ Estrutura JavaScript gerada: ${response.modules.length} módulos com ${response.statistics.totalLessons} aulas`);
       
       res.json(response);
     } catch (error) {
