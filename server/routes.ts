@@ -413,7 +413,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const structureData = await generateStructure(courseDetails, phaseData);
       
-      res.json(structureData);
+      // Garantir que a resposta tenha a estrutura esperada pelo frontend
+      const response = {
+        success: true,
+        modules: structureData.modules || [],
+        courseStructure: structureData.courseStructure || {},
+        assessmentStrategy: structureData.assessmentStrategy || {},
+        innovationFeatures: structureData.innovationFeatures || {},
+        qualityAssurance: structureData.qualityAssurance || {},
+        statistics: structureData.statistics || {}
+      };
+      
+      console.log("Estrutura gerada com sucesso:", {
+        totalModules: response.modules.length,
+        totalLessons: response.statistics.totalLessons || 0
+      });
+      
+      res.json(response);
     } catch (error) {
       console.error("Error in structure generation:", error);
       res.status(500).json({ 
