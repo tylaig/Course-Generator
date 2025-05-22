@@ -3,10 +3,24 @@ import { phase1Schema } from "@shared/schema";
 
 export type Phase = 1 | 2 | 3 | 4 | 5;
 
+export interface LessonContent {
+  id?: string;
+  title: string;
+  objectives?: string[];
+  content?: string;
+  activities?: ActivityContent[];
+  materials?: string[];
+  duration?: string;
+  difficulty?: string;
+  detailedContent?: any;
+  status?: "not_started" | "generating" | "generated";
+}
+
 export interface ModuleContent {
   text?: string;
   videoScript?: string;
   activities?: ActivityContent[];
+  lessons?: LessonContent[];
   visualRecommendations?: string;
   recommendedFormats?: string[];
   suggestedTone?: string;

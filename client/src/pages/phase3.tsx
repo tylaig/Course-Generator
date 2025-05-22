@@ -162,18 +162,22 @@ export default function Phase3() {
     });
   };
   
-  // Generate content for a single module
-  const generateModuleContent = useMutation({
-    mutationFn: async (moduleId: string) => {
+  // Generate content for a single lesson
+  const generateLessonContent = useMutation({
+    mutationFn: async ({ moduleId, lessonId }: { moduleId: string, lessonId: string }) => {
       setGenerationStatus("generating");
       
       const moduleToGenerate = course?.modules.find(m => m.id === moduleId);
       if (!moduleToGenerate) throw new Error("Module not found");
       
+      const lessonToGenerate = moduleToGenerate.content?.lessons?.find((l: any) => l.title === lessonId || l.id === lessonId);
+      if (!lessonToGenerate) throw new Error("Lesson not found");
+      
       const response = await apiRequest(
         "POST", 
-        "/api/generate/module-content", 
+        "/api/generate/lesson-content", 
         {
+          lesson: lessonToGenerate,
           module: moduleToGenerate,
           courseDetails: {
             title: course?.title,
@@ -196,39 +200,50 @@ export default function Phase3() {
         }
       );
       
-      return { module: moduleToGenerate, content: await response.json() };
+      return { module: moduleToGenerate, lesson: lessonToGenerate, content: await response.json() };
     },
     onSuccess: (data) => {
-      const { module, content } = data;
+      const { module, lesson, content } = data;
       
-      // Update module with generated content
-      updateModuleContent(module.id, content);
+      // Update lesson with generated content in module
+      const updatedModule = { ...module };
+      if (updatedModule.content?.lessons) {
+        const lessonIndex = updatedModule.content.lessons.findIndex((l: any) => l.title === lesson.title);
+        if (lessonIndex !== -1) {
+          updatedModule.content.lessons[lessonIndex] = {
+            ...updatedModule.content.lessons[lessonIndex],
+            detailedContent: content.content,
+            status: "generated"
+          };
+        }
+      }
       
-      // Update module status
-      updateModuleStatus(module.id, "generated");
+      // Update module with updated lessons
+      updateModuleContent(module.id, updatedModule.content);
       
-      // Set this module as selected
-      setSelectedModule(
-        course?.modules.find(m => m.id === module.id) || null
-      );
+      // Check if all lessons in module are generated
+      const allLessonsGenerated = updatedModule.content?.lessons?.every((l: any) => l.detailedContent);
+      if (allLessonsGenerated) {
+        updateModuleStatus(module.id, "generated");
+      }
       
       setGenerationStatus("success");
       
       toast({
-        title: "Conteúdo gerado com sucesso",
-        description: `O conteúdo para o módulo "${module.title}" foi gerado.`,
+        title: "Conteúdo da aula gerado",
+        description: `O conteúdo para "${lesson.title}" foi gerado com sucesso.`,
       });
       
       // Update progress
       updateProgress(3, calculateModuleProgress());
     },
     onError: (error) => {
-      console.error("Error generating content:", error);
+      console.error("Error generating lesson content:", error);
       setGenerationStatus("error");
       
       toast({
-        title: "Erro ao gerar conteúdo",
-        description: "Não foi possível gerar o conteúdo do módulo. Tente novamente.",
+        title: "Erro ao gerar conteúdo da aula",
+        description: "Não foi possível gerar o conteúdo da aula. Tente novamente.",
         variant: "destructive",
       });
     }
@@ -457,7 +472,25 @@ export default function Phase3() {
     }
   });
   
-  // Calculate progress for phase 3
+  // Calculate progress for phase 3 based on lessons
+  const calculateLessonProgress = () => {
+    if (!course?.modules.length) return 0;
+    
+    let totalLessons = 0;
+    let generatedLessons = 0;
+    
+    course.modules.forEach(module => {
+      if (module.content?.lessons) {
+        totalLessons += module.content.lessons.length;
+        generatedLessons += module.content.lessons.filter((lesson: any) => lesson.detailedContent).length;
+      }
+    });
+    
+    if (totalLessons === 0) return 0;
+    return Math.round((generatedLessons / totalLessons) * 100);
+  };
+  
+  // Calculate progress for phase 3 based on modules (fallback)
   const calculateModuleProgress = () => {
     if (!course?.modules.length) return 0;
     
@@ -496,29 +529,90 @@ export default function Phase3() {
     navigate("/phase4");
   };
   
-  // Render helpers for module content
+  // Render helpers for module content with lessons
   const renderContentSections = (module: CourseModule) => {
-    if (!module.content) {
+    if (!module.content?.lessons || module.content.lessons.length === 0) {
       return (
         <div className="text-center py-8">
-          <p className="text-gray-500">Este módulo ainda não possui conteúdo gerado.</p>
-          <Button 
-            className="mt-4"
-            onClick={() => generateModuleContent.mutate(module.id)}
-            disabled={generationStatus === "generating"}
-          >
-            {generationStatus === "generating" ? (
-              <span className="flex items-center">
-                <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
-                Gerando conteúdo...
-              </span>
-            ) : (
-              "Gerar Conteúdo"
-            )}
-          </Button>
+          <p className="text-gray-500">Este módulo não possui aulas configuradas.</p>
+          <p className="text-sm text-gray-400 mt-2">Volte para a Fase 2 para configurar as aulas do módulo.</p>
         </div>
       );
     }
+
+    return (
+      <div className="space-y-6">
+        <h3 className="text-lg font-semibold mb-4">
+          Aulas do Módulo ({module.content.lessons.length})
+        </h3>
+        
+        {module.content.lessons.map((lesson: any, index: number) => (
+          <Card key={lesson.title || index} className="border border-gray-200">
+            <CardHeader className="pb-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-base">{lesson.title}</CardTitle>
+                  <CardDescription className="text-sm">
+                    Duração: {lesson.duration || "45min"}
+                  </CardDescription>
+                </div>
+                
+                <div className="flex items-center space-x-2">
+                  {lesson.detailedContent ? (
+                    <Badge variant="default" className="bg-green-100 text-green-800">
+                      Conteúdo Gerado
+                    </Badge>
+                  ) : (
+                    <Badge variant="outline" className="bg-gray-100">
+                      Sem Conteúdo
+                    </Badge>
+                  )}
+                  
+                  <Button
+                    size="sm"
+                    onClick={() => generateLessonContent.mutate({ 
+                      moduleId: module.id, 
+                      lessonId: lesson.title 
+                    })}
+                    disabled={generationStatus === "generating"}
+                  >
+                    {generationStatus === "generating" ? (
+                      <span className="animate-spin h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
+                    ) : lesson.detailedContent ? (
+                      "Regenerar"
+                    ) : (
+                      "Gerar Conteúdo"
+                    )}
+                  </Button>
+                </div>
+              </div>
+            </CardHeader>
+            
+            {lesson.detailedContent && (
+              <CardContent className="pt-0">
+                <Accordion type="single" collapsible>
+                  <AccordionItem value="content">
+                    <AccordionTrigger className="text-sm">
+                      Ver Conteúdo Gerado
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="bg-gray-50 p-4 rounded-md">
+                        <div className="prose prose-sm max-w-none">
+                          <pre className="whitespace-pre-wrap text-sm">
+                            {lesson.detailedContent?.content || "Conteúdo não disponível"}
+                          </pre>
+                        </div>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </CardContent>
+            )}
+          </Card>
+        ))}
+      </div>
+    );
+  };
     
     // Extract content sections
     const text = module.content.text || "";
