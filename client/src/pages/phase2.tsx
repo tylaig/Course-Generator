@@ -108,7 +108,6 @@ export default function Phase2() {
           });
           
           setConfigurationsSaved(true);
-          setShowModules(true);
           
           toast({
             title: "Salvo!",
@@ -188,7 +187,6 @@ export default function Phase2() {
         setModules(newModules);
         updateModules(newModules);
         updateProgress(2, 50);
-        setShowCompetencyMapping(true);
         
         toast({
           title: "Estrutura Gerada!",

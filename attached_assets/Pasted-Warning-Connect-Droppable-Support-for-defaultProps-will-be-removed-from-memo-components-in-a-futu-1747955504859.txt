@@ -1,0 +1,47 @@
+Warning: Connect(Droppable): Support for defaultProps will be removed from memo components in a future major release. Use JavaScript default parameters instead.
+    at Provider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/react-beautiful-dnd.js?v=a8a7f028:1738:20)
+    at App (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/react-beautiful-dnd.js?v=a8a7f028:8281:25)
+    at ErrorBoundary2 (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/react-beautiful-dnd.js?v=a8a7f028:2778:35)
+    at DragDropContext (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/react-beautiful-dnd.js?v=a8a7f028:8401:19)
+    at div
+    at https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GVTGVYSA.js?v=a8a7f028:42:13
+    at Presence (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-K4SLVL6H.js?v=a8a7f028:24:11)
+    at https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tabs.js?v=a8a7f028:383:13
+    at _c5 (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/components/ui/tabs.tsx:72:12)
+    at div
+    at https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-GVTGVYSA.js?v=a8a7f028:42:13
+    at Provider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-O46BVKQA.js?v=a8a7f028:48:15)
+    at https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tabs.js?v=a8a7f028:261:7
+    at div
+    at div
+    at Phase2 (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/pages/phase2.tsx?t=1747955318347:44:25)
+    at Route (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=a8a7f028:323:16)
+    at Switch (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=a8a7f028:379:17)
+    at main
+    at div
+    at div
+    at CourseProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/context/CourseContext.tsx:31:34)
+    at QueryClientProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=a8a7f028:2805:3)
+    at App (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/App.tsx?t=1747955318347&v=knbT1dVMeHk6ELsFaDWUE:38:21)
+    at CourseProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/context/CourseContext.tsx?v=knbT1dVMeHk6ELsFaDWUE:31:34)
+    at Provider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-O46BVKQA.js?v=a8a7f028:48:15)
+    at TooltipProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=a8a7f028:59:5)
+    at QueryClientProvider (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=a8a7f028:2805:3)
+Gerando estrutura com: 
+Object {moduleCount: 9, lessonsPerModule: 6}
+Enviando para API: 
+Object {moduleCount: 9, lessonsPerModule: 6, phase1Data: {…}}
+Dados recebidos da API: 
+Object {success: true, modules: Array(9)}
+Erro ao gerar estrutura: 
+ReferenceError {}
+message: "setShowCompetencyMapping is not defined"
+stack: "ReferenceError: setShowCompetencyMapping is not defined↵ at Object.onSuccess (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/src/pages/phase2.tsx?t=1747955318347:176:9)↵ at _a6.execute (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=a8a7f028:1233:73)"
+get stack: ƒ ()
+set stack: ƒ ()
+[[Prototype]]: Object
+
+at t.value (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
