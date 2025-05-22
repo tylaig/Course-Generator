@@ -388,30 +388,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // ---- Structure Generation (Phase 2) ----
   app.post("/api/courses/structure", async (req, res) => {
     try {
-      const { courseId, title, theme, estimatedHours, moduleCount, phaseData } = req.body;
+      console.log("=== INICIO GERAÇÃO DE ESTRUTURA ===");
+      console.log("Body completo recebido:", JSON.stringify(req.body, null, 2));
+      
+      const { courseDetails, phaseData, moduleCount, lessonsPerModule } = req.body;
       
       // Log para debug
-      console.log("Recebendo dados para geração de estrutura:", req.body);
+      console.log("Dados extraídos:", { courseDetails, phaseData, moduleCount, lessonsPerModule });
       
-      if (!title || !theme) {
+      if (!courseDetails?.title || !courseDetails?.theme) {
+        console.log("ERRO: Informações básicas faltando", { title: courseDetails?.title, theme: courseDetails?.theme });
         return res.status(400).json({ message: "Informações básicas do curso são necessárias (título e tema)" });
       }
       
-      // Criar um objeto de detalhes do curso com todos os dados disponíveis
-      const courseDetails = {
-        title: title || "Curso sem título",
-        theme: theme || "Tema não definido",
-        estimatedHours: estimatedHours || 10,
-        moduleCount: moduleCount || 6, // Adiciona o número de módulos solicitado pelo usuário
-        format: req.body.format || "Online",
-        platform: req.body.platform || "Web",
-        deliveryFormat: req.body.deliveryFormat || "HTML5",
+      // Adicionar configurações de módulos aos detalhes do curso
+      const finalCourseDetails = {
+        ...courseDetails,
+        moduleCount: moduleCount || 6,
+        lessonsPerModule: lessonsPerModule || 5,
         ...phaseData
       };
       
-      console.log("Enviando dados para geração:", courseDetails);
+      console.log("Enviando dados para geração:", finalCourseDetails);
       
-      const structureData = await generateStructure(courseDetails, phaseData);
+      const structureData = await generateStructure(finalCourseDetails, phaseData);
       
       console.log("Dados brutos retornados da generateStructure:", {
         hasModules: !!structureData.modules,
