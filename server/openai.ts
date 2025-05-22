@@ -160,10 +160,11 @@ async function processAIResponse(aiContent: string, courseDetails: CourseDetails
   for (const line of lines) {
     const trimmedLine = line.trim();
     
-    // Detectar início de módulo (mais flexível)
-    if (trimmedLine.match(/^(Módulo|Module)\s*\d+:/i) || 
+    // Detectar início de módulo (ainda mais flexível)
+    if (trimmedLine.match(/^(###\s*)?(Módulo|Module)\s*\d+:/i) || 
         trimmedLine.match(/^\d+\.\s*(Módulo|Module)/i) ||
-        trimmedLine.match(/^(Módulo|Module)\s*\d+\s*-/i)) {
+        trimmedLine.match(/^(Módulo|Module)\s*\d+\s*-/i) ||
+        trimmedLine.match(/^###.*?(Módulo|Module)/i)) {
       
       // Salvar módulo anterior se existir
       if (currentModule) {
@@ -173,8 +174,11 @@ async function processAIResponse(aiContent: string, courseDetails: CourseDetails
       
       currentModuleIndex++;
       
-      // Extrair título do módulo (limpar formatação)
+      // Extrair título do módulo (limpar formatação melhorada)
       let moduleTitle = trimmedLine
+        .replace(/^###\s*/i, '')
+        .replace(/^\*\*/, '')
+        .replace(/\*\*$/, '')
         .replace(/^(Módulo|Module)\s*\d+:\s*/i, '')
         .replace(/^\d+\.\s*(Módulo|Module)\s*\d+:\s*/i, '')
         .replace(/^(Módulo|Module)\s*\d+\s*-\s*/i, '')
@@ -198,21 +202,26 @@ async function processAIResponse(aiContent: string, courseDetails: CourseDetails
       
       console.log(`🆕 [PROCESS] Novo módulo iniciado: ${moduleTitle}`);
     }
-    // Detectar aulas (mais flexível)
+    // Detectar aulas (ainda mais flexível)
     else if ((trimmedLine.match(/^-\s*/) || 
+              trimmedLine.match(/^\*\s*/) ||
               trimmedLine.match(/^\d+\.\d+/) || 
               trimmedLine.match(/^Aula\s*\d+/i) ||
-              trimmedLine.match(/^\*\s*/)) && 
+              trimmedLine.match(/^\s*-\s*\*\*Aula/i) ||
+              trimmedLine.includes('Aula')) && 
              currentModule) {
       
       const lessonOrder = currentModule.content.lessons.length + 1;
       
-      // Extrair título da aula (limpar formatação)
+      // Extrair título da aula (limpar formatação melhorada)
       let lessonTitle = trimmedLine
         .replace(/^-\s*/, '')
         .replace(/^\*\s*/, '')
+        .replace(/^\s*-\s*\*\*/, '')
+        .replace(/\*\*:?$/, '')
         .replace(/^\d+\.\d+\s*/, '')
         .replace(/^Aula\s*\d+:\s*/i, '')
+        .replace(/^\*\*Aula\s*\d+:\s*/i, '')
         .trim();
       
       if (!lessonTitle) {

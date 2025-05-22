@@ -36,6 +36,7 @@ export default function Phase2() {
   const [lessonsPerModule, setLessonsPerModule] = useState([5]); // Array para o Slider
   const [configurationsSaved, setConfigurationsSaved] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set());
   
   // Estados para módulos e competências
   const [modules, setModules] = useState<CourseModule[]>([]);
@@ -462,7 +463,10 @@ export default function Phase2() {
                               {...provided.dragHandleProps}
                               className={`transition-shadow ${snapshot.isDragging ? 'shadow-lg' : ''}`}
                             >
-                              <CardHeader>
+                              <CardHeader 
+                                className="cursor-pointer hover:bg-gray-50 transition-colors"
+                                onClick={() => toggleModuleExpansion(module.id)}
+                              >
                                 <div className="flex items-center justify-between">
                                   <div className="flex-1">
                                     <CardTitle className="text-lg font-semibold text-gray-900">
@@ -479,12 +483,19 @@ export default function Phase2() {
                                     <Badge variant="outline" className="text-blue-600 border-blue-300">
                                       {module.estimatedHours}h
                                     </Badge>
+                                    <Button 
+                                      variant="ghost" 
+                                      size="sm"
+                                      className="ml-2"
+                                    >
+                                      {expandedModules.has(module.id) ? '▼' : '▶'}
+                                    </Button>
                                   </div>
                                 </div>
                               </CardHeader>
                               
-                              {/* Exibir aulas em formato estilo Hotmart */}
-                              {module.content && module.content.lessons && module.content.lessons.length > 0 && (
+                              {/* Exibir aulas em formato estilo Hotmart - só quando expandido */}
+                              {expandedModules.has(module.id) && module.content && module.content.lessons && module.content.lessons.length > 0 && (
                                 <CardContent className="pt-0">
                                   <div className="space-y-3">
                                     <h4 className="font-semibold text-gray-800 text-sm uppercase tracking-wide border-b pb-2">
