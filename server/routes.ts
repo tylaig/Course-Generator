@@ -118,6 +118,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const phaseNumber = parseInt(req.params.phaseNumber);
       console.log("Phase number:", phaseNumber);
       
+      // Validar que courseId e phaseNumber são números válidos
+      if (!courseId || isNaN(courseId) || !phaseNumber || isNaN(phaseNumber)) {
+        console.log("Dados inválidos:", { courseId, phaseNumber });
+        return res.status(400).json({ error: "Dados inválidos" });
+      }
+
       const data = {
         courseId: courseId,
         phaseNumber: phaseNumber,
