@@ -199,9 +199,8 @@ export class MemStorage implements IStorage {
 }
 
 // Create and export a storage instance
-import { courses, modules, phaseData, aiSettings, type Course, type InsertCourse, type Module, type InsertModule, type PhaseData, type InsertPhaseData, type AISettings, type InsertAISettings } from "@shared/schema";
 import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
 export class DatabaseStorage implements IStorage {
   async getCourse(id: string): Promise<Course | undefined> {
