@@ -79,6 +79,50 @@ export default function Phase1() {
     },
   });
 
+  // Mutação para gerar a estrutura de módulos após a estratégia
+  const generateStructure = useMutation({
+    mutationFn: async (courseData: any) => {
+      const response = await apiRequest(
+        "POST", 
+        "/api/courses/structure", 
+        { 
+          courseDetails: courseData,
+          moduleCount: 6,
+          lessonsPerModule: 5
+        }
+      );
+      return response.json();
+    },
+    onSuccess: (structureData) => {
+      console.log("Estrutura gerada:", structureData);
+      
+      // Atualizar os módulos no contexto
+      if (structureData.modules && Array.isArray(structureData.modules)) {
+        const formattedModules = structureData.modules.map((module: any, index: number) => ({
+          id: `module-${Date.now()}-${index}`,
+          title: module.title,
+          description: module.description,
+          order: index + 1,
+          estimatedHours: module.estimatedHours || 3,
+          status: "not_started" as const,
+          content: null,
+          imageUrl: null
+        }));
+        
+        updateModules(formattedModules);
+        updateProgress(2, 10); // Progresso inicial da Phase 2
+      }
+    },
+    onError: (error) => {
+      console.error("Erro ao gerar estrutura:", error);
+      toast({
+        title: "Aviso",
+        description: "Estratégia gerada com sucesso, mas houve um problema ao gerar a estrutura. Você pode gerar manualmente na Fase 2.",
+        variant: "default",
+      });
+    }
+  });
+
   // Mutação para gerar a estratégia do curso com a API OpenAI
   const generateStrategy = useMutation({
     mutationFn: async (data: Phase1FormData) => {
@@ -89,10 +133,12 @@ export default function Phase1() {
       );
       return response.json();
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      const formValues = form.getValues();
+      
       // Atualizar os dados da fase com a estratégia gerada
       updatePhaseData(1, {
-        ...form.getValues(),
+        ...formValues,
         strategy: data.strategy,
         strategySummary: data.strategySummary,
         completed: true
@@ -100,15 +146,25 @@ export default function Phase1() {
       
       // Atualizar informações básicas do curso
       setBasicInfo({
-        title: form.getValues("title"),
-        theme: form.getValues("theme"),
-        estimatedHours: form.getValues("estimatedHours"),
-        format: form.getValues("format"),
-        platform: form.getValues("platform"),
-        deliveryFormat: form.getValues("deliveryFormat"),
+        title: formValues.title,
+        theme: formValues.theme,
+        estimatedHours: formValues.estimatedHours,
+        format: formValues.format,
+        platform: formValues.platform,
+        deliveryFormat: formValues.deliveryFormat,
       });
       
       updateProgress(1, 100);
+      
+      // Gerar automaticamente a estrutura de módulos para a Phase 2
+      const courseData = {
+        ...formValues,
+        strategy: data.strategy
+      };
+      
+      // Chamar a geração de estrutura automaticamente
+      await generateStructure.mutateAsync(courseData);
+      
       moveToNextPhase();
     },
     onError: (error) => {
