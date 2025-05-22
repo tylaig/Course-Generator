@@ -65,26 +65,56 @@ export default function Phase2() {
   }, [course]);
 
   // Função para salvar configurações
-  const saveConfigurations = () => {
+  const saveConfigurations = async () => {
     console.log("Salvando configurações:", { moduleCount, lessonsPerModule: lessonsPerModule[0] });
     
     if (course) {
-      updatePhaseData(2, {
-        moduleCount,
-        lessonsPerModule: lessonsPerModule[0],
-        configurationsSaved: true,
-        modules: modules
-      });
-      setConfigurationsSaved(true);
-      setShowModules(true);
-      
-      toast({
-        title: "Configurações Salvas",
-        description: `Salvou ${moduleCount} módulos com ${lessonsPerModule[0]} aulas cada.`,
-        variant: "default",
-      });
-      
-      console.log("Configurações salvas com sucesso!");
+      try {
+        // Salvar no PostgreSQL via API
+        const response = await fetch(`/api/courses/${course.id}/phase/2`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            moduleCount,
+            lessonsPerModule: lessonsPerModule[0],
+            configurationsSaved: true,
+            modules: modules,
+            lastUpdated: new Date().toISOString()
+          }),
+        });
+
+        if (response.ok) {
+          // Atualizar contexto local
+          updatePhaseData(2, {
+            moduleCount,
+            lessonsPerModule: lessonsPerModule[0],
+            configurationsSaved: true,
+            modules: modules
+          });
+          
+          setConfigurationsSaved(true);
+          setShowModules(true);
+          
+          toast({
+            title: "Configurações Salvas",
+            description: `Salvou ${moduleCount} módulos com ${lessonsPerModule[0]} aulas cada no banco de dados.`,
+            variant: "default",
+          });
+          
+          console.log("Configurações salvas com sucesso no PostgreSQL!");
+        } else {
+          throw new Error(`Erro HTTP: ${response.status}`);
+        }
+      } catch (error) {
+        console.error("Erro ao salvar no banco:", error);
+        toast({
+          title: "Erro ao Salvar",
+          description: "Falha ao salvar no banco de dados. Tente novamente.",
+          variant: "destructive",
+        });
+      }
     } else {
       console.error("Curso não encontrado!");
       toast({
@@ -353,10 +383,9 @@ export default function Phase2() {
                   console.log("Botão clicado!");
                   saveConfigurations();
                 }}
-                disabled={configurationsSaved}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium px-8 py-2"
               >
-                {configurationsSaved ? "✓ Configurações Salvas" : "Salvar Configurações"}
+                {configurationsSaved ? "✓ Configurações Salvas - Clique para Salvar Novamente" : "Salvar Configurações no PostgreSQL"}
               </Button>
             </div>
           </TabsContent>
