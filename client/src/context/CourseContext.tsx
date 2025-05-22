@@ -119,7 +119,8 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
         difficultyLevel: "intermediate",
         contentDensity: 0.7,
         teachingApproach: "practical",
-        contentTypes: ["text", "video", "quiz", "exercise", "case"]
+        contentTypes: ["text", "video", "quiz", "exercise", "case"],
+        language: "pt-BR"
       },
       modules: [],
       phaseData: {

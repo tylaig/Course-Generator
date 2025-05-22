@@ -61,6 +61,7 @@ export type AIConfig = {
   contentDensity: number;
   teachingApproach: string;
   contentTypes: ContentType[];
+  language: string;
 };
 
 export type Phase1FormData = z.infer<typeof phase1Schema>;

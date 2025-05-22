@@ -98,6 +98,21 @@ export default function AISettings() {
             </SelectContent>
           </Select>
         </div>
+        <div>
+          <Label className="block text-sm font-medium text-neutral-700 mb-1">Idioma do Conteúdo</Label>
+          <Select 
+            value={config.language} 
+            onValueChange={(value) => handleConfigChange("language", value)}
+          >
+            <SelectTrigger className="w-full px-3 py-2 text-sm border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+              <SelectValue placeholder="Selecione o idioma" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="pt-BR">🇧🇷 Português (Brasil)</SelectItem>
+              <SelectItem value="en-US">🇺🇸 English (US)</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
     </div>
   );
