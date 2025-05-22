@@ -741,9 +741,9 @@ export default function Phase2() {
                                     <h5 className="font-medium text-blue-600 mb-2 flex items-center">
                                       🧠 Cognitivas
                                     </h5>
-                                    {moduleCompetencies.cognitive && moduleCompetencies.cognitive.length > 0 ? (
+                                    {(moduleCompetencies as any).cognitive && (moduleCompetencies as any).cognitive.length > 0 ? (
                                       <ul className="text-sm text-gray-600 space-y-1">
-                                        {moduleCompetencies.cognitive.map((comp: string, i: number) => (
+                                        {(moduleCompetencies as any).cognitive.map((comp: string, i: number) => (
                                           <li key={i} className="flex items-start">
                                             <span className="text-blue-500 mr-1">•</span>
                                             {comp}
@@ -760,9 +760,9 @@ export default function Phase2() {
                                     <h5 className="font-medium text-green-600 mb-2 flex items-center">
                                       🤝 Comportamentais
                                     </h5>
-                                    {moduleCompetencies.behavioral && moduleCompetencies.behavioral.length > 0 ? (
+                                    {(moduleCompetencies as any).behavioral && (moduleCompetencies as any).behavioral.length > 0 ? (
                                       <ul className="text-sm text-gray-600 space-y-1">
-                                        {moduleCompetencies.behavioral.map((comp: string, i: number) => (
+                                        {(moduleCompetencies as any).behavioral.map((comp: string, i: number) => (
                                           <li key={i} className="flex items-start">
                                             <span className="text-green-500 mr-1">•</span>
                                             {comp}
@@ -779,9 +779,9 @@ export default function Phase2() {
                                     <h5 className="font-medium text-purple-600 mb-2 flex items-center">
                                       ⚙️ Técnicas
                                     </h5>
-                                    {moduleCompetencies.technical && moduleCompetencies.technical.length > 0 ? (
+                                    {(moduleCompetencies as any).technical && (moduleCompetencies as any).technical.length > 0 ? (
                                       <ul className="text-sm text-gray-600 space-y-1">
-                                        {moduleCompetencies.technical.map((comp: string, i: number) => (
+                                        {(moduleCompetencies as any).technical.map((comp: string, i: number) => (
                                           <li key={i} className="flex items-start">
                                             <span className="text-purple-500 mr-1">•</span>
                                             {comp}
