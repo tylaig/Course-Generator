@@ -329,7 +329,9 @@ INSTRUÇÕES ESPECÍFICAS:
 3. Adicione elementos inovativos apropriados ao tema
 4. Garanta avaliações formativas e somativas
 5. Implemente recursos de adaptabilidade
-6. Foque na aplicação prática do conhecimento`
+6. Foque na aplicação prática do conhecimento
+
+Responda exclusivamente em formato JSON seguindo a estrutura definida.`
         }
       ],
       response_format: { type: "json_object" },
