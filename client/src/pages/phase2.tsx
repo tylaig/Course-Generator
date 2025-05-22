@@ -156,7 +156,6 @@ export default function Phase2() {
   // Mutação para geração de estrutura de módulos com IA
   const generateStructure = useMutation({
     mutationFn: async () => {
-      setIsSubmitting(true);
       const courseDetails = {
         title: course?.title,
         theme: course?.theme,
@@ -164,64 +163,67 @@ export default function Phase2() {
         format: course?.format,
         platform: course?.platform,
         deliveryFormat: course?.deliveryFormat,
-        moduleCount: moduleCount,
-        lessonsPerModule: lessonsPerModule,
-        phaseData: course?.phaseData?.phase1
+        publicTarget: course?.phaseData?.phase1?.publicTarget,
+        educationalLevel: course?.phaseData?.phase1?.educationalLevel,
+        familiarityLevel: course?.phaseData?.phase1?.familiarityLevel,
+        motivation: course?.phaseData?.phase1?.motivation,
+        cognitiveSkills: course?.phaseData?.phase1?.cognitiveSkills,
+        behavioralSkills: course?.phaseData?.phase1?.behavioralSkills,
+        technicalSkills: course?.phaseData?.phase1?.technicalSkills,
+        courseLanguage: course?.phaseData?.phase1?.courseLanguage || "Português"
       };
       
-      const response = await apiRequest("POST", "/api/generate/structure", courseDetails);
+      const response = await apiRequest("POST", "/api/courses/structure", {
+        courseDetails,
+        moduleCount,
+        lessonsPerModule
+      });
       return response.json();
     },
     onSuccess: (data) => {
-      if (data.modules && Array.isArray(data.modules)) {
+      if (data.success && data.modules && Array.isArray(data.modules)) {
         // Converter os módulos gerados para o formato esperado
-        const newModules = data.modules.map((module, index) => ({
+        const newModules = data.modules.map((module: any, index: number) => ({
           id: `module-${Date.now()}-${index}`,
           title: module.title,
           description: module.description,
           order: index + 1,
-          estimatedHours: module.estimatedHours || Math.ceil(course?.estimatedHours! / moduleCount),
-          status: "not_started",
-          objective: module.objective || "",
-          topics: module.topics?.join("\n") || "",
-          contents: module.contents?.join("\n") || "",
-          activities: module.activities?.join("\n") || "",
-          cognitiveSkills: module.cognitiveSkills?.join(", ") || "",
-          behavioralSkills: module.behavioralSkills?.join(", ") || "",
-          technicalSkills: module.technicalSkills?.join(", ") || "",
-          evaluationType: module.evaluationType || "",
-          bloomLevel: module.bloomLevel || "understanding"
+          estimatedHours: module.estimatedHours || Math.ceil((course?.estimatedHours || 20) / moduleCount),
+          status: "not_started" as const,
+          content: null,
+          imageUrl: null
         }));
         
         setModules(newModules);
         updateModules(newModules);
         
-        // Salvar mapeamento de competências se disponível
-        if (data.competenciesMap) {
-          setCompetenciesMap(data.competenciesMap);
-          updatePhaseData(2, {
-            moduleCount,
-            competenciesMap: data.competenciesMap,
-            bloomLevelDistribution: data.bloomLevelDistribution,
-            completed: true
-          });
-        }
+        // Salvar dados da fase 2
+        updatePhaseData(2, {
+          moduleCount,
+          lessonsPerModule,
+          modules: newModules,
+          completed: true
+        });
         
-        updateProgress(2, 100);
+        updateProgress(2, 80);
         
         toast({
-          title: "Estrutura gerada com sucesso",
-          description: `Foram gerados ${newModules.length} módulos para o curso.`
+          title: "Estrutura gerada com sucesso!",
+          description: `${newModules.length} módulos foram criados com IA baseados nas suas configurações.`
+        });
+      } else {
+        toast({
+          title: "Erro na resposta",
+          description: "A API retornou dados inválidos.",
+          variant: "destructive"
         });
       }
-      setIsSubmitting(false);
     },
     onError: (error) => {
       console.error("Erro ao gerar estrutura:", error);
-      setIsSubmitting(false);
       toast({
         title: "Erro ao gerar estrutura",
-        description: "Não foi possível gerar a estrutura de módulos. Tente novamente.",
+        description: "Não foi possível gerar a estrutura de módulos. Verifique sua conexão e tente novamente.",
         variant: "destructive"
       });
     }
