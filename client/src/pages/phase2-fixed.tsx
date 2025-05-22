@@ -99,7 +99,7 @@ const bloomLevels = [
 type ModuleFormData = z.infer<typeof moduleSchema>;
 
 export default function Phase2() {
-  const navigate = useNavigate();
+  const [, setLocation] = useLocation();
   const { toast } = useToast();
   const {
     course,
@@ -173,8 +173,7 @@ export default function Phase2() {
     }
   }, [course, modules.length, updateProgress]);
 
-  // Obter a função de navegação
-  const [, setLocation] = useLocation();
+
 
   // Função para lidar com o redirecionamento para a fase 1
   const handleGoBack = () => {
@@ -507,7 +506,7 @@ export default function Phase2() {
       updateModules(modules);
       updateProgress(2, 100);
       moveToNextPhase();
-      navigate("/phase3");
+      setLocation("/phase3");
       
       toast({
         title: "Fase concluída",
