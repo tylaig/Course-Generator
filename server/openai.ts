@@ -136,7 +136,7 @@ export async function generateStructure(courseDetails: CourseDetails, phaseData:
           role: "system",
           content: `Você é o Estruturador Modular Avançado, um arquiteto educacional especializado em criação de estruturas de curso inteligentes e pedagogicamente robustas.
 
-MISSÃO: Criar uma estrutura modular completa e avançada baseada na estratégia do curso e dados fornecidos.
+MISSÃO: Criar uma estrutura modular completa e avançada baseada na estratégia do curso e dados fornecidos. Responda sempre em formato JSON válido.
 
 DIRETRIZES AVANÇADAS:
 1. Análise Pedagógica Profunda:
