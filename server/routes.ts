@@ -413,6 +413,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const structureData = await generateStructure(courseDetails, phaseData);
       
+      console.log("Dados brutos retornados da generateStructure:", {
+        hasModules: !!structureData.modules,
+        modulesLength: structureData.modules?.length || 0,
+        structureKeys: Object.keys(structureData),
+        firstModule: structureData.modules?.[0]
+      });
+      
       // Garantir que a resposta tenha a estrutura esperada pelo frontend
       const response = {
         success: true,
@@ -424,9 +431,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         statistics: structureData.statistics || {}
       };
       
-      console.log("Estrutura gerada com sucesso:", {
+      console.log("Resposta final enviada para o frontend:", {
         totalModules: response.modules.length,
-        totalLessons: response.statistics.totalLessons || 0
+        totalLessons: response.statistics.totalLessons || 0,
+        hasSuccess: response.success
       });
       
       res.json(response);
