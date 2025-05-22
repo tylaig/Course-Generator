@@ -104,6 +104,12 @@ export default function Phase2() {
         throw new Error("Dados da Phase 1 não encontrados. Complete a Phase 1 primeiro.");
       }
 
+      console.log("Enviando para API:", {
+        moduleCount,
+        lessonsPerModule: lessonsPerModule[0],
+        phase1Data
+      });
+
       const response = await apiRequest(
         "POST", 
         "/api/courses/structure", 
@@ -364,19 +370,22 @@ export default function Phase2() {
               </div>
               
               <Button
-                onClick={() => generateStructure.mutate()}
+                onClick={() => {
+                  console.log("Gerando estrutura com:", { moduleCount, lessonsPerModule: lessonsPerModule[0] });
+                  generateStructure.mutate();
+                }}
                 disabled={generateStructure.isPending || !configurationsSaved}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium"
               >
                 {generateStructure.isPending ? (
                   <span className="flex items-center">
                     <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
-                    Gerando {moduleCount} módulos...
+                    Gerando {moduleCount} módulos com {lessonsPerModule[0]} aulas cada...
                   </span>
                 ) : (
                   <span className="flex items-center">
                     <span className="material-icons text-sm mr-2">auto_awesome</span>
-                    Gerar Estrutura com IA ({moduleCount} módulos)
+                    Gerar Estrutura com IA ({moduleCount} módulos, {lessonsPerModule[0]} aulas cada)
                   </span>
                 )}
               </Button>

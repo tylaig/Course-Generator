@@ -391,35 +391,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log("=== GERAÇÃO DE ESTRUTURA INICIADA ===");
       const { courseDetails, phaseData, moduleCount = 6, lessonsPerModule = 5 } = req.body;
       
-      // Estrutura específica para JavaScript
-      const jsModules = [
-        {
-          title: "Introdução ao JavaScript",
-          description: "Fundamentos da linguagem, sintaxe básica e conceitos iniciais",
-          competencyType: "cognitive",
-          difficultyLevel: "beginner",
-          objectives: [
-            "Compreender a história e importância do JavaScript",
-            "Configurar ambiente de desenvolvimento",
-            "Escrever os primeiros scripts"
-          ]
-        },
-        {
-          title: "Variáveis e Tipos de Dados",
-          description: "Declaração de variáveis, tipos primitivos e estruturas básicas",
-          competencyType: "cognitive", 
-          difficultyLevel: "beginner",
-          objectives: [
-            "Declarar variáveis com let, const e var",
-            "Identificar tipos de dados primitivos",
-            "Aplicar conversões de tipo"
-          ]
-        },
-        {
-          title: "Operadores e Expressões",
-          description: "Operadores aritméticos, lógicos e de comparação",
-          competencyType: "cognitive",
-          difficultyLevel: "intermediate",
+      console.log("Configurações recebidas:", { moduleCount, lessonsPerModule });
+      
+      // Usar a função generateStructure do OpenAI
+      const formattedDetails = {
+        title: courseDetails.title || "Curso de JavaScript",
+        theme: courseDetails.theme || "Programação",
+        estimatedHours: courseDetails.estimatedHours || 40,
+        format: courseDetails.format || "Online",
+        platform: courseDetails.platform || "Web",
+        deliveryFormat: courseDetails.deliveryFormat || "Assíncrono",
+        moduleCount: moduleCount, // Usar o valor configurado
+        lessonsPerModule: lessonsPerModule, // Usar o valor configurado
+        publicTarget: courseDetails.publicTarget,
+        educationalLevel: courseDetails.educationalLevel,
+        familiarityLevel: courseDetails.familiarityLevel,
+        motivation: courseDetails.motivation,
+        cognitiveSkills: courseDetails.cognitiveSkills,
+        behavioralSkills: courseDetails.behavioralSkills,
+        technicalSkills: courseDetails.technicalSkills,
+        courseLanguage: courseDetails.courseLanguage || "pt-BR"
+      };
+      
+      // Gerar a estrutura usando IA
+      const structureData = await generateStructure(formattedDetails, phaseData || {});
+      
+      console.log(`✅ Estrutura gerada: ${structureData.modules?.length || 0} módulos`);
+      
+      res.json({
+        success: true,
+        modules: structureData.modules || [],
+        courseStructure: structureData.courseStructure,
+        statistics: structureData.statistics
+      });
+      
+    } catch (error) {
+      console.error("Erro na geração de estrutura:", error);
+      res.status(500).json({ 
+        message: "Falha ao gerar estrutura do curso", 
+        error: error instanceof Error ? error.message : "Erro desconhecido" 
+      });
+    }
+  });
           objectives: [
             "Utilizar operadores aritméticos e lógicos",
             "Construir expressões complexas",
