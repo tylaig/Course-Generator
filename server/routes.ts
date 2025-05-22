@@ -386,7 +386,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // ---- Structure Generation (Phase 2) ----
-  app.post("/api/generate/structure", async (req, res) => {
+  app.post("/api/courses/structure", async (req, res) => {
     try {
       const { courseId, title, theme, estimatedHours, moduleCount, phaseData } = req.body;
       
