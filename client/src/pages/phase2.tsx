@@ -70,6 +70,8 @@ export default function Phase2() {
     
     if (course) {
       try {
+        setIsSaving(true);
+        
         // Salvar no PostgreSQL via API
         const response = await fetch(`/api/courses/${course.id}/phase/2`, {
           method: 'POST',
@@ -114,6 +116,8 @@ export default function Phase2() {
           description: "Falha ao salvar no banco de dados. Tente novamente.",
           variant: "destructive",
         });
+      } finally {
+        setIsSaving(false);
       }
     } else {
       console.error("Curso não encontrado!");
@@ -383,9 +387,15 @@ export default function Phase2() {
                   console.log("Botão clicado!");
                   saveConfigurations();
                 }}
+                disabled={isSaving}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium px-8 py-2"
               >
-                {configurationsSaved ? "✓ Salvar" : "Salvar"}
+                {isSaving ? (
+                  <span className="flex items-center">
+                    <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
+                    Salvando no PostgreSQL...
+                  </span>
+                ) : configurationsSaved ? "✓ Salvar" : "Salvar"}
               </Button>
             </div>
           </TabsContent>
