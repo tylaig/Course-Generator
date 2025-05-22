@@ -235,8 +235,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log(`Mapeando competências para ${modules.length} módulos`);
       
       const mappingData = await generateCompetencyMapping(modules, courseDetails);
-      console.log("🎯 Mapeamento gerado:", mappingData);
+      console.log("🎯 Mapeamento gerado:", JSON.stringify(mappingData, null, 2));
       
+      // Garantir que sempre retornamos JSON válido
+      res.setHeader('Content-Type', 'application/json');
       res.json(mappingData);
       
     } catch (error) {

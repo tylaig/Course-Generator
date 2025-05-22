@@ -248,7 +248,17 @@ export default function Phase2() {
           modules: modulesSummary
         }
       );
-      return response.json();
+      
+      const responseText = await response.text();
+      console.log("Resposta bruta do servidor:", responseText);
+      
+      try {
+        return JSON.parse(responseText);
+      } catch (parseError) {
+        console.error("Erro ao parsear JSON:", parseError);
+        console.error("Resposta recebida:", responseText);
+        throw new Error("Resposta inválida do servidor");
+      }
     },
     onSuccess: (data) => {
       console.log("Mapeamento de competências recebido:", data);
