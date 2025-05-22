@@ -9,10 +9,7 @@ import {
   CardFooter
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
@@ -100,7 +97,11 @@ export default function Phase2() {
         "POST", 
         "/api/courses/structure", 
         { 
-          courseDetails: phase1Data,
+          courseDetails: {
+            ...phase1Data,
+            moduleCount,
+            lessonsPerModule: lessonsPerModule[0]
+          },
           moduleCount,
           lessonsPerModule: lessonsPerModule[0]
         }
