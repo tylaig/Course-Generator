@@ -35,6 +35,7 @@ export default function Phase2() {
   const [moduleCount, setModuleCount] = useState(6);
   const [lessonsPerModule, setLessonsPerModule] = useState([5]); // Array para o Slider
   const [configurationsSaved, setConfigurationsSaved] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   
   // Estados para módulos e competências
   const [modules, setModules] = useState<CourseModule[]>([]);
