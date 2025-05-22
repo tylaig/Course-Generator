@@ -419,26 +419,56 @@ export default function Phase2() {
                 <p className="text-muted-foreground">Gere e organize os módulos do curso</p>
               </div>
               
-              <Button
-                onClick={() => {
-                  console.log("Gerando estrutura com:", { moduleCount, lessonsPerModule: lessonsPerModule[0] });
-                  generateStructure.mutate();
-                }}
-                disabled={generateStructure.isPending || !configurationsSaved}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium"
-              >
-                {generateStructure.isPending ? (
-                  <span className="flex items-center">
-                    <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
-                    Gerando {moduleCount} módulos com {lessonsPerModule[0]} aulas cada...
-                  </span>
-                ) : (
-                  <span className="flex items-center">
-                    <span className="material-icons text-sm mr-2">auto_awesome</span>
-                    Gerar Estrutura com IA ({moduleCount} módulos, {lessonsPerModule[0]} aulas cada)
-                  </span>
+              <div className="flex gap-2">
+                {modules.length > 0 && (
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      if (confirm("Tem certeza que deseja limpar todos os módulos? Esta ação não pode ser desfeita.")) {
+                        setModules([]);
+                        updateModules([]);
+                        toast({
+                          title: "Módulos removidos",
+                          description: "Todos os módulos foram removidos com sucesso.",
+                          variant: "default",
+                        });
+                      }
+                    }}
+                    className="text-red-600 hover:text-red-700 border-red-300 hover:border-red-400"
+                  >
+                    🗑️ Limpar Módulos
+                  </Button>
                 )}
-              </Button>
+                
+                <Button
+                  onClick={() => {
+                    console.log("Gerando estrutura com:", { moduleCount, lessonsPerModule: lessonsPerModule[0] });
+                    
+                    // Verificar se há módulos existentes
+                    if (modules.length > 0) {
+                      if (confirm(`Atenção! Você já possui ${modules.length} módulos criados.\n\nGerar nova estrutura irá SUBSTITUIR todos os módulos atuais.\n\nDeseja continuar?`)) {
+                        generateStructure.mutate();
+                      }
+                    } else {
+                      generateStructure.mutate();
+                    }
+                  }}
+                  disabled={generateStructure.isPending || !configurationsSaved}
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium"
+                >
+                  {generateStructure.isPending ? (
+                    <span className="flex items-center">
+                      <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
+                      Gerando {moduleCount} módulos com {lessonsPerModule[0]} aulas cada...
+                    </span>
+                  ) : (
+                    <span className="flex items-center">
+                      <span className="material-icons text-sm mr-2">auto_awesome</span>
+                      {modules.length > 0 ? 'Regenerar' : 'Gerar'} Estrutura com IA ({moduleCount} módulos, {lessonsPerModule[0]} aulas cada)
+                    </span>
+                  )}
+                </Button>
+              </div>
             </div>
 
             {modules.length === 0 ? (
