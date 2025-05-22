@@ -95,6 +95,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/courses/:courseId/phase/:phaseNumber", async (req, res) => {
     try {
+      console.log("Parâmetros recebidos:", req.params);
+      console.log("Body recebido:", req.body);
+      
       // Extrair apenas o número do ID se for um string como "course_123"
       const courseIdStr = req.params.courseId;
       let courseId = parseInt(courseIdStr);
@@ -105,20 +108,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
         courseId = match ? parseInt(match[0]) : null;
       }
       
+      console.log("Course ID extraído:", courseId);
+      
       if (!courseId || isNaN(courseId)) {
+        console.log("ID do curso inválido:", courseIdStr);
         return res.status(400).json({ error: "ID do curso inválido" });
       }
       
+      const phaseNumber = parseInt(req.params.phaseNumber);
+      console.log("Phase number:", phaseNumber);
+      
       const data = {
         courseId: courseId,
-        phaseNumber: parseInt(req.params.phaseNumber),
+        phaseNumber: phaseNumber,
         content: req.body
       };
+      
+      console.log("Dados para salvar:", data);
       
       const phaseData = await storage.createPhaseData(data);
       res.json(phaseData);
     } catch (error) {
-      console.error("Erro ao salvar dados da fase:", error);
+      console.error("Erro detalhado ao salvar dados da fase:", error);
       res.status(500).json({ error: "Falha ao salvar dados da fase" });
     }
   });
