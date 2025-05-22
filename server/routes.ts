@@ -2,7 +2,7 @@ import { Express } from "express";
 import { createServer, Server } from "http";
 import { z } from "zod";
 import { storage } from "./storage";
-import { generateStrategy, generateStructure } from "./openai";
+import { generateStrategy, generateStructure, generateCompetencyMapping } from "./openai";
 import { getAuthUrl, getTokenFromCode, generateAndUploadCourse } from "./googleDrive";
 
 // Validation schemas
@@ -210,15 +210,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.json({
         success: true,
-        modules: structureData.modules || [],
-        courseStructure: structureData.courseStructure,
-        statistics: structureData.statistics
+        modules: structureData.modules || []
       });
       
     } catch (error) {
       console.error("Erro na geração de estrutura:", error);
       res.status(500).json({ 
         message: "Falha ao gerar estrutura do curso", 
+        error: error instanceof Error ? error.message : "Erro desconhecido" 
+      });
+    }
+  });
+
+  // ---- Competency Mapping Generation (Phase 2) ----
+  app.post("/api/courses/competency-mapping", async (req, res) => {
+    try {
+      console.log("=== GERAÇÃO DE MAPEAMENTO DE COMPETÊNCIAS INICIADA ===");
+      const { courseDetails, modules } = req.body;
+      
+      if (!modules || !Array.isArray(modules) || modules.length === 0) {
+        return res.status(400).json({ error: "Módulos são obrigatórios" });
+      }
+      
+      console.log(`Mapeando competências para ${modules.length} módulos`);
+      
+      const mappingData = await generateCompetencyMapping(modules, courseDetails);
+      console.log("🎯 Mapeamento gerado:", mappingData);
+      
+      res.json(mappingData);
+      
+    } catch (error) {
+      console.error("Erro na geração de mapeamento:", error);
+      res.status(500).json({ 
+        message: "Falha ao gerar mapeamento de competências", 
         error: error instanceof Error ? error.message : "Erro desconhecido" 
       });
     }

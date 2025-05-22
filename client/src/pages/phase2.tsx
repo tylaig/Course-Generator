@@ -193,7 +193,7 @@ export default function Phase2() {
           };
         });
         
-        const totalLessons = newModules.reduce((acc, mod) => acc + (mod.content?.lessons?.length || 0), 0);
+        const totalLessons = newModules.reduce((acc: number, mod: any) => acc + (mod.content?.lessons?.length || 0), 0);
         console.log(`Total de aulas criadas: ${totalLessons}`);
         
         setModules(newModules);
@@ -214,6 +214,50 @@ export default function Phase2() {
       toast({
         title: "Erro",
         description: "Falha ao gerar estrutura. Tente novamente.",
+        variant: "destructive",
+      });
+    }
+  });
+
+  // Mutação para gerar mapeamento de competências
+  const generateCompetencyMapping = useMutation({
+    mutationFn: async () => {
+      const phase1Data = course?.phaseData?.phase1;
+      if (!phase1Data) {
+        throw new Error("Dados da Phase 1 não encontrados. Complete a Phase 1 primeiro.");
+      }
+
+      if (modules.length === 0) {
+        throw new Error("Nenhum módulo encontrado. Gere a estrutura primeiro.");
+      }
+
+      const response = await apiRequest(
+        "POST", 
+        "/api/courses/competency-mapping", 
+        { 
+          courseDetails: phase1Data,
+          modules: modules
+        }
+      );
+      return response.json();
+    },
+    onSuccess: (data) => {
+      console.log("Mapeamento de competências recebido:", data);
+      if (data.mapping) {
+        setCompetenciesMap(data.mapping);
+        
+        toast({
+          title: "Mapeamento Gerado!",
+          description: `Competências distribuídas para ${modules.length} módulos.`,
+          variant: "default",
+        });
+      }
+    },
+    onError: (error) => {
+      console.error("Erro ao gerar mapeamento:", error);
+      toast({
+        title: "Erro",
+        description: "Falha ao gerar mapeamento de competências. Tente novamente.",
         variant: "destructive",
       });
     }
@@ -638,20 +682,123 @@ export default function Phase2() {
                 </Card>
 
                 <Card>
-                  <CardHeader>
-                    <CardTitle>Distribuição por Módulos</CardTitle>
-                    <CardDescription>
-                      Cada competência será desenvolvida ao longo dos módulos
-                    </CardDescription>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <div>
+                      <CardTitle>Distribuição por Módulos</CardTitle>
+                      <CardDescription>
+                        Cada competência será desenvolvida ao longo dos módulos
+                      </CardDescription>
+                    </div>
+                    <Button
+                      onClick={() => {
+                        console.log("Gerando mapeamento de competências...");
+                        generateCompetencyMapping.mutate();
+                      }}
+                      disabled={generateCompetencyMapping.isPending}
+                      className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium"
+                    >
+                      {generateCompetencyMapping.isPending ? (
+                        <span className="flex items-center">
+                          <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
+                          Mapeando...
+                        </span>
+                      ) : (
+                        <span className="flex items-center">
+                          <span className="material-icons text-sm mr-2">psychology</span>
+                          Gerar Mapeamento com IA
+                        </span>
+                      )}
+                    </Button>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-center py-8">
-                      <div className="text-4xl mb-4">🔗</div>
-                      <h3 className="text-lg font-semibold mb-2">Mapeamento Automático</h3>
-                      <p className="text-muted-foreground">
-                        O mapeamento de competências será feito automaticamente baseado no conteúdo dos módulos
-                      </p>
-                    </div>
+                    {!competenciesMap || Object.keys(competenciesMap).length === 0 ? (
+                      <div className="text-center py-8">
+                        <div className="text-4xl mb-4">🔗</div>
+                        <h3 className="text-lg font-semibold mb-2">Mapeamento Automático</h3>
+                        <p className="text-muted-foreground">
+                          Clique no botão "Gerar Mapeamento com IA" para distribuir automaticamente as competências pelos módulos
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="space-y-4">
+                        {modules.map((module, index) => {
+                          const moduleKey = `module_${index + 1}`;
+                          const moduleCompetencies = competenciesMap[moduleKey] || {
+                            cognitive: [],
+                            behavioral: [],
+                            technical: []
+                          };
+                          
+                          return (
+                            <Card key={module.id} className="bg-gray-50">
+                              <CardHeader className="pb-3">
+                                <CardTitle className="text-lg">{module.title}</CardTitle>
+                              </CardHeader>
+                              <CardContent className="pt-0">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                  {/* Competências Cognitivas */}
+                                  <div>
+                                    <h5 className="font-medium text-blue-600 mb-2 flex items-center">
+                                      🧠 Cognitivas
+                                    </h5>
+                                    {moduleCompetencies.cognitive && moduleCompetencies.cognitive.length > 0 ? (
+                                      <ul className="text-sm text-gray-600 space-y-1">
+                                        {moduleCompetencies.cognitive.map((comp: string, i: number) => (
+                                          <li key={i} className="flex items-start">
+                                            <span className="text-blue-500 mr-1">•</span>
+                                            {comp}
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    ) : (
+                                      <p className="text-sm text-gray-400">Nenhuma competência cognitiva</p>
+                                    )}
+                                  </div>
+
+                                  {/* Competências Comportamentais */}
+                                  <div>
+                                    <h5 className="font-medium text-green-600 mb-2 flex items-center">
+                                      🤝 Comportamentais
+                                    </h5>
+                                    {moduleCompetencies.behavioral && moduleCompetencies.behavioral.length > 0 ? (
+                                      <ul className="text-sm text-gray-600 space-y-1">
+                                        {moduleCompetencies.behavioral.map((comp: string, i: number) => (
+                                          <li key={i} className="flex items-start">
+                                            <span className="text-green-500 mr-1">•</span>
+                                            {comp}
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    ) : (
+                                      <p className="text-sm text-gray-400">Nenhuma competência comportamental</p>
+                                    )}
+                                  </div>
+
+                                  {/* Competências Técnicas */}
+                                  <div>
+                                    <h5 className="font-medium text-purple-600 mb-2 flex items-center">
+                                      ⚙️ Técnicas
+                                    </h5>
+                                    {moduleCompetencies.technical && moduleCompetencies.technical.length > 0 ? (
+                                      <ul className="text-sm text-gray-600 space-y-1">
+                                        {moduleCompetencies.technical.map((comp: string, i: number) => (
+                                          <li key={i} className="flex items-start">
+                                            <span className="text-purple-500 mr-1">•</span>
+                                            {comp}
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    ) : (
+                                      <p className="text-sm text-gray-400">Nenhuma competência técnica</p>
+                                    )}
+                                  </div>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          );
+                        })}
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </div>

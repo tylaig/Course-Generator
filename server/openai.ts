@@ -407,8 +407,132 @@ export async function generateAllEvaluations() {
   return { success: true };
 }
 
-export async function generateCompetencyMapping() {
-  return { success: true };
+export async function generateCompetencyMapping(modules: any[], courseDetails: CourseDetails) {
+  console.log("🎯 [COMPETENCY] Iniciando mapeamento de competências com OpenAI");
+  
+  try {
+    // Verificar se temos chave da OpenAI
+    if (!process.env.OPENAI_API_KEY) {
+      console.log("⚠️ [COMPETENCY] Chave OpenAI não configurada, usando fallback");
+      return generateFallbackCompetencyMapping(modules, courseDetails);
+    }
+
+    // Usar OpenAI para mapear competências aos módulos
+    const response = await openai.chat.completions.create({
+      model: MODELS.GPT4O,
+      messages: [
+        {
+          role: "system",
+          content: `Você é um especialista em design educacional que mapeia competências para módulos de curso.
+          
+Crie um mapeamento detalhado que distribui as competências ao longo dos módulos de forma pedagógica e progressiva.`
+        },
+        {
+          role: "user",
+          content: `Mapeie as competências para os módulos do curso "${courseDetails.title}" sobre ${courseDetails.theme}.
+
+COMPETÊNCIAS A DESENVOLVER:
+- Cognitivas: ${courseDetails.cognitiveSkills}
+- Comportamentais: ${courseDetails.behavioralSkills}  
+- Técnicas: ${courseDetails.technicalSkills}
+
+MÓDULOS DO CURSO:
+${modules.map((mod, idx) => `${idx + 1}. ${mod.title} - ${mod.description}`).join('\n')}
+
+REQUISITOS:
+- Distribua as competências de forma progressiva ao longo dos módulos
+- Alguns módulos podem desenvolver múltiplas competências
+- Adequado para ${courseDetails.publicTarget} no nível ${courseDetails.educationalLevel}
+- Explique como cada competência será desenvolvida em cada módulo
+
+Estruture sua resposta como JSON:
+{
+  "competencyMapping": {
+    "module_1": {
+      "cognitive": ["competência específica 1", "competência específica 2"],
+      "behavioral": ["competência específica 1"],
+      "technical": ["competência específica 1"]
+    },
+    "module_2": {
+      ...
+    }
+  },
+  "progressionPlan": {
+    "cognitive": "Explicação da progressão das competências cognitivas",
+    "behavioral": "Explicação da progressão das competências comportamentais", 
+    "technical": "Explicação da progressão das competências técnicas"
+  }
+}`
+        }
+      ],
+      temperature: 0.7,
+    });
+
+    const aiContent = response.choices[0].message.content || '';
+    console.log("🤖 [COMPETENCY] Resposta da OpenAI:", aiContent.substring(0, 200) + "...");
+    
+    // Processar resposta JSON
+    try {
+      const mappingData = JSON.parse(aiContent);
+      console.log("✅ [COMPETENCY] Mapeamento processado com sucesso");
+      return {
+        success: true,
+        mapping: mappingData.competencyMapping || {},
+        progressionPlan: mappingData.progressionPlan || {},
+        generatedWithAI: true
+      };
+    } catch (parseError) {
+      console.error("❌ [COMPETENCY] Erro ao parsear JSON da OpenAI:", parseError);
+      return generateFallbackCompetencyMapping(modules, courseDetails);
+    }
+    
+  } catch (error) {
+    console.error("❌ [COMPETENCY] Erro na OpenAI:", error);
+    return generateFallbackCompetencyMapping(modules, courseDetails);
+  }
+}
+
+function generateFallbackCompetencyMapping(modules: any[], courseDetails: CourseDetails) {
+  console.log("🔄 [COMPETENCY] Usando mapeamento de fallback");
+  
+  const mapping: any = {};
+  const totalModules = modules.length;
+  
+  // Distribuir competências de forma básica
+  modules.forEach((module, index) => {
+    const moduleKey = `module_${index + 1}`;
+    mapping[moduleKey] = {
+      cognitive: [],
+      behavioral: [],
+      technical: []
+    };
+    
+    // Distribuir competências cognitivas
+    if (courseDetails.cognitiveSkills && index < Math.ceil(totalModules * 0.7)) {
+      mapping[moduleKey].cognitive.push(`Desenvolvimento cognitivo relacionado a ${module.title}`);
+    }
+    
+    // Distribuir competências comportamentais  
+    if (courseDetails.behavioralSkills && index >= Math.floor(totalModules * 0.3)) {
+      mapping[moduleKey].behavioral.push(`Desenvolvimento comportamental em ${module.title}`);
+    }
+    
+    // Distribuir competências técnicas
+    if (courseDetails.technicalSkills && index >= Math.floor(totalModules * 0.5)) {
+      mapping[moduleKey].technical.push(`Competência técnica aplicada em ${module.title}`);
+    }
+  });
+  
+  return {
+    success: true,
+    mapping,
+    progressionPlan: {
+      cognitive: "Desenvolvimento progressivo das competências cognitivas ao longo do curso",
+      behavioral: "Evolução gradual das competências comportamentais",
+      technical: "Aplicação prática das competências técnicas"
+    },
+    generatedWithAI: false
+  };
 }
 
 export async function generateModuleImage() {
