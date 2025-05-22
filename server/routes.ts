@@ -202,7 +202,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         courseLanguage: courseDetails.courseLanguage || "pt-BR"
       };
       
+      console.log("🚀 CHAMANDO generateStructure com:", JSON.stringify(formattedDetails, null, 2));
       const structureData = await generateStructure(formattedDetails, phaseData || {});
+      console.log("🚀 generateStructure RETORNOU:", structureData);
       
       console.log(`✅ Estrutura gerada: ${structureData.modules?.length || 0} módulos`);
       
