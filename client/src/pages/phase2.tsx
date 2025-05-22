@@ -181,7 +181,8 @@ export default function Phase2() {
       return response.json();
     },
     onSuccess: (data) => {
-      if (data.success && data.modules && Array.isArray(data.modules)) {
+      console.log("Dados recebidos da API:", data);
+      if (data.modules && Array.isArray(data.modules)) {
         // Converter os módulos gerados para o formato esperado
         const newModules = data.modules.map((module: any, index: number) => ({
           id: `module-${Date.now()}-${index}`,
