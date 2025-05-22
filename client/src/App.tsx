@@ -4,7 +4,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import CourseList from "@/pages/course-list";
 import Phase1 from "@/pages/phase1";
-import Phase2 from "@/pages/phase2-working";
+import Phase2 from "@/pages/phase2";
 import Phase3 from "@/pages/phase3";
 import Phase4 from "@/pages/phase4";
 import Phase5 from "@/pages/phase5";
