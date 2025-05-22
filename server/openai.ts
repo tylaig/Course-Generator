@@ -105,7 +105,7 @@ export async function generateStrategy(courseDetails: CourseDetails) {
           2. Guidelines for the learning path based on cognitive progression (Bloom's taxonomy)
           3. Recommendations for methodological approaches suitable for the audience
           
-          Format the output as a detailed JSON with clear sections following educational standards.
+          Respond with a detailed JSON object with clear sections following educational standards.
           Include insights on innovating within the course theme and approach.`
         },
         {
@@ -172,7 +172,7 @@ DIRETRIZES AVANÇADAS:
 
 IMPORTANTE: Você DEVE gerar EXATAMENTE ${courseDetails.moduleCount || 5} módulos. Cada módulo deve ter entre 4-7 aulas detalhadas.
 
-ESTRUTURA DE OUTPUT OBRIGATÓRIA:
+Responda com um objeto JSON estruturado seguindo o formato obrigatório:
 {
   "courseStructure": {
     "totalModules": ${courseDetails.moduleCount || 5},
