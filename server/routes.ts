@@ -159,7 +159,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         technicalSkills: req.body.technicalSkills
       };
       
-      const strategyData = await generateStrategy(courseDetails);
+      const strategyData = await generateStrategy();
       
       res.json({
         success: true,
