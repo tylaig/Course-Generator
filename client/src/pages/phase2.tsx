@@ -417,28 +417,7 @@ export default function Phase2() {
                 <p className="text-muted-foreground">Gere e organize os módulos do curso</p>
               </div>
               
-              <div className="flex gap-2">
-                {modules.length > 0 && (
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      if (confirm("Tem certeza que deseja limpar todos os módulos? Esta ação não pode ser desfeita.")) {
-                        setModules([]);
-                        updateModules([]);
-                        toast({
-                          title: "Módulos removidos",
-                          description: "Todos os módulos foram removidos com sucesso.",
-                          variant: "default",
-                        });
-                      }
-                    }}
-                    className="text-red-600 hover:text-red-700 border-red-300 hover:border-red-400"
-                  >
-                    🗑️ Limpar Módulos
-                  </Button>
-                )}
-                
-                <Button
+              <Button
                   onClick={() => {
                     console.log("Gerando estrutura com:", { moduleCount, lessonsPerModule: lessonsPerModule[0] });
                     
@@ -466,7 +445,6 @@ export default function Phase2() {
                     </span>
                   )}
                 </Button>
-              </div>
             </div>
 
             {modules.length === 0 ? (
