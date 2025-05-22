@@ -148,26 +148,46 @@ Seja específico, prático e pedagógico.`
 // Processar resposta da OpenAI e estruturar dados
 async function processAIResponse(aiContent: string, courseDetails: CourseDetails, moduleCount: number, lessonsPerModule: number) {
   console.log("🔄 [PROCESS] Processando resposta da OpenAI");
+  console.log("🔄 [PROCESS] Conteúdo recebido:", aiContent.substring(0, 500) + "...");
   
   const modules = [];
   
-  // Extrair módulos e aulas da resposta (parsing simples)
+  // Melhorar o parsing da resposta da OpenAI
   const lines = aiContent.split('\n').filter(line => line.trim());
   let currentModuleIndex = 0;
   let currentModule: any = null;
   
   for (const line of lines) {
-    // Detectar início de módulo
-    if (line.match(/^(Módulo|Module)\s*\d+/i) || line.match(/^\d+\./)) {
+    const trimmedLine = line.trim();
+    
+    // Detectar início de módulo (mais flexível)
+    if (trimmedLine.match(/^(Módulo|Module)\s*\d+:/i) || 
+        trimmedLine.match(/^\d+\.\s*(Módulo|Module)/i) ||
+        trimmedLine.match(/^(Módulo|Module)\s*\d+\s*-/i)) {
+      
+      // Salvar módulo anterior se existir
       if (currentModule) {
         modules.push(currentModule);
+        console.log(`✅ [PROCESS] Módulo ${currentModule.order} processado: ${currentModule.title}`);
       }
       
       currentModuleIndex++;
+      
+      // Extrair título do módulo (limpar formatação)
+      let moduleTitle = trimmedLine
+        .replace(/^(Módulo|Module)\s*\d+:\s*/i, '')
+        .replace(/^\d+\.\s*(Módulo|Module)\s*\d+:\s*/i, '')
+        .replace(/^(Módulo|Module)\s*\d+\s*-\s*/i, '')
+        .trim();
+      
+      if (!moduleTitle) {
+        moduleTitle = `${courseDetails.theme} - Módulo ${currentModuleIndex}`;
+      }
+      
       currentModule = {
         id: `module_${currentModuleIndex}`,
-        title: line.replace(/^\d+\.\s*/, '').trim(),
-        description: `Módulo focado em desenvolver competências em ${courseDetails.theme}`,
+        title: moduleTitle,
+        description: `Módulo abrangente sobre ${courseDetails.theme}, desenvolvido especificamente para ${courseDetails.publicTarget} no nível ${courseDetails.educationalLevel}`,
         order: currentModuleIndex,
         estimatedHours: Math.ceil(courseDetails.estimatedHours / moduleCount),
         status: "not_started",
@@ -175,55 +195,90 @@ async function processAIResponse(aiContent: string, courseDetails: CourseDetails
           lessons: []
         }
       };
+      
+      console.log(`🆕 [PROCESS] Novo módulo iniciado: ${moduleTitle}`);
     }
-    // Detectar aulas dentro do módulo
-    else if (line.match(/^-\s*/) || line.match(/^\d+\.\d+/) || line.match(/^Aula\s*\d+/i)) {
-      if (currentModule) {
-        const lessonOrder = currentModule.content.lessons.length + 1;
-        currentModule.content.lessons.push({
-          id: `lesson_${currentModuleIndex}_${lessonOrder}`,
-          title: line.replace(/^-\s*/, '').replace(/^\d+\.\d+\s*/, '').trim(),
-          description: `Aula focada em aspectos práticos de ${courseDetails.theme}`,
-          order: lessonOrder,
-          duration: "45min",
-          content: generateLessonContent(line, courseDetails),
-          objectives: [`Compreender conceitos de ${courseDetails.theme}`, "Aplicar conhecimentos práticos"],
-          type: "video", // Estilo Hotmart
-          materials: ["Video aula", "Material de apoio", "Exercícios"]
-        });
+    // Detectar aulas (mais flexível)
+    else if ((trimmedLine.match(/^-\s*/) || 
+              trimmedLine.match(/^\d+\.\d+/) || 
+              trimmedLine.match(/^Aula\s*\d+/i) ||
+              trimmedLine.match(/^\*\s*/)) && 
+             currentModule) {
+      
+      const lessonOrder = currentModule.content.lessons.length + 1;
+      
+      // Extrair título da aula (limpar formatação)
+      let lessonTitle = trimmedLine
+        .replace(/^-\s*/, '')
+        .replace(/^\*\s*/, '')
+        .replace(/^\d+\.\d+\s*/, '')
+        .replace(/^Aula\s*\d+:\s*/i, '')
+        .trim();
+      
+      if (!lessonTitle) {
+        lessonTitle = `Aula ${lessonOrder}: Desenvolvimento Prático`;
       }
+      
+      currentModule.content.lessons.push({
+        id: `lesson_${currentModuleIndex}_${lessonOrder}`,
+        title: lessonTitle,
+        description: `Aula especializada em ${courseDetails.theme}, adequada para ${courseDetails.publicTarget}`,
+        order: lessonOrder,
+        duration: "45min",
+        content: generateLessonContent(lessonTitle, courseDetails),
+        objectives: [
+          `Compreender conceitos específicos de ${courseDetails.theme}`, 
+          "Aplicar conhecimentos na prática",
+          "Desenvolver competências relevantes"
+        ],
+        type: "video",
+        materials: ["Vídeo aula principal", "Material de apoio", "Exercícios práticos", "Quiz de fixação"]
+      });
+      
+      console.log(`📝 [PROCESS] Aula adicionada: ${lessonTitle}`);
     }
   }
   
-  // Adicionar último módulo
+  // Adicionar último módulo se existir
   if (currentModule) {
     modules.push(currentModule);
+    console.log(`✅ [PROCESS] Último módulo processado: ${currentModule.title}`);
   }
+  
+  console.log(`📊 [PROCESS] Total de módulos processados: ${modules.length}/${moduleCount}`);
   
   // Garantir que temos o número correto de módulos
   while (modules.length < moduleCount) {
     const moduleIndex = modules.length + 1;
-    modules.push(generateDefaultModule(moduleIndex, courseDetails, lessonsPerModule));
+    const defaultModule = generateDefaultModule(moduleIndex, courseDetails, lessonsPerModule);
+    modules.push(defaultModule);
+    console.log(`➕ [PROCESS] Módulo padrão adicionado: ${defaultModule.title}`);
   }
   
   // Garantir que cada módulo tem o número correto de aulas
-  modules.forEach(module => {
+  modules.forEach((module, idx) => {
+    console.log(`🔍 [PROCESS] Verificando módulo ${idx + 1}: ${module.content.lessons.length}/${lessonsPerModule} aulas`);
+    
     while (module.content.lessons.length < lessonsPerModule) {
       const lessonIndex = module.content.lessons.length + 1;
-      module.content.lessons.push({
+      const defaultLesson = {
         id: `lesson_${module.order}_${lessonIndex}`,
-        title: `Aula ${lessonIndex}: Desenvolvimento Prático`,
-        description: `Aplicação prática dos conceitos de ${courseDetails.theme}`,
+        title: `Aula ${lessonIndex}: Aprofundamento em ${courseDetails.theme}`,
+        description: `Aula complementar sobre ${courseDetails.theme} para ${courseDetails.publicTarget}`,
         order: lessonIndex,
         duration: "45min",
-        content: `Conteúdo estruturado sobre ${courseDetails.theme}`,
-        objectives: ["Aplicar conceitos aprendidos", "Desenvolver habilidades práticas"],
+        content: generateLessonContent(`Aula ${lessonIndex}`, courseDetails),
+        objectives: ["Consolidar aprendizado", "Aplicar conceitos práticos"],
         type: "video",
-        materials: ["Video aula", "Exercícios práticos"]
-      });
+        materials: ["Vídeo aula", "Exercícios complementares"]
+      };
+      
+      module.content.lessons.push(defaultLesson);
+      console.log(`➕ [PROCESS] Aula padrão adicionada ao módulo ${module.order}: ${defaultLesson.title}`);
     }
   });
   
+  console.log("✅ [PROCESS] Processamento completo!");
   return modules;
 }
 
