@@ -22,6 +22,7 @@ interface CourseContextType {
   loadCourse: (courseId: string) => Promise<Course>;
   clearCurrentCourse: () => void;
   saveCourseToLocalStorage: () => void;
+  loadLessonsFromDatabase: (courseId: string) => Promise<void>;
 }
 
 const CourseContext = createContext<CourseContextType | null>(null);
@@ -671,7 +672,60 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
         createNewCourse,
         loadCourse,
         clearCurrentCourse,
-        saveCourseToLocalStorage
+        saveCourseToLocalStorage,
+        loadLessonsFromDatabase: async (courseId: string) => {
+          try {
+            console.log("🔍 Carregando aulas do PostgreSQL...");
+            const response = await fetch(`/api/lessons/all`);
+            if (response.ok) {
+              const lessons = await response.json();
+              console.log("✅ Aulas encontradas:", lessons.length);
+              
+              if (course && lessons.length > 0) {
+                const updatedCourse = { ...course };
+                
+                // Organizar aulas por módulo
+                lessons.forEach((lesson: any) => {
+                  const moduleIndex = updatedCourse.modules.findIndex(m => 
+                    m.id === `module-${lesson.module_id}` || 
+                    m.id === lesson.module_id.toString() ||
+                    m.order === lesson.module_id
+                  );
+                  
+                  if (moduleIndex !== -1) {
+                    if (!updatedCourse.modules[moduleIndex].content) {
+                      updatedCourse.modules[moduleIndex].content = { lessons: [] };
+                    }
+                    if (!updatedCourse.modules[moduleIndex].content.lessons) {
+                      updatedCourse.modules[moduleIndex].content.lessons = [];
+                    }
+                    
+                    // Adicionar aula se não existir
+                    const existingLessonIndex = updatedCourse.modules[moduleIndex].content.lessons.findIndex(
+                      (l: any) => l.title === lesson.title
+                    );
+                    
+                    if (existingLessonIndex === -1) {
+                      updatedCourse.modules[moduleIndex].content.lessons.push({
+                        id: `lesson_${lesson.module_id}_${lesson.id}`,
+                        title: lesson.title,
+                        description: lesson.description || "Aula salva automaticamente",
+                        content: lesson.content || "",
+                        order: lesson.order || 1,
+                        duration: "45min"
+                      });
+                    }
+                  }
+                });
+                
+                setCourse(updatedCourse);
+                console.log("✅ Curso atualizado com aulas do PostgreSQL");
+              }
+            }
+          } catch (error) {
+            console.error("❌ Erro ao carregar aulas:", error);
+          }
+        }
       }}
     >
       {children}
