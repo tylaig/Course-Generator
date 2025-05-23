@@ -582,43 +582,132 @@ export default function Phase3() {
                         size="sm"
                         onClick={async () => {
                           try {
-                            const lessonData = {
-                              lesson: lesson,
-                              module: module,
-                              course: {
-                                title: course?.title,
-                                theme: course?.theme
+                            // Import jsPDF dinamicamente
+                            const { jsPDF } = await import('jspdf');
+                            const doc = new jsPDF();
+                            
+                            // Configurar fonte e margens
+                            let yPosition = 20;
+                            const pageWidth = doc.internal.pageSize.width;
+                            const margin = 20;
+                            const maxWidth = pageWidth - (margin * 2);
+                            
+                            // Função para adicionar texto com quebra de linha
+                            const addText = (text: string, fontSize: number = 12, fontStyle: string = 'normal') => {
+                              doc.setFontSize(fontSize);
+                              doc.setFont('helvetica', fontStyle);
+                              const lines = doc.splitTextToSize(text, maxWidth);
+                              doc.text(lines, margin, yPosition);
+                              yPosition += (lines.length * fontSize * 0.4) + 5;
+                              
+                              // Verificar se precisa de nova página
+                              if (yPosition > doc.internal.pageSize.height - 20) {
+                                doc.addPage();
+                                yPosition = 20;
                               }
                             };
-
-                            const response = await fetch(`/api/pdf/lesson`, {
-                              method: 'POST',
-                              headers: {
-                                'Content-Type': 'application/json',
-                              },
-                              body: JSON.stringify(lessonData)
-                            });
-
-                            if (response.ok) {
-                              const blob = await response.blob();
-                              const url = window.URL.createObjectURL(blob);
-                              const link = document.createElement('a');
-                              link.href = url;
-                              link.download = `${lesson.title.replace(/[^a-zA-Z0-9]/g, '_')}_Lesson.pdf`;
-                              document.body.appendChild(link);
-                              link.click();
-                              document.body.removeChild(link);
-                              window.URL.revokeObjectURL(url);
-                              
-                              toast({
-                                title: "PDF Downloaded!",
-                                description: `${lesson.title} PDF has been downloaded successfully.`,
-                              });
-                            } else {
-                              throw new Error('Failed to generate PDF');
+                            
+                            // Título do curso
+                            addText(`${course?.title || 'Curso'}`, 18, 'bold');
+                            addText(`Tema: ${course?.theme || 'N/A'}`, 14, 'normal');
+                            yPosition += 10;
+                            
+                            // Título do módulo
+                            addText(`Módulo: ${module.title}`, 16, 'bold');
+                            if (module.description) {
+                              addText(module.description, 12, 'normal');
                             }
+                            yPosition += 10;
+                            
+                            // Título da aula
+                            addText(`${lesson.title}`, 16, 'bold');
+                            if (lesson.description) {
+                              addText(lesson.description, 12, 'italic');
+                            }
+                            yPosition += 10;
+                            
+                            // Duração
+                            if (lesson.duration) {
+                              addText(`Duração: ${lesson.duration}`, 12, 'normal');
+                            }
+                            yPosition += 15;
+                            
+                            // Conteúdo detalhado
+                            if (lesson.detailedContent) {
+                              const content = lesson.detailedContent;
+                              
+                              // Objetivos
+                              if (content.objectives && content.objectives.length > 0) {
+                                addText('OBJETIVOS DA AULA', 14, 'bold');
+                                content.objectives.forEach((obj: string, index: number) => {
+                                  addText(`${index + 1}. ${obj}`, 12, 'normal');
+                                });
+                                yPosition += 10;
+                              }
+                              
+                              // Conteúdo principal
+                              if (content.content) {
+                                addText('CONTEÚDO', 14, 'bold');
+                                addText(content.content, 12, 'normal');
+                                yPosition += 10;
+                              }
+                              
+                              // Exercícios práticos
+                              if (content.practicalExercises && content.practicalExercises.length > 0) {
+                                addText('EXERCÍCIOS PRÁTICOS', 14, 'bold');
+                                content.practicalExercises.forEach((exercise: any, index: number) => {
+                                  addText(`${index + 1}. ${exercise.title}`, 13, 'bold');
+                                  addText(exercise.description, 12, 'normal');
+                                  
+                                  if (exercise.questions && exercise.questions.length > 0) {
+                                    exercise.questions.forEach((q: any, qIndex: number) => {
+                                      addText(`Questão ${qIndex + 1}: ${q.question}`, 12, 'bold');
+                                      q.options?.forEach((option: string, oIndex: number) => {
+                                        const marker = oIndex === q.correct_answer ? '✓' : '•';
+                                        addText(`  ${marker} ${option}`, 11, 'normal');
+                                      });
+                                      if (q.explanation) {
+                                        addText(`Explicação: ${q.explanation}`, 11, 'italic');
+                                      }
+                                      yPosition += 5;
+                                    });
+                                  }
+                                  yPosition += 10;
+                                });
+                              }
+                              
+                              // Questões de avaliação
+                              if (content.assessmentQuestions && content.assessmentQuestions.length > 0) {
+                                addText('QUESTÕES DE AVALIAÇÃO', 14, 'bold');
+                                content.assessmentQuestions.forEach((q: any, index: number) => {
+                                  addText(`${index + 1}. ${q.question}`, 12, 'bold');
+                                  q.options?.forEach((option: string, oIndex: number) => {
+                                    const marker = oIndex === q.correct_answer ? '✓' : '•';
+                                    addText(`  ${marker} ${option}`, 11, 'normal');
+                                  });
+                                  if (q.explanation) {
+                                    addText(`Explicação: ${q.explanation}`, 11, 'italic');
+                                  }
+                                  yPosition += 10;
+                                });
+                              }
+                            } else if (lesson.content) {
+                              // Fallback para conteúdo básico
+                              addText('CONTEÚDO DA AULA', 14, 'bold');
+                              addText(lesson.content, 12, 'normal');
+                            }
+                            
+                            // Salvar o PDF
+                            const fileName = `${lesson.title.replace(/[^a-zA-Z0-9]/g, '_')}_Lesson.pdf`;
+                            doc.save(fileName);
+                            
+                            toast({
+                              title: "PDF Downloaded!",
+                              description: `${lesson.title} PDF has been generated successfully.`,
+                            });
+                            
                           } catch (error) {
-                            console.error('Error downloading lesson PDF:', error);
+                            console.error('Error generating PDF:', error);
                             toast({
                               title: "Download Failed",
                               description: "Unable to generate the lesson PDF. Please try again.",
