@@ -327,6 +327,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Dados obrigatórios não fornecidos" });
       }
 
+      // Verificar se temos chave da OpenAI
+      if (!process.env.OPENAI_API_KEY) {
+        return res.status(500).json({ 
+          error: "Chave da OpenAI não configurada",
+          message: "Configure a variável OPENAI_API_KEY para usar a geração de atividades"
+        });
+      }
+
       console.log(`🎯 Gerando APENAS atividades para ${lessons.length} aulas`);
       
       const results = [];

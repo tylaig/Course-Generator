@@ -111,6 +111,8 @@ export default function Phase4() {
           );
           
           const result = await response.json();
+          console.log("API Response:", result);
+          
           if (result.success && result.results && result.results.length > 0) {
             const activitiesData = result.results[0];
             results.push({ 
@@ -119,6 +121,8 @@ export default function Phase4() {
               activities: activitiesData.activities,
               assessmentQuestions: activitiesData.assessmentQuestions
             });
+          } else {
+            console.error("Resposta inválida da API:", result);
           }
           
           // Update lesson content immediately

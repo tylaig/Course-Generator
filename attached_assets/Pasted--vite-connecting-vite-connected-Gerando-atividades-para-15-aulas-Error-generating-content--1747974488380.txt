@@ -1,0 +1,62 @@
+[vite] connecting...
+[vite] connected.
+Gerando atividades para 15 aulas
+Error generating content for lesson Aula 1: Fundamentos 1.1: 
+SyntaxError {}
+
+at t.value (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
+Error generating content for lesson Aula 2: Fundamentos 1.2: 
+SyntaxError {}
+
+Error generating content for lesson Aula 3: Fundamentos 1.3: 
+SyntaxError {}
+
+at t.value (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
+Error generating content for lesson Aula 4: Fundamentos 1.4: 
+SyntaxError {}
+
+Error generating content for lesson Aula 5: Fundamentos 1.5: 
+SyntaxError {}
+
+Error generating content for lesson Aula 1: Fundamentos 2.1: 
+SyntaxError {}
+
+Error generating content for lesson Aula 2: Fundamentos 2.2: 
+SyntaxError {}
+
+Error generating content for lesson Aula 3: Fundamentos 2.3: 
+SyntaxError {}
+
+at t.value (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
+Error generating content for lesson Aula 4: Fundamentos 2.4: 
+SyntaxError {}
+
+Error generating content for lesson Aula 5: Fundamentos 2.5: 
+SyntaxError {}
+
+Error generating content for lesson Aula 1: Fundamentos 3.1: 
+SyntaxError {}
+
+Error generating content for lesson Aula 2: Fundamentos 3.2: 
+SyntaxError {}
+
+Error generating content for lesson Aula 3: Fundamentos 3.3: 
+SyntaxError {}
+
+Error generating content for lesson Aula 4: Fundamentos 3.4: 
+SyntaxError {}
+
+Error generating content for lesson Aula 5: Fundamentos 3.5: 
+SyntaxError {}
+
+Activities generation error: 
+ReferenceError {}
