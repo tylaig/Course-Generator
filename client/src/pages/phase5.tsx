@@ -356,11 +356,14 @@ export default function Phase5() {
                       <div>📁 {course.title}</div>
                       {course.modules.map((module, idx) => (
                         <div key={module.id} className="ml-4">
-                          <div>📁 {module.title}</div>
+                          <div>📁 {module.title} (Módulo)</div>
                           {module.content?.lessons?.map((lesson: any, lessonIdx: number) => (
-                            <div key={lessonIdx} className="ml-8 text-xs">
-                              <div>📄 {lesson.title}_Conteudo.pdf</div>
-                              <div>📄 {lesson.title}_Atividades.pdf</div>
+                            <div key={lessonIdx} className="ml-8">
+                              <div>📁 {lesson.title} (Aula)</div>
+                              <div className="ml-4 text-xs">
+                                <div>📄 Aula.pdf</div>
+                                <div>📄 Atividade.pdf</div>
+                              </div>
                             </div>
                           ))}
                         </div>
@@ -369,10 +372,10 @@ export default function Phase5() {
                   </div>
                   
                   <div className="flex flex-wrap gap-2 mb-4">
-                    <Badge variant="outline">📁 {course.modules.length} Pastas de Módulos</Badge>
-                    <Badge variant="outline">📄 {totalLessons * 2} PDFs Individuais</Badge>
-                    <Badge variant="outline">☁️ Sincronização Automática</Badge>
-                    <Badge variant="outline">🔗 Links Compartilháveis</Badge>
+                    <Badge variant="outline">📁 {course.modules.length} Módulos</Badge>
+                    <Badge variant="outline">📁 {totalLessons} Aulas</Badge>
+                    <Badge variant="outline">📄 {totalLessons * 2} PDFs</Badge>
+                    <Badge variant="outline">☁️ Organização Automática</Badge>
                   </div>
                   
                   <Button 

@@ -364,28 +364,37 @@ export const createCourseStructureOnDrive = async (course: any) => {
         lessons: [] as any[]
       };
       
-      // Create lesson PDFs for each lesson in the module
+      // Create lesson folders and PDFs for each lesson in the module
       if (module.content?.lessons) {
         for (const lesson of module.content.lessons) {
-          console.log(`Creating lesson content for: ${lesson.title}`);
+          console.log(`Creating lesson folder for: ${lesson.title}`);
           
           try {
+            // Create lesson folder inside the module folder
+            const lessonFolderId = await createFolder(lesson.title, moduleFolderId);
+            
+            if (!lessonFolderId) {
+              console.error(`Falha ao criar pasta para aula: ${lesson.title}`);
+              continue;
+            }
+            
             // Generate lesson content PDF
             const lessonPDF = await generateLessonPDF(lesson, module, course);
-            const lessonFileName = `${lesson.title}_Conteudo.pdf`;
-            const lessonFileId = await uploadPDFBuffer(lessonFileName, moduleFolderId, lessonPDF);
+            const lessonFileName = `Aula.pdf`;
+            const lessonFileId = await uploadPDFBuffer(lessonFileName, lessonFolderId, lessonPDF);
             
             // Generate lesson activities PDF if there are activities
             let activitiesFileId = null;
             if (lesson.detailedContent?.assessmentQuestions?.length > 0 || 
                 lesson.detailedContent?.practicalExercises?.length > 0) {
               const activitiesPDF = await generateLessonActivitiesPDF(lesson, module, course);
-              const activitiesFileName = `${lesson.title}_Atividades.pdf`;
-              activitiesFileId = await uploadPDFBuffer(activitiesFileName, moduleFolderId, activitiesPDF);
+              const activitiesFileName = `Atividade.pdf`;
+              activitiesFileId = await uploadPDFBuffer(activitiesFileName, lessonFolderId, activitiesPDF);
             }
             
             moduleResult.lessons.push({
               title: lesson.title,
+              folderId: lessonFolderId,
               contentFileId: lessonFileId,
               activitiesFileId
             });
