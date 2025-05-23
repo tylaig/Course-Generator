@@ -90,6 +90,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.delete("/api/courses/:id", async (req, res) => {
+    try {
+      const courseId = req.params.id;
+      console.log("Deletando curso com ID:", courseId);
+      
+      const deleted = await storage.deleteCourse(courseId);
+      if (!deleted) {
+        return res.status(404).json({ error: "Curso não encontrado" });
+      }
+      
+      res.json({ success: true, message: "Curso deletado com sucesso" });
+    } catch (error) {
+      console.error("Erro ao deletar curso:", error);
+      res.status(500).json({ error: "Falha ao deletar curso" });
+    }
+  });
+
   // ---- Phase Data Routes ----
   app.get("/api/courses/:courseId/phase/:phaseNumber", async (req, res) => {
     try {

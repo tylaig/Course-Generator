@@ -15,6 +15,7 @@ export default function CourseList() {
   const { course, createNewCourse, loadCourse } = useCourse();
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
+  const queryClient = useQueryClient();
 
   // Carregar lista de cursos do banco de dados
   useEffect(() => {
@@ -94,16 +95,7 @@ export default function CourseList() {
 
   // Tentar carregar cursos do servidor
   const { isLoading: isLoadingFromServer } = useQuery({
-    queryKey: ['/api/courses'],
-    onSuccess: (data) => {
-      if (data && Array.isArray(data)) {
-        setCourses(data as Course[]);
-      }
-    },
-    onError: (error) => {
-      console.error("Erro ao carregar cursos do servidor:", error);
-      // Já temos os cursos do localStorage, então não precisamos mostrar erro
-    }
+    queryKey: ['/api/courses']
   });
 
   // Criar novo curso
@@ -151,27 +143,46 @@ export default function CourseList() {
     }
   };
 
-  // Excluir um curso
-  const handleDeleteCourse = (courseId: string) => {
-    try {
-      // Remover do localStorage
-      localStorage.removeItem(courseId);
+  // Mutação para deletar curso
+  const deleteCourse = useMutation({
+    mutationFn: async (courseId: string) => {
+      const numericId = parseInt(courseId);
       
-      // Atualizar a lista
-      setCourses(prev => prev.filter(c => c.id !== courseId));
+      if (!isNaN(numericId)) {
+        // Deletar do banco de dados
+        await apiRequest("DELETE", `/api/courses/${numericId}`);
+      }
+      
+      // Remover do localStorage também
+      localStorage.removeItem(`course_${courseId}`);
+      CourseStorage.clearCourseData(courseId);
+      
+      return courseId;
+    },
+    onSuccess: (deletedCourseId) => {
+      // Atualizar a lista local
+      setCourses(prev => prev.filter(c => c.id !== deletedCourseId));
+      
+      // Invalidar cache
+      queryClient.invalidateQueries({ queryKey: ['/api/courses'] });
       
       toast({
         title: "Curso Excluído",
         description: "O curso foi removido com sucesso."
       });
-    } catch (error) {
+    },
+    onError: (error) => {
       console.error("Erro ao excluir curso:", error);
       toast({
         title: "Erro",
-        description: "Não foi possível excluir o curso.",
+        description: "Não foi possível excluir o curso. Tente novamente.",
         variant: "destructive"
       });
     }
+  });
+
+  const handleDeleteCourse = (courseId: string) => {
+    deleteCourse.mutate(courseId);
   };
 
   // Formatador de data
@@ -267,14 +278,37 @@ export default function CourseList() {
                 </div>
               </CardContent>
               <CardFooter className="flex justify-between pt-0">
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => handleDeleteCourse(c.id)}
-                >
-                  <span className="material-icons text-sm mr-1">delete</span>
-                  Excluir
-                </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      disabled={deleteCourse.isPending}
+                    >
+                      <span className="material-icons text-sm mr-1">delete</span>
+                      {deleteCourse.isPending ? "Excluindo..." : "Excluir"}
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Confirmar Exclusão</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Tem certeza que deseja excluir o curso "{c.title}"? 
+                        Esta ação não pode ser desfeita e todos os dados do curso serão perdidos permanentemente.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => handleDeleteCourse(c.id)}
+                        className="bg-red-600 hover:bg-red-700"
+                      >
+                        Excluir Curso
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+                
                 <Button 
                   size="sm"
                   onClick={() => handleContinueCourse(c.id)}
