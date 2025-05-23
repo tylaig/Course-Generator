@@ -15,176 +15,64 @@ import {
   TabsTrigger
 } from "@/components/ui/tabs";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select";
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
 import WorkflowProgress from "@/components/shared/WorkflowProgress";
 import PhaseNav from "@/components/layout/PhaseNav";
 import { useCourse } from "@/context/CourseContext";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Phase4() {
   const [_, navigate] = useLocation();
   const { course, moveToNextPhase, updatePhaseData } = useCourse();
-  const [selectedModule, setSelectedModule] = useState<string | null>(null);
-  const [evaluationType, setEvaluationType] = useState("quiz");
+  const [selectedModule, setSelectedModule] = useState<any>(null);
+  const { toast } = useToast();
 
-  const generateEvaluation = useMutation({
-    mutationFn: async () => {
-      const response = await apiRequest("POST", "/api/generate/evaluation", {
-        courseId: course?.id,
-        moduleId: selectedModule,
-        evaluationType
-      });
-      return response.json();
-    },
-    onSuccess: (data) => {
-      updatePhaseData(4, {
-        ...course?.phaseData.phase4,
-        evaluations: {
-          ...(course?.phaseData?.phase4?.evaluations || {}),
-          [selectedModule as string]: data
-        }
-      });
-    }
-  });
-
-  const generateAllEvaluations = useMutation({
-    mutationFn: async () => {
-      try {
-        // Verificamos se há módulos para gerar avaliações
-        if (!course?.modules || course.modules.length === 0) {
-          alert("Não há módulos para gerar avaliações. Por favor, crie módulos na Fase 2 primeiro.");
-          return null;
-        }
-
-        // Feedback para o usuário
-        alert("Iniciando geração de avaliações para " + course.modules.length + " módulos. Este processo pode demorar alguns minutos.");
-        
-        // Objeto para armazenar todas as avaliações
-        const moduleEvaluations: Record<string, any> = {
-          ...(course?.phaseData?.phase4?.evaluations || {})
-        };
-        
-        // Geramos avaliações para cada módulo sequencialmente
-        for (let i = 0; i < course.modules.length; i++) {
-          const module = course.modules[i];
-          
-          try {
-            console.log(`Gerando avaliação para módulo ${i+1}/${course.modules.length}: ${module.title}`);
-            
-            // Chama a API para gerar a avaliação do módulo específico
-            const response = await fetch('/api/generate/evaluation', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                courseId: course.id,
-                moduleId: module.id,
-                evaluationType,
-                // Passamos informações adicionais para a API
-                moduleInfo: {
-                  title: module.title,
-                  description: module.description,
-                  content: module.content
-                },
-                courseDetails: {
-                  title: course.title,
-                  theme: course.theme,
-                  languageStyle: course.aiConfig.languageStyle
-                }
-              }),
-            });
-            
-            if (response.ok) {
-              const evaluationData = await response.json();
-              
-              // Armazenamos a avaliação gerada
-              moduleEvaluations[module.id] = evaluationData;
-              
-              // Atualizamos a fase 4 com as avaliações geradas até o momento
-              updatePhaseData(4, {
-                ...course?.phaseData?.phase4,
-                evaluations: moduleEvaluations
-              });
-              
-              console.log(`Avaliação para módulo ${module.title} gerada com sucesso!`);
-            } else {
-              throw new Error(`Erro ao gerar avaliação para o módulo ${module.title}`);
-            }
-          } catch (moduleError) {
-            console.error(`Erro na avaliação do módulo ${module.title}:`, moduleError);
-            // Continua para o próximo módulo mesmo se houver erro
-          }
-        }
-        
-        // Agora vamos gerar a avaliação do curso completo
-        console.log("Gerando avaliação para o curso completo...");
-        try {
-          const courseEvalResponse = await fetch('/api/generate/course-evaluation', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              courseId: course.id,
-              courseDetails: {
-                title: course.title,
-                theme: course.theme,
-                estimatedHours: course.estimatedHours,
-                format: course.format,
-                platform: course.platform,
-                deliveryFormat: course.deliveryFormat,
-                languageStyle: course.aiConfig.languageStyle
-              }
-            }),
+  // Função para extrair atividades das aulas de um módulo
+  const getModuleActivities = (module: any) => {
+    if (!module.content?.lessons) return [];
+    
+    const activities: any[] = [];
+    module.content.lessons.forEach((lesson: any) => {
+      if (lesson.detailedContent?.activities) {
+        lesson.detailedContent.activities.forEach((activity: any) => {
+          activities.push({
+            ...activity,
+            lessonTitle: lesson.title,
+            moduleTitle: module.title,
+            moduleId: module.id
           });
-          
-          if (courseEvalResponse.ok) {
-            const courseEvaluation = await courseEvalResponse.json();
-            
-            // Atualizamos a fase 4 com a avaliação do curso completo
-            updatePhaseData(4, {
-              ...course?.phaseData?.phase4,
-              evaluations: moduleEvaluations,
-              courseEvaluation
-            });
-            
-            console.log("Avaliação do curso completo gerada com sucesso!");
-          } else {
-            console.error("Erro ao gerar avaliação do curso completo");
-          }
-        } catch (courseEvalError) {
-          console.error("Erro na avaliação do curso completo:", courseEvalError);
-        }
-        
-        alert("Geração de avaliações concluída com sucesso!");
-        return {
-          moduleEvaluations,
-          courseEvaluation: course?.phaseData?.phase4?.courseEvaluation || null
-        };
-      } catch (error) {
-        console.error("Erro ao gerar avaliações:", error);
-        alert("Erro ao gerar avaliações. Tente novamente.");
-        throw error;
-      }
-    },
-    onSuccess: (data) => {
-      if (data) {
-        updatePhaseData(4, {
-          ...course?.phaseData?.phase4,
-          evaluations: data.moduleEvaluations,
-          courseEvaluation: data.courseEvaluation
         });
       }
-    }
-  });
+    });
+    return activities;
+  };
+
+  // Função para contar questões por módulo
+  const getModuleQuestionCount = (module: any) => {
+    const activities = getModuleActivities(module);
+    let questionCount = 0;
+    activities.forEach(activity => {
+      if (activity.questions) {
+        questionCount += activity.questions.length;
+      }
+    });
+    return questionCount;
+  };
+
+  // Função para contar total de atividades por módulo
+  const getModuleActivityCount = (module: any) => {
+    return getModuleActivities(module).length;
+  };
+
+
 
   const handleNextPhase = () => {
     moveToNextPhase();
@@ -198,227 +86,216 @@ export default function Phase4() {
       <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200 mb-8">
         <PhaseNav 
           currentPhase={4}
-          title="Phase 4: Evaluation Design" 
-          description="Create assessment activities aligned with learning objectives"
+          title="Fase 4: Avaliações e Atividades" 
+          description="Visualize e organize as atividades e avaliações geradas automaticamente na Fase 3"
           onNext={handleNextPhase}
         />
 
-        <div className="mb-6 p-4 border border-neutral-200 rounded-md bg-neutral-50">
-          <h3 className="text-md font-heading font-medium mb-3 text-neutral-800">Evaluation Configuration</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Resumo das Atividades Geradas */}
+        <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+          <div className="flex items-center justify-between">
             <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-1">Select Module</label>
-              <Select
-                value={selectedModule || ""}
-                onValueChange={setSelectedModule}
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Choose a module" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="course">Entire Course</SelectItem>
-                  {course?.modules.map(module => (
-                    <SelectItem key={module.id} value={module.id}>{module.title}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <h3 className="font-semibold text-blue-900">Resumo das Atividades</h3>
+              <p className="text-sm text-blue-700">Atividades e avaliações extraídas do conteúdo gerado na Fase 3</p>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-1">Evaluation Type</label>
-              <Select
-                value={evaluationType}
-                onValueChange={setEvaluationType}
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="quiz">Multiple Choice Quiz</SelectItem>
-                  <SelectItem value="case-study">Case Study</SelectItem>
-                  <SelectItem value="project">Project-Based</SelectItem>
-                  <SelectItem value="peer-review">Peer Review</SelectItem>
-                </SelectContent>
-              </Select>
+            <div className="text-right">
+              <div className="text-2xl font-bold text-blue-900">
+                {course?.modules.reduce((total, module) => total + getModuleActivityCount(module), 0)}
+              </div>
+              <div className="text-xs text-blue-600">Total de Atividades</div>
             </div>
-            <div className="flex items-end">
-              <Button 
-                onClick={() => generateEvaluation.mutate()}
-                disabled={!selectedModule || generateEvaluation.isPending}
-                className="w-full"
-              >
-                <span className="material-icons text-sm mr-1">build</span>
-                {generateEvaluation.isPending ? "Generating..." : "Create Evaluation"}
-              </Button>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+            <div className="text-center">
+              <div className="text-lg font-semibold text-blue-800">
+                {course?.modules.reduce((total, module) => total + getModuleQuestionCount(module), 0)}
+              </div>
+              <div className="text-xs text-blue-600">Questões</div>
+            </div>
+            <div className="text-center">
+              <div className="text-lg font-semibold text-blue-800">
+                {course?.modules.filter(module => getModuleActivityCount(module) > 0).length}
+              </div>
+              <div className="text-xs text-blue-600">Módulos com Atividades</div>
+            </div>
+            <div className="text-center">
+              <div className="text-lg font-semibold text-blue-800">
+                {course?.modules.length || 0}
+              </div>
+              <div className="text-xs text-blue-600">Total de Módulos</div>
+            </div>
+            <div className="text-center">
+              <div className="text-lg font-semibold text-blue-800">
+                {Math.round(((course?.modules.filter(module => getModuleActivityCount(module) > 0).length || 0) / (course?.modules.length || 1)) * 100)}%
+              </div>
+              <div className="text-xs text-blue-600">Cobertura</div>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-heading font-medium text-neutral-800">Evaluations</h3>
-          <Button 
-            variant="secondary"
-            onClick={() => generateAllEvaluations.mutate()}
-            disabled={generateAllEvaluations.isPending || !course?.modules.length}
-            className="flex items-center"
-          >
-            <span className="material-icons text-sm mr-1">bolt</span>
-            {generateAllEvaluations.isPending ? "Generating..." : "Generate All Evaluations"}
-          </Button>
-        </div>
-
-        <Tabs defaultValue="moduleEvaluations">
-          <TabsList className="mb-4">
-            <TabsTrigger value="moduleEvaluations">Module Evaluations</TabsTrigger>
-            <TabsTrigger value="courseEvaluation">Course Evaluation</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="moduleEvaluations">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {course?.modules.map(module => {
-                const hasEvaluation = course?.phaseData?.phase4?.evaluations?.[module.id];
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Lista de Módulos */}
+          <div className="lg:col-span-1">
+            <h2 className="text-lg font-semibold mb-4">Módulos do Curso</h2>
+            <div className="space-y-3">
+              {course?.modules.map((module) => {
+                const activityCount = getModuleActivityCount(module);
+                const questionCount = getModuleQuestionCount(module);
                 
                 return (
-                  <Card key={module.id} className={hasEvaluation ? "border-green-200" : ""}>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-base">{module.title}</CardTitle>
+                  <Card 
+                    key={module.id} 
+                    className={`cursor-pointer transition-colors ${
+                      selectedModule?.id === module.id 
+                        ? 'border-blue-500 bg-blue-50' 
+                        : 'hover:bg-gray-50'
+                    }`}
+                    onClick={() => setSelectedModule(module)}
+                  >
+                    <CardHeader className="py-3">
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-sm">{module.title}</CardTitle>
+                        <div className="flex space-x-1">
+                          {activityCount > 0 ? (
+                            <Badge variant="default" className="bg-green-100 text-green-800 text-xs">
+                              ✅ {activityCount} atividades
+                            </Badge>
+                          ) : (
+                            <Badge variant="outline" className="text-xs">
+                              Sem atividades
+                            </Badge>
+                          )}
+                        </div>
+                      </div>
                       <CardDescription className="text-xs">
-                        {hasEvaluation ? "Evaluation created" : "No evaluation yet"}
+                        {questionCount} questões • {module.content?.lessons?.length || 0} aulas
                       </CardDescription>
                     </CardHeader>
-                    <CardContent className="pb-2">
-                      {hasEvaluation ? (
-                        <div>
-                          <div className="text-sm mb-2">
-                            <span className="font-medium">Type:</span>{" "}
-                            {hasEvaluation.type || "Multiple Choice Quiz"}
-                          </div>
-                          <div className="text-sm">
-                            <span className="font-medium">Questions:</span>{" "}
-                            {hasEvaluation.questions?.length || 0}
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="text-sm text-neutral-500 italic">
-                          Select this module and generate an evaluation
-                        </div>
-                      )}
-                    </CardContent>
-                    <CardFooter>
-                      <div className="flex space-x-2 w-full">
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          disabled={!hasEvaluation}
-                          className="flex-1"
-                        >
-                          <span className="material-icons text-xs mr-1">visibility</span>
-                          View
-                        </Button>
-                        <Button 
-                          size="sm"
-                          onClick={() => {
-                            setSelectedModule(module.id);
-                            generateEvaluation.mutate();
-                          }}
-                          disabled={generateEvaluation.isPending}
-                          className="flex-1"
-                        >
-                          {hasEvaluation ? "Regenerate" : "Generate"}
-                        </Button>
-                      </div>
-                    </CardFooter>
                   </Card>
                 );
               })}
             </div>
-          </TabsContent>
+          </div>
           
-          <TabsContent value="courseEvaluation">
-            <Card>
-              <CardHeader>
-                <CardTitle>Final Course Evaluation</CardTitle>
-                <CardDescription>
-                  Comprehensive assessment covering all course content
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                {course?.phaseData?.phase4?.courseEvaluation ? (
+          {/* Detalhes do Módulo Selecionado */}
+          <div className="lg:col-span-2">
+            {selectedModule ? (
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-semibold">{selectedModule.title}</h2>
+                  <div className="flex space-x-2">
+                    <Badge variant="outline">
+                      {getModuleActivityCount(selectedModule)} atividades
+                    </Badge>
+                    <Badge variant="outline">
+                      {getModuleQuestionCount(selectedModule)} questões
+                    </Badge>
+                  </div>
+                </div>
+                <p className="text-gray-600 mb-6">{selectedModule.description}</p>
+                
+                {getModuleActivityCount(selectedModule) > 0 ? (
                   <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <h4 className="text-sm font-medium mb-1">Evaluation Type</h4>
-                        <p className="text-sm">{course.phaseData.phase4.courseEvaluation.type || "Comprehensive"}</p>
-                      </div>
-                      <div>
-                        <h4 className="text-sm font-medium mb-1">Total Questions</h4>
-                        <p className="text-sm">{course.phaseData.phase4.courseEvaluation.questions?.length || 0}</p>
-                      </div>
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-medium mb-1">Description</h4>
-                      <p className="text-sm">{course.phaseData.phase4.courseEvaluation.description || "Final evaluation covering all course modules."}</p>
-                    </div>
+                    {selectedModule.content?.lessons?.map((lesson: any) => {
+                      if (!lesson.detailedContent?.activities || lesson.detailedContent.activities.length === 0) {
+                        return null;
+                      }
+                      
+                      return (
+                        <Card key={lesson.id} className="border border-gray-200">
+                          <CardHeader className="pb-3">
+                            <CardTitle className="text-base">{lesson.title}</CardTitle>
+                            <CardDescription className="text-sm">
+                              {lesson.detailedContent.activities.length} atividade(s) disponível(eis)
+                            </CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                            <Accordion type="single" collapsible className="w-full">
+                              {lesson.detailedContent.activities.map((activity: any, actIdx: number) => (
+                                <AccordionItem key={actIdx} value={`activity-${actIdx}`}>
+                                  <AccordionTrigger className="text-sm font-medium">
+                                    {activity.type === 'quiz' ? '📝' : '⚡'} {activity.title}
+                                  </AccordionTrigger>
+                                  <AccordionContent>
+                                    <div className="space-y-3">
+                                      <p className="text-sm text-gray-600">{activity.description}</p>
+                                      
+                                      {activity.questions && activity.questions.length > 0 && (
+                                        <div className="space-y-3">
+                                          <h4 className="font-medium text-sm">Questões:</h4>
+                                          {activity.questions.map((question: any, qIdx: number) => (
+                                            <div key={qIdx} className="bg-purple-50 p-3 rounded border border-purple-200">
+                                              <p className="font-medium text-sm mb-2">{qIdx + 1}. {question.question}</p>
+                                              {question.options && (
+                                                <div className="space-y-1">
+                                                  {question.options.map((option: string, oIdx: number) => (
+                                                    <div key={oIdx} className={`text-xs p-2 rounded ${
+                                                      oIdx === question.correct 
+                                                        ? 'bg-green-100 text-green-800 font-medium' 
+                                                        : 'bg-gray-100'
+                                                    }`}>
+                                                      {String.fromCharCode(65 + oIdx)}) {option}
+                                                      {oIdx === question.correct && ' ✓'}
+                                                    </div>
+                                                  ))}
+                                                </div>
+                                              )}
+                                            </div>
+                                          ))}
+                                          
+                                          <div className="mt-3 flex space-x-2">
+                                            <Button 
+                                              size="sm" 
+                                              variant="outline"
+                                              onClick={() => {
+                                                const activityText = `${activity.title}\n\n${activity.description}\n\n${activity.questions.map((q: any, i: number) => 
+                                                  `${i+1}. ${q.question}\n${q.options.map((opt: string, j: number) => 
+                                                    `${String.fromCharCode(65 + j)}) ${opt}`).join('\n')}\nResposta: ${String.fromCharCode(65 + q.correct)}`).join('\n\n')}`;
+                                                
+                                                navigator.clipboard.writeText(activityText);
+                                                toast({
+                                                  title: "Atividade copiada!",
+                                                  description: "A atividade foi copiada para a área de transferência.",
+                                                });
+                                              }}
+                                            >
+                                              📋 Copiar Atividade
+                                            </Button>
+                                          </div>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </AccordionContent>
+                                </AccordionItem>
+                              ))}
+                            </Accordion>
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
                   </div>
                 ) : (
-                  <div className="text-center py-8">
-                    <span className="material-icons text-4xl text-neutral-300 mb-2">assessment</span>
-                    <p className="text-neutral-600">No course evaluation has been generated yet.</p>
-                    <Button 
-                      className="mt-4"
-                      onClick={async () => {
-                        try {
-                          // Feedback para o usuário
-                          alert("Iniciando geração da avaliação do curso completo...");
-                          
-                          // Chama a API específica para avaliação do curso
-                          const response = await fetch('/api/generate/course-evaluation', {
-                            method: 'POST',
-                            headers: {
-                              'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                              courseId: course?.id,
-                              courseDetails: {
-                                title: course?.title,
-                                theme: course?.theme,
-                                estimatedHours: course?.estimatedHours,
-                                format: course?.format,
-                                platform: course?.platform,
-                                deliveryFormat: course?.deliveryFormat,
-                                languageStyle: course?.aiConfig?.languageStyle
-                              }
-                            }),
-                          });
-                          
-                          if (response.ok) {
-                            const courseEvaluation = await response.json();
-                            
-                            // Atualiza os dados da fase 4 com a avaliação do curso
-                            updatePhaseData(4, {
-                              ...course?.phaseData?.phase4,
-                              courseEvaluation
-                            });
-                            
-                            console.log("Avaliação do curso completo gerada com sucesso!");
-                            alert("Avaliação do curso gerada com sucesso!");
-                          } else {
-                            throw new Error("Erro ao gerar a avaliação do curso");
-                          }
-                        } catch (error) {
-                          console.error("Erro ao gerar avaliação do curso:", error);
-                          alert("Erro ao gerar a avaliação do curso. Tente novamente.");
-                        }
-                      }}
-                      disabled={generateEvaluation.isPending}
-                    >
-                      Generate Course Evaluation
-                    </Button>
+                  <div className="text-center py-12 border border-dashed border-gray-300 rounded-lg">
+                    <div className="text-4xl mb-2">📝</div>
+                    <h3 className="text-lg font-medium text-gray-700 mb-1">Nenhuma Atividade Encontrada</h3>
+                    <p className="text-sm text-gray-500">
+                      Este módulo ainda não possui atividades geradas. 
+                      Volte à Fase 3 para gerar conteúdo com atividades.
+                    </p>
                   </div>
                 )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <div className="text-4xl mb-2">👈</div>
+                <p className="text-gray-500">Selecione um módulo para visualizar suas atividades e avaliações</p>
+              </div>
+            )}
+          </div>
+        </div>
+          
+
 
         <div className="flex items-center justify-end space-x-3 mt-6">
           <Button 

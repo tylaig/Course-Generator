@@ -529,8 +529,8 @@ export default function Phase3() {
                     </AccordionItem>
                   )}
 
-                  {/* Script de Áudio */}
-                  {lesson.detailedContent?.content?.audioScript && (
+                  {/* Conteúdo da Aula */}
+                  {lesson.detailedContent?.content && (
                     <AccordionItem value="audio-script">
                       <AccordionTrigger className="text-sm font-medium">
                         📝 Conteúdo da Aula Completo
