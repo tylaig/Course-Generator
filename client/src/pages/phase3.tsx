@@ -93,14 +93,14 @@ export default function Phase3() {
             <div>
               <h5 className="font-semibold text-lg mb-2">{actualContent.title}</h5>
               {actualContent.duration && (
-                <p className="text-sm text-gray-600 mb-3">Duração: {actualContent.duration}</p>
+                <p className="text-sm text-gray-600 mb-3">Duration: {actualContent.duration}</p>
               )}
             </div>
           )}
 
           {actualContent.objectives && actualContent.objectives.length > 0 && (
             <div className="bg-blue-50 p-3 rounded-lg">
-              <h6 className="font-medium text-blue-900 mb-2">Objetivos da Aula:</h6>
+              <h6 className="font-medium text-blue-900 mb-2">Lesson Objectives:</h6>
               <ul className="list-disc list-inside space-y-1 text-sm text-blue-800">
                 {actualContent.objectives.map((obj: string, idx: number) => (
                   <li key={idx}>{obj}</li>
@@ -111,7 +111,7 @@ export default function Phase3() {
 
           {actualContent.audioScript && (
             <div className="bg-purple-50 p-3 rounded-lg">
-              <h6 className="font-medium text-purple-900 mb-2">Script de Áudio:</h6>
+              <h6 className="font-medium text-purple-900 mb-2">Audio Script:</h6>
               <p className="text-sm text-purple-800 whitespace-pre-wrap">
                 {actualContent.audioScript.length > 200 
                   ? actualContent.audioScript.substring(0, 200) + '...' 
@@ -122,7 +122,7 @@ export default function Phase3() {
 
           {actualContent.lessonStructure && (
             <div className="bg-green-50 p-3 rounded-lg">
-              <h6 className="font-medium text-green-900 mb-2">Estrutura da Aula:</h6>
+              <h6 className="font-medium text-green-900 mb-2">Lesson Structure:</h6>
               <div className="space-y-2">
                 {Object.entries(actualContent.lessonStructure).map(([key, section]: [string, any]) => (
                   <div key={key} className="bg-white p-2 rounded border-l-2 border-green-400">
@@ -150,17 +150,17 @@ export default function Phase3() {
 
           {actualContent.practicalExercises && actualContent.practicalExercises.length > 0 && (
             <div className="bg-orange-50 p-3 rounded-lg">
-              <h6 className="font-medium text-orange-900 mb-2">Exercícios Práticos:</h6>
+              <h6 className="font-medium text-orange-900 mb-2">Practical Exercises:</h6>
               <div className="space-y-2">
                 {actualContent.practicalExercises.map((exercise: any, idx: number) => (
                   <div key={idx} className="bg-white p-2 rounded border-l-2 border-orange-400">
-                    <h6 className="font-medium text-sm">{exercise.title || `Exercício ${idx + 1}`}</h6>
+                    <h6 className="font-medium text-sm">{exercise.title || `Exercise ${idx + 1}`}</h6>
                     {exercise.description && (
                       <p className="text-xs text-gray-700 mt-1">{exercise.description}</p>
                     )}
                     {exercise.questions && exercise.questions.length > 0 && (
                       <p className="text-xs text-orange-600 mt-1">
-                        {exercise.questions.length} questões disponíveis
+                        {exercise.questions.length} questions available
                       </p>
                     )}
                   </div>
@@ -171,7 +171,7 @@ export default function Phase3() {
 
           {actualContent.assessmentQuestions && actualContent.assessmentQuestions.length > 0 && (
             <div className="bg-red-50 p-3 rounded-lg">
-              <h6 className="font-medium text-red-900 mb-2">Questões de Avaliação:</h6>
+              <h6 className="font-medium text-red-900 mb-2">Assessment Questions:</h6>
               <div className="space-y-2">
                 {actualContent.assessmentQuestions.map((question: any, idx: number) => (
                   <div key={idx} className="bg-white p-2 rounded border-l-2 border-red-400">
@@ -193,7 +193,7 @@ export default function Phase3() {
 
           {actualContent.materials && actualContent.materials.length > 0 && (
             <div className="bg-gray-50 p-3 rounded-lg">
-              <h6 className="font-medium text-gray-900 mb-2">Materiais:</h6>
+              <h6 className="font-medium text-gray-900 mb-2">Materials:</h6>
               <ul className="text-sm text-gray-700">
                 {actualContent.materials.map((material: string, idx: number) => (
                   <li key={idx} className="list-disc list-inside">{material}</li>
