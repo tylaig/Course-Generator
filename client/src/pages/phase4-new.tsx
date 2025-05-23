@@ -80,7 +80,8 @@ export default function Phase4New() {
           const assessmentQuestions = lesson.detailedContent?.assessmentQuestions || [];
           const hasActivities = practicalExercises.length > 0 || assessmentQuestions.length > 0;
           
-          if (!hasActivities) {
+          // Only add lessons that truly don't have any activities
+          if (!hasActivities && lesson.title && lesson.title.trim() !== "") {
             lessonsToGenerate.push({
               moduleId: module.id,
               lessonName: lesson.title,

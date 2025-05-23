@@ -306,13 +306,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/generate/lesson-content", async (req, res) => {
     try {
       console.log("=== GERAÇÃO DE CONTEÚDO DE AULA INICIADA ===");
-      const { lesson, module, courseDetails, aiConfig } = req.body;
+      const { lesson, module, courseDetails, aiConfig, lessonTitle } = req.body;
       
-      if (!lesson || !module || !courseDetails) {
+      // Support both old and new formats
+      const lessonData = lesson || { title: lessonTitle };
+      const courseData = courseDetails;
+      
+      if (!lessonData || !courseData) {
         return res.status(400).json({ error: "Dados obrigatórios não fornecidos" });
       }
       
-      console.log(`Gerando conteúdo para aula: ${lesson.title}`);
+      console.log(`Gerando conteúdo para aula: ${lessonData.title}`);
       
       // Verificar se temos chave da OpenAI
       if (!process.env.OPENAI_API_KEY) {
