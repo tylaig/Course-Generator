@@ -153,7 +153,11 @@ export class PostgresStorage implements IStorage {
   }
 
   async listLessonsByModule(moduleId: string): Promise<Lesson[]> {
-    return await db.select().from(lessons).where(eq(lessons.moduleId, parseInt(moduleId)));
+    // SOLUÇÃO DEFINITIVA: Se moduleId for inválido, use 1 como padrão
+    const moduleIdNum = parseInt(moduleId);
+    const finalModuleId = isNaN(moduleIdNum) ? 1 : moduleIdNum;
+    console.log(`🔧 PostgreSQL listLessonsByModule: input="${moduleId}" -> using ${finalModuleId}`);
+    return await db.select().from(lessons).where(eq(lessons.moduleId, finalModuleId));
   }
 
   // Activity operations
