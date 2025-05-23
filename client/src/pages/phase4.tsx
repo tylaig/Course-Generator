@@ -273,10 +273,8 @@ export default function Phase4() {
   const lessonsWithActivities = course?.modules.reduce((sum, module) => {
     return sum + (module.content?.lessons?.filter((lesson: any) => 
       lesson.detailedContent && 
-      lesson.detailedContent.practicalExercises && 
-      lesson.detailedContent.practicalExercises.length > 0 &&
-      lesson.detailedContent.assessmentQuestions &&
-      lesson.detailedContent.assessmentQuestions.length > 0
+      ((lesson.detailedContent.practicalExercises && lesson.detailedContent.practicalExercises.length > 0) ||
+       (lesson.detailedContent.assessmentQuestions && lesson.detailedContent.assessmentQuestions.length > 0))
     ).length || 0);
   }, 0) || 0;
 
@@ -350,6 +348,51 @@ export default function Phase4() {
                 {course?.modules.reduce((total, module) => total + getModuleActivityCount(module), 0)}
               </div>
               <div className="text-xs text-blue-600">Total de Atividades</div>
+            </div>
+          </div>
+          
+          {/* Botões de Ação para Gerar Atividades */}
+          <div className="flex items-center justify-between mt-4 pt-4 border-t border-blue-200">
+            <div className="flex items-center space-x-2">
+              {pendingActivitiesCount > 0 && (
+                <div className="flex items-center space-x-2 text-amber-700">
+                  <AlertCircle className="h-4 w-4" />
+                  <span className="text-sm">
+                    {pendingActivitiesCount} aulas sem atividades completas
+                  </span>
+                </div>
+              )}
+              {generationStatus === "generating" && (
+                <div className="flex items-center space-x-2 text-blue-700">
+                  <div className="animate-spin h-4 w-4 border-2 border-blue-600 border-t-transparent rounded-full"></div>
+                  <span className="text-sm">Gerando atividades...</span>
+                </div>
+              )}
+            </div>
+            
+            <div className="flex space-x-3">
+              {pendingActivitiesCount > 0 && (
+                <Button
+                  onClick={() => generateMissingActivities.mutate()}
+                  disabled={generationStatus === "generating"}
+                  variant="outline"
+                  size="sm"
+                  className="text-amber-700 border-amber-300 hover:bg-amber-50"
+                >
+                  <Zap className="h-4 w-4 mr-2" />
+                  Gerar Atividades Pendentes ({pendingActivitiesCount})
+                </Button>
+              )}
+              
+              <Button
+                onClick={() => generateAllContent.mutate()}
+                disabled={generationStatus === "generating"}
+                size="sm"
+                className="bg-blue-600 hover:bg-blue-700"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Regenerar Todas as Atividades
+              </Button>
             </div>
           </div>
           
