@@ -153,13 +153,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.log(`🔍 Verificando se módulo ${numericModuleId} existe no banco...`);
         
         // Primeiro, verificar se o módulo existe
-        const existingModule = await storage.getModule(numericModuleId.toString());
+        const existingModule = await pgStorage.getModule(numericModuleId.toString());
         console.log(`📋 Módulo existente:`, existingModule ? `ID ${existingModule.id}` : "Não encontrado");
         
         if (existingModule) {
           // Módulo existe, vamos atualizar
           console.log(`🔄 Atualizando módulo existente ${numericModuleId}...`);
-          const updatedModule = await storage.updateModule(numericModuleId.toString(), {
+          const updatedModule = await pgStorage.updateModule(numericModuleId.toString(), {
             content: content,
             status: status || "published",
             updatedAt: new Date()
@@ -187,7 +187,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           const moduleIndex = moduleId.split('-').pop() || '0';
           const moduleNumber = parseInt(moduleIndex) + 1;
           
-          const newModule = await storage.createModule({
+          const newModule = await pgStorage.createModule({
             courseId: 8, // ID do curso atual
             title: `Módulo ${moduleNumber}: Educação e Aprendizagem`,
             description: `Módulo gerado automaticamente com atividades da Phase 4`,
@@ -234,7 +234,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // ---- Phase Data Routes ----
   app.get("/api/courses/:courseId/phase/:phaseNumber", async (req, res) => {
     try {
-      const phaseData = await storage.getPhaseData(req.params.courseId, parseInt(req.params.phaseNumber));
+      const phaseData = await pgStorage.getPhaseData(req.params.courseId, parseInt(req.params.phaseNumber));
       res.json(phaseData || {});
     } catch (error) {
       console.error("Erro ao buscar dados da fase:", error);
@@ -251,7 +251,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const courseIdStr = req.params.courseId;
       
       // Buscar o curso real no banco para pegar o ID correto
-      const courses = await storage.listCourses();
+      const courses = await pgStorage.listCourses();
       const course = courses.find(c => c.title === "Novo Curso Educacional"); // Usar uma busca mais específica
       
       if (!course) {
@@ -274,7 +274,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       console.log("Dados para salvar:", data);
       
-      const phaseData = await storage.createPhaseData(data);
+      const phaseData = await pgStorage.createPhaseData(data);
       res.json(phaseData);
     } catch (error) {
       console.error("Erro detalhado ao salvar dados da fase:", error);
@@ -766,12 +766,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid course ID format" });
       }
       
-      const course = await storage.getCourse(numericId.toString());
+      const course = await pgStorage.getCourse(numericId.toString());
       if (!course) {
         return res.status(404).json({ error: "Course not found" });
       }
 
-      const modules = await storage.listModulesByCourse(numericId.toString());
+      const modules = await pgStorage.listModulesByCourse(numericId.toString());
       
       const { generateCoursePDF } = await import("./pdf-generator");
       
@@ -814,12 +814,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid course ID format" });
       }
       
-      const course = await storage.getCourse(numericId.toString());
+      const course = await pgStorage.getCourse(numericId.toString());
       if (!course) {
         return res.status(404).json({ error: "Course not found" });
       }
 
-      const modules = await storage.listModulesByCourse(numericId.toString());
+      const modules = await pgStorage.listModulesByCourse(numericId.toString());
       
       const { generateActivitySummaryPDF } = await import("./pdf-generator");
       
