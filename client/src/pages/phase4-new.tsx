@@ -154,12 +154,14 @@ export default function Phase4New() {
               )
             };
 
-            // Save to database first
+            // Save to database first - save only the module
             try {
-              const saveResponse = await fetch(`/api/courses/${course.id}`, {
+              const saveResponse = await fetch(`/api/modules/${lessonInfo.moduleId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(updatedCourse)
+                body: JSON.stringify({
+                  content: updatedModule.content
+                })
               });
               
               if (saveResponse.ok) {
