@@ -14,12 +14,53 @@ export default function Phase4() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [currentGeneratingLesson, setCurrentGeneratingLesson] = useState("");
 
+  // Auto-resume generation on page load if there are pending activities
+  useEffect(() => {
+    const autoResumeGeneration = async () => {
+      if (!course?.modules) return;
+      
+      // Check if there are lessons without activities
+      const lessonsWithoutActivities = [];
+      course.modules.forEach(module => {
+        if (module.content?.lessons) {
+          module.content.lessons.forEach(lesson => {
+            const hasActivities = lesson.detailedContent?.practicalExercises?.length > 0 ||
+                                 lesson.detailedContent?.assessmentQuestions?.length > 0;
+            if (!hasActivities) {
+              lessonsWithoutActivities.push({
+                moduleId: module.id,
+                lessonId: lesson.title,
+                lessonName: lesson.title,
+                lessonContent: lesson.detailedContent?.content || ""
+              });
+            }
+          });
+        }
+      });
+
+      // If there are pending activities and user was generating, auto-resume
+      const wasGenerating = localStorage.getItem('wasGeneratingActivities');
+      if (lessonsWithoutActivities.length > 0 && wasGenerating === 'true') {
+        console.log(`🔄 Retomando geração automática para ${lessonsWithoutActivities.length} aulas pendentes`);
+        localStorage.removeItem('wasGeneratingActivities'); // Clear flag
+        await generateActivities(); // Resume generation
+      }
+    };
+
+    // Small delay to ensure course is loaded
+    const timer = setTimeout(autoResumeGeneration, 1000);
+    return () => clearTimeout(timer);
+  }, [course]);
+
   // Generate activities with AI for all lessons without activities
   const generateActivities = async () => {
     if (!course?.modules) return;
 
     setIsGenerating(true);
     setGenerationProgress(0);
+    
+    // Set flag to resume generation after page refresh
+    localStorage.setItem('wasGeneratingActivities', 'true');
     
     const lessonsToGenerate = [];
     
@@ -170,6 +211,9 @@ export default function Phase4() {
     setGenerationProgress(100);
     setCurrentGeneratingLesson("");
     setIsGenerating(false);
+
+    // Clear the generation flag since we're done
+    localStorage.removeItem('wasGeneratingActivities');
 
     toast({
       title: "🎉 Atividades geradas!",
