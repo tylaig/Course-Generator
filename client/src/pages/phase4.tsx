@@ -38,10 +38,13 @@ export default function Phase4() {
         }
       });
 
-      // If there are pending activities and user was generating, auto-resume
+      // If there are pending activities and user was generating, auto-resume (but only once)
       const wasGenerating = localStorage.getItem('wasGeneratingActivities');
-      if (lessonsWithoutActivities.length > 0 && wasGenerating === 'true') {
+      const hasAutoResumed = sessionStorage.getItem('hasAutoResumed');
+      
+      if (lessonsWithoutActivities.length > 0 && wasGenerating === 'true' && !hasAutoResumed) {
         console.log(`🔄 Retomando geração automática para ${lessonsWithoutActivities.length} aulas pendentes`);
+        sessionStorage.setItem('hasAutoResumed', 'true'); // Prevent multiple auto-resumes
         localStorage.removeItem('wasGeneratingActivities'); // Clear flag
         await generateActivities(); // Resume generation
       }
@@ -144,12 +147,9 @@ export default function Phase4() {
                 };
               }
 
-              // Update course context immediately - shows in real time!
-              await updateModuleContent(moduleToUpdate.id, moduleToUpdate.content);
-              
-              // CRITICAL: Save to database immediately
+              // CRITICAL: Save to database FIRST, then update context
               try {
-                await fetch(`/api/modules/${moduleToUpdate.id}`, {
+                const saveResponse = await fetch(`/api/modules/${moduleToUpdate.id}`, {
                   method: 'PUT',
                   headers: {
                     'Content-Type': 'application/json',
@@ -158,7 +158,14 @@ export default function Phase4() {
                     content: moduleToUpdate.content
                   })
                 });
-                console.log(`💾 Atividades salvas no banco para: ${lessonInfo.lessonName}`);
+                
+                if (saveResponse.ok) {
+                  console.log(`💾 Atividades salvas no banco para: ${lessonInfo.lessonName}`);
+                  // Only update context after successful database save
+                  await updateModuleContent(moduleToUpdate.id, moduleToUpdate.content);
+                } else {
+                  console.error(`❌ Falha ao salvar no banco para ${lessonInfo.lessonName}`);
+                }
               } catch (dbError) {
                 console.error(`❌ Erro ao salvar no banco para ${lessonInfo.lessonName}:`, dbError);
               }
