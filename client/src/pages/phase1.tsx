@@ -206,7 +206,7 @@ export default function Phase1() {
                     name="estimatedHours"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Carga horária estimada (horas)</FormLabel>
+                        <FormLabel>Estimated Duration (hours)</FormLabel>
                         <FormControl>
                           <Input 
                             type="number" 
@@ -226,14 +226,14 @@ export default function Phase1() {
                     name="deliveryFormat"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Formato de entrega</FormLabel>
+                        <FormLabel>Delivery Format</FormLabel>
                         <FormControl>
                           <Select 
                             onValueChange={field.onChange} 
                             defaultValue={field.value}
                           >
                             <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Selecione o formato de entrega" />
+                              <SelectValue placeholder="Select the delivery format" />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="PDF">PDF</SelectItem>
@@ -251,14 +251,14 @@ export default function Phase1() {
                     name="platform"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Plataforma de aprendizagem</FormLabel>
+                        <FormLabel>Learning Platform</FormLabel>
                         <FormControl>
                           <Select 
                             onValueChange={field.onChange} 
                             defaultValue={field.value}
                           >
                             <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Selecione a plataforma" />
+                              <SelectValue placeholder="Select the platform" />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="Web">Web</SelectItem>
@@ -275,20 +275,20 @@ export default function Phase1() {
                     name="format"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Formato do curso</FormLabel>
+                        <FormLabel>Course Format</FormLabel>
                         <FormControl>
                           <Select 
                             onValueChange={field.onChange} 
                             defaultValue={field.value}
                           >
                             <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Selecione o formato" />
+                              <SelectValue placeholder="Select the format" />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="Online">Online</SelectItem>
-                              <SelectItem value="Presencial">Presencial</SelectItem>
-                              <SelectItem value="Híbrido">Híbrido</SelectItem>
-                              <SelectItem value="Auto-instrucional">Auto-instrucional</SelectItem>
+                              <SelectItem value="In-person">In-person</SelectItem>
+                              <SelectItem value="Hybrid">Hybrid</SelectItem>
+                              <SelectItem value="Self-paced">Self-paced</SelectItem>
                               <SelectItem value="Tutorial">Tutorial</SelectItem>
                             </SelectContent>
                           </Select>
@@ -301,12 +301,12 @@ export default function Phase1() {
               </div>
             )}
 
-            {/* Etapa 2: Perfil do Público-Alvo */}
+            {/* Step 2: Target Audience Profile */}
             {currentStep === 2 && (
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-xl font-semibold text-primary mb-2">2. Perfil do Público-Alvo</h3>
-                  <p className="text-muted-foreground mb-6">Defina as características do seu público-alvo</p>
+                  <h3 className="text-xl font-semibold text-primary mb-2">2. Target Audience Profile</h3>
+                  <p className="text-muted-foreground mb-6">Define the characteristics of your target audience</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <FormField
@@ -314,22 +314,22 @@ export default function Phase1() {
                     name="publicTarget"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Faixa etária</FormLabel>
+                        <FormLabel>Age Range</FormLabel>
                         <FormControl>
                           <Select 
                             onValueChange={field.onChange} 
                             defaultValue={field.value}
                           >
                             <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Selecione a faixa etária" />
+                              <SelectValue placeholder="Select the age range" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="Crianças (até 12 anos)">Crianças (até 12 anos)</SelectItem>
-                              <SelectItem value="Adolescentes (13-17 anos)">Adolescentes (13-17 anos)</SelectItem>
-                              <SelectItem value="Jovens adultos (18-25 anos)">Jovens adultos (18-25 anos)</SelectItem>
-                              <SelectItem value="Adultos (26-59 anos)">Adultos (26-59 anos)</SelectItem>
-                              <SelectItem value="Idosos (60+ anos)">Idosos (60+ anos)</SelectItem>
-                              <SelectItem value="Todas as idades">Todas as idades</SelectItem>
+                              <SelectItem value="Children (up to 12 years)">Children (up to 12 years)</SelectItem>
+                              <SelectItem value="Teenagers (13-17 years)">Teenagers (13-17 years)</SelectItem>
+                              <SelectItem value="Young adults (18-25 years)">Young adults (18-25 years)</SelectItem>
+                              <SelectItem value="Adults (26-59 years)">Adults (26-59 years)</SelectItem>
+                              <SelectItem value="Seniors (60+ years)">Seniors (60+ years)</SelectItem>
+                              <SelectItem value="All ages">All ages</SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
@@ -343,22 +343,22 @@ export default function Phase1() {
                     name="educationalLevel"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Nível educacional</FormLabel>
+                        <FormLabel>Educational Level</FormLabel>
                         <FormControl>
                           <Select 
                             onValueChange={field.onChange} 
                             defaultValue={field.value}
                           >
                             <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Selecione o nível educacional" />
+                              <SelectValue placeholder="Select the educational level" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="Fundamental">Fundamental</SelectItem>
-                              <SelectItem value="Médio">Médio</SelectItem>
-                              <SelectItem value="Técnico">Técnico</SelectItem>
-                              <SelectItem value="Superior">Superior</SelectItem>
-                              <SelectItem value="Pós-graduação">Pós-graduação</SelectItem>
-                              <SelectItem value="Indefinido">Indefinido</SelectItem>
+                              <SelectItem value="Elementary">Elementary</SelectItem>
+                              <SelectItem value="Middle School">Middle School</SelectItem>
+                              <SelectItem value="Technical">Technical</SelectItem>
+                              <SelectItem value="Higher Education">Higher Education</SelectItem>
+                              <SelectItem value="Graduate">Graduate</SelectItem>
+                              <SelectItem value="Undefined">Undefined</SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
@@ -372,20 +372,20 @@ export default function Phase1() {
                     name="familiarityLevel"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Nível de familiaridade com o tema</FormLabel>
+                        <FormLabel>Familiarity Level with Topic</FormLabel>
                         <FormControl>
                           <Select 
                             onValueChange={field.onChange} 
                             defaultValue={field.value}
                           >
                             <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Selecione o nível" />
+                              <SelectValue placeholder="Select the level" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="Nenhum">Nenhum conhecimento prévio</SelectItem>
-                              <SelectItem value="Básico">Conhecimento básico</SelectItem>
-                              <SelectItem value="Intermediário">Conhecimento intermediário</SelectItem>
-                              <SelectItem value="Avançado">Conhecimento avançado</SelectItem>
+                              <SelectItem value="None">No prior knowledge</SelectItem>
+                              <SelectItem value="Basic">Basic knowledge</SelectItem>
+                              <SelectItem value="Intermediate">Intermediate knowledge</SelectItem>
+                              <SelectItem value="Advanced">Advanced knowledge</SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
