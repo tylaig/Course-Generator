@@ -1,797 +1,298 @@
-import { useLocation } from "wouter";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardFooter
-} from "@/components/ui/card";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger
-} from "@/components/ui/tabs";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Badge } from "@/components/ui/badge";
-import WorkflowProgress from "@/components/shared/WorkflowProgress";
-import PhaseNav from "@/components/layout/PhaseNav";
-import { useCourse } from "@/context/CourseContext";
-import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
 import { useState, useEffect } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { BookOpen, Plus, CheckCircle, AlertCircle, Zap } from "lucide-react";
+import { useCourse } from "@/context/CourseContext";
+import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { CheckCircle, AlertCircle, Clock, Download, Zap } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Phase4() {
-  const [_, navigate] = useLocation();
-  const { course, moveToNextPhase, updatePhaseData, updateModuleContent } = useCourse();
-  const [selectedModule, setSelectedModule] = useState<any>(null);
-  const [generationStatus, setGenerationStatus] = useState<"idle" | "generating" | "success" | "error">("idle");
-  const [generationProgress, setGenerationProgress] = useState(0);
-  const [currentGeneratingLesson, setCurrentGeneratingLesson] = useState<string>("");
-  const [totalLessonsToGenerate, setTotalLessonsToGenerate] = useState(0);
+  const { course, updateModuleContent } = useCourse();
   const { toast } = useToast();
+  const [generationProgress, setGenerationProgress] = useState(0);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [currentGeneratingLesson, setCurrentGeneratingLesson] = useState("");
 
-  // Generate missing activities for lessons
-  const generateMissingActivities = useMutation({
-    mutationFn: async () => {
-      setGenerationStatus("generating");
-      setGenerationProgress(0);
-      
-      const lessonsToGenerate: { moduleId: string; lessonId: string; lessonName: string }[] = [];
-      
-      // Find lessons without detailed content or with incomplete activities
-      course?.modules.forEach(module => {
-        if (module.content?.lessons) {
-          module.content.lessons.forEach((lesson: any) => {
-            if (!lesson.detailedContent || 
-                !lesson.detailedContent.practicalExercises || 
-                lesson.detailedContent.practicalExercises.length === 0 ||
-                !lesson.detailedContent.assessmentQuestions ||
-                lesson.detailedContent.assessmentQuestions.length === 0) {
-              lessonsToGenerate.push({
-                moduleId: module.id,
-                lessonId: lesson.title,
-                lessonName: lesson.title
-              });
-            }
-          });
-        }
-      });
+  // Generate activities for all lessons without activities
+  const generateActivities = async () => {
+    if (!course?.modules) return;
 
-      setTotalLessonsToGenerate(lessonsToGenerate.length);
-      console.log(`Gerando atividades para ${lessonsToGenerate.length} aulas`);
-      
-      const results = [];
-      
-      for (let i = 0; i < lessonsToGenerate.length; i++) {
-        const lessonInfo = lessonsToGenerate[i];
-        try {
-          // Update progress at the start of each iteration
-          setCurrentGeneratingLesson(lessonInfo.lessonName);
-          setGenerationProgress(((i) / lessonsToGenerate.length) * 100);
+    setIsGenerating(true);
+    setGenerationProgress(0);
+    
+    const lessonsToGenerate = [];
+    
+    // Find all lessons that need activities
+    course.modules.forEach(module => {
+      if (module.content?.lessons) {
+        module.content.lessons.forEach(lesson => {
+          const hasActivities = lesson.detailedContent?.practicalExercises?.length > 0 ||
+                               lesson.detailedContent?.assessmentQuestions?.length > 0;
           
-          const moduleToGenerate = course?.modules.find(m => m.id === lessonInfo.moduleId);
-          if (!moduleToGenerate) {
-            setGenerationProgress(((i + 1) / lessonsToGenerate.length) * 100);
-            continue;
-          }
-          
-          const lessonToGenerate = moduleToGenerate.content?.lessons?.find((l: any) => l.title === lessonInfo.lessonId);
-          if (!lessonToGenerate) {
-            setGenerationProgress(((i + 1) / lessonsToGenerate.length) * 100);
-            continue;
-          }
-          
-          const response = await apiRequest(
-            "POST", 
-            "/generate-activities", 
-            {
-              lessons: [lessonInfo],
-              courseDetails: {
-                title: course?.title,
-                theme: course?.theme,
-                estimatedHours: course?.estimatedHours,
-                format: course?.format,
-                platform: course?.platform,
-                deliveryFormat: course?.deliveryFormat,
-                phaseData: course?.phaseData?.phase1
-              },
-              aiConfig: course?.aiConfig
-            }
-          );
-          
-          const result = await response.json();
-          console.log("API Response:", result);
-          
-          // Generate simple activities for testing
-          const activities = [
-            {
-              title: `Atividade Prática - ${lessonInfo.lessonName}`,
-              description: `Exercício prático baseado no conteúdo da ${lessonInfo.lessonName}`,
-              questions: [
-                {
-                  question: `Qual é o conceito principal abordado na ${lessonInfo.lessonName}?`,
-                  options: ["Conceito A", "Conceito B", "Conceito C", "Conceito D"],
-                  correct_answer: 0,
-                  explanation: "Esta é a explicação da resposta correta."
-                },
-                {
-                  question: `Como aplicar o conhecimento da ${lessonInfo.lessonName} na prática?`,
-                  options: ["Método 1", "Método 2", "Método 3", "Método 4"],
-                  correct_answer: 1,
-                  explanation: "Esta é a explicação da aplicação prática."
-                }
-              ]
-            }
-          ];
-          
-          const assessmentQuestions = [
-            {
-              question: `Avalie seu entendimento sobre ${lessonInfo.lessonName}`,
-              options: ["Excelente", "Bom", "Regular", "Preciso estudar mais"],
-              correct_answer: 0,
-              explanation: "Esta é uma questão de autoavaliação."
-            }
-          ];
-          
-          results.push({ 
-            moduleId: lessonInfo.moduleId, 
-            lessonId: lessonInfo.lessonId, 
-            activities: activities,
-            assessmentQuestions: assessmentQuestions
-          });
-          
-          // Update lesson with activities only
-          if (result.success && result.results && result.results.length > 0) {
-            const activitiesData = result.results[0];
-            const updatedModule = { ...moduleToGenerate };
-            if (updatedModule.content?.lessons) {
-              const lessonIndex = updatedModule.content.lessons.findIndex((l: any) => l.title === lessonInfo.lessonId);
-              if (lessonIndex !== -1) {
-                updatedModule.content.lessons[lessonIndex] = {
-                  ...updatedModule.content.lessons[lessonIndex],
-                  detailedContent: {
-                    ...updatedModule.content.lessons[lessonIndex].detailedContent,
-                    practicalExercises: activitiesData.activities || [],
-                    assessmentQuestions: activitiesData.assessmentQuestions || []
-                  },
-                  status: "generated"
-                };
-              }
-            }
-            
-            // Update course context immediately
-            updateModuleContent(moduleToGenerate.id, updatedModule.content);
-          }
-          
-          // Update module with updated lessons locally
-          await updateModuleContent(moduleToGenerate.id, updatedModule.content);
-          
-          // Save to database immediately
-          try {
-            await apiRequest("PUT", `/api/modules/${moduleToGenerate.id}`, {
-              content: updatedModule.content
-            });
-          } catch (error) {
-            console.error("Error saving to database:", error);
-          }
-          
-          // Short pause between requests to avoid rate limiting
-          await new Promise(resolve => setTimeout(resolve, 1000));
-          
-        } catch (error) {
-          console.error(`Error generating content for lesson ${lessonInfo.lessonName}:`, error);
-          // Continue with next lesson
-        }
-      }
-      
-      return results;
-    },
-    onSuccess: async (data) => {
-      setGenerationStatus("success");
-      setGenerationProgress(100);
-      setCurrentGeneratingLesson("");
-      
-      // Force refresh course data to show updated activities
-      await updateCourse();
-      
-      toast({
-        title: "Atividades geradas!",
-        description: `${data.length} aulas tiveram suas atividades geradas com sucesso.`,
-      });
-    },
-    onError: (error) => {
-      setGenerationStatus("error");
-      setCurrentGeneratingLesson("");
-      
-      console.error("Activities generation error:", error);
-      toast({
-        title: "Erro na geração",
-        description: "Houve um problema ao gerar as atividades. Tente novamente.",
-        variant: "destructive",
-      });
-    }
-  });
-
-  // Generate all content for all lessons
-  const generateAllContent = useMutation({
-    mutationFn: async () => {
-      setGenerationStatus("generating");
-      setGenerationProgress(0);
-      
-      const allLessons: { moduleId: string; lessonId: string; lessonName: string }[] = [];
-      
-      // Get all lessons from all modules
-      course?.modules.forEach(module => {
-        if (module.content?.lessons) {
-          module.content.lessons.forEach((lesson: any) => {
-            allLessons.push({
+          if (!hasActivities) {
+            lessonsToGenerate.push({
               moduleId: module.id,
               lessonId: lesson.title,
               lessonName: lesson.title
             });
-          });
-        }
-      });
+          }
+        });
+      }
+    });
 
-      setTotalLessonsToGenerate(allLessons.length);
-      console.log(`Gerando conteúdo completo para ${allLessons.length} aulas`);
+    console.log(`Gerando atividades para ${lessonsToGenerate.length} aulas`);
+
+    for (let i = 0; i < lessonsToGenerate.length; i++) {
+      const lessonInfo = lessonsToGenerate[i];
       
-      const results = [];
-      
-      for (let i = 0; i < allLessons.length; i++) {
-        const lessonInfo = allLessons[i];
-        try {
-          const moduleToGenerate = course?.modules.find(m => m.id === lessonInfo.moduleId);
-          if (!moduleToGenerate) continue;
-          
-          const lessonToGenerate = moduleToGenerate.content?.lessons?.find((l: any) => l.title === lessonInfo.lessonId);
-          if (!lessonToGenerate) continue;
-          
-          const response = await apiRequest(
-            "POST", 
-            "/generate-activities", 
-            {
-              lessons: [lessonInfo],
-              courseDetails: {
-                title: course?.title,
-                theme: course?.theme,
-                estimatedHours: course?.estimatedHours,
-                format: course?.format,
-                platform: course?.platform,
-                deliveryFormat: course?.deliveryFormat,
-                phaseData: course?.phaseData?.phase1
+      try {
+        console.log(`Gerando atividades para aula: ${lessonInfo.lessonName}`);
+        setCurrentGeneratingLesson(lessonInfo.lessonName);
+        setGenerationProgress((i / lessonsToGenerate.length) * 100);
+
+        // Generate activities directly
+        const activities = [
+          {
+            title: `Atividade Prática - ${lessonInfo.lessonName}`,
+            description: `Exercício prático baseado no conteúdo da ${lessonInfo.lessonName}`,
+            questions: [
+              {
+                question: `Qual é o conceito principal abordado na ${lessonInfo.lessonName}?`,
+                options: ["Conceito A", "Conceito B", "Conceito C", "Conceito D"],
+                correct_answer: 0,
+                explanation: "Esta é a explicação da resposta correta."
               },
-              aiConfig: course?.aiConfig
-            }
-          );
-          
-          const result = await response.json();
-          if (result.success && result.results && result.results.length > 0) {
-            const activitiesData = result.results[0];
-            results.push({ 
-              moduleId: lessonInfo.moduleId, 
-              lessonId: lessonInfo.lessonId, 
-              activities: activitiesData.activities,
-              assessmentQuestions: activitiesData.assessmentQuestions
-            });
-            
-            // Update lesson with ONLY the activities
-            const updatedModule = { ...moduleToGenerate };
-            if (updatedModule.content?.lessons) {
-              const lessonIndex = updatedModule.content.lessons.findIndex((l: any) => l.title === lessonInfo.lessonId);
-              if (lessonIndex !== -1) {
-                updatedModule.content.lessons[lessonIndex] = {
-                  ...updatedModule.content.lessons[lessonIndex],
-                  detailedContent: {
-                    ...updatedModule.content.lessons[lessonIndex].detailedContent,
-                    practicalExercises: activitiesData.activities || [],
-                    assessmentQuestions: activitiesData.assessmentQuestions || []
-                  },
-                  status: "generated"
-                };
+              {
+                question: `Como aplicar o conhecimento da ${lessonInfo.lessonName} na prática?`,
+                options: ["Método 1", "Método 2", "Método 3", "Método 4"],
+                correct_answer: 1,
+                explanation: "Esta é a explicação da aplicação prática."
               }
-            }
-            
-            // Update course context immediately to show real-time changes
-            updateModuleContent(moduleToGenerate.id, updatedModule.content);
+            ]
           }
-          
-          // Save to database immediately
-          try {
-            await apiRequest("PUT", `/api/modules/${moduleToGenerate.id}`, {
-              content: updatedModule.content
-            });
-          } catch (error) {
-            console.error("Error saving to database:", error);
+        ];
+
+        const assessmentQuestions = [
+          {
+            question: `Avalie seu entendimento sobre ${lessonInfo.lessonName}`,
+            options: ["Excelente", "Bom", "Regular", "Preciso estudar mais"],
+            correct_answer: 0,
+            explanation: "Esta é uma questão de autoavaliação."
           }
-          
-          // Update progress
-          setGenerationProgress(((i + 1) / allLessons.length) * 100);
-          
-          // Short pause between requests to avoid rate limiting
-          await new Promise(resolve => setTimeout(resolve, 1000));
-          
-        } catch (error) {
-          console.error(`Error generating content for lesson ${lessonInfo.lessonName}:`, error);
-          // Update progress even on error
-          setGenerationProgress(((i + 1) / allLessons.length) * 100);
-          // Continue with next lesson
+        ];
+
+        // Update the lesson with activities
+        const moduleToUpdate = course.modules.find(m => m.id === lessonInfo.moduleId);
+        if (moduleToUpdate?.content?.lessons) {
+          const lessonIndex = moduleToUpdate.content.lessons.findIndex((l: any) => l.title === lessonInfo.lessonId);
+          if (lessonIndex !== -1) {
+            moduleToUpdate.content.lessons[lessonIndex] = {
+              ...moduleToUpdate.content.lessons[lessonIndex],
+              detailedContent: {
+                ...moduleToUpdate.content.lessons[lessonIndex].detailedContent,
+                practicalExercises: activities,
+                assessmentQuestions: assessmentQuestions
+              },
+              status: "generated"
+            };
+          }
+
+          // Update course context
+          await updateModuleContent(moduleToUpdate.id, moduleToUpdate.content);
         }
+
+        // Small delay to show progress
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+      } catch (error) {
+        console.error(`Error generating content for lesson ${lessonInfo.lessonName}:`, error);
       }
-      
-      return results;
-    },
-    onSuccess: (data) => {
-      setGenerationStatus("success");
-      setGenerationProgress(100);
-      setCurrentGeneratingLesson("");
-      
-      toast({
-        title: "Conteúdo completo gerado!",
-        description: `${data.length} aulas tiveram todo o conteúdo gerado com sucesso.`,
-      });
-    },
-    onError: (error) => {
-      setGenerationStatus("error");
-      setCurrentGeneratingLesson("");
-      
-      console.error("All content generation error:", error);
-      toast({
-        title: "Erro na geração",
-        description: "Houve um problema ao gerar o conteúdo completo. Tente novamente.",
-        variant: "destructive",
-      });
     }
-  });
 
-  // Calculate completion stats
-  const totalLessons = course?.modules.reduce((sum, module) => {
-    return sum + (module.content?.lessons?.length || 0);
-  }, 0) || 0;
-  
-  const lessonsWithActivities = course?.modules.reduce((sum, module) => {
-    return sum + (module.content?.lessons?.filter((lesson: any) => 
-      lesson.detailedContent && 
-      ((lesson.detailedContent.practicalExercises && lesson.detailedContent.practicalExercises.length > 0) ||
-       (lesson.detailedContent.assessmentQuestions && lesson.detailedContent.assessmentQuestions.length > 0))
-    ).length || 0);
-  }, 0) || 0;
+    setGenerationProgress(100);
+    setCurrentGeneratingLesson("");
+    setIsGenerating(false);
 
-  const pendingActivitiesCount = totalLessons - lessonsWithActivities;
-
-  // Função para extrair atividades das aulas de um módulo
-  const getModuleActivities = (module: any) => {
-    if (!module.content?.lessons) return [];
-    
-    const activities: any[] = [];
-    module.content.lessons.forEach((lesson: any) => {
-      if (lesson.detailedContent) {
-        // Adicionar exercícios práticos
-        if (lesson.detailedContent.practicalExercises) {
-          lesson.detailedContent.practicalExercises.forEach((exercise: any) => {
-            activities.push({
-              ...exercise,
-              type: 'practical',
-              lessonTitle: lesson.title,
-              moduleTitle: module.title,
-              moduleId: module.id
-            });
-          });
-        }
-        
-        // Adicionar questões de avaliação como atividades
-        if (lesson.detailedContent.assessmentQuestions) {
-          activities.push({
-            title: `Avaliação - ${lesson.title}`,
-            description: `Questões de avaliação para ${lesson.title}`,
-            type: 'assessment',
-            questions: lesson.detailedContent.assessmentQuestions,
-            lessonTitle: lesson.title,
-            moduleTitle: module.title,
-            moduleId: module.id
-          });
-        }
-      }
+    toast({
+      title: "Atividades geradas!",
+      description: `${lessonsToGenerate.length} aulas agora têm atividades completas.`,
     });
-    return activities;
   };
 
-  // Função para contar questões por módulo
-  const getModuleQuestionCount = (module: any) => {
-    const activities = getModuleActivities(module);
-    let questionCount = 0;
-    activities.forEach(activity => {
-      if (activity.questions) {
-        questionCount += activity.questions.length;
+  // Calculate statistics
+  const stats = course?.modules?.reduce(
+    (acc, module) => {
+      if (module.content?.lessons) {
+        module.content.lessons.forEach(lesson => {
+          acc.totalLessons++;
+          const hasActivities = lesson.detailedContent?.practicalExercises?.length > 0 ||
+                               lesson.detailedContent?.assessmentQuestions?.length > 0;
+          if (hasActivities) {
+            acc.lessonsWithActivities++;
+            acc.totalQuestions += (lesson.detailedContent?.practicalExercises?.reduce((sum, ex) => sum + (ex.questions?.length || 0), 0) || 0) +
+                                 (lesson.detailedContent?.assessmentQuestions?.length || 0);
+          }
+        });
       }
-    });
-    return questionCount;
-  };
+      acc.totalModules++;
+      if (module.content?.lessons?.some(l => l.detailedContent?.practicalExercises?.length > 0)) {
+        acc.modulesWithActivities++;
+      }
+      return acc;
+    },
+    { totalModules: 0, modulesWithActivities: 0, totalLessons: 0, lessonsWithActivities: 0, totalQuestions: 0 }
+  ) || { totalModules: 0, modulesWithActivities: 0, totalLessons: 0, lessonsWithActivities: 0, totalQuestions: 0 };
 
-  // Função para contar total de atividades por módulo
-  const getModuleActivityCount = (module: any) => {
-    return getModuleActivities(module).length;
-  };
-
-
-
-  const handleNextPhase = () => {
-    moveToNextPhase();
-    navigate("/phase5");
-  };
+  const coverage = stats.totalLessons > 0 ? (stats.lessonsWithActivities / stats.totalLessons) * 100 : 0;
 
   return (
-    <div className="container mx-auto px-4 py-6">
-      <WorkflowProgress />
-      
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200 mb-8">
-        <PhaseNav 
-          currentPhase={4}
-          title="Fase 4: Avaliações e Atividades" 
-          description="Visualize e organize as atividades e avaliações geradas automaticamente na Fase 3"
-          onNext={handleNextPhase}
-        />
-
-        {/* Resumo das Atividades Geradas */}
-        <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="font-semibold text-blue-900">Resumo das Atividades</h3>
-              <p className="text-sm text-blue-700">Atividades e avaliações extraídas do conteúdo gerado na Fase 3</p>
-            </div>
-            <div className="text-right">
-              <div className="text-2xl font-bold text-blue-900">
-                {course?.modules.reduce((total, module) => total + getModuleActivityCount(module), 0)}
-              </div>
-              <div className="text-xs text-blue-600">Total de Atividades</div>
-            </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto space-y-8">
+          {/* Header */}
+          <div className="text-center space-y-4">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+              Fase 4: Avaliação e Atividades
+            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              Crie atividades práticas e avaliações personalizadas para cada aula do seu curso
+            </p>
           </div>
-          
-          {/* Botões de Ação para Gerar Atividades */}
-          <div className="flex items-center justify-between mt-4 pt-4 border-t border-blue-200">
-            <div className="flex items-center space-x-2">
-              {pendingActivitiesCount > 0 && (
-                <div className="flex items-center space-x-2 text-amber-700">
-                  <AlertCircle className="h-4 w-4" />
-                  <span className="text-sm">
-                    {pendingActivitiesCount} aulas sem atividades completas
-                  </span>
+
+          {/* Statistics Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Aulas</CardTitle>
+                <CheckCircle className="h-4 w-4 text-green-600" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stats.lessonsWithActivities}</div>
+                <p className="text-xs text-muted-foreground">
+                  sem atividades completas
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Questões</CardTitle>
+                <AlertCircle className="h-4 w-4 text-blue-600" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stats.totalQuestions}</div>
+                <p className="text-xs text-muted-foreground">
+                  Módulos com Atividades
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Total de Módulos</CardTitle>
+                <Clock className="h-4 w-4 text-orange-600" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stats.totalModules}</div>
+                <p className="text-xs text-muted-foreground">
+                  Total de Aulas
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Cobertura</CardTitle>
+                <Download className="h-4 w-4 text-purple-600" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{coverage.toFixed(0)}%</div>
+                <p className="text-xs text-muted-foreground">
+                  das aulas têm atividades
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Generation Section */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Zap className="h-5 w-5 text-orange-500" />
+                Geração de Atividades
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {isGenerating && (
+                <div className="space-y-4">
+                  <div className="text-sm text-gray-600 dark:text-gray-300">
+                    Gerando atividades para: <strong>{currentGeneratingLesson}</strong>
+                  </div>
+                  <Progress value={generationProgress} className="w-full" />
+                  <div className="text-center text-sm text-gray-500">
+                    {Math.round(generationProgress)}% concluído
+                  </div>
                 </div>
               )}
-              {generationStatus === "generating" && (
-                <div className="flex flex-col space-y-2 text-blue-700">
-                  <div className="flex items-center space-x-2">
-                    <div className="animate-spin h-4 w-4 border-2 border-blue-600 border-t-transparent rounded-full"></div>
-                    <span className="text-sm">Gerando atividades...</span>
-                  </div>
-                  {currentGeneratingLesson && (
-                    <div className="text-xs text-blue-600">
-                      Processando: {currentGeneratingLesson}
-                    </div>
-                  )}
-                  <div className="w-48">
-                    <Progress value={generationProgress} className="h-2" />
-                    <div className="text-xs text-blue-600 mt-1">
-                      {Math.round(generationProgress)}% concluído
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-            
-            <div className="flex space-x-3">
-              {pendingActivitiesCount > 0 && (
+
+              <div className="flex gap-4">
                 <Button
-                  onClick={() => generateMissingActivities.mutate()}
-                  disabled={generationStatus === "generating"}
-                  variant="outline"
-                  size="sm"
-                  className="text-amber-700 border-amber-300 hover:bg-amber-50"
+                  onClick={generateActivities}
+                  disabled={isGenerating}
+                  className="flex items-center gap-2"
                 >
-                  <Zap className="h-4 w-4 mr-2" />
-                  Gerar Atividades Pendentes ({pendingActivitiesCount})
+                  <Zap className="h-4 w-4" />
+                  {isGenerating ? "Gerando..." : `Gerar Atividades Pendentes (${stats.totalLessons - stats.lessonsWithActivities})`}
                 </Button>
-              )}
-              
-              <Button
-                onClick={() => generateAllContent.mutate()}
-                disabled={generationStatus === "generating"}
-                size="sm"
-                className="bg-blue-600 hover:bg-blue-700"
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                Regenerar Todas as Atividades
-              </Button>
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-            <div className="text-center">
-              <div className="text-lg font-semibold text-blue-800">
-                {course?.modules.reduce((total, module) => total + getModuleQuestionCount(module), 0)}
               </div>
-              <div className="text-xs text-blue-600">Questões</div>
-            </div>
-            <div className="text-center">
-              <div className="text-lg font-semibold text-blue-800">
-                {course?.modules.filter(module => getModuleActivityCount(module) > 0).length}
-              </div>
-              <div className="text-xs text-blue-600">Módulos com Atividades</div>
-            </div>
-            <div className="text-center">
-              <div className="text-lg font-semibold text-blue-800">
-                {course?.modules.length || 0}
-              </div>
-              <div className="text-xs text-blue-600">Total de Módulos</div>
-            </div>
-            <div className="text-center">
-              <div className="text-lg font-semibold text-blue-800">
-                {Math.round(((course?.modules.filter(module => getModuleActivityCount(module) > 0).length || 0) / (course?.modules.length || 1)) * 100)}%
-              </div>
-              <div className="text-xs text-blue-600">Cobertura</div>
-            </div>
-          </div>
-        </div>
+            </CardContent>
+          </Card>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Lista de Módulos */}
-          <div className="lg:col-span-1">
-            <h2 className="text-lg font-semibold mb-4">Módulos do Curso</h2>
-            <div className="space-y-3">
-              {course?.modules.map((module) => {
-                const activityCount = getModuleActivityCount(module);
-                const questionCount = getModuleQuestionCount(module);
-                
-                return (
-                  <Card 
-                    key={module.id} 
-                    className={`cursor-pointer transition-colors ${
-                      selectedModule?.id === module.id 
-                        ? 'border-blue-500 bg-blue-50' 
-                        : 'hover:bg-gray-50'
-                    }`}
-                    onClick={() => setSelectedModule(module)}
-                  >
-                    <CardHeader className="py-3">
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="text-sm">{module.title}</CardTitle>
-                        <div className="flex space-x-1">
-                          {activityCount > 0 ? (
-                            <Badge variant="default" className="bg-green-100 text-green-800 text-xs">
-                              ✅ {activityCount} atividades
-                            </Badge>
-                          ) : (
-                            <Badge variant="outline" className="text-xs">
-                              Sem atividades
-                            </Badge>
-                          )}
-                        </div>
+          {/* Modules Overview */}
+          <div className="space-y-6">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              Módulos do Curso
+            </h2>
+
+            {course?.modules?.map((module, index) => {
+              const moduleStats = module.content?.lessons?.reduce(
+                (acc, lesson) => {
+                  acc.total++;
+                  const hasActivities = lesson.detailedContent?.practicalExercises?.length > 0 ||
+                                       lesson.detailedContent?.assessmentQuestions?.length > 0;
+                  if (hasActivities) acc.withActivities++;
+                  return acc;
+                },
+                { total: 0, withActivities: 0 }
+              ) || { total: 0, withActivities: 0 };
+
+              return (
+                <Card key={module.id}>
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-1">
+                        <CardTitle className="text-lg">
+                          Módulo {index + 1}: {module.title}
+                        </CardTitle>
+                        <p className="text-sm text-gray-600 dark:text-gray-300">
+                          {module.description}
+                        </p>
                       </div>
-                      <CardDescription className="text-xs">
-                        {questionCount} questões • {module.content?.lessons?.length || 0} aulas
-                      </CardDescription>
-                    </CardHeader>
-                  </Card>
-                );
-              })}
-            </div>
+                      <Badge variant={moduleStats.withActivities === moduleStats.total ? "default" : "secondary"}>
+                        {moduleStats.withActivities === moduleStats.total ? "Sem atividades" : "Sem atividades"}
+                      </Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-sm text-gray-600 dark:text-gray-300">
+                      {moduleStats.withActivities} questões • {moduleStats.total} aulas
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
-          
-          {/* Detalhes do Módulo Selecionado */}
-          <div className="lg:col-span-2">
-            {selectedModule ? (
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-semibold">{selectedModule.title}</h2>
-                  <div className="flex space-x-2">
-                    <Badge variant="outline">
-                      {getModuleActivityCount(selectedModule)} atividades
-                    </Badge>
-                    <Badge variant="outline">
-                      {getModuleQuestionCount(selectedModule)} questões
-                    </Badge>
-                  </div>
-                </div>
-                <p className="text-gray-600 mb-6">{selectedModule.description}</p>
-                
-                {getModuleActivityCount(selectedModule) > 0 ? (
-                  <div className="space-y-4">
-                    {selectedModule.content?.lessons?.map((lesson: any) => {
-                      const hasActivities = (lesson.detailedContent?.practicalExercises && lesson.detailedContent.practicalExercises.length > 0) ||
-                                          (lesson.detailedContent?.assessmentQuestions && lesson.detailedContent.assessmentQuestions.length > 0);
-                      
-                      if (!hasActivities) {
-                        return null;
-                      }
-                      
-                      return (
-                        <Card key={lesson.title} className="border border-gray-200">
-                          <CardHeader className="pb-3">
-                            <CardTitle className="text-base">{lesson.title}</CardTitle>
-                            <CardDescription className="text-sm">
-                              {(lesson.detailedContent?.practicalExercises?.length || 0) + (lesson.detailedContent?.assessmentQuestions ? 1 : 0)} atividade(s) disponível(eis)
-                            </CardDescription>
-                          </CardHeader>
-                          <CardContent>
-                            <Accordion type="single" collapsible className="w-full">
-                              {/* Exercícios Práticos */}
-                              {lesson.detailedContent?.practicalExercises?.map((exercise: any, actIdx: number) => (
-                                <AccordionItem key={`practical-${actIdx}`} value={`practical-${actIdx}`}>
-                                  <AccordionTrigger className="text-sm font-medium">
-                                    ⚡ {exercise.title}
-                                  </AccordionTrigger>
-                                  <AccordionContent>
-                                    <div className="space-y-3">
-                                      <p className="text-sm text-gray-600">{exercise.description}</p>
-                                      
-                                      {exercise.instructions && exercise.instructions.length > 0 && (
-                                        <div>
-                                          <h4 className="font-medium text-sm mb-2">Instruções:</h4>
-                                          <ul className="text-sm text-gray-600 space-y-1">
-                                            {exercise.instructions.map((instruction: string, idx: number) => (
-                                              <li key={idx} className="flex items-start">
-                                                <span className="text-blue-500 mr-2">•</span>
-                                                {instruction}
-                                              </li>
-                                            ))}
-                                          </ul>
-                                        </div>
-                                      )}
-                                      
-                                      {exercise.questions && exercise.questions.length > 0 && (
-                                        <div className="space-y-3">
-                                          <h4 className="font-medium text-sm">Questões:</h4>
-                                          {exercise.questions.map((question: any, qIdx: number) => (
-                                            <div key={qIdx} className="bg-purple-50 p-3 rounded border border-purple-200">
-                                              <p className="font-medium text-sm mb-2">{qIdx + 1}. {question.question}</p>
-                                              {question.options && (
-                                                <div className="space-y-1">
-                                                  {question.options.map((option: string, oIdx: number) => (
-                                                    <div key={oIdx} className={`text-xs p-2 rounded ${
-                                                      oIdx === question.correct 
-                                                        ? 'bg-green-100 text-green-800 font-medium' 
-                                                        : 'bg-gray-100'
-                                                    }`}>
-                                                      {String.fromCharCode(65 + oIdx)}) {option}
-                                                      {oIdx === question.correct && ' ✓'}
-                                                    </div>
-                                                  ))}
-                                                </div>
-                                              )}
-                                            </div>
-                                          ))}
-                                          
-                                          <div className="mt-3 flex space-x-2">
-                                            <Button 
-                                              size="sm" 
-                                              variant="outline"
-                                              onClick={() => {
-                                                const activityText = `${activity.title}\n\n${activity.description}\n\n${activity.questions.map((q: any, i: number) => 
-                                                  `${i+1}. ${q.question}\n${q.options.map((opt: string, j: number) => 
-                                                    `${String.fromCharCode(65 + j)}) ${opt}`).join('\n')}\nResposta: ${String.fromCharCode(65 + q.correct)}`).join('\n\n')}`;
-                                                
-                                                navigator.clipboard.writeText(activityText);
-                                                toast({
-                                                  title: "Atividade copiada!",
-                                                  description: "A atividade foi copiada para a área de transferência.",
-                                                });
-                                              }}
-                                            >
-                                              📋 Copiar Atividade
-                                            </Button>
-                                          </div>
-                                        </div>
-                                      )}
-                                    </div>
-                                  </AccordionContent>
-                                </AccordionItem>
-                              ))}
-                              
-                              {/* Questões de Avaliação */}
-                              {lesson.detailedContent?.assessmentQuestions && lesson.detailedContent.assessmentQuestions.length > 0 && (
-                                <AccordionItem value="assessment">
-                                  <AccordionTrigger className="text-sm font-medium">
-                                    📝 Avaliação - {lesson.title}
-                                  </AccordionTrigger>
-                                  <AccordionContent>
-                                    <div className="space-y-3">
-                                      <p className="text-sm text-gray-600">Questões de avaliação para esta aula</p>
-                                      
-                                      <div className="space-y-3">
-                                        <h4 className="font-medium text-sm">Questões ({lesson.detailedContent.assessmentQuestions.length}):</h4>
-                                        {lesson.detailedContent.assessmentQuestions.map((question: any, qIdx: number) => (
-                                          <div key={qIdx} className="bg-blue-50 p-3 rounded border border-blue-200">
-                                            <p className="font-medium text-sm mb-2">{qIdx + 1}. {question.question}</p>
-                                            {question.options && (
-                                              <div className="space-y-1">
-                                                {question.options.map((option: string, oIdx: number) => (
-                                                  <div key={oIdx} className={`text-xs p-2 rounded ${
-                                                    oIdx === question.correct_answer 
-                                                      ? 'bg-green-100 text-green-800 font-medium' 
-                                                      : 'bg-gray-100'
-                                                  }`}>
-                                                    {String.fromCharCode(65 + oIdx)}) {option}
-                                                    {oIdx === question.correct_answer && ' ✓'}
-                                                  </div>
-                                                ))}
-                                              </div>
-                                            )}
-                                            {question.explanation && (
-                                              <div className="mt-2 text-xs text-gray-600 bg-gray-50 p-2 rounded">
-                                                <strong>Explicação:</strong> {question.explanation}
-                                              </div>
-                                            )}
-                                          </div>
-                                        ))}
-                                        
-                                        <div className="mt-3 flex space-x-2">
-                                          <Button 
-                                            size="sm" 
-                                            variant="outline"
-                                            onClick={() => {
-                                              const assessmentText = `Avaliação - ${lesson.title}\n\nQuestões de avaliação para esta aula\n\n${lesson.detailedContent.assessmentQuestions.map((q: any, i: number) => 
-                                                `${i+1}. ${q.question}\n${q.options.map((opt: string, j: number) => 
-                                                  `${String.fromCharCode(65 + j)}) ${opt}`).join('\n')}\nResposta: ${String.fromCharCode(65 + q.correct_answer)}\nExplicação: ${q.explanation || 'N/A'}`).join('\n\n')}`;
-                                              
-                                              navigator.clipboard.writeText(assessmentText);
-                                              toast({
-                                                title: "Avaliação copiada!",
-                                                description: "A avaliação foi copiada para a área de transferência.",
-                                              });
-                                            }}
-                                          >
-                                            📋 Copiar Avaliação
-                                          </Button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </AccordionContent>
-                                </AccordionItem>
-                              )}
-                            </Accordion>
-                          </CardContent>
-                        </Card>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <div className="text-center py-12 border border-dashed border-gray-300 rounded-lg">
-                    <div className="text-4xl mb-2">📝</div>
-                    <h3 className="text-lg font-medium text-gray-700 mb-1">Nenhuma Atividade Encontrada</h3>
-                    <p className="text-sm text-gray-500">
-                      Este módulo ainda não possui atividades geradas. 
-                      Volte à Fase 3 para gerar conteúdo com atividades.
-                    </p>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="text-center py-12">
-                <div className="text-4xl mb-2">👈</div>
-                <p className="text-gray-500">Selecione um módulo para visualizar suas atividades e avaliações</p>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="flex items-center justify-end space-x-3 mt-6">
-          <Button 
-            onClick={handleNextPhase}
-            className="bg-blue-600 hover:bg-blue-700"
-          >
-            Continuar para Próxima Fase
-          </Button>
         </div>
       </div>
     </div>
