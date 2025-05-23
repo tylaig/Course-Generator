@@ -26,6 +26,9 @@ const courseDetailsSchema = z.object({
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
   
+  // Use PostgreSQL storage for activities integration
+  const pgStorage = new PostgresStorage();
+  
   // ---- Course CRUD Routes ----
   app.get("/api/courses", async (req, res) => {
     try {
@@ -506,8 +509,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Generate ONLY activities for specific lessons  
-  app.post("/generate-activities", async (req: Request, res: Response) => {
+  // NEW: Generate and auto-save activities directly to PostgreSQL
+  app.post("/api/generate-activities", async (req, res) => {
     try {
       const { lessons, courseDetails } = req.body;
       
@@ -583,14 +586,118 @@ export async function registerRoutes(app: Express): Promise<Server> {
           
           const activities = JSON.parse(activitiesData.choices[0].message.content);
           
+          // 🚀 AUTO-SAVE TO POSTGRESQL: Create lesson if not exists
+          let lesson;
+          try {
+            // Try to find existing lesson by title and module
+            const existingLessons = await pgStorage.listLessonsByModule(lessonInfo.moduleId.toString());
+            lesson = existingLessons.find(l => l.title === lessonInfo.lessonName);
+            
+            if (!lesson) {
+              // Create new lesson in PostgreSQL
+              lesson = await pgStorage.createLesson({
+                moduleId: parseInt(lessonInfo.moduleId),
+                title: lessonInfo.lessonName,
+                description: `Aula especializada em ${courseDetails.theme}`,
+                order: 1,
+                duration: "45min",
+                content: lessonInfo.content || "",
+                objectives: [],
+                status: "published"
+              });
+              console.log(`📚 Aula criada no PostgreSQL: ${lesson.title} (ID: ${lesson.id})`);
+            }
+          } catch (error) {
+            console.error(`❌ Erro ao criar aula ${lessonInfo.lessonName}:`, error);
+            throw error;
+          }
+          
+          // 🚀 AUTO-SAVE ACTIVITIES TO POSTGRESQL
+          const savedActivities = [];
+          const savedQuestions = [];
+          
+          // Save practical exercises
+          if (activities.practicalExercises) {
+            for (const exercise of activities.practicalExercises) {
+              try {
+                const activity = await pgStorage.createActivity({
+                  lessonId: lesson.id,
+                  title: exercise.title || "Exercício Prático",
+                  type: "practical_exercise",
+                  description: exercise.description || "",
+                  instructions: exercise.instructions || [],
+                  timeRequired: "5-10min"
+                });
+                savedActivities.push(activity);
+                
+                // Save questions for this activity
+                if (exercise.questions) {
+                  for (let i = 0; i < exercise.questions.length; i++) {
+                    const q = exercise.questions[i];
+                    const question = await pgStorage.createQuestion({
+                      activityId: activity.id,
+                      question: q.question,
+                      type: "multiple_choice",
+                      options: q.options,
+                      correctAnswer: q.correct_answer,
+                      explanation: q.explanation,
+                      order: i + 1
+                    });
+                    savedQuestions.push(question);
+                  }
+                }
+                console.log(`✅ Exercício prático salvo: ${activity.title} (ID: ${activity.id})`);
+              } catch (error) {
+                console.error(`❌ Erro ao salvar exercício:`, error);
+              }
+            }
+          }
+          
+          // Save assessment questions
+          if (activities.assessmentQuestions) {
+            try {
+              const assessmentActivity = await pgStorage.createActivity({
+                lessonId: lesson.id,
+                title: "Avaliação da Aula",
+                type: "assessment",
+                description: "Questões de avaliação para verificar o aprendizado",
+                instructions: ["Responda às questões baseando-se no conteúdo da aula"],
+                timeRequired: "10-15min"
+              });
+              savedActivities.push(assessmentActivity);
+              
+              for (let i = 0; i < activities.assessmentQuestions.length; i++) {
+                const q = activities.assessmentQuestions[i];
+                const question = await pgStorage.createQuestion({
+                  activityId: assessmentActivity.id,
+                  question: q.question,
+                  type: "multiple_choice",
+                  options: q.options,
+                  correctAnswer: q.correct_answer,
+                  explanation: q.explanation,
+                  order: i + 1
+                });
+                savedQuestions.push(question);
+              }
+              console.log(`✅ Avaliação salva: ${assessmentActivity.title} (ID: ${assessmentActivity.id})`);
+            } catch (error) {
+              console.error(`❌ Erro ao salvar avaliação:`, error);
+            }
+          }
+          
           results.push({
             moduleId: lessonInfo.moduleId,
-            lessonId: lessonInfo.lessonId,
+            lessonId: lesson.id,
+            lessonName: lessonInfo.lessonName,
             activities: activities.practicalExercises || [],
-            assessmentQuestions: activities.assessmentQuestions || []
+            assessmentQuestions: activities.assessmentQuestions || [],
+            savedActivities: savedActivities.length,
+            savedQuestions: savedQuestions.length,
+            postgresLessonId: lesson.id
           });
           
-          console.log(`✅ Atividades criadas para: ${lessonInfo.lessonName}`);
+          console.log(`✅ Atividades SALVAS AUTOMATICAMENTE para: ${lessonInfo.lessonName}`);
+          console.log(`📊 PostgreSQL - Atividades: ${savedActivities.length}, Questões: ${savedQuestions.length}`);
           
         } catch (error) {
           console.error(`❌ Erro ao gerar atividades para ${lessonInfo.lessonName}:`, error);

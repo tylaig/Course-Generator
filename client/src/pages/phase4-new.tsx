@@ -255,12 +255,16 @@ export default function Phase4New() {
         setCurrentGeneratingLesson(lessonInfo.lessonName);
         console.log(`🎯 Gerando atividades IA para: ${lessonInfo.lessonName}`);
 
-        // Generate activities via API
-        const response = await fetch("/api/lesson-content-generation", {
+        // 🚀 NEW: Generate and auto-save activities directly to PostgreSQL
+        const response = await fetch("/api/generate-activities", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            lessonTitle: lessonInfo.lessonName,
+            lessons: [{
+              moduleId: lessonInfo.moduleId,
+              lessonName: lessonInfo.lessonName,
+              content: lessonInfo.lesson.content || ""
+            }],
             courseDetails: {
               title: course.title,
               theme: course.theme || "",
@@ -274,18 +278,20 @@ export default function Phase4New() {
         if (response.ok) {
           const result = await response.json();
           
-          if (result.success && result.content) {
-            console.log(`✅ Atividades geradas para: ${lessonInfo.lessonName}`);
+          if (result.success && result.results && result.results.length > 0) {
+            const activityData = result.results[0];
+            console.log(`✅ Atividades SALVAS AUTOMATICAMENTE no PostgreSQL para: ${lessonInfo.lessonName}`);
+            console.log(`📊 PostgreSQL - Atividades: ${activityData.savedActivities}, Questões: ${activityData.savedQuestions}`);
             
-            // Update lesson with generated activities - ESTRUTURA CORRETA
+            // Update lesson with generated activities - ESTRUTURA CORRETA PARA FRONTEND
             const updatedLesson = {
               ...lessonInfo.lesson,
               detailedContent: {
                 ...lessonInfo.lesson.detailedContent,
-                practicalExercises: result.content.practicalExercises || [],
-                assessmentQuestions: result.content.assessmentQuestions || [],
-                objectives: result.content.objectives || [],
-                content: result.content.content || lessonInfo.lesson.content
+                practicalExercises: activityData.activities || [],
+                assessmentQuestions: activityData.assessmentQuestions || [],
+                objectives: [],
+                content: lessonInfo.lesson.content || ""
               }
             };
             
