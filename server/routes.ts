@@ -1038,70 +1038,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // ZIP Download endpoint - Download course as ZIP with PDF files
-  app.get("/api/courses/:courseId/download-zip", async (req, res) => {
+  app.post("/api/courses/:courseId/download-zip", async (req, res) => {
     try {
       const courseId = parseInt(req.params.courseId);
-      const course = await pgStorage.getCourse(courseId);
       
-      if (!course) {
-        return res.status(404).json({ error: "Course not found" });
+      // Use the course data from the request body (same as Google Drive integration)
+      const courseData = req.body;
+      
+      if (!courseData || !courseData.title) {
+        return res.status(400).json({ error: "Course data is required" });
       }
 
-      // Get modules from database
-      const modules = await pgStorage.listModules(courseId);
-      
-      // Format data for ZIP generation
-      const courseData = {
-        title: course.title,
-        theme: course.theme,
-        modules: await Promise.all(modules.map(async (module) => {
-          const lessons = await pgStorage.listLessonsByModule(module.id);
-          
-          return {
-            id: module.id.toString(),
-            title: module.title,
-            description: module.description || `Module about ${course.theme}`,
-            content: {
-              lessons: await Promise.all(lessons.map(async (lesson) => {
-                // Get activities for this lesson
-                const activities = await pgStorage.listActivitiesByLesson(lesson.id);
-                const questions = await pgStorage.listQuestionsByLesson(lesson.id);
-                
-                return {
-                  id: lesson.id.toString(),
-                  title: lesson.title,
-                  content: lesson.content || "",
-                  detailedContent: {
-                    objectives: lesson.objectives || [],
-                    content: lesson.content || "",
-                    practicalExercises: activities.map(activity => ({
-                      title: activity.title,
-                      description: activity.description,
-                      questions: questions.filter(q => q.activityId === activity.id).map(q => ({
-                        question: q.question,
-                        options: q.options,
-                        correct_answer: q.correctAnswer,
-                        explanation: q.explanation || ""
-                      }))
-                    })),
-                    assessmentQuestions: questions.filter(q => !q.activityId).map(q => ({
-                      question: q.question,
-                      options: q.options,
-                      correct_answer: q.correctAnswer,
-                      explanation: q.explanation || ""
-                    }))
-                  }
-                };
-              }))
-            }
-          };
-        }))
-      };
+      console.log("Generating ZIP for course:", courseData.title);
+      console.log("Modules:", courseData.modules?.length || 0);
 
       const { generateCourseZip } = await import("./zip-generator");
       const zipBuffer = await generateCourseZip(courseData);
       
-      const fileName = `${course.title.replace(/[^a-zA-Z0-9]/g, '_')}_Course.zip`;
+      const fileName = `${courseData.title.replace(/[^a-zA-Z0-9]/g, '_')}_Course.zip`;
       
       res.setHeader('Content-Type', 'application/zip');
       res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);

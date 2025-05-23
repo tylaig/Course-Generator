@@ -418,18 +418,42 @@ export default function Phase5() {
                 </div>
                 
                 <Button 
-                  onClick={() => {
-                    const link = document.createElement('a');
-                    link.href = `/api/courses/${course.id}/download-zip`;
-                    link.download = `${course.title.replace(/[^a-zA-Z0-9]/g, '_')}_Course.zip`;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    
-                    toast({
-                      title: "Download Started!",
-                      description: "Your course ZIP file is being generated and downloaded.",
-                    });
+                  onClick={async () => {
+                    try {
+                      const response = await fetch(`/api/courses/${course.id}/download-zip`, {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(course)
+                      });
+
+                      if (response.ok) {
+                        const blob = await response.blob();
+                        const url = window.URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.download = `${course.title.replace(/[^a-zA-Z0-9]/g, '_')}_Course.zip`;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        window.URL.revokeObjectURL(url);
+                        
+                        toast({
+                          title: "Download Successful!",
+                          description: "Your course ZIP file has been generated and downloaded.",
+                        });
+                      } else {
+                        throw new Error('Failed to generate ZIP');
+                      }
+                    } catch (error) {
+                      console.error('Error downloading ZIP:', error);
+                      toast({
+                        title: "Download Failed",
+                        description: "Unable to generate the ZIP file. Please try again.",
+                        variant: "destructive",
+                      });
+                    }
                   }}
                   className="w-full bg-blue-600 hover:bg-blue-700"
                   size="lg"
