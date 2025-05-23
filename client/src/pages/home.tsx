@@ -370,19 +370,19 @@ export default function Home() {
                 <div className="grid grid-cols-2 gap-2">
                   <div className="p-2 bg-blue-50 rounded text-xs text-center text-blue-700">
                     <span className="material-icons text-xs mb-1">description</span>
-                    <div>Exportação JSON/CSV</div>
+                    <div>JSON/CSV Export</div>
                   </div>
                   <div className="p-2 bg-purple-50 rounded text-xs text-center text-purple-700">
                     <span className="material-icons text-xs mb-1">image</span>
-                    <div>Imagens por IA</div>
+                    <div>AI Images</div>
                   </div>
                   <div className="p-2 bg-emerald-50 rounded text-xs text-center text-emerald-700">
                     <span className="material-icons text-xs mb-1">school</span>
-                    <div>Visualização LMS</div>
+                    <div>LMS Visualization</div>
                   </div>
                   <div className="p-2 bg-amber-50 rounded text-xs text-center text-amber-700">
                     <span className="material-icons text-xs mb-1">quiz</span>
-                    <div>Avaliações</div>
+                    <div>Assessments</div>
                   </div>
                 </div>
               </div>
