@@ -648,7 +648,10 @@ export default function Phase3() {
                               // Conteúdo principal
                               if (content.content) {
                                 addText('CONTEÚDO', 14, 'bold');
-                                addText(content.content, 12, 'normal');
+                                const contentText = typeof content.content === 'string' 
+                                  ? content.content 
+                                  : JSON.stringify(content.content, null, 2);
+                                addText(contentText, 12, 'normal');
                                 yPosition += 10;
                               }
                               
