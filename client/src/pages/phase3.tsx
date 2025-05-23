@@ -431,7 +431,7 @@ export default function Phase3() {
                       <h4 className="font-semibold mb-2">Objetivos da Aula:</h4>
                       <ul className="list-disc list-inside space-y-1 text-sm">
                         {lesson.detailedContent.objectives.map((obj: string, idx: number) => (
-                          <li key={idx}>{typeof obj === 'string' ? obj : JSON.stringify(obj)}</li>
+                          <li key={idx}>{safeRender(obj)}</li>
                         ))}
                       </ul>
                     </div>
@@ -441,7 +441,7 @@ export default function Phase3() {
                     <div>
                       <h4 className="font-semibold mb-2">Conteúdo:</h4>
                       <div className="text-sm whitespace-pre-wrap bg-gray-50 p-3 rounded">
-                        {lesson.detailedContent.content}
+                        {safeRender(lesson.detailedContent.content)}
                       </div>
                     </div>
                   )}
@@ -452,8 +452,8 @@ export default function Phase3() {
                       <div className="space-y-2">
                         {lesson.detailedContent.practicalExercises.map((exercise: any, idx: number) => (
                           <div key={idx} className="bg-blue-50 p-3 rounded">
-                            <h5 className="font-medium">{exercise.title || `Exercício ${idx + 1}`}</h5>
-                            <p className="text-sm mt-1">{exercise.description || 'Descrição não disponível'}</p>
+                            <h5 className="font-medium">{safeRender(exercise.title) || `Exercício ${idx + 1}`}</h5>
+                            <p className="text-sm mt-1">{safeRender(exercise.description) || 'Descrição não disponível'}</p>
                             {exercise.questions && exercise.questions.length > 0 && (
                               <div className="mt-2">
                                 <p className="text-xs font-medium text-blue-700">Questões: {exercise.questions.length}</p>
