@@ -592,19 +592,24 @@ export default function Phase3() {
                             const margin = 20;
                             const maxWidth = pageWidth - (margin * 2);
                             
-                            // Função para adicionar texto com quebra de linha
+                            // Função para adicionar texto com quebra de linha e paginação inteligente
                             const addText = (text: string, fontSize: number = 12, fontStyle: string = 'normal') => {
                               doc.setFontSize(fontSize);
                               doc.setFont('helvetica', fontStyle);
                               const lines = doc.splitTextToSize(text, maxWidth);
-                              doc.text(lines, margin, yPosition);
-                              yPosition += (lines.length * fontSize * 0.4) + 5;
                               
-                              // Verificar se precisa de nova página
-                              if (yPosition > doc.internal.pageSize.height - 20) {
+                              // Calcular espaço necessário
+                              const lineHeight = fontSize * 0.4;
+                              const totalHeight = lines.length * lineHeight + 5;
+                              
+                              // Verificar se precisa de nova página ANTES de escrever
+                              if (yPosition + totalHeight > doc.internal.pageSize.height - 30) {
                                 doc.addPage();
                                 yPosition = 20;
                               }
+                              
+                              doc.text(lines, margin, yPosition);
+                              yPosition += totalHeight;
                             };
                             
                             // Função para processar conteúdo estruturado
