@@ -176,26 +176,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
             throw new Error("Falha na atualização do módulo");
           }
         } else {
-          // Módulo não existe, vamos criar um novo
-          console.log(`🆕 Criando novo módulo ${numericModuleId}...`);
+          // Módulo não existe, vamos criar um novo módulo real no PostgreSQL
+          console.log(`🆕 Criando novo módulo ${numericModuleId} no PostgreSQL...`);
+          
+          // Extrair informações do moduleId para criar título mais descritivo
+          const moduleIndex = moduleId.split('-').pop() || '0';
+          const moduleNumber = parseInt(moduleIndex) + 1;
+          
           const newModule = await storage.createModule({
             courseId: 8, // ID do curso atual
-            title: `Módulo ${moduleId}`,
-            description: "Módulo gerado automaticamente",
-            order: 1,
-            estimatedHours: 2,
+            title: `Módulo ${moduleNumber}: Educação e Aprendizagem`,
+            description: `Módulo gerado automaticamente com atividades da Phase 4`,
+            order: moduleNumber,
+            estimatedHours: 3,
             status: status || "published",
             content: content
           });
           
-          console.log(`✅ Novo módulo criado no PostgreSQL!`, newModule.id);
+          console.log(`✅ Novo módulo criado no PostgreSQL! ID: ${newModule.id}`);
+          console.log(`📊 Conteúdo salvo:`, JSON.stringify(content, null, 2));
+          
           res.json({ 
             success: true, 
-            message: "✅ Novo módulo criado no PostgreSQL",
+            message: "✅ Novo módulo criado no PostgreSQL com atividades",
             moduleId: moduleId,
             databaseId: newModule.id,
             status: newModule.status,
-            created: true
+            title: newModule.title,
+            created: true,
+            persistedInDatabase: true
           });
         }
       } catch (dbError) {
