@@ -603,7 +603,7 @@ export default function Phase3() {
                         
                         {/* Debug info */}
                         <details className="mt-4">
-                          <summary className="text-xs text-gray-500 cursor-pointer">Debug: Ver dados brutos</summary>
+                          <summary className="text-xs text-gray-500 cursor-pointer">Debug: View raw data</summary>
                           <pre className="text-xs bg-gray-800 text-green-400 p-2 rounded mt-2 overflow-auto max-h-64">
                             {JSON.stringify(lesson.detailedContent, null, 2)}
                           </pre>
@@ -614,15 +614,15 @@ export default function Phase3() {
                   
                   {lesson.detailedContent.practicalExercises && lesson.detailedContent.practicalExercises.length > 0 && (
                     <div>
-                      <h4 className="font-semibold mb-2">Exercícios Práticos:</h4>
+                      <h4 className="font-semibold mb-2">Practical Exercises:</h4>
                       <div className="space-y-2">
                         {lesson.detailedContent.practicalExercises.map((exercise: any, idx: number) => (
                           <div key={idx} className="bg-blue-50 p-3 rounded">
-                            <h5 className="font-medium">{(typeof exercise.title === 'string' ? exercise.title : JSON.stringify(exercise.title)) || `Exercício ${idx + 1}`}</h5>
-                            <p className="text-sm mt-1">{(typeof exercise.description === 'string' ? exercise.description : JSON.stringify(exercise.description)) || 'Descrição não disponível'}</p>
+                            <h5 className="font-medium">{(typeof exercise.title === 'string' ? exercise.title : JSON.stringify(exercise.title)) || `Exercise ${idx + 1}`}</h5>
+                            <p className="text-sm mt-1">{(typeof exercise.description === 'string' ? exercise.description : JSON.stringify(exercise.description)) || 'Description not available'}</p>
                             {exercise.questions && exercise.questions.length > 0 && (
                               <div className="mt-2">
-                                <p className="text-xs font-medium text-blue-700">Questões: {exercise.questions.length}</p>
+                                <p className="text-xs font-medium text-blue-700">Questions: {exercise.questions.length}</p>
                               </div>
                             )}
                           </div>
@@ -633,7 +633,7 @@ export default function Phase3() {
                   
                   {lesson.detailedContent.assessmentQuestions && lesson.detailedContent.assessmentQuestions.length > 0 && (
                     <div>
-                      <h4 className="font-semibold mb-2">Perguntas de Avaliação:</h4>
+                      <h4 className="font-semibold mb-2">Assessment Questions:</h4>
                       <div className="space-y-2">
                         {lesson.detailedContent.assessmentQuestions.map((question: any, idx: number) => (
                           <div key={idx} className="bg-yellow-50 p-3 rounded">
@@ -647,7 +647,7 @@ export default function Phase3() {
                             </ul>
                             {question.explanation && (
                               <p className="text-sm text-gray-600 mt-2">
-                                <strong>Explicação:</strong> {question.explanation}
+                                <strong>Explanation:</strong> {question.explanation}
                               </p>
                             )}
                           </div>
@@ -670,9 +670,9 @@ export default function Phase3() {
       
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Fase 3: Produção de Conteúdo</h1>
+          <h1 className="text-3xl font-bold mb-2">Phase 3: Content Production</h1>
           <p className="text-gray-600">
-            Gere conteúdo detalhado para cada aula dos seus módulos.
+            Generate detailed content for each lesson in your modules.
           </p>
         </div>
 
@@ -684,9 +684,9 @@ export default function Phase3() {
         {/* Generation Controls */}
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>Geração de Conteúdo</CardTitle>
+            <CardTitle>Content Generation</CardTitle>
             <CardDescription>
-              Gere conteúdo para todas as aulas de uma vez ou individualmente.
+              Generate content for all lessons at once or individually.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -708,15 +708,15 @@ export default function Phase3() {
                       size="lg"
                       disabled={isGeneratingAll || generateAllContent.isPending}
                     >
-                      {isGeneratingAll ? "Gerando..." : "Gerar Todo o Conteúdo"}
+                      {isGeneratingAll ? "Generating..." : "Generate All Content"}
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Confirmar Geração Completa</AlertDialogTitle>
+                      <AlertDialogTitle>Confirm Complete Generation</AlertDialogTitle>
                       <AlertDialogDescription>
-                        Isso irá gerar conteúdo detalhado para todas as aulas que ainda não possuem conteúdo. 
-                        O processo pode levar alguns minutos e continuará mesmo se você recarregar a página.
+                        This will generate detailed content for all lessons that don't have content yet. 
+                        The process may take several minutes and will continue even if you refresh the page.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
