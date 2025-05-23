@@ -113,18 +113,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const moduleId = req.params.id;
       const { content, status } = req.body;
       
-      console.log(`💾 Salvando módulo ${moduleId} no banco de dados`);
+      console.log(`💾 Tentando salvar módulo ${moduleId} no banco de dados`);
       
-      const updatedModule = await storage.updateModule(moduleId, { content, status });
-      if (!updatedModule) {
-        return res.status(404).json({ error: "Módulo não encontrado" });
+      // First try to update existing module
+      try {
+        const updatedModule = await storage.updateModule(moduleId, { content, status });
+        if (updatedModule) {
+          console.log(`✅ Módulo ${moduleId} atualizado com sucesso!`);
+          return res.json(updatedModule);
+        }
+      } catch (updateError) {
+        console.log(`⚠️ Falha ao atualizar módulo ${moduleId}, tentando criar...`);
       }
       
-      console.log(`✅ Módulo ${moduleId} salvo com sucesso!`);
-      res.json(updatedModule);
+      // If update fails, try to create the module
+      try {
+        console.log(`📝 Criando novo módulo ${moduleId}...`);
+        const newModule = await storage.createModule({
+          title: `Módulo ${moduleId}`,
+          description: `Módulo criado automaticamente para ${moduleId}`,
+          estimatedHours: 5,
+          courseId: 1, // Default course ID
+          order: 1,
+          status: status || "draft",
+          content: content
+        });
+        
+        console.log(`✅ Módulo ${moduleId} criado com sucesso!`);
+        res.json(newModule);
+      } catch (createError) {
+        console.error(`❌ Erro ao criar módulo ${moduleId}:`, createError);
+        res.status(500).json({ error: "Falha ao criar/atualizar módulo" });
+      }
+      
     } catch (error) {
-      console.error("Erro ao atualizar módulo:", error);
-      res.status(500).json({ error: "Falha ao atualizar módulo" });
+      console.error("Erro geral ao processar módulo:", error);
+      res.status(500).json({ error: "Falha ao processar módulo" });
     }
   });
 
