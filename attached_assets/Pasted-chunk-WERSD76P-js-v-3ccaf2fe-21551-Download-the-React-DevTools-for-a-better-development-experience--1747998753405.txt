@@ -1,0 +1,97 @@
+chunk-WERSD76P.js?v=3ccaf2fe:21551 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+CourseContext.tsx:54 Usando curso do banco: {id: 11, title: 'New Educational Course', theme: 'Education and Learning', estimatedHours: 20, format: 'Online', …}
+CourseContext.tsx:54 Usando curso do banco: {id: 11, title: 'New Educational Course', theme: 'Education and Learning', estimatedHours: 20, format: 'Online', …}
+CourseContext.tsx:54 Usando curso do banco: {id: 11, title: 'New Educational Course', theme: 'Education and Learning', estimatedHours: 20, format: 'Online', …}
+CourseContext.tsx:54 Usando curso do banco: {id: 11, title: 'New Educational Course', theme: 'Education and Learning', estimatedHours: 20, format: 'Online', …}
+
+                
+          
+          
+          
+         Chrome is moving towards a new experience that allows users to choose to browse without third-party cookies.
+phase2.tsx:471 Button clicked!
+phase2.tsx:80 Saving configurations: {moduleCount: 6, lessonsPerModule: 5}
+phase2.tsx:87 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/courses/11/phase/2 404 (Not Found)
+saveConfigurations @ phase2.tsx:87
+onClick @ phase2.tsx:472
+callCallback2 @ chunk-WERSD76P.js?v=3ccaf2fe:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=3ccaf2fe:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=3ccaf2fe:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=3ccaf2fe:3736
+executeDispatch @ chunk-WERSD76P.js?v=3ccaf2fe:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=3ccaf2fe:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=3ccaf2fe:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=3ccaf2fe:7051
+(anonymous) @ chunk-WERSD76P.js?v=3ccaf2fe:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=3ccaf2fe:18913
+batchedUpdates @ chunk-WERSD76P.js?v=3ccaf2fe:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=3ccaf2fe:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=3ccaf2fe:5478
+dispatchEvent @ chunk-WERSD76P.js?v=3ccaf2fe:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=3ccaf2fe:5449
+phase2.tsx:123 Error saving to database: Error: HTTP Error: 404
+    at saveConfigurations (phase2.tsx:120:17)
+saveConfigurations @ phase2.tsx:123
+await in saveConfigurations
+onClick @ phase2.tsx:472
+callCallback2 @ chunk-WERSD76P.js?v=3ccaf2fe:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=3ccaf2fe:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=3ccaf2fe:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=3ccaf2fe:3736
+executeDispatch @ chunk-WERSD76P.js?v=3ccaf2fe:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=3ccaf2fe:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=3ccaf2fe:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=3ccaf2fe:7051
+(anonymous) @ chunk-WERSD76P.js?v=3ccaf2fe:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=3ccaf2fe:18913
+batchedUpdates @ chunk-WERSD76P.js?v=3ccaf2fe:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=3ccaf2fe:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=3ccaf2fe:5478
+dispatchEvent @ chunk-WERSD76P.js?v=3ccaf2fe:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=3ccaf2fe:5449
+phase2.tsx:471 Button clicked!
+phase2.tsx:80 Saving configurations: {moduleCount: 6, lessonsPerModule: 5}
+phase2.tsx:87 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/courses/11/phase/2 404 (Not Found)
+saveConfigurations @ phase2.tsx:87
+onClick @ phase2.tsx:472
+callCallback2 @ chunk-WERSD76P.js?v=3ccaf2fe:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=3ccaf2fe:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=3ccaf2fe:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=3ccaf2fe:3736
+executeDispatch @ chunk-WERSD76P.js?v=3ccaf2fe:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=3ccaf2fe:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=3ccaf2fe:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=3ccaf2fe:7051
+(anonymous) @ chunk-WERSD76P.js?v=3ccaf2fe:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=3ccaf2fe:18913
+batchedUpdates @ chunk-WERSD76P.js?v=3ccaf2fe:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=3ccaf2fe:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=3ccaf2fe:5478
+dispatchEvent @ chunk-WERSD76P.js?v=3ccaf2fe:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=3ccaf2fe:5449
+phase2.tsx:123 Error saving to database: Error: HTTP Error: 404
+    at saveConfigurations (phase2.tsx:120:17)
+saveConfigurations @ phase2.tsx:123
+await in saveConfigurations
+onClick @ phase2.tsx:472
+callCallback2 @ chunk-WERSD76P.js?v=3ccaf2fe:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=3ccaf2fe:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=3ccaf2fe:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=3ccaf2fe:3736
+executeDispatch @ chunk-WERSD76P.js?v=3ccaf2fe:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=3ccaf2fe:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=3ccaf2fe:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=3ccaf2fe:7051
+(anonymous) @ chunk-WERSD76P.js?v=3ccaf2fe:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=3ccaf2fe:18913
+batchedUpdates @ chunk-WERSD76P.js?v=3ccaf2fe:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=3ccaf2fe:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=3ccaf2fe:5478
+dispatchEvent @ chunk-WERSD76P.js?v=3ccaf2fe:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=3ccaf2fe:5449

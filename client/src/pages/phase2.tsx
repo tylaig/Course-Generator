@@ -83,18 +83,20 @@ export default function Phase2() {
       try {
         setIsSaving(true);
         
-        // Save to PostgreSQL via API
-        const response = await fetch(`/api/courses/${course.id}/phase/2`, {
-          method: 'POST',
+        // Save configurations by updating the course
+        const response = await fetch(`/api/courses/${course.id}`, {
+          method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            moduleCount,
-            lessonsPerModule: lessonsPerModule[0],
-            configurationsSaved: true,
-            modules: modules,
-            lastUpdated: new Date().toISOString()
+            title: course.title,
+            theme: course.theme,
+            estimatedHours: course.estimatedHours,
+            format: course.format,
+            platform: course.platform,
+            deliveryFormat: course.deliveryFormat,
+            currentPhase: 2
           }),
         });
 
