@@ -248,8 +248,14 @@ export default function Phase4() {
             }
           }
           
-          // Update module with updated lessons locally
-          await updateModuleContent(moduleToGenerate.id, updatedModule.content);
+          // Update course context immediately to show real-time changes
+          setCourse(prevCourse => {
+            if (!prevCourse) return null;
+            const updatedModules = prevCourse.modules.map(mod => 
+              mod.id === moduleToGenerate.id ? updatedModule : mod
+            );
+            return { ...prevCourse, modules: updatedModules };
+          });
           
           // Save to database immediately
           try {
