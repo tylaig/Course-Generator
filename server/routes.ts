@@ -345,6 +345,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           console.log(`📝 [${i+1}/${lessons.length}] Criando atividades para: ${lessonInfo.lessonName}`);
           
           // Generate only activities using OpenAI
+          console.log("🔍 Fazendo requisição para OpenAI...");
           const activitiesResponse = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
             headers: {
@@ -379,10 +380,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
           });
           
           if (!activitiesResponse.ok) {
+            const errorText = await activitiesResponse.text();
+            console.error(`❌ OpenAI API error: ${activitiesResponse.status} - ${errorText}`);
             throw new Error(`OpenAI API error: ${activitiesResponse.status}`);
           }
           
           const activitiesData = await activitiesResponse.json();
+          console.log("✅ OpenAI Response received:", activitiesData);
+          
+          if (!activitiesData.choices || !activitiesData.choices[0]) {
+            console.error("❌ Resposta da OpenAI sem choices:", activitiesData);
+            throw new Error("Resposta inválida da OpenAI");
+          }
+          
           const activities = JSON.parse(activitiesData.choices[0].message.content);
           
           results.push({
