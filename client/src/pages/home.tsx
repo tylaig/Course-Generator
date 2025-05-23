@@ -19,18 +19,18 @@ export default function Home() {
   );
   const [hasDraft, setHasDraft] = useState<boolean>(false);
   
-  // Verificar se existe um rascunho ao carregar a página
+  // Check if there's a draft when loading the page
   useEffect(() => {
     if (course) {
       setHasDraft(true);
-      console.log("Curso em andamento encontrado:", course);
+      console.log("Course in progress found:", course);
     } else {
       const draftId = localStorage.getItem('currentCourseId');
       if (draftId) {
         const draftCourse = CourseStorage.getCourse(draftId);
         if (draftCourse) {
           setHasDraft(true);
-          console.log("Rascunho encontrado no armazenamento local:", draftCourse);
+          console.log("Draft found in local storage:", draftCourse);
         }
       }
     }
@@ -39,11 +39,11 @@ export default function Home() {
   // Create new course mutation
   const createCourseMutation = useMutation({
     mutationFn: async () => {
-      // Criando um novo curso com valores inspirados no framework pedagógico
-      console.log("Iniciando criação de curso...");
+      // Creating a new course with values inspired by the pedagogical framework
+      console.log("Starting course creation...");
       const response = await apiRequest("POST", "/api/courses", {
-        title: "Novo Curso Educacional",
-        theme: "Educação e Aprendizagem",
+        title: "New Educational Course",
+        theme: "Education and Learning",
         estimatedHours: 20,
         format: "Online",
         platform: "Web",
@@ -51,7 +51,7 @@ export default function Home() {
         currentPhase: 1,
         modules: [],
         aiConfig: {
-          model: "gpt-4o", // o modelo mais recente da OpenAI
+          model: "gpt-4o", // the latest OpenAI model
           optimization: "balanced",
           languageStyle: "professional",
           difficultyLevel: "intermediate",
@@ -64,11 +64,11 @@ export default function Home() {
       return response;
     },
     onSuccess: async (response) => {
-      // Processando a resposta
+      // Processing the response
       const data = await response.json();
-      console.log("Curso criado com sucesso:", data);
+      console.log("Course created successfully:", data);
       
-      // Atualizando o estado local
+      // Updating local state
       setCurrentCourseId(data.id);
       localStorage.setItem('currentCourseId', data.id);
       
@@ -76,55 +76,55 @@ export default function Home() {
         createNewCourse();
       }
       
-      // Notificando o usuário
+      // Notifying the user
       toast({
-        title: "Curso Criado",
-        description: "Um novo curso foi criado com sucesso!",
+        title: "Course Created",
+        description: "A new course has been created successfully!",
       });
       
-      // Redirecionando para a fase 1
+      // Redirecting to phase 1
       navigate("/phase1");
     },
     onError: (error) => {
-      console.error("Erro ao criar curso:", error);
+      console.error("Error creating course:", error);
       toast({
-        title: "Erro",
-        description: "Não foi possível criar o curso. Tente novamente.",
+        title: "Error",
+        description: "Could not create the course. Please try again.",
         variant: "destructive"
       });
     }
   });
   
   const handleCreateNewCourse = () => {
-    console.log("Solicitando criação de curso...");
+    console.log("Requesting course creation...");
     
-    // Criar curso localmente sem depender do servidor
+    // Create course locally without depending on the server
     if (createNewCourse) {
       try {
         const newCourseData = createNewCourse();
-        console.log("Curso criado localmente:", newCourseData);
+        console.log("Course created locally:", newCourseData);
         
-        // Notificar o usuário
+        // Notify the user
         toast({
-          title: "Curso Criado",
-          description: "Um novo curso foi criado com sucesso!"
+          title: "Course Created",
+          description: "A new course has been created successfully!"
         });
         
-        // Redirecionar para a fase 1
+        // Redirect to phase 1
         navigate("/phase1");
       } catch (error) {
-        console.error("Erro ao criar curso local:", error);
+        console.error("Error creating local course:", error);
         toast({
-          title: "Erro",
-          description: "Não foi possível criar o curso. Tente novamente.",
+          title: "Error",
+          description: "Could not create the course. Please try again.",
           variant: "destructive"
         });
       }
     } else {
-      console.error("Função createNewCourse não disponível");
+      console.error("createNewCourse function not available");
       toast({
-        title: "Erro",
-        description: "Sistema indisponível. Recarregue a página e tente novamente.",
+        title: "Error",
+        description: "System unavailable. Please reload the page and try again.",
         variant: "destructive"
       });
     }
@@ -170,18 +170,18 @@ export default function Home() {
   return (
     <div className="pt-4">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">Dashboard do Criador de Cursos com IA</h1>
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">AI Course Creator Dashboard</h1>
         <p className="text-slate-600">
-          Bem-vindo à plataforma de criação de cursos educacionais usando Inteligência Artificial
+          Welcome to the educational course creation platform using Artificial Intelligence
         </p>
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
         <div className="lg:col-span-7">
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-100 mb-6">
-            <h2 className="text-xl font-semibold mb-3 text-slate-800">Framework Pedagógico em 5 Estágios</h2>
+            <h2 className="text-xl font-semibold mb-3 text-slate-800">5-Stage Pedagogical Framework</h2>
             <p className="text-slate-600 mb-4">
-              Nossa plataforma utiliza uma abordagem estruturada para criação de cursos educacionais.
+              Our platform uses a structured approach for creating educational courses.
             </p>
             
             <div className="grid grid-cols-5 gap-2 mb-4">
@@ -195,24 +195,24 @@ export default function Home() {
             
             <div className="grid grid-cols-1 md:grid-cols-5 gap-3 mt-4">
               <div className="p-3 bg-white rounded border border-slate-200 shadow-sm">
-                <div className="font-medium text-sm text-slate-800 mb-1">Estratégia</div>
-                <div className="text-xs text-slate-500">Definir objetivos e público-alvo</div>
+                <div className="font-medium text-sm text-slate-800 mb-1">Strategy</div>
+                <div className="text-xs text-slate-500">Define objectives and target audience</div>
               </div>
               <div className="p-3 bg-white rounded border border-slate-200 shadow-sm">
-                <div className="font-medium text-sm text-slate-800 mb-1">Estrutura</div>
-                <div className="text-xs text-slate-500">Organizar módulos e cronograma</div>
+                <div className="font-medium text-sm text-slate-800 mb-1">Structure</div>
+                <div className="text-xs text-slate-500">Organize modules and schedule</div>
               </div>
               <div className="p-3 bg-white rounded border border-slate-200 shadow-sm">
-                <div className="font-medium text-sm text-slate-800 mb-1">Conteúdo</div>
-                <div className="text-xs text-slate-500">Gerar material didático</div>
+                <div className="font-medium text-sm text-slate-800 mb-1">Content</div>
+                <div className="text-xs text-slate-500">Generate educational material</div>
               </div>
               <div className="p-3 bg-white rounded border border-slate-200 shadow-sm">
-                <div className="font-medium text-sm text-slate-800 mb-1">Avaliação</div>
-                <div className="text-xs text-slate-500">Criar atividades e testes</div>
+                <div className="font-medium text-sm text-slate-800 mb-1">Evaluation</div>
+                <div className="text-xs text-slate-500">Create activities and tests</div>
               </div>
               <div className="p-3 bg-white rounded border border-slate-200 shadow-sm">
-                <div className="font-medium text-sm text-slate-800 mb-1">Revisão</div>
-                <div className="text-xs text-slate-500">Finalizar e exportar</div>
+                <div className="font-medium text-sm text-slate-800 mb-1">Review</div>
+                <div className="text-xs text-slate-500">Finalize and export</div>
               </div>
             </div>
           </div>
