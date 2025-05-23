@@ -973,5 +973,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Add the missing Google callback route that handles the actual redirect
+  app.get("/api/auth/google/callback", async (req, res) => {
+    try {
+      const { code, error } = req.query;
+      
+      if (error) {
+        return res.redirect(`/?error=${encodeURIComponent(error as string)}`);
+      }
+      
+      if (!code || typeof code !== 'string') {
+        return res.redirect('/?error=no_code');
+      }
+
+      const { getTokenFromCode } = await import("./googleDrive");
+      const tokens = await getTokenFromCode(code);
+      
+      // Redirect back to the frontend with success
+      res.redirect('/?google_auth=success');
+    } catch (error) {
+      console.error("Error in Google callback:", error);
+      res.redirect('/?error=auth_failed');
+    }
+  });
+
   return httpServer;
 }
