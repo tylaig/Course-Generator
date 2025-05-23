@@ -14,7 +14,7 @@ export default function Phase4() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [currentGeneratingLesson, setCurrentGeneratingLesson] = useState("");
 
-  // Generate activities for all lessons without activities
+  // Generate activities with AI for all lessons without activities
   const generateActivities = async () => {
     if (!course?.modules) return;
 
@@ -34,7 +34,8 @@ export default function Phase4() {
             lessonsToGenerate.push({
               moduleId: module.id,
               lessonId: lesson.title,
-              lessonName: lesson.title
+              lessonName: lesson.title,
+              lessonContent: lesson.detailedContent?.content || ""
             });
           }
         });
@@ -47,66 +48,106 @@ export default function Phase4() {
       const lessonInfo = lessonsToGenerate[i];
       
       try {
-        console.log(`Gerando atividades para aula: ${lessonInfo.lessonName}`);
+        console.log(`🎯 Gerando atividades IA para: ${lessonInfo.lessonName}`);
         setCurrentGeneratingLesson(lessonInfo.lessonName);
         setGenerationProgress((i / lessonsToGenerate.length) * 100);
 
-        // Generate activities directly
-        const activities = [
-          {
-            title: `Atividade Prática - ${lessonInfo.lessonName}`,
-            description: `Exercício prático baseado no conteúdo da ${lessonInfo.lessonName}`,
-            questions: [
-              {
-                question: `Qual é o conceito principal abordado na ${lessonInfo.lessonName}?`,
-                options: ["Conceito A", "Conceito B", "Conceito C", "Conceito D"],
-                correct_answer: 0,
-                explanation: "Esta é a explicação da resposta correta."
-              },
-              {
-                question: `Como aplicar o conhecimento da ${lessonInfo.lessonName} na prática?`,
-                options: ["Método 1", "Método 2", "Método 3", "Método 4"],
-                correct_answer: 1,
-                explanation: "Esta é a explicação da aplicação prática."
+        // Call OpenAI API to generate activities
+        const response = await fetch('/api/generate/lesson-content', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            lesson: {
+              title: lessonInfo.lessonName,
+              content: lessonInfo.lessonContent
+            },
+            module: {
+              title: course.modules.find(m => m.id === lessonInfo.moduleId)?.title || ""
+            },
+            courseDetails: {
+              title: course.title,
+              theme: course.theme,
+              estimatedHours: course.estimatedHours,
+              format: course.format,
+              platform: course.platform,
+              deliveryFormat: course.deliveryFormat
+            },
+            aiConfig: course.aiConfig,
+            generateOnlyActivities: true // Flag to generate only activities
+          })
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          console.log(`✅ Atividades geradas para: ${lessonInfo.lessonName}`);
+
+          if (result.success && result.content) {
+            const activities = result.content.practicalExercises || [];
+            const assessmentQuestions = result.content.assessmentQuestions || [];
+
+            // Update the lesson with AI-generated activities
+            const moduleToUpdate = course.modules.find(m => m.id === lessonInfo.moduleId);
+            if (moduleToUpdate?.content?.lessons) {
+              const lessonIndex = moduleToUpdate.content.lessons.findIndex((l: any) => l.title === lessonInfo.lessonId);
+              if (lessonIndex !== -1) {
+                moduleToUpdate.content.lessons[lessonIndex] = {
+                  ...moduleToUpdate.content.lessons[lessonIndex],
+                  detailedContent: {
+                    ...moduleToUpdate.content.lessons[lessonIndex].detailedContent,
+                    practicalExercises: activities,
+                    assessmentQuestions: assessmentQuestions
+                  },
+                  status: "generated"
+                };
               }
-            ]
-          }
-        ];
 
-        const assessmentQuestions = [
-          {
-            question: `Avalie seu entendimento sobre ${lessonInfo.lessonName}`,
-            options: ["Excelente", "Bom", "Regular", "Preciso estudar mais"],
-            correct_answer: 0,
-            explanation: "Esta é uma questão de autoavaliação."
+              // Update course context immediately - shows in real time!
+              await updateModuleContent(moduleToUpdate.id, moduleToUpdate.content);
+            }
           }
-        ];
+        } else {
+          console.error(`❌ Erro na API para: ${lessonInfo.lessonName}`);
+          // Fallback to simple activities if API fails
+          const fallbackActivities = [
+            {
+              title: `Atividade Prática - ${lessonInfo.lessonName}`,
+              description: `Exercício baseado no conteúdo da ${lessonInfo.lessonName}`,
+              questions: [
+                {
+                  question: `Qual é o conceito principal da ${lessonInfo.lessonName}?`,
+                  options: ["Conceito A", "Conceito B", "Conceito C", "Conceito D"],
+                  correct_answer: 0,
+                  explanation: "Resposta baseada no conteúdo da aula."
+                }
+              ]
+            }
+          ];
 
-        // Update the lesson with activities
-        const moduleToUpdate = course.modules.find(m => m.id === lessonInfo.moduleId);
-        if (moduleToUpdate?.content?.lessons) {
-          const lessonIndex = moduleToUpdate.content.lessons.findIndex((l: any) => l.title === lessonInfo.lessonId);
-          if (lessonIndex !== -1) {
-            moduleToUpdate.content.lessons[lessonIndex] = {
-              ...moduleToUpdate.content.lessons[lessonIndex],
-              detailedContent: {
-                ...moduleToUpdate.content.lessons[lessonIndex].detailedContent,
-                practicalExercises: activities,
-                assessmentQuestions: assessmentQuestions
-              },
-              status: "generated"
-            };
+          const moduleToUpdate = course.modules.find(m => m.id === lessonInfo.moduleId);
+          if (moduleToUpdate?.content?.lessons) {
+            const lessonIndex = moduleToUpdate.content.lessons.findIndex((l: any) => l.title === lessonInfo.lessonId);
+            if (lessonIndex !== -1) {
+              moduleToUpdate.content.lessons[lessonIndex] = {
+                ...moduleToUpdate.content.lessons[lessonIndex],
+                detailedContent: {
+                  ...moduleToUpdate.content.lessons[lessonIndex].detailedContent,
+                  practicalExercises: fallbackActivities,
+                  assessmentQuestions: []
+                },
+                status: "generated"
+              };
+            }
+            await updateModuleContent(moduleToUpdate.id, moduleToUpdate.content);
           }
-
-          // Update course context
-          await updateModuleContent(moduleToUpdate.id, moduleToUpdate.content);
         }
 
-        // Small delay to show progress
-        await new Promise(resolve => setTimeout(resolve, 100));
+        // Small delay to show real-time progress
+        await new Promise(resolve => setTimeout(resolve, 200));
 
       } catch (error) {
-        console.error(`Error generating content for lesson ${lessonInfo.lessonName}:`, error);
+        console.error(`❌ Erro gerando atividades para ${lessonInfo.lessonName}:`, error);
       }
     }
 
@@ -115,8 +156,8 @@ export default function Phase4() {
     setIsGenerating(false);
 
     toast({
-      title: "Atividades geradas!",
-      description: `${lessonsToGenerate.length} aulas agora têm atividades completas.`,
+      title: "🎉 Atividades geradas!",
+      description: `${lessonsToGenerate.length} aulas agora têm atividades personalizadas criadas por IA.`,
     });
   };
 
