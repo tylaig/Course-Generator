@@ -7,6 +7,7 @@ import Phase1 from "@/pages/phase1";
 import Phase2 from "@/pages/phase2";
 import Phase3 from "@/pages/phase3";
 import Phase4New from "@/pages/phase4-new";
+import Phase4Clean from "@/pages/phase4-clean";
 import Phase5 from "@/pages/phase5";
 import LMSView from "@/pages/LMSView";
 import Header from "@/components/layout/Header";
@@ -44,7 +45,7 @@ function App() {
                   <Route path="/phase1" component={Phase1} />
                   <Route path="/phase2" component={Phase2} />
                   <Route path="/phase3" component={Phase3} />
-                  <Route path="/phase4" component={Phase4New} />
+                  <Route path="/phase4" component={Phase4Clean} />
                   <Route path="/phase5" component={Phase5} />
                   <Route path="/lms-view" component={LMSView} />
                   <Route component={NotFound} />

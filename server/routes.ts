@@ -590,13 +590,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
           let lesson;
           try {
             // Try to find existing lesson by title and module
-            const existingLessons = await pgStorage.listLessonsByModule(lessonInfo.moduleId.toString());
+            // Fix moduleId conversion issue - ensure it's a valid number
+            const moduleIdNum = parseInt(lessonInfo.moduleId?.toString() || "0");
+            if (isNaN(moduleIdNum) || moduleIdNum <= 0) {
+              console.error(`❌ ModuleId inválido: ${lessonInfo.moduleId}`);
+              throw new Error(`ModuleId inválido: ${lessonInfo.moduleId}`);
+            }
+            
+            const existingLessons = await pgStorage.listLessonsByModule(moduleIdNum.toString());
             lesson = existingLessons.find(l => l.title === lessonInfo.lessonName);
             
             if (!lesson) {
               // Create new lesson in PostgreSQL
               lesson = await pgStorage.createLesson({
-                moduleId: parseInt(lessonInfo.moduleId),
+                moduleId: moduleIdNum,
                 title: lessonInfo.lessonName,
                 description: `Aula especializada em ${courseDetails.theme}`,
                 order: 1,
