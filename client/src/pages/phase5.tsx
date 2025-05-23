@@ -401,6 +401,44 @@ export default function Phase5() {
                 </>
               )}
               
+              {/* ZIP Download Option */}
+              <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <h4 className="font-medium text-blue-900 mb-2">📦 Download as ZIP</h4>
+                <p className="text-sm text-blue-800 mb-4">
+                  Download your complete course as a structured ZIP file with PDF documents organized by modules.
+                </p>
+                
+                <div className="bg-white p-3 rounded border border-blue-200 mb-4">
+                  <div className="text-xs text-blue-700 space-y-1">
+                    <div>📁 {course.title}/</div>
+                    <div className="ml-4">📁 Module_1/ → Lesson PDFs + Tasks PDF</div>
+                    <div className="ml-4">📁 Module_2/ → Lesson PDFs + Tasks PDF</div>
+                    <div className="ml-4">📄 Course_Summary.pdf</div>
+                  </div>
+                </div>
+                
+                <Button 
+                  onClick={() => {
+                    const link = document.createElement('a');
+                    link.href = `/api/courses/${course.id}/download-zip`;
+                    link.download = `${course.title.replace(/[^a-zA-Z0-9]/g, '_')}_Course.zip`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    toast({
+                      title: "Download Started!",
+                      description: "Your course ZIP file is being generated and downloaded.",
+                    });
+                  }}
+                  className="w-full bg-blue-600 hover:bg-blue-700"
+                  size="lg"
+                >
+                  <Download className="mr-2 h-5 w-5" />
+                  Download Course ZIP
+                </Button>
+              </div>
+              
               {driveUploadResult && (
                 <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
                   <h4 className="font-medium text-green-900 mb-2">✅ Upload concluído com sucesso!</h4>
