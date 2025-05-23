@@ -310,9 +310,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const { lesson, module, courseDetails, aiConfig, lessonTitle } = req.body;
       
-      // Support both old and new formats - accept any format with lessonTitle
-      if (!lessonTitle) {
-        console.log("❌ Erro: lessonTitle não fornecido");
+      // Always accept if we have either lessonTitle OR lesson object
+      if (!lessonTitle && (!lesson || !lesson.title)) {
+        console.log("❌ Erro: Nem lessonTitle nem lesson.title fornecidos");
+        console.log("lessonTitle:", lessonTitle);
+        console.log("lesson:", lesson);
         return res.status(400).json({ error: "Dados obrigatórios não fornecidos" });
       }
       
