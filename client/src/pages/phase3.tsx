@@ -101,7 +101,7 @@ export default function Phase3() {
         if (lessonIndex !== -1) {
           updatedModule.content.lessons[lessonIndex] = {
             ...updatedModule.content.lessons[lessonIndex],
-            detailedContent: content.content,
+            detailedContent: content,
             status: "generated"
           };
         }
@@ -211,7 +211,7 @@ export default function Phase3() {
             if (lessonIndex !== -1) {
               updatedModule.content.lessons[lessonIndex] = {
                 ...updatedModule.content.lessons[lessonIndex],
-                detailedContent: content.content,
+                detailedContent: content,
                 status: "generated"
               };
             }
@@ -339,12 +339,12 @@ export default function Phase3() {
                       <Badge variant="default" className="bg-green-100 text-green-800 text-xs">
                         ✅ Gerado
                       </Badge>
-                      {lesson.detailedContent.content?.audioScript && (
+                      {lesson.detailedContent?.content?.audioScript && (
                         <Badge variant="outline" className="bg-blue-100 text-blue-800 text-xs">
                           🎙️ Áudio
                         </Badge>
                       )}
-                      {lesson.detailedContent.content?.practicalExercises?.length > 0 && (
+                      {lesson.detailedContent?.content?.practicalExercises?.length > 0 && (
                         <Badge variant="outline" className="bg-purple-100 text-purple-800 text-xs">
                           ⚡ Atividades
                         </Badge>
@@ -378,10 +378,10 @@ export default function Phase3() {
             
             {lesson.detailedContent && (
               <CardContent className="pt-0">
-                <Accordion type="multiple" collapsible className="w-full">
+                <Accordion type="multiple" className="w-full">
                   
                   {/* Objetivos da Aula */}
-                  {lesson.detailedContent.content?.objectives && (
+                  {lesson.detailedContent?.content?.objectives && (
                     <AccordionItem value="objectives">
                       <AccordionTrigger className="text-sm font-medium">
                         🎯 Objetivos da Aula
@@ -389,7 +389,7 @@ export default function Phase3() {
                       <AccordionContent>
                         <div className="bg-blue-50 p-4 rounded-md">
                           <ul className="list-disc list-inside space-y-1">
-                            {lesson.detailedContent.content.objectives.map((obj: string, idx: number) => (
+                            {lesson.detailedContent?.content?.objectives?.map((obj: string, idx: number) => (
                               <li key={idx} className="text-sm text-blue-800">{obj}</li>
                             ))}
                           </ul>
@@ -399,7 +399,7 @@ export default function Phase3() {
                   )}
 
                   {/* Script de Áudio */}
-                  {lesson.detailedContent.content?.audioScript && (
+                  {lesson.detailedContent?.content?.audioScript && (
                     <AccordionItem value="audio-script">
                       <AccordionTrigger className="text-sm font-medium">
                         🎙️ Script de Áudio para Gravação
@@ -408,7 +408,7 @@ export default function Phase3() {
                         <div className="bg-green-50 p-4 rounded-md">
                           <div className="mb-3 flex items-center space-x-2">
                             <Badge variant="outline" className="bg-green-100 text-green-800">
-                              Duração: {lesson.detailedContent.content.duration || "45min"}
+                              Duração: {lesson.detailedContent?.content?.duration || "45min"}
                             </Badge>
                             <Button 
                               size="sm" 
@@ -416,7 +416,7 @@ export default function Phase3() {
                               className="text-xs"
                               onClick={() => {
                                 // Copiar script para área de transferência
-                                navigator.clipboard.writeText(lesson.detailedContent.content.audioScript);
+                                navigator.clipboard.writeText(lesson.detailedContent?.content?.audioScript || "");
                                 toast({
                                   title: "Script copiado!",
                                   description: "O script foi copiado para a área de transferência.",
@@ -428,7 +428,7 @@ export default function Phase3() {
                           </div>
                           <div className="bg-white p-3 rounded border text-sm font-mono">
                             <pre className="whitespace-pre-wrap">
-                              {lesson.detailedContent.content.audioScript}
+                              {lesson.detailedContent?.content?.audioScript}
                             </pre>
                           </div>
                         </div>
@@ -437,14 +437,14 @@ export default function Phase3() {
                   )}
 
                   {/* Estrutura da Aula */}
-                  {lesson.detailedContent.content?.lessonStructure && (
+                  {lesson.detailedContent?.content?.lessonStructure && (
                     <AccordionItem value="structure">
                       <AccordionTrigger className="text-sm font-medium">
                         📋 Estrutura Pedagógica
                       </AccordionTrigger>
                       <AccordionContent>
                         <div className="space-y-4">
-                          {Object.entries(lesson.detailedContent.content.lessonStructure).map(([phase, details]: [string, any]) => (
+                          {Object.entries(lesson.detailedContent?.content?.lessonStructure || {}).map(([phase, details]: [string, any]) => (
                             <div key={phase} className="border border-gray-200 rounded-lg p-3">
                               <div className="flex items-center justify-between mb-2">
                                 <h4 className="font-medium text-sm capitalize">
