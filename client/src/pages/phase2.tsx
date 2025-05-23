@@ -31,14 +31,14 @@ export default function Phase2() {
   const { course, updatePhaseData, updateModules, moveToNextPhase, updateProgress } = useCourse();
   const { toast } = useToast();
   
-  // Estados para configurações
+  // Configuration states
   const [moduleCount, setModuleCount] = useState(6);
-  const [lessonsPerModule, setLessonsPerModule] = useState([5]); // Array para o Slider
+  const [lessonsPerModule, setLessonsPerModule] = useState([5]); // Array for the Slider
   const [configurationsSaved, setConfigurationsSaved] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set());
   
-  // Estados para módulos e competências
+  // States for modules and competencies
   const [modules, setModules] = useState<CourseModule[]>([]);
   const [competenciesMap, setCompetenciesMap] = useState<Record<string, string[]>>({});
 
@@ -52,11 +52,11 @@ export default function Phase2() {
     setExpandedModules(newExpanded);
   };
 
-  // Estados derivados
+  // Derived states
   const showModules = configurationsSaved;
   const showCompetencyMapping = modules.length > 0;
 
-  // Caregar dados existentes
+  // Load existing data
   useEffect(() => {
     if (course?.modules && course.modules.length > 0) {
       setModules(course.modules);
@@ -75,15 +75,15 @@ export default function Phase2() {
     }
   }, [course]);
 
-  // Função para salvar configurações
+  // Function to save configurations
   const saveConfigurations = async () => {
-    console.log("Salvando configurações:", { moduleCount, lessonsPerModule: lessonsPerModule[0] });
+    console.log("Saving configurations:", { moduleCount, lessonsPerModule: lessonsPerModule[0] });
     
     if (course) {
       try {
         setIsSaving(true);
         
-        // Salvar no PostgreSQL via API
+        // Save to PostgreSQL via API
         const response = await fetch(`/api/courses/${course.id}/phase/2`, {
           method: 'POST',
           headers: {
@@ -99,7 +99,7 @@ export default function Phase2() {
         });
 
         if (response.ok) {
-          // Atualizar contexto local
+          // Update local context
           updatePhaseData(2, {
             moduleCount,
             lessonsPerModule: lessonsPerModule[0],
@@ -110,45 +110,45 @@ export default function Phase2() {
           setConfigurationsSaved(true);
           
           toast({
-            title: "Salvo!",
-            description: `${moduleCount} módulos com ${lessonsPerModule[0]} aulas cada.`,
+            title: "Saved!",
+            description: `${moduleCount} modules with ${lessonsPerModule[0]} lessons each.`,
             variant: "default",
           });
           
-          console.log("Configurações salvas com sucesso no PostgreSQL!");
+          console.log("Configurations saved successfully to PostgreSQL!");
         } else {
-          throw new Error(`Erro HTTP: ${response.status}`);
+          throw new Error(`HTTP Error: ${response.status}`);
         }
       } catch (error) {
-        console.error("Erro ao salvar no banco:", error);
+        console.error("Error saving to database:", error);
         toast({
-          title: "Erro ao Salvar",
-          description: "Falha ao salvar no banco de dados. Tente novamente.",
+          title: "Save Error",
+          description: "Failed to save to database. Please try again.",
           variant: "destructive",
         });
       } finally {
         setIsSaving(false);
       }
     } else {
-      console.error("Curso não encontrado!");
+      console.error("Course not found!");
       toast({
-        title: "Erro",
-        description: "Curso não encontrado. Por favor, volte à Phase 1.",
+        title: "Error",
+        description: "Course not found. Please return to Phase 1.",
         variant: "destructive",
       });
     }
   };
 
-  // Mutação para gerar estrutura com IA
+  // Mutation to generate structure with AI
   const generateStructure = useMutation({
     mutationFn: async () => {
-      // Obter dados da estratégia da Phase 1
+      // Get strategy data from Phase 1
       const phase1Data = course?.phaseData?.phase1;
       if (!phase1Data) {
-        throw new Error("Dados da Phase 1 não encontrados. Complete a Phase 1 primeiro.");
+        throw new Error("Phase 1 data not found. Complete Phase 1 first.");
       }
 
-      console.log("Enviando para API:", {
+      console.log("Sending to API:", {
         moduleCount,
         lessonsPerModule: lessonsPerModule[0],
         phase1Data
@@ -172,11 +172,11 @@ export default function Phase2() {
     onSuccess: (data) => {
       console.log("Dados recebidos da API:", data);
       if (data.modules && Array.isArray(data.modules)) {
-        // Converter os módulos gerados para o formato esperado
+        // Convert generated modules to expected format
         const newModules = data.modules.map((module: any, index: number) => {
-          // Verificar se o módulo tem a estrutura de content.lessons
+          // Check if the module has the content.lessons structure
           const lessons = module.content?.lessons || [];
-          console.log(`Módulo ${index + 1}: ${module.title} - ${lessons.length} aulas`);
+          console.log(`Module ${index + 1}: ${module.title} - ${lessons.length} lessons`);
           
           return {
             id: `module-${Date.now()}-${index}`,
