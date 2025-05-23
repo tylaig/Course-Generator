@@ -1,0 +1,2440 @@
+graphql:1  Failed to load resource: the server responded with a status of 500 ()
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+ Unrecognized feature: 'ambient-light-sensor'.
+_ @ framework-735be1df8c5f3b55.js:1
+ Unrecognized feature: 'battery'.
+_ @ framework-735be1df8c5f3b55.js:1
+ Unrecognized feature: 'execution-while-not-rendered'.
+_ @ framework-735be1df8c5f3b55.js:1
+ Unrecognized feature: 'execution-while-out-of-viewport'.
+_ @ framework-735be1df8c5f3b55.js:1
+ Unrecognized feature: 'layout-animations'.
+_ @ framework-735be1df8c5f3b55.js:1
+ Unrecognized feature: 'legacy-image-formats'.
+_ @ framework-735be1df8c5f3b55.js:1
+ Unrecognized feature: 'navigation-override'.
+_ @ framework-735be1df8c5f3b55.js:1
+ Unrecognized feature: 'oversized-images'.
+_ @ framework-735be1df8c5f3b55.js:1
+ Unrecognized feature: 'publickey-credentials'.
+_ @ framework-735be1df8c5f3b55.js:1
+ Unrecognized feature: 'speaker-selection'.
+_ @ framework-735be1df8c5f3b55.js:1
+ Unrecognized feature: 'unoptimized-images'.
+_ @ framework-735be1df8c5f3b55.js:1
+ Unrecognized feature: 'unsized-media'.
+_ @ framework-735be1df8c5f3b55.js:1
+ Unrecognized feature: 'pointer-lock'.
+_ @ framework-735be1df8c5f3b55.js:1
+ Allow attribute will take precedence over 'allowfullscreen'.
+_ @ framework-735be1df8c5f3b55.js:1
+ Allow attribute will take precedence over 'allowpaymentrequest'.
+_ @ framework-735be1df8c5f3b55.js:1
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//lms-view' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//courses' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase5' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase5' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//lms-view' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//lms-view' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ [LaunchDarkly] Error on stream connection: {"isTrusted":true}, will continue retrying after 520 milliseconds.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//courses' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase5' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase5' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ task queue exceeded allotted deadline by 78ms
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+d @ main-eb7966ca2e0cd149.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+useMemo @ framework-735be1df8c5f3b55.js:1
+t.useMemo @ framework-735be1df8c5f3b55.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+ld @ framework-735be1df8c5f3b55.js:1
+ou @ framework-735be1df8c5f3b55.js:1
+i @ framework-735be1df8c5f3b55.js:1
+uI @ framework-735be1df8c5f3b55.js:1
+uM @ framework-735be1df8c5f3b55.js:1
+uS @ framework-735be1df8c5f3b55.js:1
+C @ framework-735be1df8c5f3b55.js:1
+z @ framework-735be1df8c5f3b55.js:1
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+d @ main-eb7966ca2e0cd149.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+useMemo @ framework-735be1df8c5f3b55.js:1
+t.useMemo @ framework-735be1df8c5f3b55.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+ld @ framework-735be1df8c5f3b55.js:1
+ou @ framework-735be1df8c5f3b55.js:1
+i @ framework-735be1df8c5f3b55.js:1
+uI @ framework-735be1df8c5f3b55.js:1
+uM @ framework-735be1df8c5f3b55.js:1
+uS @ framework-735be1df8c5f3b55.js:1
+C @ framework-735be1df8c5f3b55.js:1
+z @ framework-735be1df8c5f3b55.js:1
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+d @ main-eb7966ca2e0cd149.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+useMemo @ framework-735be1df8c5f3b55.js:1
+t.useMemo @ framework-735be1df8c5f3b55.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+ld @ framework-735be1df8c5f3b55.js:1
+ou @ framework-735be1df8c5f3b55.js:1
+i @ framework-735be1df8c5f3b55.js:1
+uI @ framework-735be1df8c5f3b55.js:1
+uM @ framework-735be1df8c5f3b55.js:1
+uS @ framework-735be1df8c5f3b55.js:1
+C @ framework-735be1df8c5f3b55.js:1
+z @ framework-735be1df8c5f3b55.js:1
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+d @ main-eb7966ca2e0cd149.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+useMemo @ framework-735be1df8c5f3b55.js:1
+t.useMemo @ framework-735be1df8c5f3b55.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+ld @ framework-735be1df8c5f3b55.js:1
+ou @ framework-735be1df8c5f3b55.js:1
+i @ framework-735be1df8c5f3b55.js:1
+uI @ framework-735be1df8c5f3b55.js:1
+uM @ framework-735be1df8c5f3b55.js:1
+uS @ framework-735be1df8c5f3b55.js:1
+C @ framework-735be1df8c5f3b55.js:1
+z @ framework-735be1df8c5f3b55.js:1
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+d @ main-eb7966ca2e0cd149.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+useMemo @ framework-735be1df8c5f3b55.js:1
+t.useMemo @ framework-735be1df8c5f3b55.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+ld @ framework-735be1df8c5f3b55.js:1
+ou @ framework-735be1df8c5f3b55.js:1
+i @ framework-735be1df8c5f3b55.js:1
+uI @ framework-735be1df8c5f3b55.js:1
+uM @ framework-735be1df8c5f3b55.js:1
+uS @ framework-735be1df8c5f3b55.js:1
+C @ framework-735be1df8c5f3b55.js:1
+z @ framework-735be1df8c5f3b55.js:1
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+d @ main-eb7966ca2e0cd149.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+useMemo @ framework-735be1df8c5f3b55.js:1
+t.useMemo @ framework-735be1df8c5f3b55.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+ld @ framework-735be1df8c5f3b55.js:1
+ou @ framework-735be1df8c5f3b55.js:1
+i @ framework-735be1df8c5f3b55.js:1
+uI @ framework-735be1df8c5f3b55.js:1
+uM @ framework-735be1df8c5f3b55.js:1
+uS @ framework-735be1df8c5f3b55.js:1
+C @ framework-735be1df8c5f3b55.js:1
+z @ framework-735be1df8c5f3b55.js:1
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+d @ main-eb7966ca2e0cd149.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+useMemo @ framework-735be1df8c5f3b55.js:1
+t.useMemo @ framework-735be1df8c5f3b55.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+ld @ framework-735be1df8c5f3b55.js:1
+ou @ framework-735be1df8c5f3b55.js:1
+i @ framework-735be1df8c5f3b55.js:1
+uI @ framework-735be1df8c5f3b55.js:1
+uM @ framework-735be1df8c5f3b55.js:1
+uS @ framework-735be1df8c5f3b55.js:1
+C @ framework-735be1df8c5f3b55.js:1
+z @ framework-735be1df8c5f3b55.js:1
+ [LaunchDarkly] Error on stream connection: {"isTrusted":true}, will continue retrying after 714 milliseconds.
+(anonymous) @ _app-d57dd451f023605b.js:38
+(anonymous) @ _app-d57dd451f023605b.js:1
+(anonymous) @ _app-d57dd451f023605b.js:1
+l.<computed> @ _app-d57dd451f023605b.js:1
+E @ _app-d57dd451f023605b.js:1
+ [LaunchDarkly] Error on stream connection: {"isTrusted":true}, will continue retrying after 724 milliseconds.
+(anonymous) @ _app-d57dd451f023605b.js:38
+(anonymous) @ _app-d57dd451f023605b.js:1
+(anonymous) @ _app-d57dd451f023605b.js:1
+l.<computed> @ _app-d57dd451f023605b.js:1
+E @ _app-d57dd451f023605b.js:1
+clientstream.launchdarkly.com/eval/62b35a865152ab14c5942820/eyJrZXkiOiI0MTQ0MjQ5NSIsImtpbmQiOiJ1c2VyIiwibmFtZSI6IkFuZHJlTW9pbWFzIiwicm9sZXMiOlsiaW50ZW50X2J1c2luZXNzIiwib25ib2FyZGluZ19qb2JfZW5nIiwib25ib2FyZGluZ19yb2xlX2ZyZWVsYW5jZXIiXSwiZW1haWwiOiJhbmRyZUBnbGVkZWR1LmNvbSIsInRpbWVfY3JlYXRlZCI6MTc0NDQ3NTAwMDExNSwiX21ldGEiOnsicHJpdmF0ZUF0dHJpYnV0ZXMiOlsiZW1haWwiXX19:1  Failed to load resource: net::ERR_NETWORK_IO_SUSPENDED
+ WebSocket connection to 'wss://eval.janeway.platform.replit.com/wsv2/v2.public.Q2dZSW00aTB3UVlTQmdpNnBMVEJCaUlIYW1GdVpYZGhlVEFBT293Q0NpUXhNVGszWm1Gak5TMDJOVGc1TFRRMU5XWXRZamd5WXkxaE1ERXhObU5tTnpnMFl6SVNBMjVwZUJvWmNtVndiR2wwTFhKbGNHd3RabWxzWlhNdGFtRnVaWGRoZVNJUVEyOTFjbk5sTFVkbGJtVnlZWFJ2Y2lvTFFXNWtjbVZOYjJsdFlYTkNWd29hY21Wd2JHbDBMWEpsY0d3dFlteHZZMnR6TFdwaGJtVjNZWGtTR0hKbGNHeHBkQzF5WlhCc0xXMWxkR0V0YW1GdVpYZGhlUm9mY21Wd2JHbDBMVzFoY21kaGNtbHVaUzFpYkc5amEzTXRhbUZ1WlhkaGVVb0hDTCs1NFJNUUFWQUFXZzlwYm5SbGJuUmZZblZ6YVc1bGMzTmFFbTl1WW05aGNtUnBibWRmYW05aVgyVnVaMW9hYjI1aWIyRnlaR2x1WjE5eWIyeGxYMlp5WldWc1lXNWpaWEo0QUZJbENBRVFnSUNBZ0FnWkFBQUFBQUFBOEQ4aEFBQUFBQUFBOEQ4b2dJQ0FnTWdCTUFFNEFHQUFhaElJdjduaEV4SUxRVzVrY21WTmIybHRZWE55R1hWelpTMXNZWFZ1WTJoa1lYSnJiSGt0WkdseVpXTjBiSG1DQVFJcUFJb0JJd2dCRUlDQWdJQWdHUUFBQUFBQUFCQkFJUUFBQUFBQUFCQkFLSUNBZ0lESUFUQUFtZ0VLQ2dnd0xqQXVNVE14T2FBQkFRPT0ICFYSDEWp7VAb0EJVzt3H3vKIJr1Glp8ZUqaZLMBftlDyXlVL5DqhtP-DndEbF7tK_MytAPxz8nD2uIaONsAO.Q2dad2NtOWtPak1pQ25KbGNHeHBkQzVqYjIwPQ' failed: 
+connect @ 4899-026bb57758241d9f.js:1
+handleClose @ 4899-026bb57758241d9f.js:1
+t @ 4899-026bb57758241d9f.js:1
+ WebSocket connection to 'wss://eval.janeway.platform.replit.com/wsv2/v2.public.Q2dZSW00aTB3UVlTQmdpNnBMVEJCaUlIYW1GdVpYZGhlVEFBT293Q0NpUXhNVGszWm1Gak5TMDJOVGc1TFRRMU5XWXRZamd5WXkxaE1ERXhObU5tTnpnMFl6SVNBMjVwZUJvWmNtVndiR2wwTFhKbGNHd3RabWxzWlhNdGFtRnVaWGRoZVNJUVEyOTFjbk5sTFVkbGJtVnlZWFJ2Y2lvTFFXNWtjbVZOYjJsdFlYTkNWd29hY21Wd2JHbDBMWEpsY0d3dFlteHZZMnR6TFdwaGJtVjNZWGtTR0hKbGNHeHBkQzF5WlhCc0xXMWxkR0V0YW1GdVpYZGhlUm9mY21Wd2JHbDBMVzFoY21kaGNtbHVaUzFpYkc5amEzTXRhbUZ1WlhkaGVVb0hDTCs1NFJNUUFWQUFXZzlwYm5SbGJuUmZZblZ6YVc1bGMzTmFFbTl1WW05aGNtUnBibWRmYW05aVgyVnVaMW9hYjI1aWIyRnlaR2x1WjE5eWIyeGxYMlp5WldWc1lXNWpaWEo0QUZJbENBRVFnSUNBZ0FnWkFBQUFBQUFBOEQ4aEFBQUFBQUFBOEQ4b2dJQ0FnTWdCTUFFNEFHQUFhaElJdjduaEV4SUxRVzVrY21WTmIybHRZWE55R1hWelpTMXNZWFZ1WTJoa1lYSnJiSGt0WkdseVpXTjBiSG1DQVFJcUFJb0JJd2dCRUlDQWdJQWdHUUFBQUFBQUFCQkFJUUFBQUFBQUFCQkFLSUNBZ0lESUFUQUFtZ0VLQ2dnd0xqQXVNVE14T2FBQkFRPT0ICFYSDEWp7VAb0EJVzt3H3vKIJr1Glp8ZUqaZLMBftlDyXlVL5DqhtP-DndEbF7tK_MytAPxz8nD2uIaONsAO.Q2dad2NtOWtPak1pQ25KbGNHeHBkQzVqYjIwPQ' failed: WebSocket is closed before the connection is established.
+cleanupSocket @ 4899-026bb57758241d9f.js:1
+m @ 4899-026bb57758241d9f.js:1
+(anonymous) @ 4899-026bb57758241d9f.js:1
+r @ _app-d57dd451f023605b.js:38
+ [LaunchDarkly] Error on stream connection: {"isTrusted":true}, will continue retrying after 916 milliseconds.
+(anonymous) @ _app-d57dd451f023605b.js:38
+(anonymous) @ _app-d57dd451f023605b.js:1
+(anonymous) @ _app-d57dd451f023605b.js:1
+l.<computed> @ _app-d57dd451f023605b.js:1
+E @ _app-d57dd451f023605b.js:1
+clientstream.launchdarkly.com/eval/62b35a865152ab14c5942820/eyJrZXkiOiI0MTQ0MjQ5NSIsImtpbmQiOiJ1c2VyIiwibmFtZSI6IkFuZHJlTW9pbWFzIiwicm9sZXMiOlsiaW50ZW50X2J1c2luZXNzIiwib25ib2FyZGluZ19qb2JfZW5nIiwib25ib2FyZGluZ19yb2xlX2ZyZWVsYW5jZXIiXSwiZW1haWwiOiJhbmRyZUBnbGVkZWR1LmNvbSIsInRpbWVfY3JlYXRlZCI6MTc0NDQ3NTAwMDExNSwiX21ldGEiOnsicHJpdmF0ZUF0dHJpYnV0ZXMiOlsiZW1haWwiXX19:1  Failed to load resource: net::ERR_NETWORK_IO_SUSPENDED
+ WebSocket connection to 'wss://eval.janeway.platform.replit.com/wsv2/v2.public.Q2dZSTd0YTR3UVlTQmdpTjg3akJCaUlIYW1GdVpYZGhlVEFBT293Q0NpUXhNVGszWm1Gak5TMDJOVGc1TFRRMU5XWXRZamd5WXkxaE1ERXhObU5tTnpnMFl6SVNBMjVwZUJvWmNtVndiR2wwTFhKbGNHd3RabWxzWlhNdGFtRnVaWGRoZVNJUVEyOTFjbk5sTFVkbGJtVnlZWFJ2Y2lvTFFXNWtjbVZOYjJsdFlYTkNWd29hY21Wd2JHbDBMWEpsY0d3dFlteHZZMnR6TFdwaGJtVjNZWGtTR0hKbGNHeHBkQzF5WlhCc0xXMWxkR0V0YW1GdVpYZGhlUm9mY21Wd2JHbDBMVzFoY21kaGNtbHVaUzFpYkc5amEzTXRhbUZ1WlhkaGVVb0hDTCs1NFJNUUFWQUFXZzlwYm5SbGJuUmZZblZ6YVc1bGMzTmFFbTl1WW05aGNtUnBibWRmYW05aVgyVnVaMW9hYjI1aWIyRnlaR2x1WjE5eWIyeGxYMlp5WldWc1lXNWpaWEo0QUZJbENBRVFnSUNBZ0FnWkFBQUFBQUFBOEQ4aEFBQUFBQUFBOEQ4b2dJQ0FnTWdCTUFFNEFHQUFhaElJdjduaEV4SUxRVzVrY21WTmIybHRZWE55R1hWelpTMXNZWFZ1WTJoa1lYSnJiSGt0WkdseVpXTjBiSG1DQVFJcUFJb0JJd2dCRUlDQWdJQWdHUUFBQUFBQUFCQkFJUUFBQUFBQUFCQkFLSUNBZ0lESUFUQUFtZ0VLQ2dnd0xqQXVNVE14T2FBQkFRPT0idwlsUDOJD4uk7b_aSL7l63t1mSnKDX7PNtyf7ICwtkMZB-6tpQbAvcR96WjtQo_Tkp5sLH9t7FBf45ME3tkP.Q2dad2NtOWtPak1pQ25KbGNHeHBkQzVqYjIwPQ' failed: 
+connect @ 4899-026bb57758241d9f.js:1
+handleClose @ 4899-026bb57758241d9f.js:1
+t @ 4899-026bb57758241d9f.js:1
+ WebSocket connection to 'wss://eval.janeway.platform.replit.com/wsv2/v2.public.Q2dZSTd0YTR3UVlTQmdpTjg3akJCaUlIYW1GdVpYZGhlVEFBT293Q0NpUXhNVGszWm1Gak5TMDJOVGc1TFRRMU5XWXRZamd5WXkxaE1ERXhObU5tTnpnMFl6SVNBMjVwZUJvWmNtVndiR2wwTFhKbGNHd3RabWxzWlhNdGFtRnVaWGRoZVNJUVEyOTFjbk5sTFVkbGJtVnlZWFJ2Y2lvTFFXNWtjbVZOYjJsdFlYTkNWd29hY21Wd2JHbDBMWEpsY0d3dFlteHZZMnR6TFdwaGJtVjNZWGtTR0hKbGNHeHBkQzF5WlhCc0xXMWxkR0V0YW1GdVpYZGhlUm9mY21Wd2JHbDBMVzFoY21kaGNtbHVaUzFpYkc5amEzTXRhbUZ1WlhkaGVVb0hDTCs1NFJNUUFWQUFXZzlwYm5SbGJuUmZZblZ6YVc1bGMzTmFFbTl1WW05aGNtUnBibWRmYW05aVgyVnVaMW9hYjI1aWIyRnlaR2x1WjE5eWIyeGxYMlp5WldWc1lXNWpaWEo0QUZJbENBRVFnSUNBZ0FnWkFBQUFBQUFBOEQ4aEFBQUFBQUFBOEQ4b2dJQ0FnTWdCTUFFNEFHQUFhaElJdjduaEV4SUxRVzVrY21WTmIybHRZWE55R1hWelpTMXNZWFZ1WTJoa1lYSnJiSGt0WkdseVpXTjBiSG1DQVFJcUFJb0JJd2dCRUlDQWdJQWdHUUFBQUFBQUFCQkFJUUFBQUFBQUFCQkFLSUNBZ0lESUFUQUFtZ0VLQ2dnd0xqQXVNVE14T2FBQkFRPT0idwlsUDOJD4uk7b_aSL7l63t1mSnKDX7PNtyf7ICwtkMZB-6tpQbAvcR96WjtQo_Tkp5sLH9t7FBf45ME3tkP.Q2dad2NtOWtPak1pQ25KbGNHeHBkQzVqYjIwPQ' failed: 
+connect @ 4899-026bb57758241d9f.js:1
+handleClose @ 4899-026bb57758241d9f.js:1
+t @ 4899-026bb57758241d9f.js:1
+ task queue exceeded allotted deadline by 108ms
+(anonymous) @ _app-d57dd451f023605b.js:38
+_process @ 1c7fb644.4e915c80ac10b679.js:3
+(anonymous) @ 1c7fb644.4e915c80ac10b679.js:3
+r @ _app-d57dd451f023605b.js:38
+ task queue exceeded allotted deadline by 25ms
+(anonymous) @ _app-d57dd451f023605b.js:38
+_process @ 1c7fb644.4e915c80ac10b679.js:3
+(anonymous) @ 1c7fb644.4e915c80ac10b679.js:3
+r @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase5' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase5' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+d @ main-eb7966ca2e0cd149.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+lU @ framework-735be1df8c5f3b55.js:1
+t.useMemo @ framework-735be1df8c5f3b55.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+ld @ framework-735be1df8c5f3b55.js:1
+ou @ framework-735be1df8c5f3b55.js:1
+i @ framework-735be1df8c5f3b55.js:1
+uI @ framework-735be1df8c5f3b55.js:1
+uM @ framework-735be1df8c5f3b55.js:1
+uS @ framework-735be1df8c5f3b55.js:1
+C @ framework-735be1df8c5f3b55.js:1
+z @ framework-735be1df8c5f3b55.js:1
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+d @ main-eb7966ca2e0cd149.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+lU @ framework-735be1df8c5f3b55.js:1
+t.useMemo @ framework-735be1df8c5f3b55.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+ld @ framework-735be1df8c5f3b55.js:1
+ou @ framework-735be1df8c5f3b55.js:1
+i @ framework-735be1df8c5f3b55.js:1
+uI @ framework-735be1df8c5f3b55.js:1
+uM @ framework-735be1df8c5f3b55.js:1
+uS @ framework-735be1df8c5f3b55.js:1
+C @ framework-735be1df8c5f3b55.js:1
+z @ framework-735be1df8c5f3b55.js:1
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+d @ main-eb7966ca2e0cd149.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+lU @ framework-735be1df8c5f3b55.js:1
+t.useMemo @ framework-735be1df8c5f3b55.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+ld @ framework-735be1df8c5f3b55.js:1
+ou @ framework-735be1df8c5f3b55.js:1
+i @ framework-735be1df8c5f3b55.js:1
+uI @ framework-735be1df8c5f3b55.js:1
+uM @ framework-735be1df8c5f3b55.js:1
+uS @ framework-735be1df8c5f3b55.js:1
+C @ framework-735be1df8c5f3b55.js:1
+z @ framework-735be1df8c5f3b55.js:1
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+d @ main-eb7966ca2e0cd149.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+lU @ framework-735be1df8c5f3b55.js:1
+t.useMemo @ framework-735be1df8c5f3b55.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+ld @ framework-735be1df8c5f3b55.js:1
+ou @ framework-735be1df8c5f3b55.js:1
+i @ framework-735be1df8c5f3b55.js:1
+uI @ framework-735be1df8c5f3b55.js:1
+uM @ framework-735be1df8c5f3b55.js:1
+uS @ framework-735be1df8c5f3b55.js:1
+C @ framework-735be1df8c5f3b55.js:1
+z @ framework-735be1df8c5f3b55.js:1
+ [LaunchDarkly] Error on stream connection: {"isTrusted":true}, will continue retrying after 507 milliseconds.
+(anonymous) @ _app-d57dd451f023605b.js:38
+(anonymous) @ _app-d57dd451f023605b.js:1
+(anonymous) @ _app-d57dd451f023605b.js:1
+l.<computed> @ _app-d57dd451f023605b.js:1
+E @ _app-d57dd451f023605b.js:1
+clientstream.launchdarkly.com/eval/62b35a865152ab14c5942820/eyJrZXkiOiI0MTQ0MjQ5NSIsImtpbmQiOiJ1c2VyIiwibmFtZSI6IkFuZHJlTW9pbWFzIiwicm9sZXMiOlsiaW50ZW50X2J1c2luZXNzIiwib25ib2FyZGluZ19qb2JfZW5nIiwib25ib2FyZGluZ19yb2xlX2ZyZWVsYW5jZXIiXSwiZW1haWwiOiJhbmRyZUBnbGVkZWR1LmNvbSIsInRpbWVfY3JlYXRlZCI6MTc0NDQ3NTAwMDExNSwiX21ldGEiOnsicHJpdmF0ZUF0dHJpYnV0ZXMiOlsiZW1haWwiXX19:1  Failed to load resource: net::ERR_NETWORK_IO_SUSPENDED
+ WebSocket connection to 'wss://eval.janeway.platform.replit.com/wsv2/v2.public.Q2dZSWtPUzh3UVlTQmdpdmdMM0JCaUlIYW1GdVpYZGhlVEFBT293Q0NpUXhNVGszWm1Gak5TMDJOVGc1TFRRMU5XWXRZamd5WXkxaE1ERXhObU5tTnpnMFl6SVNBMjVwZUJvWmNtVndiR2wwTFhKbGNHd3RabWxzWlhNdGFtRnVaWGRoZVNJUVEyOTFjbk5sTFVkbGJtVnlZWFJ2Y2lvTFFXNWtjbVZOYjJsdFlYTkNWd29hY21Wd2JHbDBMWEpsY0d3dFlteHZZMnR6TFdwaGJtVjNZWGtTR0hKbGNHeHBkQzF5WlhCc0xXMWxkR0V0YW1GdVpYZGhlUm9mY21Wd2JHbDBMVzFoY21kaGNtbHVaUzFpYkc5amEzTXRhbUZ1WlhkaGVVb0hDTCs1NFJNUUFWQUFXZzlwYm5SbGJuUmZZblZ6YVc1bGMzTmFFbTl1WW05aGNtUnBibWRmYW05aVgyVnVaMW9hYjI1aWIyRnlaR2x1WjE5eWIyeGxYMlp5WldWc1lXNWpaWEo0QUZJbENBRVFnSUNBZ0FnWkFBQUFBQUFBOEQ4aEFBQUFBQUFBOEQ4b2dJQ0FnTWdCTUFFNEFHQUFhaElJdjduaEV4SUxRVzVrY21WTmIybHRZWE55R1hWelpTMXNZWFZ1WTJoa1lYSnJiSGt0WkdseVpXTjBiSG1DQVFJcUFJb0JJd2dCRUlDQWdJQWdHUUFBQUFBQUFCQkFJUUFBQUFBQUFCQkFLSUNBZ0lESUFUQUFtZ0VLQ2dnd0xqQXVNVE14T2FBQkFRPT1cHOi75n8r3QbMntS9eoHSiWjHLmqNhGi1cATFlI2leHMcPZ9Y-w29zUFz4aI09iQEXHaYjrygFh6W4v-Lj4sH.Q2dad2NtOWtPak1pQ25KbGNHeHBkQzVqYjIwPQ' failed: 
+connect @ 4899-026bb57758241d9f.js:1
+handleClose @ 4899-026bb57758241d9f.js:1
+t @ 4899-026bb57758241d9f.js:1
+ WebSocket connection to 'wss://eval.janeway.platform.replit.com/wsv2/v2.public.Q2dZSWtPUzh3UVlTQmdpdmdMM0JCaUlIYW1GdVpYZGhlVEFBT293Q0NpUXhNVGszWm1Gak5TMDJOVGc1TFRRMU5XWXRZamd5WXkxaE1ERXhObU5tTnpnMFl6SVNBMjVwZUJvWmNtVndiR2wwTFhKbGNHd3RabWxzWlhNdGFtRnVaWGRoZVNJUVEyOTFjbk5sTFVkbGJtVnlZWFJ2Y2lvTFFXNWtjbVZOYjJsdFlYTkNWd29hY21Wd2JHbDBMWEpsY0d3dFlteHZZMnR6TFdwaGJtVjNZWGtTR0hKbGNHeHBkQzF5WlhCc0xXMWxkR0V0YW1GdVpYZGhlUm9mY21Wd2JHbDBMVzFoY21kaGNtbHVaUzFpYkc5amEzTXRhbUZ1WlhkaGVVb0hDTCs1NFJNUUFWQUFXZzlwYm5SbGJuUmZZblZ6YVc1bGMzTmFFbTl1WW05aGNtUnBibWRmYW05aVgyVnVaMW9hYjI1aWIyRnlaR2x1WjE5eWIyeGxYMlp5WldWc1lXNWpaWEo0QUZJbENBRVFnSUNBZ0FnWkFBQUFBQUFBOEQ4aEFBQUFBQUFBOEQ4b2dJQ0FnTWdCTUFFNEFHQUFhaElJdjduaEV4SUxRVzVrY21WTmIybHRZWE55R1hWelpTMXNZWFZ1WTJoa1lYSnJiSGt0WkdseVpXTjBiSG1DQVFJcUFJb0JJd2dCRUlDQWdJQWdHUUFBQUFBQUFCQkFJUUFBQUFBQUFCQkFLSUNBZ0lESUFUQUFtZ0VLQ2dnd0xqQXVNVE14T2FBQkFRPT1cHOi75n8r3QbMntS9eoHSiWjHLmqNhGi1cATFlI2leHMcPZ9Y-w29zUFz4aI09iQEXHaYjrygFh6W4v-Lj4sH.Q2dad2NtOWtPak1pQ25KbGNHeHBkQzVqYjIwPQ' failed: 
+connect @ 4899-026bb57758241d9f.js:1
+(anonymous) @ 4899-026bb57758241d9f.js:1
+r @ _app-d57dd451f023605b.js:38
+events.launchdarkly.com/events/bulk/62b35a865152ab14c5942820:1  Failed to load resource: net::ERR_NETWORK_CHANGED
+events.launchdarkly.com/events/diagnostic/62b35a865152ab14c5942820:1  Failed to load resource: net::ERR_NETWORK_CHANGED
+clientstream.launchdarkly.com/eval/62b35a865152ab14c5942820/eyJrZXkiOiI0MTQ0MjQ5NSIsImtpbmQiOiJ1c2VyIiwibmFtZSI6IkFuZHJlTW9pbWFzIiwicm9sZXMiOlsiaW50ZW50X2J1c2luZXNzIiwib25ib2FyZGluZ19qb2JfZW5nIiwib25ib2FyZGluZ19yb2xlX2ZyZWVsYW5jZXIiXSwiZW1haWwiOiJhbmRyZUBnbGVkZWR1LmNvbSIsInRpbWVfY3JlYXRlZCI6MTc0NDQ3NTAwMDExNSwiX21ldGEiOnsicHJpdmF0ZUF0dHJpYnV0ZXMiOlsiZW1haWwiXX19:1  Failed to load resource: net::ERR_NETWORK_CHANGED
+ [LaunchDarkly] Error on stream connection: {"isTrusted":true}, will continue retrying after 985 milliseconds.
+(anonymous) @ _app-d57dd451f023605b.js:38
+(anonymous) @ _app-d57dd451f023605b.js:1
+(anonymous) @ _app-d57dd451f023605b.js:1
+l.<computed> @ _app-d57dd451f023605b.js:1
+E @ _app-d57dd451f023605b.js:1
+clientstream.launchdarkly.com/eval/62b35a865152ab14c5942820/eyJrZXkiOiI0MTQ0MjQ5NSIsImtpbmQiOiJ1c2VyIiwibmFtZSI6IkFuZHJlTW9pbWFzIiwicm9sZXMiOlsiaW50ZW50X2J1c2luZXNzIiwib25ib2FyZGluZ19qb2JfZW5nIiwib25ib2FyZGluZ19yb2xlX2ZyZWVsYW5jZXIiXSwiZW1haWwiOiJhbmRyZUBnbGVkZWR1LmNvbSIsInRpbWVfY3JlYXRlZCI6MTc0NDQ3NTAwMDExNSwiX21ldGEiOnsicHJpdmF0ZUF0dHJpYnV0ZXMiOlsiZW1haWwiXX19:1  Failed to load resource: net::ERR_NETWORK_IO_SUSPENDED
+ [LaunchDarkly] Error on stream connection: {"isTrusted":true}, will continue retrying after 540 milliseconds.
+(anonymous) @ _app-d57dd451f023605b.js:38
+(anonymous) @ _app-d57dd451f023605b.js:1
+(anonymous) @ _app-d57dd451f023605b.js:1
+l.<computed> @ _app-d57dd451f023605b.js:1
+E @ _app-d57dd451f023605b.js:1
+clientstream.launchdarkly.com/eval/62b35a865152ab14c5942820/eyJrZXkiOiI0MTQ0MjQ5NSIsImtpbmQiOiJ1c2VyIiwibmFtZSI6IkFuZHJlTW9pbWFzIiwicm9sZXMiOlsiaW50ZW50X2J1c2luZXNzIiwib25ib2FyZGluZ19qb2JfZW5nIiwib25ib2FyZGluZ19yb2xlX2ZyZWVsYW5jZXIiXSwiZW1haWwiOiJhbmRyZUBnbGVkZWR1LmNvbSIsInRpbWVfY3JlYXRlZCI6MTc0NDQ3NTAwMDExNSwiX21ldGEiOnsicHJpdmF0ZUF0dHJpYnV0ZXMiOlsiZW1haWwiXX19:1  Failed to load resource: net::ERR_NETWORK_IO_SUSPENDED
+ WebSocket connection to 'wss://eval.janeway.platform.replit.com/wsv2/v2.public.Q2dZSTkvdTl3UVlTQmdpV21MN0JCaUlIYW1GdVpYZGhlVEFBT293Q0NpUXhNVGszWm1Gak5TMDJOVGc1TFRRMU5XWXRZamd5WXkxaE1ERXhObU5tTnpnMFl6SVNBMjVwZUJvWmNtVndiR2wwTFhKbGNHd3RabWxzWlhNdGFtRnVaWGRoZVNJUVEyOTFjbk5sTFVkbGJtVnlZWFJ2Y2lvTFFXNWtjbVZOYjJsdFlYTkNWd29hY21Wd2JHbDBMWEpsY0d3dFlteHZZMnR6TFdwaGJtVjNZWGtTR0hKbGNHeHBkQzF5WlhCc0xXMWxkR0V0YW1GdVpYZGhlUm9mY21Wd2JHbDBMVzFoY21kaGNtbHVaUzFpYkc5amEzTXRhbUZ1WlhkaGVVb0hDTCs1NFJNUUFWQUFXZzlwYm5SbGJuUmZZblZ6YVc1bGMzTmFFbTl1WW05aGNtUnBibWRmYW05aVgyVnVaMW9hYjI1aWIyRnlaR2x1WjE5eWIyeGxYMlp5WldWc1lXNWpaWEo0QUZJbENBRVFnSUNBZ0FnWkFBQUFBQUFBOEQ4aEFBQUFBQUFBOEQ4b2dJQ0FnTWdCTUFFNEFHQUFhaElJdjduaEV4SUxRVzVrY21WTmIybHRZWE55R1hWelpTMXNZWFZ1WTJoa1lYSnJiSGt0WkdseVpXTjBiSG1DQVFJcUFJb0JJd2dCRUlDQWdJQWdHUUFBQUFBQUFCQkFJUUFBQUFBQUFCQkFLSUNBZ0lESUFUQUFtZ0VLQ2dnd0xqQXVNVE14T2FBQkFRPT1ev9qzRkJcEDdW9NMNVP401lwy8E33jzuS0rdFK6Jp88wCoVQFZP-s1_XgUvnmxXRpqID46tjLH69_J29vfsgI.Q2dad2NtOWtPak1pQ25KbGNHeHBkQzVqYjIwPQ' failed: 
+connect @ 4899-026bb57758241d9f.js:1
+handleClose @ 4899-026bb57758241d9f.js:1
+t @ 4899-026bb57758241d9f.js:1
+events.launchdarkly.com/events/bulk/62b35a865152ab14c5942820:1  Failed to load resource: net::ERR_NETWORK_CHANGED
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+www.google.com.br/ads/ga-audiences?v=1&t=sr&slf_rd=1&_r=4&tid=G-MPJY3F1YEL&cid=713937438.1744487563&gtm=45je55j1v9135634466za200&aip=1&dma=0&gcd=13l3l3l3l2l1&npa=0&frm=0&tag_exp=101509157~103116025~103130498~103130500~103136993~103136995~103200001~103233427~103252644~103252646~103301114~103301116&z=1033771406:1  Failed to load resource: the server responded with a status of 502 ()
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from controlled to uncontrolled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from controlled to uncontrolled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from controlled to uncontrolled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from controlled to uncontrolled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from controlled to uncontrolled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from controlled to uncontrolled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from controlled to uncontrolled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from controlled to uncontrolled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from controlled to uncontrolled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from controlled to uncontrolled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from controlled to uncontrolled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from controlled to uncontrolled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from controlled to uncontrolled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from controlled to uncontrolled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from controlled to uncontrolled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from controlled to uncontrolled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from controlled to uncontrolled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from controlled to uncontrolled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ WARN: A component changed from uncontrolled to controlled.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase5' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//courses' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//courses' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+d @ main-eb7966ca2e0cd149.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+useMemo @ framework-735be1df8c5f3b55.js:1
+t.useMemo @ framework-735be1df8c5f3b55.js:1
+(anonymous) @ _app-d57dd451f023605b.js:6
+ld @ framework-735be1df8c5f3b55.js:1
+ou @ framework-735be1df8c5f3b55.js:1
+i @ framework-735be1df8c5f3b55.js:1
+uI @ framework-735be1df8c5f3b55.js:1
+uM @ framework-735be1df8c5f3b55.js:1
+uS @ framework-735be1df8c5f3b55.js:1
+C @ framework-735be1df8c5f3b55.js:1
+z @ framework-735be1df8c5f3b55.js:1
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ [LaunchDarkly] Error on stream connection: {"isTrusted":true}, will continue retrying after 956 milliseconds.
+(anonymous) @ _app-d57dd451f023605b.js:38
+clientstream.launchdarkly.com/eval/62b35a865152ab14c5942820/eyJrZXkiOiI0MTQ0MjQ5NSIsImtpbmQiOiJ1c2VyIiwibmFtZSI6IkFuZHJlTW9pbWFzIiwicm9sZXMiOlsiaW50ZW50X2J1c2luZXNzIiwib25ib2FyZGluZ19qb2JfZW5nIiwib25ib2FyZGluZ19yb2xlX2ZyZWVsYW5jZXIiXSwiZW1haWwiOiJhbmRyZUBnbGVkZWR1LmNvbSIsInRpbWVfY3JlYXRlZCI6MTc0NDQ3NTAwMDExNSwiX21ldGEiOnsicHJpdmF0ZUF0dHJpYnV0ZXMiOlsiZW1haWwiXX19:1  Failed to load resource: net::ERR_NETWORK_IO_SUSPENDED
+ WebSocket connection to 'wss://eval.janeway.platform.replit.com/wsv2/v2.public.Q2dZSTc4Uyt3UVlTQmdpTzRiN0JCaUlIYW1GdVpYZGhlVEFBT293Q0NpUXhNVGszWm1Gak5TMDJOVGc1TFRRMU5XWXRZamd5WXkxaE1ERXhObU5tTnpnMFl6SVNBMjVwZUJvWmNtVndiR2wwTFhKbGNHd3RabWxzWlhNdGFtRnVaWGRoZVNJUVEyOTFjbk5sTFVkbGJtVnlZWFJ2Y2lvTFFXNWtjbVZOYjJsdFlYTkNWd29hY21Wd2JHbDBMWEpsY0d3dFlteHZZMnR6TFdwaGJtVjNZWGtTR0hKbGNHeHBkQzF5WlhCc0xXMWxkR0V0YW1GdVpYZGhlUm9mY21Wd2JHbDBMVzFoY21kaGNtbHVaUzFpYkc5amEzTXRhbUZ1WlhkaGVVb0hDTCs1NFJNUUFWQUFXZzlwYm5SbGJuUmZZblZ6YVc1bGMzTmFFbTl1WW05aGNtUnBibWRmYW05aVgyVnVaMW9hYjI1aWIyRnlaR2x1WjE5eWIyeGxYMlp5WldWc1lXNWpaWEo0QUZJbENBRVFnSUNBZ0FnWkFBQUFBQUFBOEQ4aEFBQUFBQUFBOEQ4b2dJQ0FnTWdCTUFFNEFHQUFhaElJdjduaEV4SUxRVzVrY21WTmIybHRZWE55R1hWelpTMXNZWFZ1WTJoa1lYSnJiSGt0WkdseVpXTjBiSG1DQVFJcUFJb0JJd2dCRUlDQWdJQWdHUUFBQUFBQUFCQkFJUUFBQUFBQUFCQkFLSUNBZ0lESUFUQUFtZ0VLQ2dnd0xqQXVNVE14T2FBQkFRPT1q4V4MrN1UJkIy-30k8o1ojCZyyy_IELP_kOfZzOb846Apoe8_-xPE3DZ6GpFptKZgMR34tPJlQ2HmhMqi4FUL.Q2dad2NtOWtPak1pQ25KbGNHeHBkQzVqYjIwPQ' failed: 
+connect @ 4899-026bb57758241d9f.js:1
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//courses' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//lms-view' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//courses' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ task queue exceeded allotted deadline by 23ms
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase5' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//courses' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase5' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase5' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase5' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//courses' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ [LaunchDarkly] Error on stream connection: {"isTrusted":true}, will continue retrying after 969 milliseconds.
+(anonymous) @ _app-d57dd451f023605b.js:38
+attached_assets/image_1747973450402.png:1  Failed to load resource: the server responded with a status of 404 ()
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//courses' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//courses' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase1' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase2' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase3' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar1gk7%3A:32 Unrecognized feature: 'ambient-light-sensor'.
+1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar1gk7%3A:32 Unrecognized feature: 'battery'.
+1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar1gk7%3A:32 Unrecognized feature: 'execution-while-not-rendered'.
+1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar1gk7%3A:32 Unrecognized feature: 'execution-while-out-of-viewport'.
+1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar1gk7%3A:32 Unrecognized feature: 'layout-animations'.
+1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar1gk7%3A:32 Unrecognized feature: 'legacy-image-formats'.
+1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar1gk7%3A:32 Unrecognized feature: 'navigation-override'.
+1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar1gk7%3A:32 Unrecognized feature: 'oversized-images'.
+1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar1gk7%3A:32 Unrecognized feature: 'publickey-credentials'.
+1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar1gk7%3A:32 Unrecognized feature: 'speaker-selection'.
+1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar1gk7%3A:32 Unrecognized feature: 'unoptimized-images'.
+1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar1gk7%3A:32 Unrecognized feature: 'unsized-media'.
+1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar1gk7%3A:32 Allow attribute will take precedence over 'allowfullscreen'.
+1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/__replco/workspace_iframe.html?initialPath=%2F&id=%3Ar1gk7%3A:32 Allow attribute will take precedence over 'allowpaymentrequest'.
+ Invalid href 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev//phase4' passed to next/router in page: '/replEnvironmentDesktop'. Repeated forward-slashes (//) or backslashes \ are not valid in the href.
+(anonymous) @ _app-d57dd451f023605b.js:38
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+ ❌ Erro na API para: O Que é Aprender? Explorando o Mundo ao Nosso Redor
+Mt.forEach.n.<computed> @ eruda.js:2
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js:3699
+invokeGuardedCallback @ chunk-WERSD76P.js:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js:3736
+executeDispatch @ chunk-WERSD76P.js:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js:7034
+processDispatchQueue @ chunk-WERSD76P.js:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js:7051
+(anonymous) @ chunk-WERSD76P.js:7174
+batchedUpdates$1 @ chunk-WERSD76P.js:18913
+batchedUpdates @ chunk-WERSD76P.js:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js:5478
+dispatchEvent @ chunk-WERSD76P.js:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js:5449
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+ ❌ Erro na API para: Objetivo: Introduzir o conceito de aprendizagem e como ela acontece no dia a dia das crianças.
+Mt.forEach.n.<computed> @ eruda.js:2
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js:3699
+invokeGuardedCallback @ chunk-WERSD76P.js:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js:3736
+executeDispatch @ chunk-WERSD76P.js:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js:7034
+processDispatchQueue @ chunk-WERSD76P.js:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js:7051
+(anonymous) @ chunk-WERSD76P.js:7174
+batchedUpdates$1 @ chunk-WERSD76P.js:18913
+batchedUpdates @ chunk-WERSD76P.js:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js:5478
+dispatchEvent @ chunk-WERSD76P.js:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js:5449
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+ ❌ Erro na API para: Curiosidade: A Chave para o Conhecimento
+Mt.forEach.n.<computed> @ eruda.js:2
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js:3699
+invokeGuardedCallback @ chunk-WERSD76P.js:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js:3736
+executeDispatch @ chunk-WERSD76P.js:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js:7034
+processDispatchQueue @ chunk-WERSD76P.js:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js:7051
+(anonymous) @ chunk-WERSD76P.js:7174
+batchedUpdates$1 @ chunk-WERSD76P.js:18913
+batchedUpdates @ chunk-WERSD76P.js:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js:5478
+dispatchEvent @ chunk-WERSD76P.js:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js:5449
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+ ❌ Erro na API para: Objetivo: Estimular a curiosidade natural das crianças, mostrando como perguntas e descobertas levam ao aprendizado.
+Mt.forEach.n.<computed> @ eruda.js:2
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js:3699
+invokeGuardedCallback @ chunk-WERSD76P.js:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js:3736
+executeDispatch @ chunk-WERSD76P.js:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js:7034
+processDispatchQueue @ chunk-WERSD76P.js:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js:7051
+(anonymous) @ chunk-WERSD76P.js:7174
+batchedUpdates$1 @ chunk-WERSD76P.js:18913
+batchedUpdates @ chunk-WERSD76P.js:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js:5478
+dispatchEvent @ chunk-WERSD76P.js:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js:5449
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+ ❌ Erro na API para: Brincando e Aprendendo: Jogos Educativos
+Mt.forEach.n.<computed> @ eruda.js:2
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js:3699
+invokeGuardedCallback @ chunk-WERSD76P.js:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js:3736
+executeDispatch @ chunk-WERSD76P.js:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js:7034
+processDispatchQueue @ chunk-WERSD76P.js:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js:7051
+(anonymous) @ chunk-WERSD76P.js:7174
+batchedUpdates$1 @ chunk-WERSD76P.js:18913
+batchedUpdates @ chunk-WERSD76P.js:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js:5478
+dispatchEvent @ chunk-WERSD76P.js:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js:5449
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+ ❌ Erro na API para: Objetivo: Demonstrar como os jogos podem ser ferramentas eficazes de aprendizagem e desenvolvimento cognitivo.
+Mt.forEach.n.<computed> @ eruda.js:2
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js:3699
+invokeGuardedCallback @ chunk-WERSD76P.js:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js:3736
+executeDispatch @ chunk-WERSD76P.js:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js:7034
+processDispatchQueue @ chunk-WERSD76P.js:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js:7051
+(anonymous) @ chunk-WERSD76P.js:7174
+batchedUpdates$1 @ chunk-WERSD76P.js:18913
+batchedUpdates @ chunk-WERSD76P.js:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js:5478
+dispatchEvent @ chunk-WERSD76P.js:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js:5449
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+ ❌ Erro na API para: Histórias que Ensinam: O Poder dos Contos
+Mt.forEach.n.<computed> @ eruda.js:2
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js:3699
+invokeGuardedCallback @ chunk-WERSD76P.js:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js:3736
+executeDispatch @ chunk-WERSD76P.js:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js:7034
+processDispatchQueue @ chunk-WERSD76P.js:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js:7051
+(anonymous) @ chunk-WERSD76P.js:7174
+batchedUpdates$1 @ chunk-WERSD76P.js:18913
+batchedUpdates @ chunk-WERSD76P.js:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js:5478
+dispatchEvent @ chunk-WERSD76P.js:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js:5449
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+ ❌ Erro na API para: Objetivo: Utilizar contos e histórias para transmitir valores e lições de forma divertida e envolvente.
+Mt.forEach.n.<computed> @ eruda.js:2
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js:3699
+invokeGuardedCallback @ chunk-WERSD76P.js:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js:3736
+executeDispatch @ chunk-WERSD76P.js:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js:7034
+processDispatchQueue @ chunk-WERSD76P.js:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js:7051
+(anonymous) @ chunk-WERSD76P.js:7174
+batchedUpdates$1 @ chunk-WERSD76P.js:18913
+batchedUpdates @ chunk-WERSD76P.js:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js:5478
+dispatchEvent @ chunk-WERSD76P.js:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js:5449
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+ ❌ Erro na API para: Pensar é Divertido: Introdução ao Raciocínio Lógico
+Mt.forEach.n.<computed> @ eruda.js:2
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js:3699
+invokeGuardedCallback @ chunk-WERSD76P.js:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js:3736
+executeDispatch @ chunk-WERSD76P.js:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js:7034
+processDispatchQueue @ chunk-WERSD76P.js:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js:7051
+(anonymous) @ chunk-WERSD76P.js:7174
+batchedUpdates$1 @ chunk-WERSD76P.js:18913
+batchedUpdates @ chunk-WERSD76P.js:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js:5478
+dispatchEvent @ chunk-WERSD76P.js:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js:5449
+lesson-content:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+Console.js:61 ❌ Erro na API para: Objetivo: Apresentar atividades que desenvolvem o raciocínio lógico e a resolução de problemas de maneira lúdica.
+Mt.forEach.n.<computed> @ Console.js:61
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+lesson-content:1 
+            
+            
+           Failed to load resource: the server responded with a status of 400 (Bad Request)
+Console.js:61 ❌ Erro na API para: Trabalhando em Equipe: A Importância da Colaboração
+Mt.forEach.n.<computed> @ Console.js:61
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+lesson-content:1 
+            
+            
+           Failed to load resource: the server responded with a status of 400 (Bad Request)
+Console.js:61 ❌ Erro na API para: Objetivo: Encorajar o trabalho em grupo e a colaboração, destacando seus benefícios para o aprendizado.
+Mt.forEach.n.<computed> @ Console.js:61
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+lesson-content:1 
+            
+            
+           Failed to load resource: the server responded with a status of 400 (Bad Request)
+Console.js:61 ❌ Erro na API para: Emoções e Aprendizado: Como Sentimos e Aprendemos
+Mt.forEach.n.<computed> @ Console.js:61
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+lesson-content:1 
+            
+            
+           Failed to load resource: the server responded with a status of 400 (Bad Request)
+Console.js:61 ❌ Erro na API para: Objetivo: Explorar a relação entre emoções e aprendizagem, ajudando as crianças a identificar e expressar seus sentimentos.
+Mt.forEach.n.<computed> @ Console.js:61
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+lesson-content:1 
+            
+            
+           Failed to load resource: the server responded with a status of 400 (Bad Request)
+Console.js:61 ❌ Erro na API para: Criatividade sem Limites: Expressando-se Através da Arte
+Mt.forEach.n.<computed> @ Console.js:61
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+lesson-content:1 
+            
+            
+           Failed to load resource: the server responded with a status of 400 (Bad Request)
+Console.js:61 ❌ Erro na API para: Objetivo: Incentivar a expressão criativa por meio de atividades artísticas, promovendo o desenvolvimento pessoal e emocional.
+Mt.forEach.n.<computed> @ Console.js:61
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+lesson-content:1 
+            
+            
+           Failed to load resource: the server responded with a status of 400 (Bad Request)
+Console.js:61 ❌ Erro na API para: Tecnologia Amiga: Explorando Recursos Digitais
+Mt.forEach.n.<computed> @ Console.js:61
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+lesson-content:1 
+            
+            
+           Failed to load resource: the server responded with a status of 400 (Bad Request)
+Console.js:61 ❌ Erro na API para: Objetivo: Introduzir ferramentas digitais que podem ser utilizadas para enriquecer o processo de aprendizagem das crianças.
+Mt.forEach.n.<computed> @ Console.js:61
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+lesson-content:1 
+            
+            
+           Failed to load resource: the server responded with a status of 400 (Bad Request)
+Console.js:61 ❌ Erro na API para: Organização é Importante: Gerenciando o Tempo e Tarefas
+Mt.forEach.n.<computed> @ Console.js:61
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+lesson-content:1 
+            
+            
+           Failed to load resource: the server responded with a status of 400 (Bad Request)
+Console.js:61 ❌ Erro na API para: Objetivo: Ensinar técnicas simples de organização e gerenciamento de tempo para ajudar as crianças a se tornarem mais independentes.
+Mt.forEach.n.<computed> @ Console.js:61
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+lesson-content:1 
+            
+            
+           Failed to load resource: the server responded with a status of 400 (Bad Request)
+Console.js:61 ❌ Erro na API para: Comunicação Eficaz: Falando e Ouvindo com Atenção
+Mt.forEach.n.<computed> @ Console.js:61
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+lesson-content:1 
+            
+            
+           Failed to load resource: the server responded with a status of 400 (Bad Request)
+Console.js:61 ❌ Erro na API para: Objetivo: Desenvolver habilidades de comunicação, enfatizando a importância de ouvir atentamente e expressar-se claramente.
+Mt.forEach.n.<computed> @ Console.js:61
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+lesson-content:1 
+            
+            
+           Failed to load resource: the server responded with a status of 400 (Bad Request)
+Console.js:61 ❌ Erro na API para: Revisão Interativa: Consolidando o Conhecimento Adquirido
+Mt.forEach.n.<computed> @ Console.js:61
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+lesson-content:1 
+            
+            
+           Failed to load resource: the server responded with a status of 400 (Bad Request)
+Console.js:61 ❌ Erro na API para: Objetivo: Revisar os conteúdos aprendidos através de atividades interativas que reforcem o aprendizado de forma divertida e eficaz.
+Mt.forEach.n.<computed> @ Console.js:61
+await in Mt.forEach.n.<computed>
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+
+                
+          
+          
+          
+         Chrome is moving towards a new experience that allows users to choose to browse without third-party cookies.
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: O Que é Aprender? Explorando o Mundo ao Nosso Redor
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Objetivo: Introduzir o conceito de aprendizagem e como ela acontece no dia a dia das crianças.
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Curiosidade: A Chave para o Conhecimento
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Objetivo: Estimular a curiosidade natural das crianças, mostrando como perguntas e descobertas levam ao aprendizado.
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Brincando e Aprendendo: Jogos Educativos
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Objetivo: Demonstrar como os jogos podem ser ferramentas eficazes de aprendizagem e desenvolvimento cognitivo.
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Histórias que Ensinam: O Poder dos Contos
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Objetivo: Utilizar contos e histórias para transmitir valores e lições de forma divertida e envolvente.
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Pensar é Divertido: Introdução ao Raciocínio Lógico
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Objetivo: Apresentar atividades que desenvolvem o raciocínio lógico e a resolução de problemas de maneira lúdica.
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Trabalhando em Equipe: A Importância da Colaboração
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Objetivo: Encorajar o trabalho em grupo e a colaboração, destacando seus benefícios para o aprendizado.
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Emoções e Aprendizado: Como Sentimos e Aprendemos
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Objetivo: Explorar a relação entre emoções e aprendizagem, ajudando as crianças a identificar e expressar seus sentimentos.
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Criatividade sem Limites: Expressando-se Através da Arte
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Objetivo: Incentivar a expressão criativa por meio de atividades artísticas, promovendo o desenvolvimento pessoal e emocional.
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Tecnologia Amiga: Explorando Recursos Digitais
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Objetivo: Introduzir ferramentas digitais que podem ser utilizadas para enriquecer o processo de aprendizagem das crianças.
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Organização é Importante: Gerenciando o Tempo e Tarefas
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Objetivo: Ensinar técnicas simples de organização e gerenciamento de tempo para ajudar as crianças a se tornarem mais independentes.
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Comunicação Eficaz: Falando e Ouvindo com Atenção
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Objetivo: Desenvolver habilidades de comunicação, enfatizando a importância de ouvir atentamente e expressar-se claramente.
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Revisão Interativa: Consolidando o Conhecimento Adquirido
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+phase4-new.tsx:107 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/generate/lesson-content 400 (Bad Request)
+window.fetch @ Network.js:219
+generateActivities @ phase4-new.tsx:107
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449
+Console.js:61 ❌ Erro na API para: Objetivo: Revisar os conteúdos aprendidos através de atividades interativas que reforcem o aprendizado de forma divertida e eficaz.
+Mt.forEach.n.<computed> @ Console.js:61
+generateActivities @ phase4-new.tsx:183
+await in generateActivities
+callCallback2 @ chunk-WERSD76P.js?v=ee1791e9:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=ee1791e9:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=ee1791e9:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=ee1791e9:3736
+executeDispatch @ chunk-WERSD76P.js?v=ee1791e9:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=ee1791e9:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=ee1791e9:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=ee1791e9:7051
+(anonymous) @ chunk-WERSD76P.js?v=ee1791e9:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=ee1791e9:18913
+batchedUpdates @ chunk-WERSD76P.js?v=ee1791e9:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=ee1791e9:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=ee1791e9:5478
+dispatchEvent @ chunk-WERSD76P.js?v=ee1791e9:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=ee1791e9:5449

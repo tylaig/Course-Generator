@@ -302,63 +302,55 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // DEBUG ENDPOINT - TEMPORÁRIO
-  app.post("/api/debug-lesson-content", async (req, res) => {
-    console.log("🔍 DEBUG: Dados recebidos:", JSON.stringify(req.body, null, 2));
-    res.json({
-      received: req.body,
-      keys: Object.keys(req.body || {}),
-      hasLessonTitle: !!req.body?.lessonTitle,
-      hasCourseDetails: !!req.body?.courseDetails
-    });
+  // TESTE COM ENDPOINT NOVO
+  app.post("/api/test-new-lesson", async (req, res) => {
+    console.log("🚀 ENDPOINT NOVO FUNCIONANDO!");
+    console.log("Dados:", JSON.stringify(req.body, null, 2));
+    
+    try {
+      const { lessonTitle, courseDetails } = req.body;
+      
+      if (!lessonTitle && !courseDetails) {
+        return res.status(400).json({ error: "Precisa de lessonTitle ou courseDetails" });
+      }
+
+      // Simular resposta de sucesso
+      res.json({
+        success: true,
+        message: "Endpoint novo funcionando!",
+        data: { lessonTitle, courseDetails }
+      });
+    } catch (error) {
+      res.status(500).json({ error: "Erro no endpoint novo" });
+    }
   });
 
   // ---- Lesson Content Generation (Phase 3) ----
   app.post("/api/generate/lesson-content", async (req, res) => {
-    console.log("🟢 ENDPOINT ATINGIDO - /api/generate/lesson-content");
-    console.log("🟢 Request method:", req.method);
-    console.log("🟢 Request raw body:", req.body);
+    console.log("🎯 Geração de conteúdo iniciada");
+    console.log("Dados recebidos:", JSON.stringify(req.body, null, 2));
     
     try {
-      console.log("=== GERAÇÃO DE CONTEÚDO DE AULA INICIADA ===");
-      console.log("🔍 DEBUGGING DETALHADO - INÍCIO");
-      console.log("- req.body existe?", !!req.body);
-      console.log("- req.body type:", typeof req.body);
-      console.log("- req.body keys:", Object.keys(req.body || {}));
-      console.log("Dados recebidos (COMPLETO):", JSON.stringify(req.body, null, 2));
-      
       const { lesson, module, courseDetails, aiConfig, lessonTitle } = req.body;
       
-      // Debug detailed validation
-      console.log("🔍 Validação detalhada:");
-      console.log("- lessonTitle:", lessonTitle, "tipo:", typeof lessonTitle);
-      console.log("- lesson:", lesson, "tipo:", typeof lesson);
-      console.log("- courseDetails:", courseDetails, "tipo:", typeof courseDetails);
-      
-      // Accept any request that has lessonTitle OR courseDetails
+      // Aceitar se temos lessonTitle OU courseDetails
       if (!lessonTitle && !courseDetails) {
-        console.log("❌ Erro: Nem lessonTitle nem courseDetails fornecidos");
-        return res.status(400).json({ error: "Dados obrigatórios não fornecidos" });
+        return res.status(400).json({ error: "lessonTitle ou courseDetails são obrigatórios" });
       }
-      
-      console.log("✅ Validação passou - dados suficientes encontrados");
-      
-      const lessonData = lesson || { title: lessonTitle };
-      const moduleData = module || { title: "Módulo Padrão", description: "Módulo gerado automaticamente" };
-      const courseData = courseDetails || { title: "Curso Padrão", theme: "Educação" };
-      
-      console.log(`Gerando conteúdo para aula: ${lessonData.title}`);
-      
-      // Verificar se temos chave da OpenAI
+
+      // Verificar chave OpenAI
       if (!process.env.OPENAI_API_KEY) {
         return res.status(500).json({ 
-          error: "Chave da OpenAI não configurada",
-          message: "Configure a variável OPENAI_API_KEY para usar a geração avançada de conteúdo"
+          error: "Chave da OpenAI não configurada" 
         });
       }
 
-      // Usar OpenAI para gerar conteúdo estruturado da aula
+      // Usar OpenAI para gerar conteúdo
       const { generateAdvancedLessonContent } = await import('./openai');
+      const lessonData = lesson || { title: lessonTitle };
+      const moduleData = module || { title: "Módulo Padrão", description: "Módulo automatico" };
+      const courseData = courseDetails || { title: "Curso Padrão", theme: "Educação" };
+      
       const lessonContent = await generateAdvancedLessonContent(
         lessonData, 
         moduleData, 
@@ -372,34 +364,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
       
     } catch (error) {
-      console.error("🚨 ERRO CAPTURADO NO CATCH:");
-      console.error("- Tipo do erro:", typeof error);
-      console.error("- Erro completo:", error);
-      console.error("- Stack trace:", error instanceof Error ? error.stack : "N/A");
-      console.error("- req.body no momento do erro:", JSON.stringify(req.body, null, 2));
-      
+      console.error("Erro na geração:", error);
       res.status(500).json({ 
-        message: "Falha ao gerar conteúdo da aula", 
-        error: error instanceof Error ? error.message : "Erro desconhecido",
-        debug: {
-          errorType: typeof error,
-          requestBody: req.body
-        }
-      });
-    } catch (error) {
-      console.error("🚨 ERRO CAPTURADO NO CATCH:");
-      console.error("- Tipo do erro:", typeof error);
-      console.error("- Erro completo:", error);
-      console.error("- Stack trace:", error instanceof Error ? error.stack : "N/A");
-      console.error("- req.body no momento do erro:", JSON.stringify(req.body, null, 2));
-      
-      res.status(500).json({ 
-        message: "Falha ao gerar conteúdo da aula", 
-        error: error instanceof Error ? error.message : "Erro desconhecido",
-        debug: {
-          errorType: typeof error,
-          requestBody: req.body
-        }
+        error: "Falha ao gerar conteúdo da aula"
       });
     }
   });
