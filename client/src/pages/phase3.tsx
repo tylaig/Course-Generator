@@ -70,51 +70,61 @@ export default function Phase3() {
   const LessonContentRenderer = ({ content }: { content: any }) => {
     console.log('LessonContentRenderer received content:', content);
     
+    // Extract actual content from nested success structure
+    let actualContent = content;
+    if (content?.success && content?.content) {
+      actualContent = content.content;
+      // Check for double nesting
+      if (actualContent?.success && actualContent?.content) {
+        actualContent = actualContent.content;
+      }
+    }
+    
     // If content is a string, render as is
-    if (typeof content === 'string') {
-      return <div className="text-sm whitespace-pre-wrap">{content}</div>;
+    if (typeof actualContent === 'string') {
+      return <div className="text-sm whitespace-pre-wrap">{actualContent}</div>;
     }
 
     // If content is an object, render structured view
-    if (typeof content === 'object' && content !== null) {
+    if (typeof actualContent === 'object' && actualContent !== null) {
       return (
         <div className="space-y-4">
-          {content.title && (
+          {actualContent.title && (
             <div>
-              <h5 className="font-semibold text-lg mb-2">{content.title}</h5>
-              {content.duration && (
-                <p className="text-sm text-gray-600 mb-3">Duração: {content.duration}</p>
+              <h5 className="font-semibold text-lg mb-2">{actualContent.title}</h5>
+              {actualContent.duration && (
+                <p className="text-sm text-gray-600 mb-3">Duração: {actualContent.duration}</p>
               )}
             </div>
           )}
 
-          {content.objectives && content.objectives.length > 0 && (
+          {actualContent.objectives && actualContent.objectives.length > 0 && (
             <div className="bg-blue-50 p-3 rounded-lg">
               <h6 className="font-medium text-blue-900 mb-2">Objetivos da Aula:</h6>
               <ul className="list-disc list-inside space-y-1 text-sm text-blue-800">
-                {content.objectives.map((obj: string, idx: number) => (
+                {actualContent.objectives.map((obj: string, idx: number) => (
                   <li key={idx}>{obj}</li>
                 ))}
               </ul>
             </div>
           )}
 
-          {content.audioScript && (
+          {actualContent.audioScript && (
             <div className="bg-purple-50 p-3 rounded-lg">
               <h6 className="font-medium text-purple-900 mb-2">Script de Áudio:</h6>
               <p className="text-sm text-purple-800 whitespace-pre-wrap">
-                {content.audioScript.length > 200 
-                  ? content.audioScript.substring(0, 200) + '...' 
-                  : content.audioScript}
+                {actualContent.audioScript.length > 200 
+                  ? actualContent.audioScript.substring(0, 200) + '...' 
+                  : actualContent.audioScript}
               </p>
             </div>
           )}
 
-          {content.lessonStructure && (
+          {actualContent.lessonStructure && (
             <div className="bg-green-50 p-3 rounded-lg">
               <h6 className="font-medium text-green-900 mb-2">Estrutura da Aula:</h6>
               <div className="space-y-2">
-                {Object.entries(content.lessonStructure).map(([key, section]: [string, any]) => (
+                {Object.entries(actualContent.lessonStructure).map(([key, section]: [string, any]) => (
                   <div key={key} className="bg-white p-2 rounded border-l-2 border-green-400">
                     <div className="flex justify-between items-center mb-1">
                       <span className="font-medium text-sm capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
@@ -138,11 +148,11 @@ export default function Phase3() {
             </div>
           )}
 
-          {content.practicalExercises && content.practicalExercises.length > 0 && (
+          {actualContent.practicalExercises && actualContent.practicalExercises.length > 0 && (
             <div className="bg-orange-50 p-3 rounded-lg">
               <h6 className="font-medium text-orange-900 mb-2">Exercícios Práticos:</h6>
               <div className="space-y-2">
-                {content.practicalExercises.map((exercise: any, idx: number) => (
+                {actualContent.practicalExercises.map((exercise: any, idx: number) => (
                   <div key={idx} className="bg-white p-2 rounded border-l-2 border-orange-400">
                     <h6 className="font-medium text-sm">{exercise.title || `Exercício ${idx + 1}`}</h6>
                     {exercise.description && (
@@ -159,11 +169,11 @@ export default function Phase3() {
             </div>
           )}
 
-          {content.assessmentQuestions && content.assessmentQuestions.length > 0 && (
+          {actualContent.assessmentQuestions && actualContent.assessmentQuestions.length > 0 && (
             <div className="bg-red-50 p-3 rounded-lg">
               <h6 className="font-medium text-red-900 mb-2">Questões de Avaliação:</h6>
               <div className="space-y-2">
-                {content.assessmentQuestions.map((question: any, idx: number) => (
+                {actualContent.assessmentQuestions.map((question: any, idx: number) => (
                   <div key={idx} className="bg-white p-2 rounded border-l-2 border-red-400">
                     <p className="text-sm font-medium">{question.question}</p>
                     {question.options && (
@@ -181,21 +191,21 @@ export default function Phase3() {
             </div>
           )}
 
-          {content.materials && content.materials.length > 0 && (
+          {actualContent.materials && actualContent.materials.length > 0 && (
             <div className="bg-gray-50 p-3 rounded-lg">
               <h6 className="font-medium text-gray-900 mb-2">Materiais:</h6>
               <ul className="text-sm text-gray-700">
-                {content.materials.map((material: string, idx: number) => (
+                {actualContent.materials.map((material: string, idx: number) => (
                   <li key={idx} className="list-disc list-inside">{material}</li>
                 ))}
               </ul>
             </div>
           )}
 
-          {content.homework && (
+          {actualContent.homework && (
             <div className="bg-yellow-50 p-3 rounded-lg">
               <h6 className="font-medium text-yellow-900 mb-2">Tarefa de Casa:</h6>
-              <p className="text-sm text-yellow-800">{content.homework}</p>
+              <p className="text-sm text-yellow-800">{actualContent.homework}</p>
             </div>
           )}
         </div>
@@ -203,7 +213,7 @@ export default function Phase3() {
     }
 
     // Fallback for other types
-    return <div className="text-sm">{JSON.stringify(content, null, 2)}</div>;
+    return <div className="text-sm">{JSON.stringify(actualContent, null, 2)}</div>;
   };
 
   // Persistência simples
