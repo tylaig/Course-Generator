@@ -205,8 +205,29 @@ import { courses, modules, phaseData, aiSettings } from "@shared/schema";
 
 export class DatabaseStorage implements IStorage {
   async getCourse(id: string): Promise<Course | undefined> {
-    const [course] = await db.select().from(courses).where(eq(courses.id, parseInt(id)));
-    return course || undefined;
+    try {
+      // Handle both string and numeric IDs
+      let courseId: number;
+      
+      if (id.startsWith('course_')) {
+        // If it's a string ID like 'course_1747960517465', extract the numeric part
+        const numericPart = id.replace('course_', '');
+        courseId = parseInt(numericPart);
+      } else {
+        courseId = parseInt(id);
+      }
+      
+      if (isNaN(courseId)) {
+        console.error("Invalid course ID format:", id);
+        return undefined;
+      }
+      
+      const [course] = await db.select().from(courses).where(eq(courses.id, courseId));
+      return course || undefined;
+    } catch (error) {
+      console.error("Error fetching course:", error);
+      return undefined;
+    }
   }
 
   async listCourses(): Promise<Course[]> {

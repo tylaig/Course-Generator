@@ -58,9 +58,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/courses/:id", async (req, res) => {
     try {
-      const course = await storage.getCourse(req.params.id);
+      const courseId = req.params.id;
+      console.log("Fetching course with ID:", courseId);
+      
+      // Validate courseId format
+      if (!courseId || courseId === 'undefined' || courseId === 'null') {
+        return res.status(400).json({ error: "Invalid course ID" });
+      }
+      
+      const course = await storage.getCourse(courseId);
       if (!course) {
-        return res.status(404).json({ error: "Curso não encontrado" });
+        return res.status(404).json({ error: "Course not found" });
       }
       res.json(course);
     } catch (error) {
