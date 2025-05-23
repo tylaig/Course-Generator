@@ -252,7 +252,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Buscar o curso real no banco para pegar o ID correto
       const courses = await pgStorage.listCourses();
-      const course = courses.find(c => c.title === "Novo Curso Educacional"); // Usar uma busca mais específica
+      const course = courses.find(c => 
+        c.title === "Novo Curso Educacional" || 
+        c.title === "New Educational Course" ||
+        c.id.toString() === courseIdStr
+      ); // Buscar por título em português, inglês ou ID direto
       
       if (!course) {
         console.log("Curso não encontrado para:", courseIdStr);
