@@ -464,11 +464,11 @@ export default function Phase2() {
               </CardContent>
             </Card>
 
-            {/* Botão Salvar Configurações */}
+            {/* Save Configuration Button */}
             <div className="flex justify-center">
               <Button 
                 onClick={() => {
-                  console.log("Botão clicado!");
+                  console.log("Button clicked!");
                   saveConfigurations();
                 }}
                 disabled={isSaving}
@@ -477,28 +477,28 @@ export default function Phase2() {
                 {isSaving ? (
                   <span className="flex items-center">
                     <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
-                    Salvando...
+                    Saving...
                   </span>
-                ) : configurationsSaved ? "✓ Salvar" : "Salvar"}
+                ) : configurationsSaved ? "✓ Save" : "Save"}
               </Button>
             </div>
           </TabsContent>
 
-          {/* ABA 2: MÓDULOS */}
+          {/* TAB 2: MODULES */}
           <TabsContent value="modules" className="space-y-6">
             <div className="flex justify-between items-center">
               <div>
-                <h2 className="text-xl font-semibold">Módulos do Curso</h2>
-                <p className="text-muted-foreground">Gere e organize os módulos do curso</p>
+                <h2 className="text-xl font-semibold">Course Modules</h2>
+                <p className="text-muted-foreground">Generate and organize course modules</p>
               </div>
               
               <Button
                   onClick={() => {
-                    console.log("Gerando estrutura com:", { moduleCount, lessonsPerModule: lessonsPerModule[0] });
+                    console.log("Generating structure with:", { moduleCount, lessonsPerModule: lessonsPerModule[0] });
                     
-                    // Verificar se há módulos existentes
+                    // Check if there are existing modules
                     if (modules.length > 0) {
-                      if (confirm(`Atenção! Você já possui ${modules.length} módulos criados.\n\nGerar nova estrutura irá SUBSTITUIR todos os módulos atuais.\n\nDeseja continuar?`)) {
+                      if (confirm(`Warning! You already have ${modules.length} modules created.\n\nGenerating new structure will REPLACE all current modules.\n\nDo you want to continue?`)) {
                         generateStructure.mutate();
                       }
                     } else {
@@ -511,12 +511,12 @@ export default function Phase2() {
                   {generateStructure.isPending ? (
                     <span className="flex items-center">
                       <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
-                      Gerando {moduleCount} módulos com {lessonsPerModule[0]} aulas cada...
+                      Generating {moduleCount} modules with {lessonsPerModule[0]} lessons each...
                     </span>
                   ) : (
                     <span className="flex items-center">
                       <span className="material-icons text-sm mr-2">auto_awesome</span>
-                      {modules.length > 0 ? 'Regenerar' : 'Gerar'} Estrutura com IA ({moduleCount} módulos, {lessonsPerModule[0]} aulas cada)
+                      {modules.length > 0 ? 'Regenerate' : 'Generate'} AI Structure ({moduleCount} modules, {lessonsPerModule[0]} lessons each)
                     </span>
                   )}
                 </Button>
@@ -527,13 +527,13 @@ export default function Phase2() {
                 <CardContent className="flex flex-col items-center justify-center py-12">
                   <div className="text-center">
                     <div className="text-4xl mb-4">📚</div>
-                    <h3 className="text-lg font-semibold mb-2">Nenhum Módulo Criado</h3>
+                    <h3 className="text-lg font-semibold mb-2">No Modules Created</h3>
                     <p className="text-muted-foreground mb-4">
-                      Clique no botão "Gerar Estrutura com IA" para criar os módulos do curso
+                      Click the "Generate AI Structure" button to create course modules
                     </p>
                     {!configurationsSaved && (
                       <Badge variant="outline" className="text-orange-600">
-                        Salve as configurações primeiro
+                        Save configurations first
                       </Badge>
                     )}
                   </div>
@@ -568,7 +568,7 @@ export default function Phase2() {
                                   </div>
                                   <div className="flex items-center space-x-2 ml-4">
                                     <Badge variant="default" className="bg-green-100 text-green-800">
-                                      {(module.content as any)?.lessons?.length || 0} aulas
+                                      {(module.content as any)?.lessons?.length || 0} lessons
                                     </Badge>
                                     <Badge variant="outline" className="text-blue-600 border-blue-300">
                                       {module.estimatedHours}h
@@ -584,12 +584,12 @@ export default function Phase2() {
                                 </div>
                               </CardHeader>
                               
-                              {/* Exibir aulas em formato estilo Hotmart - só quando expandido */}
+                              {/* Display lessons in Hotmart style format - only when expanded */}
                               {expandedModules.has(module.id) && module.content && (module.content as any)?.lessons && (module.content as any)?.lessons.length > 0 && (
                                 <CardContent className="pt-0">
                                   <div className="space-y-3">
                                     <h4 className="font-semibold text-gray-800 text-sm uppercase tracking-wide border-b pb-2">
-                                      📚 Aulas do Módulo
+                                      📚 Module Lessons
                                     </h4>
                                     <div className="grid gap-2">
                                       {((module.content as any)?.lessons || []).map((lesson: any, i: number) => (
@@ -599,7 +599,7 @@ export default function Phase2() {
                                           </div>
                                           <div className="flex-1">
                                             <p className="font-medium text-gray-900 text-sm leading-tight">
-                                              {lesson.title || `Aula ${i + 1}`}
+                                              {lesson.title || `Lesson ${i + 1}`}
                                             </p>
                                             {lesson.description && (
                                               <p className="text-xs text-gray-500 mt-1">
@@ -613,7 +613,7 @@ export default function Phase2() {
                                             </span>
                                             {lesson.type && (
                                               <p className="text-xs text-gray-400 mt-1">
-                                                📹 {lesson.type === 'video' ? 'Vídeo aula' : lesson.type}
+                                                📹 {lesson.type === 'video' ? 'Video lesson' : lesson.type}
                                               </p>
                                             )}
                                           </div>
@@ -621,14 +621,14 @@ export default function Phase2() {
                                       ))}
                                     </div>
                                     
-                                    {/* Resumo do módulo */}
+                                    {/* Module summary */}
                                     <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
                                       <div className="flex items-center justify-between text-sm">
                                         <span className="font-medium text-blue-800">
-                                          Total: {((module.content as any)?.lessons || []).length} aulas
+                                          Total: {((module.content as any)?.lessons || []).length} lessons
                                         </span>
                                         <span className="text-blue-600">
-                                          ⏱️ {module.estimatedHours} horas de conteúdo
+                                          ⏱️ {module.estimatedHours} hours of content
                                         </span>
                                       </div>
                                     </div>
@@ -647,7 +647,7 @@ export default function Phase2() {
             )}
           </TabsContent>
 
-          {/* ABA 3: MAPEAMENTO DE COMPETÊNCIAS */}
+          {/* TAB 3: COMPETENCY MAPPING */}
           <TabsContent value="competencies" className="space-y-6">
             <div>
               <h2 className="text-xl font-semibold mb-2">Mapeamento de Competências</h2>
