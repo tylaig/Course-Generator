@@ -1,4 +1,4 @@
-import { 
+import {
   type Course,
   type InsertCourse,
   type Module,
@@ -15,7 +15,6 @@ import {
   type InsertQuestion,
 } from "@shared/schema";
 
-// Storage interface for course-related operations
 export interface IStorage {
   // Course operations
   getCourse(id: string): Promise<Course | undefined>;
@@ -23,61 +22,59 @@ export interface IStorage {
   createCourse(course: InsertCourse): Promise<Course>;
   updateCourse(id: string, course: Partial<Course>): Promise<Course | undefined>;
   deleteCourse(id: string): Promise<boolean>;
-  
+  getCourseWithModules(id: string): Promise<Course | undefined>;
+
   // Module operations
   getModule(id: string): Promise<Module | undefined>;
+  listModules(): Promise<Module[]>;
+  getModulesByCourse(courseId: string): Promise<Module[]>;
   createModule(module: InsertModule): Promise<Module>;
   updateModule(id: string, module: Partial<Module>): Promise<Module | undefined>;
   deleteModule(id: string): Promise<boolean>;
-  listModulesByCourse(courseId: string): Promise<Module[]>;
-  
+
   // Phase data operations
-  getPhaseData(courseId: string, phaseNumber: number): Promise<PhaseData | undefined>;
+  getPhaseData(courseId: string, phase: string): Promise<PhaseData | undefined>;
+  getPhaseDataById(courseId: string, phase: string): Promise<PhaseData | undefined>;
   createPhaseData(phaseData: InsertPhaseData): Promise<PhaseData>;
   updatePhaseData(id: string, phaseData: Partial<PhaseData>): Promise<PhaseData | undefined>;
-  
-  // AI settings operations
+
+  // AI Settings operations
   getAISettings(courseId: string): Promise<AISettings | undefined>;
   createAISettings(settings: InsertAISettings): Promise<AISettings>;
   updateAISettings(id: string, settings: Partial<AISettings>): Promise<AISettings | undefined>;
-  
+
   // Lesson operations
   getLesson(id: string): Promise<Lesson | undefined>;
   createLesson(lesson: InsertLesson): Promise<Lesson>;
   updateLesson(id: string, lesson: Partial<Lesson>): Promise<Lesson | undefined>;
   deleteLesson(id: string): Promise<boolean>;
-  listLessonsByModule(moduleId: string): Promise<Lesson[]>;
-  
+  listAllLessons(): Promise<Lesson[]>;
+
   // Activity operations
-  getActivity(id: string): Promise<Activity | undefined>;
   createActivity(activity: InsertActivity): Promise<Activity>;
+  getActivitiesByLesson(lessonId: string): Promise<Activity[]>;
   updateActivity(id: string, activity: Partial<Activity>): Promise<Activity | undefined>;
   deleteActivity(id: string): Promise<boolean>;
-  listActivitiesByLesson(lessonId: string): Promise<Activity[]>;
-  
+
   // Question operations
-  getQuestion(id: string): Promise<Question | undefined>;
   createQuestion(question: InsertQuestion): Promise<Question>;
+  getQuestionsByActivity(activityId: string): Promise<Question[]>;
   updateQuestion(id: string, question: Partial<Question>): Promise<Question | undefined>;
   deleteQuestion(id: string): Promise<boolean>;
-  listQuestionsByActivity(activityId: string): Promise<Question[]>;
 }
 
-// In-memory implementation of the storage interface
+// Memory storage for development
 export class MemStorage implements IStorage {
-  private courses: Map<string, Course>;
-  private modules: Map<string, Module>;
-  private phaseData: Map<string, PhaseData>; // Key: `${courseId}-${phaseNumber}`
-  private aiSettings: Map<string, AISettings>;
+  private courses = new Map<string, Course>();
+  private modules = new Map<string, Module>();
+  private phaseData = new Map<string, PhaseData>();
+  private aiSettings = new Map<string, AISettings>();
+  private lessons = new Map<string, Lesson>();
+  private activities = new Map<string, Activity>();
+  private questions = new Map<string, Question>();
+  private nextId = 1;
 
-  constructor() {
-    this.courses = new Map();
-    this.modules = new Map();
-    this.phaseData = new Map();
-    this.aiSettings = new Map();
-  }
-
-  // Course methods
+  // Course operations
   async getCourse(id: string): Promise<Course | undefined> {
     return this.courses.get(id);
   }
@@ -87,16 +84,14 @@ export class MemStorage implements IStorage {
   }
 
   async createCourse(course: InsertCourse): Promise<Course> {
-    const id = `course-${Date.now()}`;
-    const now = new Date();
+    const id = this.nextId++;
     const newCourse: Course = {
       ...course,
-      id: parseInt(id.split('-')[1]),
-      currentPhase: course.currentPhase || 1,
-      createdAt: now,
-      updatedAt: now
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
-    this.courses.set(id, newCourse);
+    this.courses.set(id.toString(), newCourse);
     return newCourse;
   }
 
@@ -117,21 +112,33 @@ export class MemStorage implements IStorage {
     return this.courses.delete(id);
   }
 
-  // Module methods
+  async getCourseWithModules(id: string): Promise<Course | undefined> {
+    return this.courses.get(id);
+  }
+
+  // Module operations
   async getModule(id: string): Promise<Module | undefined> {
     return this.modules.get(id);
   }
 
+  async listModules(): Promise<Module[]> {
+    return Array.from(this.modules.values());
+  }
+
+  async getModulesByCourse(courseId: string): Promise<Module[]> {
+    return Array.from(this.modules.values()).filter(module => module.courseId.toString() === courseId);
+  }
+
   async createModule(module: InsertModule): Promise<Module> {
-    const id = `module-${Date.now()}`;
-    const now = new Date();
+    const id = this.nextId++;
     const newModule: Module = {
       ...module,
-      id: parseInt(id.split('-')[1]),
-      createdAt: now,
-      updatedAt: now
+      id,
+      status: "pending",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
-    this.modules.set(id, newModule);
+    this.modules.set(id.toString(), newModule);
     return newModule;
   }
 
@@ -152,62 +159,64 @@ export class MemStorage implements IStorage {
     return this.modules.delete(id);
   }
 
-  async listModulesByCourse(courseId: string): Promise<Module[]> {
-    return Array.from(this.modules.values())
-      .filter(module => module.courseId.toString() === courseId)
-      .sort((a, b) => a.order - b.order);
+  // Phase data operations
+  async getPhaseData(courseId: string, phase: string): Promise<PhaseData | undefined> {
+    return Array.from(this.phaseData.values()).find(
+      data => data.courseId.toString() === courseId && data.phase === phase
+    );
   }
 
-  // Phase data methods
-  async getPhaseData(courseId: string, phaseNumber: number): Promise<PhaseData | undefined> {
-    const key = `${courseId}-${phaseNumber}`;
-    return this.phaseData.get(key);
+  async getPhaseDataById(courseId: string, phase: string): Promise<PhaseData | undefined> {
+    return this.getPhaseData(courseId, phase);
   }
 
   async createPhaseData(phaseData: InsertPhaseData): Promise<PhaseData> {
-    const id = `phasedata-${Date.now()}`;
-    const key = `${phaseData.courseId}-${phaseData.phaseNumber}`;
-    const now = new Date();
+    const id = this.nextId++;
     const newPhaseData: PhaseData = {
       ...phaseData,
-      id: parseInt(id.split('-')[1]),
-      createdAt: now,
-      updatedAt: now
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
-    this.phaseData.set(key, newPhaseData);
+    this.phaseData.set(id.toString(), newPhaseData);
     return newPhaseData;
   }
 
   async updatePhaseData(id: string, phaseDataUpdate: Partial<PhaseData>): Promise<PhaseData | undefined> {
-    const [courseId, phaseNumber] = id.split('-');
-    const key = `${courseId}-${phaseNumber}`;
-    const phaseData = this.phaseData.get(key);
-    if (!phaseData) return undefined;
+    const data = this.phaseData.get(id);
+    if (!data) return undefined;
 
-    const updatedPhaseData: PhaseData = {
-      ...phaseData,
+    const updatedData: PhaseData = {
+      ...data,
       ...phaseDataUpdate,
       updatedAt: new Date()
     };
-    this.phaseData.set(key, updatedPhaseData);
-    return updatedPhaseData;
+    this.phaseData.set(id, updatedData);
+    return updatedData;
   }
 
-  // AI settings methods
+  // AI Settings operations
   async getAISettings(courseId: string): Promise<AISettings | undefined> {
-    return this.aiSettings.get(courseId);
+    return Array.from(this.aiSettings.values()).find(
+      settings => settings.courseId.toString() === courseId
+    );
   }
 
   async createAISettings(settings: InsertAISettings): Promise<AISettings> {
-    const id = `aisettings-${Date.now()}`;
-    const now = new Date();
+    const id = this.nextId++;
     const newSettings: AISettings = {
       ...settings,
-      id: parseInt(id.split('-')[1]),
-      createdAt: now,
-      updatedAt: now
+      id,
+      model: "gpt-4o",
+      optimization: "balanced",
+      languageStyle: "professional",
+      difficultyLevel: "intermediate",
+      contentDensity: 0.7,
+      teachingApproach: "practical",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
-    this.aiSettings.set(settings.courseId.toString(), newSettings);
+    this.aiSettings.set(id.toString(), newSettings);
     return newSettings;
   }
 
@@ -223,169 +232,118 @@ export class MemStorage implements IStorage {
     this.aiSettings.set(id, updatedSettings);
     return updatedSettings;
   }
-}
 
-// Create and export a storage instance
-import { db } from "./db";
-import { eq, and } from "drizzle-orm";
-import { courses, modules, phaseData, aiSettings } from "@shared/schema";
-
-export class DatabaseStorage implements IStorage {
-  async getCourse(id: string): Promise<Course | undefined> {
-    try {
-      // Handle both string and numeric IDs
-      let courseId: number;
-      
-      if (id.startsWith('course_')) {
-        // If it's a string ID like 'course_1747960517465', extract the numeric part
-        const numericPart = id.replace('course_', '');
-        courseId = parseInt(numericPart);
-      } else {
-        courseId = parseInt(id);
-      }
-      
-      if (isNaN(courseId)) {
-        console.error("Invalid course ID format:", id);
-        return undefined;
-      }
-      
-      const [course] = await db.select().from(courses).where(eq(courses.id, courseId));
-      return course || undefined;
-    } catch (error) {
-      console.error("Error fetching course:", error);
-      return undefined;
-    }
+  // Lesson operations
+  async getLesson(id: string): Promise<Lesson | undefined> {
+    return this.lessons.get(id);
   }
 
-  async listCourses(): Promise<Course[]> {
-    return await db.select().from(courses);
+  async createLesson(lesson: InsertLesson): Promise<Lesson> {
+    const id = this.nextId++;
+    const newLesson: Lesson = {
+      ...lesson,
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    this.lessons.set(id.toString(), newLesson);
+    return newLesson;
   }
 
-  async createCourse(course: InsertCourse): Promise<Course> {
-    const [newCourse] = await db
-      .insert(courses)
-      .values(course)
-      .returning();
-    return newCourse;
+  async updateLesson(id: string, lessonUpdate: Partial<Lesson>): Promise<Lesson | undefined> {
+    const lesson = this.lessons.get(id);
+    if (!lesson) return undefined;
+
+    const updatedLesson: Lesson = {
+      ...lesson,
+      ...lessonUpdate,
+      updatedAt: new Date()
+    };
+    this.lessons.set(id, updatedLesson);
+    return updatedLesson;
   }
 
-  async updateCourse(id: string, courseUpdate: Partial<Course>): Promise<Course | undefined> {
-    const [updatedCourse] = await db
-      .update(courses)
-      .set(courseUpdate)
-      .where(eq(courses.id, parseInt(id)))
-      .returning();
-    return updatedCourse || undefined;
+  async deleteLesson(id: string): Promise<boolean> {
+    return this.lessons.delete(id);
   }
 
-  async deleteCourse(id: string): Promise<boolean> {
-    try {
-      const numericId = parseInt(id);
-      console.log("Tentando deletar curso com ID:", numericId);
-      
-      // Primeiro deletar módulos relacionados
-      await db.delete(modules).where(eq(modules.courseId, numericId));
-      console.log("Módulos relacionados deletados");
-      
-      // Deletar dados de fase relacionados
-      await db.delete(phaseData).where(eq(phaseData.courseId, numericId));
-      console.log("Dados de fase relacionados deletados");
-      
-      // Deletar configurações AI relacionadas
-      await db.delete(aiSettings).where(eq(aiSettings.courseId, numericId));
-      console.log("Configurações AI relacionadas deletadas");
-      
-      // Finalmente deletar o curso
-      const result = await db.delete(courses).where(eq(courses.id, numericId));
-      console.log("Resultado da exclusão do curso:", result);
-      
-      return (result.rowCount || 0) > 0;
-    } catch (error) {
-      console.error("Erro ao deletar curso:", error);
-      return false;
-    }
+  async listAllLessons(): Promise<Lesson[]> {
+    return Array.from(this.lessons.values());
   }
 
-  async getModule(id: string): Promise<Module | undefined> {
-    const [module] = await db.select().from(modules).where(eq(modules.id, parseInt(id)));
-    return module || undefined;
+  // Activity operations
+  async createActivity(activity: InsertActivity): Promise<Activity> {
+    const id = this.nextId++;
+    const newActivity: Activity = {
+      ...activity,
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    this.activities.set(id.toString(), newActivity);
+    return newActivity;
   }
 
-  async createModule(module: InsertModule): Promise<Module> {
-    const [newModule] = await db
-      .insert(modules)
-      .values(module)
-      .returning();
-    return newModule;
+  async getActivitiesByLesson(lessonId: string): Promise<Activity[]> {
+    return Array.from(this.activities.values()).filter(
+      activity => activity.lessonId.toString() === lessonId
+    );
   }
 
-  async updateModule(id: string, moduleUpdate: Partial<Module>): Promise<Module | undefined> {
-    const [updatedModule] = await db
-      .update(modules)
-      .set(moduleUpdate)
-      .where(eq(modules.id, parseInt(id)))
-      .returning();
-    return updatedModule || undefined;
+  async updateActivity(id: string, activityUpdate: Partial<Activity>): Promise<Activity | undefined> {
+    const activity = this.activities.get(id);
+    if (!activity) return undefined;
+
+    const updatedActivity: Activity = {
+      ...activity,
+      ...activityUpdate,
+      updatedAt: new Date()
+    };
+    this.activities.set(id, updatedActivity);
+    return updatedActivity;
   }
 
-  async deleteModule(id: string): Promise<boolean> {
-    const result = await db.delete(modules).where(eq(modules.id, parseInt(id)));
-    return (result.rowCount || 0) > 0;
+  async deleteActivity(id: string): Promise<boolean> {
+    return this.activities.delete(id);
   }
 
-  async listModulesByCourse(courseId: string): Promise<Module[]> {
-    return await db.select().from(modules).where(eq(modules.courseId, parseInt(courseId)));
+  // Question operations
+  async createQuestion(question: InsertQuestion): Promise<Question> {
+    const id = this.nextId++;
+    const newQuestion: Question = {
+      ...question,
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    this.questions.set(id.toString(), newQuestion);
+    return newQuestion;
   }
 
-  async getPhaseData(courseId: string, phaseNumber: number): Promise<PhaseData | undefined> {
-    const [data] = await db.select().from(phaseData)
-      .where(
-        and(
-          eq(phaseData.courseId, parseInt(courseId)),
-          eq(phaseData.phaseNumber, phaseNumber)
-        )
-      );
-    return data || undefined;
+  async getQuestionsByActivity(activityId: string): Promise<Question[]> {
+    return Array.from(this.questions.values()).filter(
+      question => question.activityId.toString() === activityId
+    );
   }
 
-  async createPhaseData(data: InsertPhaseData): Promise<PhaseData> {
-    const [newPhaseData] = await db
-      .insert(phaseData)
-      .values(data)
-      .returning();
-    return newPhaseData;
+  async updateQuestion(id: string, questionUpdate: Partial<Question>): Promise<Question | undefined> {
+    const question = this.questions.get(id);
+    if (!question) return undefined;
+
+    const updatedQuestion: Question = {
+      ...question,
+      ...questionUpdate,
+      updatedAt: new Date()
+    };
+    this.questions.set(id, updatedQuestion);
+    return updatedQuestion;
   }
 
-  async updatePhaseData(id: string, phaseDataUpdate: Partial<PhaseData>): Promise<PhaseData | undefined> {
-    const [updatedPhaseData] = await db
-      .update(phaseData)
-      .set(phaseDataUpdate)
-      .where(eq(phaseData.id, parseInt(id)))
-      .returning();
-    return updatedPhaseData || undefined;
-  }
-
-  async getAISettings(courseId: string): Promise<AISettings | undefined> {
-    const [settings] = await db.select().from(aiSettings).where(eq(aiSettings.courseId, parseInt(courseId)));
-    return settings || undefined;
-  }
-
-  async createAISettings(settings: InsertAISettings): Promise<AISettings> {
-    const [newSettings] = await db
-      .insert(aiSettings)
-      .values(settings)
-      .returning();
-    return newSettings;
-  }
-
-  async updateAISettings(id: string, settingsUpdate: Partial<AISettings>): Promise<AISettings | undefined> {
-    const [updatedSettings] = await db
-      .update(aiSettings)
-      .set(settingsUpdate)
-      .where(eq(aiSettings.id, parseInt(id)))
-      .returning();
-    return updatedSettings || undefined;
+  async deleteQuestion(id: string): Promise<boolean> {
+    return this.questions.delete(id);
   }
 }
 
-export const storage = new DatabaseStorage();
+// Use PostgreSQL storage for all operations
+import { PostgresStorage } from "./postgres-storage";
+export const storage = new PostgresStorage();
