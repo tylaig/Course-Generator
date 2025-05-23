@@ -650,8 +650,8 @@ export default function Phase2() {
           {/* TAB 3: COMPETENCY MAPPING */}
           <TabsContent value="competencies" className="space-y-6">
             <div>
-              <h2 className="text-xl font-semibold mb-2">Mapeamento de Competências</h2>
-              <p className="text-muted-foreground">Associe competências aos módulos do curso</p>
+              <h2 className="text-xl font-semibold mb-2">Competency Mapping</h2>
+              <p className="text-muted-foreground">Associate competencies with course modules</p>
             </div>
 
             {modules.length === 0 ? (
@@ -659,9 +659,9 @@ export default function Phase2() {
                 <CardContent className="flex flex-col items-center justify-center py-12">
                   <div className="text-center">
                     <div className="text-4xl mb-4">🎯</div>
-                    <h3 className="text-lg font-semibold mb-2">Gere a Estrutura Primeiro</h3>
+                    <h3 className="text-lg font-semibold mb-2">Generate Structure First</h3>
                     <p className="text-muted-foreground">
-                      Você precisa gerar os módulos antes de fazer o mapeamento de competências
+                      You need to generate modules before mapping competencies
                     </p>
                   </div>
                 </CardContent>
@@ -670,12 +670,12 @@ export default function Phase2() {
               <div className="space-y-4">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Competências Definidas na Phase 1</CardTitle>
+                    <CardTitle>Competencies Defined in Phase 1</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {course?.phaseData?.phase1?.cognitiveSkills && (
                       <div>
-                        <h4 className="font-medium text-blue-600">Competências Cognitivas</h4>
+                        <h4 className="font-medium text-blue-600">Cognitive Competencies</h4>
                         <p className="text-sm text-muted-foreground">
                           {course.phaseData.phase1.cognitiveSkills}
                         </p>
@@ -683,7 +683,7 @@ export default function Phase2() {
                     )}
                     {course?.phaseData?.phase1?.behavioralSkills && (
                       <div>
-                        <h4 className="font-medium text-green-600">Competências Comportamentais</h4>
+                        <h4 className="font-medium text-green-600">Behavioral Competencies</h4>
                         <p className="text-sm text-muted-foreground">
                           {course.phaseData.phase1.behavioralSkills}
                         </p>
@@ -691,7 +691,7 @@ export default function Phase2() {
                     )}
                     {course?.phaseData?.phase1?.technicalSkills && (
                       <div>
-                        <h4 className="font-medium text-purple-600">Competências Técnicas</h4>
+                        <h4 className="font-medium text-purple-600">Technical Competencies</h4>
                         <p className="text-sm text-muted-foreground">
                           {course.phaseData.phase1.technicalSkills}
                         </p>
@@ -703,14 +703,14 @@ export default function Phase2() {
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between">
                     <div>
-                      <CardTitle>Distribuição por Módulos</CardTitle>
+                      <CardTitle>Distribution by Modules</CardTitle>
                       <CardDescription>
-                        Cada competência será desenvolvida ao longo dos módulos
+                        Each competency will be developed throughout the modules
                       </CardDescription>
                     </div>
                     <Button
                       onClick={() => {
-                        console.log("Gerando mapeamento de competências...");
+                        console.log("Generating competency mapping...");
                         generateCompetencyMapping.mutate();
                       }}
                       disabled={generateCompetencyMapping.isPending}
@@ -719,12 +719,12 @@ export default function Phase2() {
                       {generateCompetencyMapping.isPending ? (
                         <span className="flex items-center">
                           <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
-                          Mapeando...
+                          Mapping...
                         </span>
                       ) : (
                         <span className="flex items-center">
                           <span className="material-icons text-sm mr-2">psychology</span>
-                          Gerar Mapeamento com IA
+                          Generate AI Mapping
                         </span>
                       )}
                     </Button>
@@ -733,9 +733,9 @@ export default function Phase2() {
                     {!competenciesMap || Object.keys(competenciesMap).length === 0 ? (
                       <div className="text-center py-8">
                         <div className="text-4xl mb-4">🔗</div>
-                        <h3 className="text-lg font-semibold mb-2">Mapeamento Automático</h3>
+                        <h3 className="text-lg font-semibold mb-2">Automatic Mapping</h3>
                         <p className="text-muted-foreground">
-                          Clique no botão "Gerar Mapeamento com IA" para distribuir automaticamente as competências pelos módulos
+                          Click the "Generate AI Mapping" button to automatically distribute competencies across modules
                         </p>
                       </div>
                     ) : (
