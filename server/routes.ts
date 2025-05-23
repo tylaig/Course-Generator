@@ -247,25 +247,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log("Parâmetros recebidos:", req.params);
       console.log("Body recebido:", req.body);
       
-      // O courseId vem como "course_timestamp", mas precisamos usar o ID real do banco
+      // O courseId vem como parâmetro da URL
       const courseIdStr = req.params.courseId;
       
-      // Buscar o curso real no banco para pegar o ID correto
-      const courses = await pgStorage.listCourses();
-      const course = courses.find(c => 
-        c.title === "Novo Curso Educacional" || 
-        c.title === "New Educational Course" ||
-        c.id.toString() === courseIdStr
-      ); // Buscar por título em português, inglês ou ID direto
+      // Primeiro, tenta usar o courseId diretamente se for um número
+      let courseId = parseInt(courseIdStr);
       
-      if (!course) {
-        console.log("Curso não encontrado para:", courseIdStr);
+      // Se não for um número válido, busca no banco
+      if (isNaN(courseId)) {
+        const courses = await pgStorage.listCourses();
+        const course = courses.find(c => 
+          c.title === "Novo Curso Educacional" || 
+          c.title === "New Educational Course" ||
+          c.id.toString() === courseIdStr
+        );
+        
+        if (!course) {
+          console.log("Curso não encontrado para:", courseIdStr);
+          console.log("Cursos disponíveis:", courses.map(c => ({id: c.id, title: c.title})));
+          return res.status(404).json({ error: "Curso não encontrado" });
+        }
+        
+        courseId = course.id;
+      }
+      
+      // Verificar se o curso realmente existe no banco
+      const existingCourse = await pgStorage.getCourse(courseId.toString());
+      if (!existingCourse) {
+        console.log("Curso não existe no banco com ID:", courseId);
         return res.status(404).json({ error: "Curso não encontrado" });
       }
       
-      const courseId = course.id; // Usar o ID real do banco (1, 2, 3, etc.)
       console.log("Course ID original:", courseIdStr);
       console.log("Course ID do banco:", courseId);
+      console.log("Curso encontrado:", existingCourse.title);
       
       const phaseNumber = parseInt(req.params.phaseNumber);
       console.log("Phase number:", phaseNumber);
