@@ -1,0 +1,125 @@
+chunk-WERSD76P.js?v=4c2b12e2:21551 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+api/courses:1 
+            
+            
+           Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+course-list.tsx:70 Erro ao carregar cursos do banco: Error: 500: {"error":"Falha ao listar cursos"}
+    at throwIfResNotOk (queryClient.ts:6:11)
+    at async apiRequest (queryClient.ts:35:3)
+    at async loadCoursesFromDatabase (course-list.tsx:35:26)
+loadCoursesFromDatabase @ course-list.tsx:70
+api/courses:1 
+            
+            
+           Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+api/courses:1 
+            
+            
+           Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+course-list.tsx:70 Erro ao carregar cursos do banco: Error: 500: {"error":"Falha ao listar cursos"}
+    at throwIfResNotOk (queryClient.ts:6:11)
+    at async apiRequest (queryClient.ts:35:3)
+    at async loadCoursesFromDatabase (course-list.tsx:35:26)
+loadCoursesFromDatabase @ course-list.tsx:70
+CourseContext.tsx:102 Criando novo curso no PostgreSQL...
+api/courses:1 
+            
+            
+           Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+CourseContext.tsx:171 Erro ao criar curso no banco: Error: 500: {"error":"Falha ao criar curso"}
+    at throwIfResNotOk (queryClient.ts:6:11)
+    at async apiRequest (queryClient.ts:35:3)
+    at async createNewCourse (CourseContext.tsx:106:24)
+    at async handleCreateNewCourse (course-list.tsx:116:9)
+createNewCourse @ CourseContext.tsx:171
+course-list.tsx:123 Erro ao criar curso: Error: Falha ao criar curso no banco de dados
+    at createNewCourse (CourseContext.tsx:172:13)
+    at async handleCreateNewCourse (course-list.tsx:116:9)
+handleCreateNewCourse @ course-list.tsx:123
+CourseContext.tsx:102 Criando novo curso no PostgreSQL...
+api/courses:1 
+            
+            
+           Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+CourseContext.tsx:171 Erro ao criar curso no banco: Error: 500: {"error":"Falha ao criar curso"}
+    at throwIfResNotOk (queryClient.ts:6:11)
+    at async apiRequest (queryClient.ts:35:3)
+    at async createNewCourse (CourseContext.tsx:106:24)
+    at async handleCreateNewCourse (course-list.tsx:116:9)
+createNewCourse @ CourseContext.tsx:171
+course-list.tsx:123 Erro ao criar curso: Error: Falha ao criar curso no banco de dados
+    at createNewCourse (CourseContext.tsx:172:13)
+    at async handleCreateNewCourse (course-list.tsx:116:9)
+handleCreateNewCourse @ course-list.tsx:123
+
+                
+          
+          
+          
+         Chrome is moving towards a new experience that allows users to choose to browse without third-party cookies.
+CourseContext.tsx:102 Criando novo curso no PostgreSQL...
+queryClient.ts:28 
+            
+            
+           POST https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/courses 500 (Internal Server Error)
+apiRequest @ queryClient.ts:28
+createNewCourse @ CourseContext.tsx:106
+handleCreateNewCourse @ course-list.tsx:116
+callCallback2 @ chunk-WERSD76P.js?v=4c2b12e2:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=4c2b12e2:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=4c2b12e2:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=4c2b12e2:3736
+executeDispatch @ chunk-WERSD76P.js?v=4c2b12e2:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=4c2b12e2:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=4c2b12e2:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=4c2b12e2:7051
+(anonymous) @ chunk-WERSD76P.js?v=4c2b12e2:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=4c2b12e2:18913
+batchedUpdates @ chunk-WERSD76P.js?v=4c2b12e2:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=4c2b12e2:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=4c2b12e2:5478
+dispatchEvent @ chunk-WERSD76P.js?v=4c2b12e2:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=4c2b12e2:5449
+CourseContext.tsx:171 Erro ao criar curso no banco: Error: 500: {"error":"Falha ao criar curso"}
+    at throwIfResNotOk (queryClient.ts:6:11)
+    at async apiRequest (queryClient.ts:35:3)
+    at async createNewCourse (CourseContext.tsx:106:24)
+    at async handleCreateNewCourse (course-list.tsx:116:9)
+createNewCourse @ CourseContext.tsx:171
+await in createNewCourse
+handleCreateNewCourse @ course-list.tsx:116
+callCallback2 @ chunk-WERSD76P.js?v=4c2b12e2:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=4c2b12e2:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=4c2b12e2:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=4c2b12e2:3736
+executeDispatch @ chunk-WERSD76P.js?v=4c2b12e2:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=4c2b12e2:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=4c2b12e2:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=4c2b12e2:7051
+(anonymous) @ chunk-WERSD76P.js?v=4c2b12e2:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=4c2b12e2:18913
+batchedUpdates @ chunk-WERSD76P.js?v=4c2b12e2:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=4c2b12e2:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=4c2b12e2:5478
+dispatchEvent @ chunk-WERSD76P.js?v=4c2b12e2:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=4c2b12e2:5449
+course-list.tsx:123 Erro ao criar curso: Error: Falha ao criar curso no banco de dados
+    at createNewCourse (CourseContext.tsx:172:13)
+    at async handleCreateNewCourse (course-list.tsx:116:9)
+handleCreateNewCourse @ course-list.tsx:123
+await in handleCreateNewCourse
+callCallback2 @ chunk-WERSD76P.js?v=4c2b12e2:3674
+invokeGuardedCallbackDev @ chunk-WERSD76P.js?v=4c2b12e2:3699
+invokeGuardedCallback @ chunk-WERSD76P.js?v=4c2b12e2:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-WERSD76P.js?v=4c2b12e2:3736
+executeDispatch @ chunk-WERSD76P.js?v=4c2b12e2:7014
+processDispatchQueueItemsInOrder @ chunk-WERSD76P.js?v=4c2b12e2:7034
+processDispatchQueue @ chunk-WERSD76P.js?v=4c2b12e2:7043
+dispatchEventsForPlugins @ chunk-WERSD76P.js?v=4c2b12e2:7051
+(anonymous) @ chunk-WERSD76P.js?v=4c2b12e2:7174
+batchedUpdates$1 @ chunk-WERSD76P.js?v=4c2b12e2:18913
+batchedUpdates @ chunk-WERSD76P.js?v=4c2b12e2:3579
+dispatchEventForPluginEventSystem @ chunk-WERSD76P.js?v=4c2b12e2:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-WERSD76P.js?v=4c2b12e2:5478
+dispatchEvent @ chunk-WERSD76P.js?v=4c2b12e2:5472
+dispatchDiscreteEvent @ chunk-WERSD76P.js?v=4c2b12e2:5449
