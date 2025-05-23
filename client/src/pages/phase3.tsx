@@ -569,13 +569,68 @@ export default function Phase3() {
                     </Button>
                   )}
                   {lesson.detailedContent && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => toggleLessonExpansion(lesson.title)}
-                    >
-                      {expandedLessons.has(lesson.title) ? "Hide" : "View Content"}
-                    </Button>
+                    <>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => toggleLessonExpansion(lesson.title)}
+                      >
+                        {expandedLessons.has(lesson.title) ? "Hide" : "View Content"}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={async () => {
+                          try {
+                            const lessonData = {
+                              lesson: lesson,
+                              module: module,
+                              course: {
+                                title: course?.title,
+                                theme: course?.theme
+                              }
+                            };
+
+                            const response = await fetch(`/api/courses/${course?.id}/lesson-pdf`, {
+                              method: 'POST',
+                              headers: {
+                                'Content-Type': 'application/json',
+                              },
+                              body: JSON.stringify(lessonData)
+                            });
+
+                            if (response.ok) {
+                              const blob = await response.blob();
+                              const url = window.URL.createObjectURL(blob);
+                              const link = document.createElement('a');
+                              link.href = url;
+                              link.download = `${lesson.title.replace(/[^a-zA-Z0-9]/g, '_')}_Lesson.pdf`;
+                              document.body.appendChild(link);
+                              link.click();
+                              document.body.removeChild(link);
+                              window.URL.revokeObjectURL(url);
+                              
+                              toast({
+                                title: "PDF Downloaded!",
+                                description: `${lesson.title} PDF has been downloaded successfully.`,
+                              });
+                            } else {
+                              throw new Error('Failed to generate PDF');
+                            }
+                          } catch (error) {
+                            console.error('Error downloading lesson PDF:', error);
+                            toast({
+                              title: "Download Failed",
+                              description: "Unable to generate the lesson PDF. Please try again.",
+                              variant: "destructive",
+                            });
+                          }
+                        }}
+                        className="text-blue-600 hover:text-blue-700"
+                      >
+                        📄 PDF
+                      </Button>
+                    </>
                   )}
                 </div>
               </div>

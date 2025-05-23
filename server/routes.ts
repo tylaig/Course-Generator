@@ -1037,6 +1037,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Individual Lesson PDF Download endpoint
+  app.post("/api/courses/:courseId/lesson-pdf", async (req, res) => {
+    try {
+      const courseId = parseInt(req.params.courseId);
+      console.log("📄 Generating individual lesson PDF for course ID:", courseId);
+      
+      const { lesson, module, course } = req.body;
+      
+      if (!lesson || !module || !course) {
+        console.error("❌ Missing required data for lesson PDF");
+        return res.status(400).json({ error: "Lesson, module, and course data are required" });
+      }
+
+      console.log("📖 Lesson data:", {
+        lessonTitle: lesson.title,
+        moduleTitle: module.title,
+        courseTitle: course.title,
+        hasDetailedContent: !!lesson.detailedContent
+      });
+
+      const { generateLessonPDF } = await import("./zip-generator");
+      const pdfBuffer = await generateLessonPDF(lesson, module, course);
+      
+      console.log(`✅ Lesson PDF generated: ${pdfBuffer.length} bytes`);
+      
+      const fileName = `${lesson.title.replace(/[^a-zA-Z0-9]/g, '_')}_Lesson.pdf`;
+      
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+      res.setHeader('Content-Length', pdfBuffer.length);
+      
+      res.send(pdfBuffer);
+      console.log("✅ Individual lesson PDF download completed!");
+      
+    } catch (error) {
+      console.error("❌ Error generating lesson PDF:", error);
+      res.status(500).json({ 
+        error: "Failed to generate lesson PDF",
+        details: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
   // ZIP Download endpoint - Download course as ZIP with PDF files
   app.post("/api/courses/:courseId/download-zip", async (req, res) => {
     try {
