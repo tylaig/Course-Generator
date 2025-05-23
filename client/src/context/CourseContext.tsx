@@ -44,28 +44,76 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const initializeCourse = async () => {
       try {
-        // Primeiro tentar localStorage para compatibilidade
-        const savedCourse = CourseStorage.getCurrentCourse();
-        if (savedCourse) {
-          // Verificar se o curso existe no banco de dados
-          const numericId = parseInt(savedCourse.id);
-          if (!isNaN(numericId)) {
-            try {
-              const response = await apiRequest("GET", `/api/courses/${numericId}`);
-              const dbCourse = await response.json();
-              // Sincronizar com os dados do banco
-              savedCourse.id = dbCourse.id.toString();
-              setCourse(savedCourse);
-            } catch (error) {
-              console.log("Curso não encontrado no banco, usando localStorage");
-              setCourse(savedCourse);
-            }
+        // Primeiro buscar cursos no banco de dados
+        const response = await apiRequest("GET", "/api/courses");
+        const courses = await response.json();
+        
+        if (courses && courses.length > 0) {
+          // Usar o curso mais recente do banco
+          const latestCourse = courses[courses.length - 1];
+          console.log("Usando curso do banco:", latestCourse);
+          
+          // Verificar se há dados salvos no localStorage
+          const savedCourse = CourseStorage.getCurrentCourse();
+          if (savedCourse) {
+            // Mesclar dados salvos com o curso do banco
+            const mergedCourse = {
+              ...savedCourse,
+              id: latestCourse.id.toString(), // Usar ID do banco
+              title: latestCourse.title,
+              theme: latestCourse.theme,
+              currentPhase: latestCourse.currentPhase || savedCourse.currentPhase
+            };
+            setCourse(mergedCourse);
           } else {
+            // Criar curso baseado nos dados do banco
+            const newCourse: Course = {
+              id: latestCourse.id.toString(),
+              title: latestCourse.title,
+              theme: latestCourse.theme,
+              estimatedHours: latestCourse.estimatedHours,
+              format: latestCourse.format,
+              platform: latestCourse.platform,
+              deliveryFormat: latestCourse.deliveryFormat,
+              currentPhase: latestCourse.currentPhase,
+              progress: {
+                phase1: 100,
+                phase2: 100,
+                phase3: 100,
+                phase4: 100,
+                phase5: 0,
+                overall: 80,
+                lastUpdated: new Date().toISOString()
+              },
+              aiConfig: {
+                model: "gpt-4o",
+                optimization: "balanced",
+                languageStyle: "professional",
+                difficultyLevel: "intermediate",
+                contentDensity: 0.7,
+                teachingApproach: "practical",
+                contentTypes: ["text", "video", "quiz", "exercise", "case"],
+                language: "pt-BR"
+              },
+              modules: [],
+              phaseData: {}
+            };
+            setCourse(newCourse);
+          }
+        } else {
+          // Fallback para localStorage se não houver cursos no banco
+          const savedCourse = CourseStorage.getCurrentCourse();
+          if (savedCourse) {
             setCourse(savedCourse);
           }
         }
       } catch (error) {
         console.error("Erro ao inicializar curso:", error);
+        // Fallback para localStorage
+        const savedCourse = CourseStorage.getCurrentCourse();
+        if (savedCourse) {
+          setCourse(savedCourse);
+        }
       } finally {
         setIsInitialized(true);
       }
