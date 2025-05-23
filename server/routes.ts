@@ -306,14 +306,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/generate/lesson-content", async (req, res) => {
     try {
       console.log("=== GERAÇÃO DE CONTEÚDO DE AULA INICIADA ===");
+      console.log("Dados recebidos:", JSON.stringify(req.body, null, 2));
+      
       const { lesson, module, courseDetails, aiConfig, lessonTitle } = req.body;
       
       // Support both old and new formats
-      const lessonData = lesson || { title: lessonTitle };
-      const courseData = courseDetails;
+      const lessonData = lesson || { title: lessonTitle || "Aula sem título" };
+      const moduleData = module || { title: "Módulo Padrão", description: "Módulo gerado automaticamente" };
+      const courseData = courseDetails || {};
       
-      if (!lessonData || !courseData) {
-        return res.status(400).json({ error: "Dados obrigatórios não fornecidos" });
+      // Ensure we have at least basic data
+      if (!lessonData.title && !lessonTitle) {
+        return res.status(400).json({ error: "Título da aula é obrigatório" });
       }
       
       console.log(`Gerando conteúdo para aula: ${lessonData.title}`);
@@ -329,10 +333,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Usar OpenAI para gerar conteúdo estruturado da aula
       const { generateAdvancedLessonContent } = await import('./openai');
       const lessonContent = await generateAdvancedLessonContent(
-        lesson, 
-        module, 
-        courseDetails, 
-        aiConfig
+        lessonData, 
+        moduleData, 
+        courseData, 
+        aiConfig || {}
       );
       
       res.json({
