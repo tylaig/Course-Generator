@@ -28,32 +28,259 @@ import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { BookOpen, Plus, CheckCircle, AlertCircle, Zap } from "lucide-react";
 
 export default function Phase4() {
   const [_, navigate] = useLocation();
-  const { course, moveToNextPhase, updatePhaseData } = useCourse();
+  const { course, moveToNextPhase, updatePhaseData, updateModuleContent } = useCourse();
   const [selectedModule, setSelectedModule] = useState<any>(null);
+  const [generationStatus, setGenerationStatus] = useState<"idle" | "generating" | "success" | "error">("idle");
   const { toast } = useToast();
 
-  // Função para extrair atividades das aulas de um módulo
-  const getModuleActivities = (module: any) => {
-    if (!module.content?.lessons) return [];
-    
-    const activities: any[] = [];
-    module.content.lessons.forEach((lesson: any) => {
-      if (lesson.detailedContent?.activities) {
-        lesson.detailedContent.activities.forEach((activity: any) => {
-          activities.push({
-            ...activity,
-            lessonTitle: lesson.title,
-            moduleTitle: module.title,
-            moduleId: module.id
+  // Generate missing activities for lessons
+  const generateMissingActivities = useMutation({
+    mutationFn: async () => {
+      setGenerationStatus("generating");
+      
+      const lessonsToGenerate: { moduleId: string; lessonId: string; lessonName: string }[] = [];
+      
+      // Find lessons without detailed content or with incomplete activities
+      course?.modules.forEach(module => {
+        if (module.content?.lessons) {
+          module.content.lessons.forEach((lesson: any) => {
+            if (!lesson.detailedContent || 
+                !lesson.detailedContent.practicalExercises || 
+                lesson.detailedContent.practicalExercises.length === 0 ||
+                !lesson.detailedContent.assessmentQuestions ||
+                lesson.detailedContent.assessmentQuestions.length === 0) {
+              lessonsToGenerate.push({
+                moduleId: module.id,
+                lessonId: lesson.title,
+                lessonName: lesson.title
+              });
+            }
           });
-        });
+        }
+      });
+
+      console.log(`Gerando atividades para ${lessonsToGenerate.length} aulas`);
+      
+      const results = [];
+      
+      for (const lessonInfo of lessonsToGenerate) {
+        try {
+          const moduleToGenerate = course?.modules.find(m => m.id === lessonInfo.moduleId);
+          if (!moduleToGenerate) continue;
+          
+          const lessonToGenerate = moduleToGenerate.content?.lessons?.find((l: any) => l.title === lessonInfo.lessonId);
+          if (!lessonToGenerate) continue;
+          
+          const response = await apiRequest(
+            "POST", 
+            "/api/generate/lesson-content", 
+            {
+              lesson: lessonToGenerate,
+              module: moduleToGenerate,
+              courseDetails: {
+                title: course?.title,
+                theme: course?.theme,
+                estimatedHours: course?.estimatedHours,
+                format: course?.format,
+                platform: course?.platform,
+                deliveryFormat: course?.deliveryFormat,
+                phaseData: course?.phaseData?.phase1
+              },
+              aiConfig: course?.aiConfig
+            }
+          );
+          
+          const result = await response.json();
+          const content = result.success ? result.content : result;
+          results.push({ moduleId: lessonInfo.moduleId, lessonId: lessonInfo.lessonId, content });
+          
+          // Update lesson content immediately
+          const updatedModule = { ...moduleToGenerate };
+          if (updatedModule.content?.lessons) {
+            const lessonIndex = updatedModule.content.lessons.findIndex((l: any) => l.title === lessonInfo.lessonId);
+            if (lessonIndex !== -1) {
+              updatedModule.content.lessons[lessonIndex] = {
+                ...updatedModule.content.lessons[lessonIndex],
+                detailedContent: content,
+                status: "generated"
+              };
+            }
+          }
+          
+          // Update module with updated lessons locally
+          await updateModuleContent(moduleToGenerate.id, updatedModule.content);
+          
+          // Save to database immediately
+          try {
+            await apiRequest("PUT", `/api/modules/${moduleToGenerate.id}`, {
+              content: updatedModule.content
+            });
+          } catch (error) {
+            console.error("Error saving to database:", error);
+          }
+          
+          // Short pause between requests to avoid rate limiting
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          
+        } catch (error) {
+          console.error(`Error generating content for lesson ${lessonInfo.lessonName}:`, error);
+          // Continue with next lesson
+        }
       }
-    });
-    return activities;
-  };
+      
+      return results;
+    },
+    onSuccess: (data) => {
+      setGenerationStatus("success");
+      
+      toast({
+        title: "Atividades geradas!",
+        description: `${data.length} aulas tiveram suas atividades geradas com sucesso.`,
+      });
+    },
+    onError: (error) => {
+      setGenerationStatus("error");
+      
+      console.error("Activities generation error:", error);
+      toast({
+        title: "Erro na geração",
+        description: "Houve um problema ao gerar as atividades. Tente novamente.",
+        variant: "destructive",
+      });
+    }
+  });
+
+  // Generate all content for all lessons
+  const generateAllContent = useMutation({
+    mutationFn: async () => {
+      setGenerationStatus("generating");
+      
+      const allLessons: { moduleId: string; lessonId: string; lessonName: string }[] = [];
+      
+      // Get all lessons from all modules
+      course?.modules.forEach(module => {
+        if (module.content?.lessons) {
+          module.content.lessons.forEach((lesson: any) => {
+            allLessons.push({
+              moduleId: module.id,
+              lessonId: lesson.title,
+              lessonName: lesson.title
+            });
+          });
+        }
+      });
+
+      console.log(`Gerando conteúdo completo para ${allLessons.length} aulas`);
+      
+      const results = [];
+      
+      for (const lessonInfo of allLessons) {
+        try {
+          const moduleToGenerate = course?.modules.find(m => m.id === lessonInfo.moduleId);
+          if (!moduleToGenerate) continue;
+          
+          const lessonToGenerate = moduleToGenerate.content?.lessons?.find((l: any) => l.title === lessonInfo.lessonId);
+          if (!lessonToGenerate) continue;
+          
+          const response = await apiRequest(
+            "POST", 
+            "/api/generate/lesson-content", 
+            {
+              lesson: lessonToGenerate,
+              module: moduleToGenerate,
+              courseDetails: {
+                title: course?.title,
+                theme: course?.theme,
+                estimatedHours: course?.estimatedHours,
+                format: course?.format,
+                platform: course?.platform,
+                deliveryFormat: course?.deliveryFormat,
+                phaseData: course?.phaseData?.phase1
+              },
+              aiConfig: course?.aiConfig
+            }
+          );
+          
+          const result = await response.json();
+          const content = result.success ? result.content : result;
+          results.push({ moduleId: lessonInfo.moduleId, lessonId: lessonInfo.lessonId, content });
+          
+          // Update lesson content immediately
+          const updatedModule = { ...moduleToGenerate };
+          if (updatedModule.content?.lessons) {
+            const lessonIndex = updatedModule.content.lessons.findIndex((l: any) => l.title === lessonInfo.lessonId);
+            if (lessonIndex !== -1) {
+              updatedModule.content.lessons[lessonIndex] = {
+                ...updatedModule.content.lessons[lessonIndex],
+                detailedContent: content,
+                status: "generated"
+              };
+            }
+          }
+          
+          // Update module with updated lessons locally
+          await updateModuleContent(moduleToGenerate.id, updatedModule.content);
+          
+          // Save to database immediately
+          try {
+            await apiRequest("PUT", `/api/modules/${moduleToGenerate.id}`, {
+              content: updatedModule.content
+            });
+          } catch (error) {
+            console.error("Error saving to database:", error);
+          }
+          
+          // Short pause between requests to avoid rate limiting
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          
+        } catch (error) {
+          console.error(`Error generating content for lesson ${lessonInfo.lessonName}:`, error);
+          // Continue with next lesson
+        }
+      }
+      
+      return results;
+    },
+    onSuccess: (data) => {
+      setGenerationStatus("success");
+      
+      toast({
+        title: "Conteúdo completo gerado!",
+        description: `${data.length} aulas tiveram todo o conteúdo gerado com sucesso.`,
+      });
+    },
+    onError: (error) => {
+      setGenerationStatus("error");
+      
+      console.error("All content generation error:", error);
+      toast({
+        title: "Erro na geração",
+        description: "Houve um problema ao gerar o conteúdo completo. Tente novamente.",
+        variant: "destructive",
+      });
+    }
+  });
+
+  // Calculate completion stats
+  const totalLessons = course?.modules.reduce((sum, module) => {
+    return sum + (module.content?.lessons?.length || 0);
+  }, 0) || 0;
+  
+  const lessonsWithActivities = course?.modules.reduce((sum, module) => {
+    return sum + (module.content?.lessons?.filter((lesson: any) => 
+      lesson.detailedContent && 
+      lesson.detailedContent.practicalExercises && 
+      lesson.detailedContent.practicalExercises.length > 0 &&
+      lesson.detailedContent.assessmentQuestions &&
+      lesson.detailedContent.assessmentQuestions.length > 0
+    ).length || 0);
+  }, 0) || 0;
+
+  const pendingActivitiesCount = totalLessons - lessonsWithActivities;
 
   // Função para contar questões por módulo
   const getModuleQuestionCount = (module: any) => {
