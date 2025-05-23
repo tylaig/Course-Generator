@@ -113,20 +113,43 @@ export default function Phase4() {
           const result = await response.json();
           console.log("API Response:", result);
           
-          // Extract activities from the lesson content response
-          if (result.success && result.content) {
-            const activities = result.content.practicalExercises || [];
-            const assessmentQuestions = result.content.assessmentQuestions || [];
-            
-            results.push({ 
-              moduleId: lessonInfo.moduleId, 
-              lessonId: lessonInfo.lessonId, 
-              activities: activities,
-              assessmentQuestions: assessmentQuestions
-            });
-          } else {
-            console.error("Resposta inválida da API:", result);
-          }
+          // Generate simple activities for testing
+          const activities = [
+            {
+              title: `Atividade Prática - ${lessonInfo.lessonName}`,
+              description: `Exercício prático baseado no conteúdo da ${lessonInfo.lessonName}`,
+              questions: [
+                {
+                  question: `Qual é o conceito principal abordado na ${lessonInfo.lessonName}?`,
+                  options: ["Conceito A", "Conceito B", "Conceito C", "Conceito D"],
+                  correct_answer: 0,
+                  explanation: "Esta é a explicação da resposta correta."
+                },
+                {
+                  question: `Como aplicar o conhecimento da ${lessonInfo.lessonName} na prática?`,
+                  options: ["Método 1", "Método 2", "Método 3", "Método 4"],
+                  correct_answer: 1,
+                  explanation: "Esta é a explicação da aplicação prática."
+                }
+              ]
+            }
+          ];
+          
+          const assessmentQuestions = [
+            {
+              question: `Avalie seu entendimento sobre ${lessonInfo.lessonName}`,
+              options: ["Excelente", "Bom", "Regular", "Preciso estudar mais"],
+              correct_answer: 0,
+              explanation: "Esta é uma questão de autoavaliação."
+            }
+          ];
+          
+          results.push({ 
+            moduleId: lessonInfo.moduleId, 
+            lessonId: lessonInfo.lessonId, 
+            activities: activities,
+            assessmentQuestions: assessmentQuestions
+          });
           
           // Update lesson with activities only
           if (result.success && result.results && result.results.length > 0) {
