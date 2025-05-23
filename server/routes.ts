@@ -129,11 +129,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // If update fails, try to create the module
       try {
         console.log(`📝 Criando novo módulo ${moduleId}...`);
+        
+        // Extract numeric ID from string like "module-1747968774963-0"
+        const numericId = parseInt(moduleId.replace(/\D/g, '')) || Date.now();
+        
         const newModule = await storage.createModule({
           title: `Módulo ${moduleId}`,
           description: `Módulo criado automaticamente para ${moduleId}`,
           estimatedHours: 5,
-          courseId: 1, // Default course ID
+          courseId: numericId, // Use extracted ID as course ID
           order: 1,
           status: status || "draft",
           content: content
