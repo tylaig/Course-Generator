@@ -374,7 +374,7 @@ export default function Phase3() {
           
           const response = await apiRequest(
             "POST", 
-            "/api/generate/lesson-content", 
+            "/api/lesson-content-generation", 
             {
               lesson: lessonToGenerate,
               module: moduleToGenerate,

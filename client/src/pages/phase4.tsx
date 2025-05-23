@@ -63,7 +63,7 @@ export default function Phase4() {
         setGenerationProgress((i / lessonsToGenerate.length) * 100);
 
         // Call OpenAI API to generate activities
-        const response = await fetch('/api/generate/lesson-content', {
+        const response = await fetch('/api/lesson-content-generation', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

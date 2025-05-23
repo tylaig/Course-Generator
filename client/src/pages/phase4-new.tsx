@@ -104,7 +104,7 @@ export default function Phase4New() {
         console.log(`🎯 Gerando atividades IA para: ${lessonInfo.lessonName}`);
 
         // Generate activities via API
-        const response = await fetch("/api/generate/lesson-content", {
+        const response = await fetch("/api/lesson-content-generation", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
