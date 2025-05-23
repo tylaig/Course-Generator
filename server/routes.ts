@@ -302,55 +302,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // TESTE COM ENDPOINT NOVO
-  app.post("/api/test-new-lesson", async (req, res) => {
-    console.log("🚀 ENDPOINT NOVO FUNCIONANDO!");
-    console.log("Dados:", JSON.stringify(req.body, null, 2));
-    
-    try {
-      const { lessonTitle, courseDetails } = req.body;
-      
-      if (!lessonTitle && !courseDetails) {
-        return res.status(400).json({ error: "Precisa de lessonTitle ou courseDetails" });
-      }
-
-      // Simular resposta de sucesso
-      res.json({
-        success: true,
-        message: "Endpoint novo funcionando!",
-        data: { lessonTitle, courseDetails }
-      });
-    } catch (error) {
-      res.status(500).json({ error: "Erro no endpoint novo" });
-    }
-  });
-
-  // ---- Lesson Content Generation (Phase 3) ----
-  app.post("/api/generate/lesson-content", async (req, res) => {
-    console.log("🎯 Geração de conteúdo iniciada");
+  // ✅ ENDPOINT FINAL PARA GERAÇÃO DE CONTEÚDO (SEM CONFLITOS)
+  app.post("/api/lesson-content-generation", async (req, res) => {
+    console.log("🎯 Gerando conteúdo de aula (endpoint sem conflitos)");
     console.log("Dados recebidos:", JSON.stringify(req.body, null, 2));
     
     try {
       const { lesson, module, courseDetails, aiConfig, lessonTitle } = req.body;
       
-      // Aceitar se temos lessonTitle OU courseDetails
-      if (!lessonTitle && !courseDetails) {
-        return res.status(400).json({ error: "lessonTitle ou courseDetails são obrigatórios" });
+      // Aceitar qualquer dado válido
+      if (!lessonTitle && !courseDetails && !lesson) {
+        return res.status(400).json({ 
+          error: "É necessário fornecer lessonTitle, courseDetails ou lesson" 
+        });
       }
 
       // Verificar chave OpenAI
       if (!process.env.OPENAI_API_KEY) {
         return res.status(500).json({ 
-          error: "Chave da OpenAI não configurada" 
+          error: "Chave da OpenAI não configurada",
+          message: "Configure OPENAI_API_KEY para usar geração de conteúdo"
         });
       }
 
-      // Usar OpenAI para gerar conteúdo
-      const { generateAdvancedLessonContent } = await import('./openai');
-      const lessonData = lesson || { title: lessonTitle };
-      const moduleData = module || { title: "Módulo Padrão", description: "Módulo automatico" };
+      // Preparar dados para geração
+      const lessonData = lesson || { title: lessonTitle || "Aula Padrão" };
+      const moduleData = module || { title: "Módulo Padrão", description: "Módulo gerado automaticamente" };
       const courseData = courseDetails || { title: "Curso Padrão", theme: "Educação" };
       
+      console.log(`✅ Gerando conteúdo para: ${lessonData.title}`);
+
+      // Gerar conteúdo usando OpenAI
+      const { generateAdvancedLessonContent } = await import('./openai');
       const lessonContent = await generateAdvancedLessonContent(
         lessonData, 
         moduleData, 
@@ -358,15 +341,73 @@ export async function registerRoutes(app: Express): Promise<Server> {
         aiConfig || {}
       );
       
+      console.log("✅ Conteúdo gerado com sucesso!");
+      
       res.json({
         success: true,
         content: lessonContent
       });
       
     } catch (error) {
-      console.error("Erro na geração:", error);
+      console.error("❌ Erro na geração:", error);
       res.status(500).json({ 
-        error: "Falha ao gerar conteúdo da aula"
+        error: "Falha ao gerar conteúdo da aula",
+        details: error instanceof Error ? error.message : "Erro desconhecido"
+      });
+    }
+  });
+
+  // ---- Lesson Content Generation (Phase 3) ---- 
+  app.post("/api/generate/lesson-content", async (req, res) => {
+    console.log("🎯 Gerando conteúdo de aula");
+    console.log("Dados recebidos:", JSON.stringify(req.body, null, 2));
+    
+    try {
+      const { lesson, module, courseDetails, aiConfig, lessonTitle } = req.body;
+      
+      // Validação simples - aceitar qualquer coisa válida
+      if (!lessonTitle && !courseDetails && !lesson) {
+        return res.status(400).json({ 
+          error: "É necessário fornecer lessonTitle, courseDetails ou lesson" 
+        });
+      }
+
+      // Verificar chave OpenAI
+      if (!process.env.OPENAI_API_KEY) {
+        return res.status(500).json({ 
+          error: "Chave da OpenAI não configurada",
+          message: "Configure OPENAI_API_KEY para usar geração de conteúdo"
+        });
+      }
+
+      // Preparar dados para geração
+      const lessonData = lesson || { title: lessonTitle || "Aula Padrão" };
+      const moduleData = module || { title: "Módulo Padrão", description: "Módulo gerado automaticamente" };
+      const courseData = courseDetails || { title: "Curso Padrão", theme: "Educação" };
+      
+      console.log(`✅ Gerando conteúdo para: ${lessonData.title}`);
+
+      // Gerar conteúdo usando OpenAI
+      const { generateAdvancedLessonContent } = await import('./openai');
+      const lessonContent = await generateAdvancedLessonContent(
+        lessonData, 
+        moduleData, 
+        courseData, 
+        aiConfig || {}
+      );
+      
+      console.log("✅ Conteúdo gerado com sucesso!");
+      
+      res.json({
+        success: true,
+        content: lessonContent
+      });
+      
+    } catch (error) {
+      console.error("❌ Erro na geração:", error);
+      res.status(500).json({ 
+        error: "Falha ao gerar conteúdo da aula",
+        details: error instanceof Error ? error.message : "Erro desconhecido"
       });
     }
   });
