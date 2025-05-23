@@ -16,42 +16,49 @@ export default function CourseList() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Carregar lista de cursos do armazenamento local
+  // Carregar lista de cursos do banco de dados
   useEffect(() => {
-    const loadCoursesFromStorage = () => {
+    const loadCoursesFromDatabase = async () => {
       try {
-        // Obter todos os IDs de cursos do localStorage
-        const allKeys = Object.keys(localStorage);
-        const courseKeys = allKeys.filter(key => key.startsWith('course_'));
+        const response = await apiRequest("GET", "/api/courses");
+        const coursesData = await response.json();
+        setCourses(coursesData);
+      } catch (error) {
+        console.error("Erro ao carregar cursos do banco:", error);
         
-        // Carregar cada curso
-        const loadedCourses = courseKeys.map(key => {
-          const courseData = localStorage.getItem(key);
-          if (courseData) {
-            try {
-              return JSON.parse(courseData) as Course;
-            } catch (e) {
-              console.error("Erro ao analisar dados do curso:", e);
-              return null;
+        // Fallback para localStorage se o banco falhar
+        try {
+          const allKeys = Object.keys(localStorage);
+          const courseKeys = allKeys.filter(key => key.startsWith('course_'));
+          
+          const loadedCourses = courseKeys.map(key => {
+            const courseData = localStorage.getItem(key);
+            if (courseData) {
+              try {
+                return JSON.parse(courseData) as Course;
+              } catch (e) {
+                console.error("Erro ao analisar dados do curso:", e);
+                return null;
+              }
             }
-          }
-          return null;
-        }).filter(c => c !== null) as Course[];
-        
-        setCourses(loadedCourses);
-      } catch (e) {
-        console.error("Erro ao carregar cursos:", e);
-        toast({
-          title: "Erro",
-          description: "Não foi possível carregar a lista de cursos.",
-          variant: "destructive"
-        });
+            return null;
+          }).filter(c => c !== null) as Course[];
+          
+          setCourses(loadedCourses);
+        } catch (e) {
+          console.error("Erro ao carregar cursos:", e);
+          toast({
+            title: "Erro",
+            description: "Não foi possível carregar a lista de cursos.",
+            variant: "destructive"
+          });
+        }
       } finally {
         setLoading(false);
       }
     };
     
-    loadCoursesFromStorage();
+    loadCoursesFromDatabase();
   }, [toast]);
 
   // Tentar carregar cursos do servidor

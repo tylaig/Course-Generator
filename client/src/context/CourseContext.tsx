@@ -18,8 +18,8 @@ interface CourseContextType {
   exportCourseData: (format: 'json' | 'csv') => Promise<void>;
   generationStatus: GenerationStatus;
   setGenerationStatus: (status: GenerationStatus) => void;
-  createNewCourse: () => void;
-  loadCourse: (courseId: string) => void;
+  createNewCourse: () => Promise<Course>;
+  loadCourse: (courseId: string) => Promise<Course>;
   clearCurrentCourse: () => void;
   saveCourseToLocalStorage: () => void;
 }
@@ -41,6 +41,7 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Carregar curso salvo quando o componente é montado
   useEffect(() => {
+    // Primeiro tentar localStorage para compatibilidade
     const savedCourse = CourseStorage.getCurrentCourse();
     if (savedCourse) {
       setCourse(savedCourse);
@@ -48,27 +49,49 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
     setIsInitialized(true);
   }, []);
 
-  // Salvar automaticamente sempre que o curso mudar
+  // Salvar automaticamente no banco de dados sempre que o curso mudar
   useEffect(() => {
     if (course && isInitialized) {
-      // Persistir no armazenamento local
+      // Salvar no banco de dados
+      saveCourseToDatabase(course);
+      
+      // Manter localStorage para compatibilidade
       CourseStorage.saveCourse(course);
-      
-      // Salvar os dados da fase atual no armazenamento específico
-      if (course.phaseData && course.currentPhase) {
-        const phaseKey = `phase${course.currentPhase}` as keyof typeof course.phaseData;
-        const phaseData = course.phaseData[phaseKey];
-        if (phaseData) {
-          CourseStorage.savePhaseData(course.id, course.currentPhase, phaseData);
-        }
-      }
-      
-      // Salvar cada módulo separadamente para acesso mais rápido
-      course.modules.forEach(module => {
-        CourseStorage.saveModule(course.id, module);
-      });
     }
   }, [course, isInitialized]);
+
+  const saveCourseToDatabase = async (courseData: Course) => {
+    try {
+      // Salvar curso
+      await apiRequest("PUT", `/api/courses/${courseData.id}`, {
+        title: courseData.title,
+        theme: courseData.theme,
+        estimatedHours: courseData.estimatedHours,
+        format: courseData.format,
+        platform: courseData.platform,
+        deliveryFormat: courseData.deliveryFormat,
+        currentPhase: courseData.currentPhase,
+        progress: courseData.progress,
+        phaseData: courseData.phaseData,
+        aiConfig: courseData.aiConfig
+      });
+
+      // Salvar módulos
+      for (const module of courseData.modules) {
+        await apiRequest("PUT", `/api/modules/${module.id}`, {
+          title: module.title,
+          description: module.description,
+          order: module.order,
+          estimatedHours: module.estimatedHours,
+          status: module.status,
+          content: module.content,
+          courseId: courseData.id
+        });
+      }
+    } catch (error) {
+      console.error("Erro ao salvar no banco:", error);
+    }
+  };
 
   const createNewCourse = () => {
     console.log("Criando novo curso no CourseContext...");
@@ -166,10 +189,32 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
     return newCourse;
   };
 
-  const loadCourse = (courseId: string) => {
-    const loadedCourse = CourseStorage.getCourse(courseId);
-    if (loadedCourse) {
-      setCourse(loadedCourse);
+  const loadCourse = async (courseId: string) => {
+    try {
+      // Tentar carregar do banco primeiro
+      const courseResponse = await apiRequest("GET", `/api/courses/${courseId}`);
+      const courseData = await courseResponse.json();
+      
+      // Carregar módulos
+      const modulesResponse = await apiRequest("GET", `/api/courses/${courseId}/modules`);
+      const modules = await modulesResponse.json();
+      
+      const fullCourse = {
+        ...courseData,
+        modules: modules
+      };
+      
+      setCourse(fullCourse);
+      return fullCourse;
+    } catch (error) {
+      console.error("Erro ao carregar curso do banco:", error);
+      // Fallback para localStorage
+      const loadedCourse = CourseStorage.getCourse(courseId);
+      if (loadedCourse) {
+        setCourse(loadedCourse);
+        return loadedCourse;
+      }
+      throw error;
     }
   };
 
