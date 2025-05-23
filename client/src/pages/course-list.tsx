@@ -28,18 +28,18 @@ export default function CourseList() {
   const [loading, setLoading] = useState(true);
   const queryClient = useQueryClient();
 
-  // Carregar lista de cursos do banco de dados
+  // Load course list from database
   useEffect(() => {
     const loadCoursesFromDatabase = async () => {
       try {
         const response = await apiRequest("GET", "/api/courses");
         const coursesData = await response.json();
         
-        // Converter IDs para string para compatibilidade
+        // Convert IDs to string for compatibility
         const coursesWithStringIds = coursesData.map((course: any) => ({
           ...course,
           id: course.id.toString(),
-          // Adicionar dados padrão se não existirem
+          // Add default data if it doesn't exist
           progress: course.progress || {
             phase1: 0,
             phase2: 0,

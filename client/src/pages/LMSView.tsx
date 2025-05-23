@@ -293,23 +293,23 @@ export default function LMSView() {
       
       {!course && currentCourseId && (
         <div className="max-w-3xl mx-auto text-center py-12">
-          <h1 className="text-3xl font-bold mb-4">Curso Não Encontrado</h1>
-          <p className="text-gray-600 mb-8">Não foi possível encontrar o curso selecionado. Por favor, selecione outro curso ou crie um novo.</p>
+          <h1 className="text-3xl font-bold mb-4">Course Not Found</h1>
+          <p className="text-gray-600 mb-8">The selected course could not be found. Please select another course or create a new one.</p>
           <Button onClick={() => navigate("/")}>
-            Ir para Início
+            Go to Home
           </Button>
         </div>
       )}
       
       {!currentCourseId && (
         <div className="max-w-3xl mx-auto text-center py-12">
-          <h1 className="text-3xl font-bold mb-4">Nenhum Curso Ativo</h1>
-          <p className="text-gray-600 mb-8">Você não tem nenhum curso ativo. Selecione um curso existente ou crie um novo.</p>
+          <h1 className="text-3xl font-bold mb-4">No Active Course</h1>
+          <p className="text-gray-600 mb-8">You don't have any active course. Select an existing course or create a new one.</p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             {availableCourses.length > 0 ? (
               <Select onValueChange={handleCourseChange}>
                 <SelectTrigger className="w-64">
-                  <SelectValue placeholder="Selecione um curso" />
+                  <SelectValue placeholder="Select a course" />
                 </SelectTrigger>
                 <SelectContent>
                   {availableCourses.map(course => (
@@ -321,11 +321,11 @@ export default function LMSView() {
               </Select>
             ) : (
               <Button onClick={() => navigate("/phase1")}>
-                Criar Novo Curso
+                Create New Course
               </Button>
             )}
             <Button onClick={() => navigate("/")}>
-              Ir para Início
+              Go to Home
             </Button>
           </div>
         </div>
@@ -334,9 +334,9 @@ export default function LMSView() {
       {course && (
         <Tabs defaultValue="modules" className="space-y-6">
           <TabsList>
-            <TabsTrigger value="modules">Módulos</TabsTrigger>
-            <TabsTrigger value="info">Informações do Curso</TabsTrigger>
-            <TabsTrigger value="settings">Configurações de IA</TabsTrigger>
+            <TabsTrigger value="modules">Modules</TabsTrigger>
+            <TabsTrigger value="info">Course Information</TabsTrigger>
+            <TabsTrigger value="settings">AI Settings</TabsTrigger>
           </TabsList>
           
           <TabsContent value="modules">
