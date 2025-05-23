@@ -24,11 +24,24 @@ export default function Phase4New() {
       if (savedActivities) {
         try {
           const activities = JSON.parse(savedActivities);
+          console.log("📂 Aplicando atividades carregadas do localStorage:", Object.keys(activities).length);
           setLocalActivities(activities);
           setUnsavedChanges(Object.keys(activities).length > 0);
           
           // Apply localStorage activities to course state immediately
           applyLocalActivitiesToCourse(activities);
+          
+          // Mark lessons as generated so they show in the UI
+          Object.keys(activities).forEach(moduleId => {
+            const moduleContent = activities[moduleId];
+            if (moduleContent && moduleContent.lessons) {
+              moduleContent.lessons.forEach((lesson: any) => {
+                setGeneratedActivities(prev => new Set([...Array.from(prev), lesson.id]));
+              });
+            }
+          });
+          
+          console.log("✅ Atividades do localStorage aplicadas com sucesso!");
         } catch (error) {
           console.error('Erro ao carregar atividades do localStorage:', error);
         }
@@ -38,13 +51,28 @@ export default function Phase4New() {
 
   // Function to apply localStorage activities to course state
   const applyLocalActivitiesToCourse = (activities: any) => {
-    if (!course || Object.keys(activities).length === 0) return;
+    if (!course || Object.keys(activities).length === 0) {
+      console.log("❌ Não foi possível aplicar atividades:", { course: !!course, activitiesCount: Object.keys(activities).length });
+      return;
+    }
+
+    console.log("🔄 Aplicando atividades do localStorage ao curso...");
+    console.log("Atividades disponíveis:", Object.keys(activities));
+    console.log("Módulos do curso:", course.modules.map(m => m.id));
 
     const updatedCourse = {
       ...course,
       modules: course.modules.map(module => {
         const localModuleContent = activities[module.id];
         if (localModuleContent) {
+          console.log(`✅ Aplicando atividades ao módulo ${module.id}`);
+          const moduleLessons = localModuleContent.lessons || [];
+          const lessonsWithActivities = moduleLessons.filter((lesson: any) => 
+            (lesson.detailedContent?.practicalExercises?.length || 0) > 0 ||
+            (lesson.detailedContent?.assessmentQuestions?.length || 0) > 0
+          );
+          console.log(`📊 Módulo ${module.id}: ${lessonsWithActivities.length} aulas com atividades`);
+          
           return {
             ...module,
             content: localModuleContent
@@ -54,7 +82,11 @@ export default function Phase4New() {
       })
     };
 
+    console.log("🎯 Estado do curso atualizado com atividades do localStorage");
     setCourse(updatedCourse);
+    
+    // Force re-render by updating a state
+    setGeneratedActivities(prev => new Set([...Array.from(prev), `refresh-${Date.now()}`]));
   };
 
   // Save activities to localStorage whenever they change
