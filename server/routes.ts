@@ -397,5 +397,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Upload course structure to Google Drive
+  app.post("/api/google-drive/upload-course", async (req, res) => {
+    try {
+      const { courseId, course } = req.body;
+      
+      if (!course) {
+        return res.status(400).json({ error: "Course data is required" });
+      }
+
+      const { createCourseStructureOnDrive } = await import("./googleDrive");
+      
+      const result = await createCourseStructureOnDrive(course);
+      
+      res.json({
+        success: true,
+        message: "Course structure created successfully on Google Drive",
+        ...result
+      });
+    } catch (error) {
+      console.error("Error uploading course to Google Drive:", error);
+      res.status(500).json({ 
+        error: "Failed to upload to Google Drive",
+        details: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
   return httpServer;
 }

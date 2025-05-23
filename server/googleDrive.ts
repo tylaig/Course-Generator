@@ -305,19 +305,308 @@ export const uploadFileToDrive = async (filePath: string, fileName: string, mime
   }
 };
 
-// Função que combina geração de PDF e upload para Google Drive
-export const generateAndUploadCourse = async (course: any) => {
+export const createCourseStructureOnDrive = async (course: any) => {
   try {
-    // Gere o PDF
-    const pdfPath = await generateCoursePDF(course);
+    console.log('Creating course structure on Google Drive...');
     
-    // Faça upload para o Google Drive
-    const fileName = `Curso_${course.title.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.pdf`;
-    const uploadResult = await uploadFileToDrive(pdfPath, fileName);
+    // Create main course folder
+    const courseFolderId = await createFolder(course.title);
+    console.log(`Created course folder: ${course.title} (${courseFolderId})`);
     
-    return uploadResult;
+    const results = {
+      courseFolderId,
+      modules: [] as any[]
+    };
+    
+    // Create module folders and lesson content
+    for (const module of course.modules) {
+      console.log(`Creating module folder: ${module.title}`);
+      const moduleFolderId = await createFolder(module.title, courseFolderId);
+      
+      const moduleResult = {
+        id: module.id,
+        title: module.title,
+        folderId: moduleFolderId,
+        lessons: [] as any[]
+      };
+      
+      // Create lesson PDFs for each lesson in the module
+      if (module.content?.lessons) {
+        for (const lesson of module.content.lessons) {
+          console.log(`Creating lesson content for: ${lesson.title}`);
+          
+          // Generate lesson content PDF
+          const lessonPDF = await generateLessonPDF(lesson, module, course);
+          const lessonFileName = `${lesson.title}_Conteudo.pdf`;
+          const lessonFileId = await uploadPDFBuffer(lessonFileName, moduleFolderId, lessonPDF);
+          
+          // Generate lesson activities PDF if there are activities
+          let activitiesFileId = null;
+          if (lesson.detailedContent?.assessmentQuestions?.length > 0 || 
+              lesson.detailedContent?.practicalExercises?.length > 0) {
+            const activitiesPDF = await generateLessonActivitiesPDF(lesson, module, course);
+            const activitiesFileName = `${lesson.title}_Atividades.pdf`;
+            activitiesFileId = await uploadPDFBuffer(activitiesFileName, moduleFolderId, activitiesPDF);
+          }
+          
+          moduleResult.lessons.push({
+            title: lesson.title,
+            contentFileId: lessonFileId,
+            activitiesFileId
+          });
+        }
+      }
+      
+      results.modules.push(moduleResult);
+    }
+    
+    console.log('Course structure created successfully on Google Drive');
+    return results;
   } catch (error) {
-    console.error('Erro na geração e upload do curso:', error);
+    console.error('Error creating course structure on Google Drive:', error);
     throw error;
   }
+};
+
+export const createFolder = async (name: string, parentFolderId?: string) => {
+  try {
+    const oauth2Client = setupGoogleDriveClient();
+    const drive = google.drive({ version: 'v3', auth: oauth2Client });
+
+    const fileMetadata = {
+      name: name,
+      mimeType: 'application/vnd.google-apps.folder',
+      parents: parentFolderId ? [parentFolderId] : undefined,
+    };
+
+    const folder = await drive.files.create({
+      requestBody: fileMetadata,
+      fields: 'id',
+    });
+
+    return folder.data.id;
+  } catch (error) {
+    console.error('Error creating folder:', error);
+    throw error;
+  }
+};
+
+export const uploadPDFBuffer = async (fileName: string, parentFolderId: string, pdfBuffer: Buffer) => {
+  try {
+    const oauth2Client = setupGoogleDriveClient();
+    const drive = google.drive({ version: 'v3', auth: oauth2Client });
+
+    const fileMetadata = {
+      name: fileName,
+      parents: [parentFolderId],
+    };
+
+    const media = {
+      mimeType: 'application/pdf',
+      body: Buffer.from(pdfBuffer),
+    };
+
+    const response = await drive.files.create({
+      requestBody: fileMetadata,
+      media: media,
+      fields: 'id',
+    });
+
+    return response.data.id;
+  } catch (error) {
+    console.error('Error uploading PDF buffer:', error);
+    throw error;
+  }
+};
+
+export const generateLessonPDF = async (lesson: any, module: any, course: any): Promise<Buffer> => {
+  return new Promise((resolve, reject) => {
+    try {
+      const doc = new PDFDocument({ margin: 50 });
+      const chunks: Buffer[] = [];
+
+      doc.on('data', (chunk: Buffer) => chunks.push(chunk));
+      doc.on('end', () => resolve(Buffer.concat(chunks)));
+
+      // Header
+      doc.fontSize(20)
+         .font('Helvetica-Bold')
+         .text(lesson.title, { align: 'center' })
+         .moveDown();
+
+      doc.fontSize(14)
+         .font('Helvetica')
+         .text(`Módulo: ${module.title}`, { align: 'center' })
+         .text(`Curso: ${course.title}`, { align: 'center' })
+         .moveDown(2);
+
+      // Objectives
+      if (lesson.detailedContent?.objectives?.length) {
+        doc.fontSize(16)
+           .font('Helvetica-Bold')
+           .text('Objetivos da Aula:')
+           .moveDown(0.5);
+
+        lesson.detailedContent.objectives.forEach((objective: string) => {
+          doc.fontSize(12)
+             .font('Helvetica')
+             .text(`• ${objective}`)
+             .moveDown(0.2);
+        });
+        doc.moveDown();
+      }
+
+      // Content
+      if (lesson.detailedContent?.content) {
+        doc.fontSize(16)
+           .font('Helvetica-Bold')
+           .text('Conteúdo da Aula:')
+           .moveDown(0.5);
+
+        doc.fontSize(11)
+           .font('Helvetica')
+           .text(lesson.detailedContent.content, { align: 'justify' })
+           .moveDown();
+      }
+
+      // Materials
+      if (lesson.detailedContent?.materials?.length) {
+        doc.fontSize(16)
+           .font('Helvetica-Bold')
+           .text('Materiais Necessários:')
+           .moveDown(0.5);
+
+        lesson.detailedContent.materials.forEach((material: string) => {
+          doc.fontSize(12)
+             .font('Helvetica')
+             .text(`• ${material}`)
+             .moveDown(0.2);
+        });
+      }
+
+      doc.end();
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const generateLessonActivitiesPDF = async (lesson: any, module: any, course: any): Promise<Buffer> => {
+  return new Promise((resolve, reject) => {
+    try {
+      const doc = new PDFDocument({ margin: 50 });
+      const chunks: Buffer[] = [];
+
+      doc.on('data', (chunk: Buffer) => chunks.push(chunk));
+      doc.on('end', () => resolve(Buffer.concat(chunks)));
+
+      // Header
+      doc.fontSize(20)
+         .font('Helvetica-Bold')
+         .text(`${lesson.title} - Atividades`, { align: 'center' })
+         .moveDown();
+
+      doc.fontSize(14)
+         .font('Helvetica')
+         .text(`Módulo: ${module.title}`, { align: 'center' })
+         .text(`Curso: ${course.title}`, { align: 'center' })
+         .moveDown(2);
+
+      let questionNumber = 1;
+
+      // Assessment Questions
+      if (lesson.detailedContent?.assessmentQuestions?.length) {
+        doc.fontSize(16)
+           .font('Helvetica-Bold')
+           .text('Questões de Avaliação:')
+           .moveDown();
+
+        lesson.detailedContent.assessmentQuestions.forEach((question: any) => {
+          doc.fontSize(12)
+             .font('Helvetica-Bold')
+             .text(`${questionNumber}. ${question.question}`)
+             .moveDown(0.3);
+
+          question.options.forEach((option: string, index: number) => {
+            const letter = String.fromCharCode(65 + index);
+            const isCorrect = index === question.correct_answer;
+            
+            doc.fontSize(11)
+               .font(isCorrect ? 'Helvetica-Bold' : 'Helvetica')
+               .text(`${letter}) ${option}${isCorrect ? ' ✓' : ''}`)
+               .moveDown(0.1);
+          });
+
+          if (question.explanation) {
+            doc.fontSize(10)
+               .font('Helvetica-Oblique')
+               .text(`Explicação: ${question.explanation}`)
+               .moveDown(0.5);
+          }
+
+          questionNumber++;
+          doc.moveDown(0.3);
+        });
+      }
+
+      // Practical Exercises
+      if (lesson.detailedContent?.practicalExercises?.length) {
+        doc.fontSize(16)
+           .font('Helvetica-Bold')
+           .text('Atividades Práticas:')
+           .moveDown();
+
+        lesson.detailedContent.practicalExercises.forEach((exercise: any) => {
+          doc.fontSize(14)
+             .font('Helvetica-Bold')
+             .text(exercise.title)
+             .moveDown(0.2);
+
+          doc.fontSize(11)
+             .font('Helvetica')
+             .text(exercise.description)
+             .moveDown(0.3);
+
+          if (exercise.questions?.length) {
+            exercise.questions.forEach((question: any) => {
+              doc.fontSize(12)
+                 .font('Helvetica-Bold')
+                 .text(`${questionNumber}. ${question.question}`)
+                 .moveDown(0.3);
+
+              question.options.forEach((option: string, index: number) => {
+                const letter = String.fromCharCode(65 + index);
+                const isCorrect = index === question.correct_answer;
+                
+                doc.fontSize(11)
+                   .font(isCorrect ? 'Helvetica-Bold' : 'Helvetica')
+                   .text(`${letter}) ${option}${isCorrect ? ' ✓' : ''}`)
+                   .moveDown(0.1);
+              });
+
+              if (question.explanation) {
+                doc.fontSize(10)
+                   .font('Helvetica-Oblique')
+                   .text(`Explicação: ${question.explanation}`)
+                   .moveDown(0.5);
+              }
+
+              questionNumber++;
+            });
+          }
+
+          doc.moveDown(0.5);
+        });
+      }
+
+      doc.end();
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+// Função que combina geração de PDF e upload para Google Drive
+export const generateAndUploadCourse = async (course: any) => {
+  return createCourseStructureOnDrive(course);
 };

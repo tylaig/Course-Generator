@@ -11,96 +11,56 @@ import { useToast } from "@/hooks/use-toast";
 export default function Phase5() {
   const { course, moveToNextPhase } = useCourse();
   const { toast } = useToast();
-  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
-  const [isGeneratingActivitiesPDF, setIsGeneratingActivitiesPDF] = useState(false);
+  const [isUploadingToDrive, setIsUploadingToDrive] = useState(false);
+  const [driveUploadResult, setDriveUploadResult] = useState<any>(null);
 
   const handleNextPhase = () => {
     moveToNextPhase();
   };
 
-  const generateCoursePDF = async () => {
+  const uploadToGoogleDrive = async () => {
     if (!course) return;
     
-    setIsGeneratingPDF(true);
+    setIsUploadingToDrive(true);
+    setDriveUploadResult(null);
+    
     try {
-      const response = await fetch('/api/generate/course-pdf', {
+      const response = await fetch('/api/google-drive/upload-course', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ courseId: course.id }),
+        body: JSON.stringify({ 
+          courseId: course.id,
+          course: {
+            title: course.title,
+            theme: course.theme,
+            modules: course.modules
+          }
+        }),
       });
 
       if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = `${course.title}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
+        const result = await response.json();
+        setDriveUploadResult(result);
         
         toast({
-          title: "PDF gerado com sucesso!",
-          description: "O curso completo foi baixado em formato PDF.",
+          title: "Upload concluído com sucesso!",
+          description: `Estrutura do curso criada no Google Drive com ${result.modules.length} módulos organizados.`,
         });
       } else {
-        throw new Error('Erro ao gerar PDF');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Erro ao fazer upload');
       }
     } catch (error) {
-      console.error('Error generating PDF:', error);
+      console.error('Error uploading to Google Drive:', error);
       toast({
-        title: "Erro ao gerar PDF",
-        description: "Não foi possível gerar o PDF do curso. Tente novamente.",
+        title: "Erro no upload para Google Drive",
+        description: "Não foi possível criar a estrutura no Google Drive. Verifique as credenciais e tente novamente.",
         variant: "destructive",
       });
     } finally {
-      setIsGeneratingPDF(false);
-    }
-  };
-
-  const generateActivitiesPDF = async () => {
-    if (!course) return;
-    
-    setIsGeneratingActivitiesPDF(true);
-    try {
-      const response = await fetch('/api/generate/activities-pdf', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ courseId: course.id }),
-      });
-
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = `${course.title}_Atividades.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        
-        toast({
-          title: "PDF de atividades gerado!",
-          description: "Todas as atividades e questões foram compiladas em PDF.",
-        });
-      } else {
-        throw new Error('Erro ao gerar PDF de atividades');
-      }
-    } catch (error) {
-      console.error('Error generating activities PDF:', error);
-      toast({
-        title: "Erro ao gerar PDF de atividades",
-        description: "Não foi possível gerar o PDF das atividades. Tente novamente.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsGeneratingActivitiesPDF(false);
+      setIsUploadingToDrive(false);
     }
   };
 
@@ -224,87 +184,80 @@ export default function Phase5() {
           </CardContent>
         </Card>
 
-        {/* Export Options */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <FileText className="h-5 w-5" />
-                <span>Curso Completo</span>
-              </CardTitle>
-              <CardDescription>
-                Baixe o curso completo com todo o conteúdo das aulas, objetivos e materiais
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex flex-wrap gap-2">
-                  <Badge variant="outline">📖 Conteúdo das Aulas</Badge>
-                  <Badge variant="outline">🎯 Objetivos</Badge>
-                  <Badge variant="outline">📚 Materiais</Badge>
-                  <Badge variant="outline">⏰ Cronograma</Badge>
+        {/* Google Drive Integration */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6.24 8.64L12 2.88L17.76 8.64L22.08 12L12 22.08L1.92 12L6.24 8.64Z"/>
+              </svg>
+              <span>Integração com Google Drive</span>
+            </CardTitle>
+            <CardDescription>
+              Crie automaticamente uma estrutura organizada no Google Drive com pastas para cada módulo e PDFs individuais para aulas e atividades
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <h4 className="font-medium text-blue-900 mb-2">Estrutura que será criada:</h4>
+                <div className="text-sm text-blue-800 space-y-1">
+                  <div>📁 {course.title}</div>
+                  {course.modules.map((module, idx) => (
+                    <div key={module.id} className="ml-4">
+                      <div>📁 {module.title}</div>
+                      {module.content?.lessons?.map((lesson: any, lessonIdx: number) => (
+                        <div key={lessonIdx} className="ml-8 text-xs">
+                          <div>📄 {lesson.title}_Conteudo.pdf</div>
+                          <div>📄 {lesson.title}_Atividades.pdf</div>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
                 </div>
-                <Button 
-                  onClick={generateCoursePDF}
-                  disabled={isGeneratingPDF}
-                  className="w-full"
-                >
-                  {isGeneratingPDF ? (
-                    <span className="flex items-center">
-                      <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
-                      Gerando PDF...
-                    </span>
-                  ) : (
-                    <>
-                      <Download className="mr-2 h-4 w-4" />
-                      Baixar Curso Completo (PDF)
-                    </>
-                  )}
-                </Button>
               </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <ClipboardList className="h-5 w-5" />
-                <span>Atividades e Avaliações</span>
-              </CardTitle>
-              <CardDescription>
-                Baixe apenas as atividades e questões de avaliação para aplicação
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex flex-wrap gap-2">
-                  <Badge variant="outline">❓ {totalQuestions} Questões</Badge>
-                  <Badge variant="outline">⚡ Atividades Práticas</Badge>
-                  <Badge variant="outline">✅ Respostas</Badge>
-                  <Badge variant="outline">📝 Explicações</Badge>
+              
+              <div className="flex flex-wrap gap-2 mb-4">
+                <Badge variant="outline">📁 {course.modules.length} Pastas de Módulos</Badge>
+                <Badge variant="outline">📄 {totalLessons * 2} PDFs Individuais</Badge>
+                <Badge variant="outline">☁️ Sincronização Automática</Badge>
+                <Badge variant="outline">🔗 Links Compartilháveis</Badge>
+              </div>
+              
+              <Button 
+                onClick={uploadToGoogleDrive}
+                disabled={isUploadingToDrive}
+                className="w-full bg-green-600 hover:bg-green-700"
+                size="lg"
+              >
+                {isUploadingToDrive ? (
+                  <span className="flex items-center">
+                    <span className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-white rounded-full"></span>
+                    Criando estrutura no Google Drive...
+                  </span>
+                ) : (
+                  <>
+                    <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M6.24 8.64L12 2.88L17.76 8.64L22.08 12L12 22.08L1.92 12L6.24 8.64Z"/>
+                    </svg>
+                    Organizar no Google Drive
+                  </>
+                )}
+              </Button>
+              
+              {driveUploadResult && (
+                <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <h4 className="font-medium text-green-900 mb-2">✅ Upload concluído com sucesso!</h4>
+                  <div className="text-sm text-green-800">
+                    <p>Pasta principal: <strong>{course.title}</strong></p>
+                    <p>{driveUploadResult.modules.length} módulos organizados</p>
+                    <p>Total de arquivos criados: {driveUploadResult.modules.reduce((sum: number, m: any) => sum + m.lessons.length * 2, 0)}</p>
+                  </div>
                 </div>
-                <Button 
-                  onClick={generateActivitiesPDF}
-                  disabled={isGeneratingActivitiesPDF}
-                  className="w-full"
-                  variant="outline"
-                >
-                  {isGeneratingActivitiesPDF ? (
-                    <span className="flex items-center">
-                      <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-gray-600 rounded-full"></span>
-                      Gerando PDF...
-                    </span>
-                  ) : (
-                    <>
-                      <Download className="mr-2 h-4 w-4" />
-                      Baixar Atividades (PDF)
-                    </>
-                  )}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Module Overview */}
         <Card>
