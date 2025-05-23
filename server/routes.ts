@@ -32,7 +32,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // ---- Course CRUD Routes ----
   app.get("/api/courses", async (req, res) => {
     try {
-      const courses = await storage.listCourses();
+      const courses = await pgStorage.listCourses();
       res.json(courses);
     } catch (error) {
       console.error("Erro ao listar cursos:", error);
@@ -52,7 +52,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         currentPhase: 1
       };
       
-      const course = await storage.createCourse(courseData);
+      const course = await pgStorage.createCourse(courseData);
       res.json(course);
     } catch (error) {
       console.error("Erro ao criar curso:", error);
@@ -70,7 +70,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Invalid course ID" });
       }
       
-      const course = await storage.getCourse(courseId);
+      const course = await pgStorage.getCourse(courseId);
       if (!course) {
         return res.status(404).json({ error: "Course not found" });
       }
@@ -83,7 +83,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.put("/api/courses/:id", async (req, res) => {
     try {
-      const course = await storage.updateCourse(req.params.id, req.body);
+      const course = await pgStorage.updateCourse(req.params.id, req.body);
       if (!course) {
         return res.status(404).json({ error: "Curso não encontrado" });
       }
@@ -99,7 +99,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const courseId = req.params.id;
       console.log("Deletando curso com ID:", courseId);
       
-      const deleted = await storage.deleteCourse(courseId);
+      const deleted = await pgStorage.deleteCourse(courseId);
       if (!deleted) {
         return res.status(404).json({ error: "Curso não encontrado" });
       }
