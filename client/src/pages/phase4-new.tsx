@@ -67,10 +67,19 @@ export default function Phase4New() {
         if (localModuleContent) {
           console.log(`✅ Aplicando atividades ao módulo ${module.id}`);
           const moduleLessons = localModuleContent.lessons || [];
-          const lessonsWithActivities = moduleLessons.filter((lesson: any) => 
-            (lesson.detailedContent?.practicalExercises?.length || 0) > 0 ||
-            (lesson.detailedContent?.assessmentQuestions?.length || 0) > 0
-          );
+          console.log(`🔍 Estrutura do módulo ${module.id}:`, JSON.stringify(moduleLessons[0], null, 2));
+          
+          const lessonsWithActivities = moduleLessons.filter((lesson: any) => {
+            const practicalExercises = lesson.detailedContent?.practicalExercises || [];
+            const assessmentQuestions = lesson.detailedContent?.assessmentQuestions || [];
+            const hasActivities = practicalExercises.length > 0 || assessmentQuestions.length > 0;
+            
+            if (hasActivities) {
+              console.log(`✅ Aula com atividades encontrada: ${lesson.title} - ${practicalExercises.length} práticos, ${assessmentQuestions.length} avaliação`);
+            }
+            
+            return hasActivities;
+          });
           console.log(`📊 Módulo ${module.id}: ${lessonsWithActivities.length} aulas com atividades`);
           
           return {
