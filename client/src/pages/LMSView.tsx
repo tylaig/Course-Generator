@@ -341,7 +341,7 @@ export default function LMSView() {
           
           <TabsContent value="modules">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {course.modules.map((module) => (
+              {course.modules?.map((module) => (
                 <Card key={module.id} className="overflow-hidden transition-all hover:shadow-md">
                   <div className="relative aspect-video bg-gray-100">
                     {module.imageUrl ? (
