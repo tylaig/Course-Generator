@@ -66,6 +66,144 @@ export default function Phase3() {
     return JSON.stringify(content, null, 2);
   };
 
+  // Component to render structured lesson content
+  const LessonContentRenderer = ({ content }: { content: any }) => {
+    // If content is a string, render as is
+    if (typeof content === 'string') {
+      return <div className="text-sm whitespace-pre-wrap">{content}</div>;
+    }
+
+    // If content is an object, render structured view
+    if (typeof content === 'object' && content !== null) {
+      return (
+        <div className="space-y-4">
+          {content.title && (
+            <div>
+              <h5 className="font-semibold text-lg mb-2">{content.title}</h5>
+              {content.duration && (
+                <p className="text-sm text-gray-600 mb-3">Duração: {content.duration}</p>
+              )}
+            </div>
+          )}
+
+          {content.objectives && content.objectives.length > 0 && (
+            <div className="bg-blue-50 p-3 rounded-lg">
+              <h6 className="font-medium text-blue-900 mb-2">Objetivos da Aula:</h6>
+              <ul className="list-disc list-inside space-y-1 text-sm text-blue-800">
+                {content.objectives.map((obj: string, idx: number) => (
+                  <li key={idx}>{obj}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {content.audioScript && (
+            <div className="bg-purple-50 p-3 rounded-lg">
+              <h6 className="font-medium text-purple-900 mb-2">Script de Áudio:</h6>
+              <p className="text-sm text-purple-800 whitespace-pre-wrap">
+                {content.audioScript.length > 200 
+                  ? content.audioScript.substring(0, 200) + '...' 
+                  : content.audioScript}
+              </p>
+            </div>
+          )}
+
+          {content.lessonStructure && (
+            <div className="bg-green-50 p-3 rounded-lg">
+              <h6 className="font-medium text-green-900 mb-2">Estrutura da Aula:</h6>
+              <div className="space-y-2">
+                {Object.entries(content.lessonStructure).map(([key, section]: [string, any]) => (
+                  <div key={key} className="bg-white p-2 rounded border-l-2 border-green-400">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="font-medium text-sm capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
+                      {section.duration && (
+                        <span className="text-xs text-gray-500">{section.duration}</span>
+                      )}
+                    </div>
+                    {section.content && (
+                      <p className="text-xs text-gray-700 mb-1">{section.content}</p>
+                    )}
+                    {section.talking_points && (
+                      <ul className="text-xs text-gray-600 ml-3">
+                        {section.talking_points.map((point: string, idx: number) => (
+                          <li key={idx} className="list-disc">{point}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {content.practicalExercises && content.practicalExercises.length > 0 && (
+            <div className="bg-orange-50 p-3 rounded-lg">
+              <h6 className="font-medium text-orange-900 mb-2">Exercícios Práticos:</h6>
+              <div className="space-y-2">
+                {content.practicalExercises.map((exercise: any, idx: number) => (
+                  <div key={idx} className="bg-white p-2 rounded border-l-2 border-orange-400">
+                    <h7 className="font-medium text-sm">{exercise.title || `Exercício ${idx + 1}`}</h7>
+                    {exercise.description && (
+                      <p className="text-xs text-gray-700 mt-1">{exercise.description}</p>
+                    )}
+                    {exercise.questions && exercise.questions.length > 0 && (
+                      <p className="text-xs text-orange-600 mt-1">
+                        {exercise.questions.length} questões disponíveis
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {content.assessmentQuestions && content.assessmentQuestions.length > 0 && (
+            <div className="bg-red-50 p-3 rounded-lg">
+              <h6 className="font-medium text-red-900 mb-2">Questões de Avaliação:</h6>
+              <div className="space-y-2">
+                {content.assessmentQuestions.map((question: any, idx: number) => (
+                  <div key={idx} className="bg-white p-2 rounded border-l-2 border-red-400">
+                    <p className="text-sm font-medium">{question.question}</p>
+                    {question.options && (
+                      <div className="mt-1 text-xs text-gray-600">
+                        {question.options.map((option: string, optIdx: number) => (
+                          <div key={optIdx} className={`ml-2 ${optIdx === question.correct_answer ? 'font-medium text-green-600' : ''}`}>
+                            {String.fromCharCode(97 + optIdx)}) {option}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {content.materials && content.materials.length > 0 && (
+            <div className="bg-gray-50 p-3 rounded-lg">
+              <h6 className="font-medium text-gray-900 mb-2">Materiais:</h6>
+              <ul className="text-sm text-gray-700">
+                {content.materials.map((material: string, idx: number) => (
+                  <li key={idx} className="list-disc list-inside">{material}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {content.homework && (
+            <div className="bg-yellow-50 p-3 rounded-lg">
+              <h6 className="font-medium text-yellow-900 mb-2">Tarefa de Casa:</h6>
+              <p className="text-sm text-yellow-800">{content.homework}</p>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // Fallback for other types
+    return <div className="text-sm">{JSON.stringify(content, null, 2)}</div>;
+  };
+
   // Persistência simples
   useEffect(() => {
     if (!course?.id) return;
@@ -448,10 +586,8 @@ export default function Phase3() {
                   {lesson.detailedContent.content && (
                     <div>
                       <h4 className="font-semibold mb-2">Conteúdo:</h4>
-                      <div className="text-sm whitespace-pre-wrap bg-gray-50 p-3 rounded">
-                        {typeof lesson.detailedContent.content === 'string' 
-                          ? lesson.detailedContent.content 
-                          : JSON.stringify(lesson.detailedContent.content, null, 2)}
+                      <div className="bg-gray-50 p-3 rounded">
+                        <LessonContentRenderer content={lesson.detailedContent.content} />
                       </div>
                     </div>
                   )}
