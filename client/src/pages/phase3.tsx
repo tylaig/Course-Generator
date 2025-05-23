@@ -58,6 +58,7 @@ export default function Phase3() {
   const [isGeneratingAll, setIsGeneratingAll] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
   const [currentGenerating, setCurrentGenerating] = useState<string>("");
+  const [expandedLessons, setExpandedLessons] = useState<Set<string>>(new Set());
 
   // Generate content for a single lesson
   const generateLessonContent = useMutation({
