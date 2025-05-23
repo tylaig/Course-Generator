@@ -124,7 +124,8 @@ export default function Phase3() {
         }
       );
       
-      const content = await response.json();
+      const result = await response.json();
+      const content = result.success ? result.content : result;
       return { moduleId, lessonId, content };
     },
     onSuccess: (data) => {
@@ -221,7 +222,8 @@ export default function Phase3() {
             }
           );
           
-          const content = await response.json();
+          const result = await response.json();
+          const content = result.success ? result.content : result;
           results.push({ moduleId: lessonInfo.moduleId, lessonId: lessonInfo.lessonId, content });
           
           // Update lesson content immediately
@@ -404,12 +406,12 @@ export default function Phase3() {
             {lesson.detailedContent && expandedLessons.has(lesson.title) && (
               <CardContent className="pt-0">
                 <div className="space-y-4">
-                  {lesson.detailedContent.objectives && (
+                  {lesson.detailedContent.objectives && lesson.detailedContent.objectives.length > 0 && (
                     <div>
                       <h4 className="font-semibold mb-2">Objetivos da Aula:</h4>
                       <ul className="list-disc list-inside space-y-1 text-sm">
                         {lesson.detailedContent.objectives.map((obj: string, idx: number) => (
-                          <li key={idx}>{obj}</li>
+                          <li key={idx}>{typeof obj === 'string' ? obj : JSON.stringify(obj)}</li>
                         ))}
                       </ul>
                     </div>
@@ -430,8 +432,13 @@ export default function Phase3() {
                       <div className="space-y-2">
                         {lesson.detailedContent.practicalExercises.map((exercise: any, idx: number) => (
                           <div key={idx} className="bg-blue-50 p-3 rounded">
-                            <h5 className="font-medium">{exercise.title}</h5>
-                            <p className="text-sm mt-1">{exercise.description}</p>
+                            <h5 className="font-medium">{exercise.title || `Exercício ${idx + 1}`}</h5>
+                            <p className="text-sm mt-1">{exercise.description || 'Descrição não disponível'}</p>
+                            {exercise.questions && exercise.questions.length > 0 && (
+                              <div className="mt-2">
+                                <p className="text-xs font-medium text-blue-700">Questões: {exercise.questions.length}</p>
+                              </div>
+                            )}
                           </div>
                         ))}
                       </div>
