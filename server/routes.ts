@@ -929,10 +929,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Database status check route
   app.get("/api/database-status", async (req, res) => {
     try {
-      // Import and test PostgreSQL connection directly
-      const { pool } = await import("./db");
-      await pool.query('SELECT 1');
-      res.json({ connected: true, status: "PostgreSQL conectado" });
+      // Test database connection by checking if we have data
+      const testResult = await pgStorage.listAllLessons();
+      if (testResult && Array.isArray(testResult)) {
+        res.json({ connected: true, status: "PostgreSQL conectado", lessonsCount: testResult.length });
+      } else {
+        res.json({ connected: false, status: "PostgreSQL sem dados" });
+      }
     } catch (error) {
       console.error("Database connection error:", error);
       res.json({ connected: false, status: "PostgreSQL desconectado", error: error instanceof Error ? error.message : "Unknown error" });
