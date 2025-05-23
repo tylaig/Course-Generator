@@ -109,6 +109,8 @@ export type Course = {
     phase4?: any;
     phase5?: any;
   };
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export type GenerationStatus = "idle" | "generating" | "success" | "error";

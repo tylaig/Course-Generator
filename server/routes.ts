@@ -306,12 +306,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { courseId } = req.body;
       
-      const course = await storage.getCourse(courseId);
+      // Convert string ID to number for database lookup
+      let numericId: number;
+      if (typeof courseId === 'string' && courseId.startsWith('course_')) {
+        numericId = parseInt(courseId.replace('course_', ''));
+      } else {
+        numericId = parseInt(courseId);
+      }
+      
+      if (isNaN(numericId)) {
+        return res.status(400).json({ error: "Invalid course ID format" });
+      }
+      
+      const course = await storage.getCourse(numericId.toString());
       if (!course) {
         return res.status(404).json({ error: "Course not found" });
       }
 
-      const modules = await storage.listModulesByCourse(courseId);
+      const modules = await storage.listModulesByCourse(numericId.toString());
       
       const { generateCoursePDF } = await import("./pdf-generator");
       
@@ -342,12 +354,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { courseId } = req.body;
       
-      const course = await storage.getCourse(courseId);
+      // Convert string ID to number for database lookup
+      let numericId: number;
+      if (typeof courseId === 'string' && courseId.startsWith('course_')) {
+        numericId = parseInt(courseId.replace('course_', ''));
+      } else {
+        numericId = parseInt(courseId);
+      }
+      
+      if (isNaN(numericId)) {
+        return res.status(400).json({ error: "Invalid course ID format" });
+      }
+      
+      const course = await storage.getCourse(numericId.toString());
       if (!course) {
         return res.status(404).json({ error: "Course not found" });
       }
 
-      const modules = await storage.listModulesByCourse(courseId);
+      const modules = await storage.listModulesByCourse(numericId.toString());
       
       const { generateActivitySummaryPDF } = await import("./pdf-generator");
       
