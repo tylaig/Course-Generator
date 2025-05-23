@@ -44,21 +44,27 @@ export default function LMSView() {
   
   // Fetch all available courses from local storage
   useEffect(() => {
-    // Get all storage keys that start with "course_"
-    const keys = Object.keys(localStorage).filter(key => key.startsWith("course_"));
-    const courses = keys.map(key => {
-      try {
-        const courseData = JSON.parse(localStorage.getItem(key) || "");
-        return {
-          id: key.replace("course_", ""),
-          title: courseData.title || "Untitled Course"
-        };
-      } catch (e) {
-        return null;
-      }
-    }).filter(Boolean);
-    
-    setAvailableCourses(courses as {id: string, title: string}[]);
+    try {
+      // Get all storage keys that start with "course_"
+      const keys = Object.keys(localStorage).filter(key => key.startsWith("course_"));
+      const courses = keys.map(key => {
+        try {
+          const courseData = JSON.parse(localStorage.getItem(key) || "{}");
+          return {
+            id: key.replace("course_", ""),
+            title: courseData?.title || "Untitled Course"
+          };
+        } catch (e) {
+          console.warn("Failed to parse course data for key:", key);
+          return null;
+        }
+      }).filter(Boolean);
+      
+      setAvailableCourses(courses as {id: string, title: string}[]);
+    } catch (error) {
+      console.error("Error loading courses:", error);
+      setAvailableCourses([]);
+    }
   }, []);
   
   // Fetch current course data from local storage
