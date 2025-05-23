@@ -125,17 +125,27 @@ export default function Phase4() {
             console.error("Resposta inválida da API:", result);
           }
           
-          // Update lesson content immediately
-          const updatedModule = { ...moduleToGenerate };
-          if (updatedModule.content?.lessons) {
-            const lessonIndex = updatedModule.content.lessons.findIndex((l: any) => l.title === lessonInfo.lessonId);
-            if (lessonIndex !== -1) {
-              updatedModule.content.lessons[lessonIndex] = {
-                ...updatedModule.content.lessons[lessonIndex],
-                detailedContent: content,
-                status: "generated"
-              };
+          // Update lesson with activities only
+          if (result.success && result.results && result.results.length > 0) {
+            const activitiesData = result.results[0];
+            const updatedModule = { ...moduleToGenerate };
+            if (updatedModule.content?.lessons) {
+              const lessonIndex = updatedModule.content.lessons.findIndex((l: any) => l.title === lessonInfo.lessonId);
+              if (lessonIndex !== -1) {
+                updatedModule.content.lessons[lessonIndex] = {
+                  ...updatedModule.content.lessons[lessonIndex],
+                  detailedContent: {
+                    ...updatedModule.content.lessons[lessonIndex].detailedContent,
+                    practicalExercises: activitiesData.activities || [],
+                    assessmentQuestions: activitiesData.assessmentQuestions || []
+                  },
+                  status: "generated"
+                };
+              }
             }
+            
+            // Update course context immediately
+            updateModuleContent(moduleToGenerate.id, updatedModule.content);
           }
           
           // Update module with updated lessons locally

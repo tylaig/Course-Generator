@@ -319,7 +319,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Generate ONLY activities for specific lessons  
-  app.post("/api/generate/activities-only", async (req: Request, res: Response) => {
+  app.post("/generate-activities", async (req: Request, res: Response) => {
     try {
       const { lessons, courseDetails } = req.body;
       
