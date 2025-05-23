@@ -586,9 +586,13 @@ INSTRUÇÕES:
 1. Crie um script COMPLETO de aula com linguagem conversacional e envolvente
 2. Inclua transições naturais entre os tópicos
 3. Adicione momentos de interação com os alunos
-4. Inclua exemplos práticos e analogias
+4. Inclua exemplos práticos e analogias específicas ao tema
 5. Forneça um roteiro de áudio detalhado para gravação
 6. Estruture o conteúdo pedagogicamente
+7. GERE PELO MENOS 3-5 questões de avaliação específicas ao conteúdo
+8. CRIE atividades práticas com questões relacionadas ao tema
+9. TODAS as questões devem ser relevantes e específicas ao conteúdo da aula
+10. Inclua explicações detalhadas para cada resposta
 
 FORMATO DE RESPOSTA (JSON):
 {
@@ -621,18 +625,42 @@ FORMATO DE RESPOSTA (JSON):
   "practicalExercises": [
     {
       "type": "individual_activity",
-      "title": "Título do exercício",
-      "description": "Descrição detalhada",
-      "instructions": ["passo 1", "passo 2"],
-      "time_required": "5min"
+      "title": "Título do exercício específico ao conteúdo",
+      "description": "Descrição detalhada do exercício prático",
+      "instructions": ["passo 1", "passo 2", "passo 3"],
+      "time_required": "5-10min",
+      "questions": [
+        {
+          "question": "Pergunta específica do exercício",
+          "type": "multiple_choice",
+          "options": ["Opção A", "Opção B", "Opção C", "Opção D"],
+          "correct_answer": 0,
+          "explanation": "Explicação detalhada da resposta correta"
+        }
+      ]
     }
   ],
   "assessmentQuestions": [
     {
-      "question": "Pergunta de verificação",
-      "options": ["A", "B", "C", "D"],
+      "question": "Pergunta de verificação específica ao conteúdo da aula",
+      "type": "multiple_choice",
+      "options": ["Opção A detalhada", "Opção B detalhada", "Opção C detalhada", "Opção D detalhada"],
       "correct_answer": 0,
-      "explanation": "Explicação da resposta"
+      "explanation": "Explicação completa da resposta correta e por que as outras estão incorretas"
+    },
+    {
+      "question": "Segunda pergunta de avaliação",
+      "type": "multiple_choice", 
+      "options": ["Opção A", "Opção B", "Opção C", "Opção D"],
+      "correct_answer": 1,
+      "explanation": "Explicação da segunda pergunta"
+    },
+    {
+      "question": "Terceira pergunta mais avançada",
+      "type": "multiple_choice",
+      "options": ["Opção A", "Opção B", "Opção C", "Opção D"],
+      "correct_answer": 2,
+      "explanation": "Explicação da terceira pergunta"
     }
   ],
   "materials": ["Material 1", "Material 2"],

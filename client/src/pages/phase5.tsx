@@ -1,561 +1,133 @@
-import { useLocation } from "wouter";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardFooter
-} from "@/components/ui/card";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger
-} from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
-import WorkflowProgress from "@/components/shared/WorkflowProgress";
-import PhaseNav from "@/components/layout/PhaseNav";
-import ContentPreview from "@/components/shared/ContentPreview";
-import { useCourse } from "@/context/CourseContext";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { useCourse } from "@/context/CourseContext";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Download, FileText, CheckCircle, Book, ClipboardList } from "lucide-react";
+import { PhaseNav } from "@/components/layout/PhaseNav";
+import { WorkflowProgress } from "@/components/layout/WorkflowProgress";
 import { useToast } from "@/hooks/use-toast";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog";
-import { CourseModule } from "@/types";
-
-// Este componente mostra uma visualização do conteúdo do módulo
-function ModuleContentPreview({ module, onClose }: { module: CourseModule | null, onClose: () => void }) {
-  if (!module || !module.content) return null;
-  
-  return (
-    <Dialog open={Boolean(module)} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>{module.title}</DialogTitle>
-          <DialogDescription>
-            {module.description}
-          </DialogDescription>
-        </DialogHeader>
-        
-        <div className="space-y-4 mt-4">
-          {module.content.text && (
-            <div className="prose prose-sm max-w-none">
-              <div dangerouslySetInnerHTML={{ __html: module.content.text.replace(/\n/g, '<br>') }} />
-            </div>
-          )}
-          
-          {module.content.videoScript && (
-            <div className="mt-6">
-              <h3 className="text-lg font-medium mb-2">Roteiro de Vídeo</h3>
-              <div className="bg-neutral-50 p-4 rounded-md border border-neutral-200">
-                <pre className="whitespace-pre-wrap text-sm">{module.content.videoScript}</pre>
-              </div>
-            </div>
-          )}
-          
-          {module.content.activities && module.content.activities.length > 0 && (
-            <div className="mt-6">
-              <h3 className="text-lg font-medium mb-2">Atividades</h3>
-              <div className="space-y-4">
-                {module.content.activities.map((activity, index) => (
-                  <div key={index} className="bg-neutral-50 p-4 rounded-md border border-neutral-200">
-                    <h4 className="font-medium">{activity.title}</h4>
-                    <p className="mt-1 text-sm">{activity.description}</p>
-                    
-                    {activity.questions && activity.questions.length > 0 && (
-                      <div className="mt-3">
-                        <h5 className="text-sm font-medium mb-2">Questões</h5>
-                        <div className="space-y-2">
-                          {activity.questions.map((question, qIndex) => (
-                            <div key={qIndex} className="ml-3">
-                              <p className="text-sm font-medium">{qIndex + 1}. {question.question}</p>
-                              {question.options && (
-                                <div className="ml-4 mt-1 text-xs space-y-1">
-                                  {question.options.map((option, oIndex) => (
-                                    <div key={oIndex}>
-                                      <span>{String.fromCharCode(65 + oIndex)}.</span> {option}
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-// Este componente mostra uma avaliação de módulo
-function EvaluationPreview({ evaluation, onClose }: { evaluation: any, onClose: () => void }) {
-  return (
-    <Dialog open={Boolean(evaluation)} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>{evaluation?.title || "Avaliação"}</DialogTitle>
-          <DialogDescription>
-            {evaluation?.description || "Detalhes da avaliação do módulo"}
-          </DialogDescription>
-        </DialogHeader>
-        
-        <div className="space-y-4 mt-4">
-          {evaluation?.type === "quiz" && evaluation?.questions && (
-            <div className="space-y-6">
-              {evaluation.questions.map((question: any, index: number) => (
-                <div key={index} className="border rounded-md p-4 bg-neutral-50">
-                  <h3 className="font-medium mb-2">{index + 1}. {question.question}</h3>
-                  
-                  {question.options && (
-                    <div className="space-y-2 ml-4 mt-3">
-                      {question.options.map((option: string, optionIndex: number) => (
-                        <div key={optionIndex} className={`flex items-start ${
-                          question.answer === optionIndex ? 'text-green-700 font-medium' : ''
-                        }`}>
-                          <span className="inline-block w-5">{String.fromCharCode(65 + optionIndex)}.</span>
-                          <span>{option}</span>
-                          {question.answer === optionIndex && (
-                            <span className="material-icons text-green-500 text-sm ml-2">check_circle</span>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  
-                  {question.explanation && (
-                    <div className="mt-3 text-sm bg-neutral-100 p-3 rounded border-l-4 border-blue-400">
-                      <strong>Explicação:</strong> {question.explanation}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-          
-          {evaluation?.type !== "quiz" && (
-            <div className="border rounded-md p-4">
-              <pre className="whitespace-pre-wrap text-sm">{JSON.stringify(evaluation, null, 2)}</pre>
-            </div>
-          )}
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-}
 
 export default function Phase5() {
-  const [_, navigate] = useLocation();
-  const { course, updatePhaseData, updateModuleStatus, setCourse } = useCourse();
-  const [reviewNotes, setReviewNotes] = useState<string>(
-    course?.phaseData?.phase5?.reviewNotes || ""
-  );
+  const { course, moveToNextPhase } = useCourse();
   const { toast } = useToast();
-  
-  // Estados para visualização de conteúdo
-  const [selectedModule, setSelectedModule] = useState<CourseModule | null>(null);
-  const [contentPreviewOpen, setContentPreviewOpen] = useState(false);
-  
-  // Estados para visualização de avaliação
-  const [selectedEvaluation, setSelectedEvaluation] = useState<any>(null);
-  const [evaluationPreviewOpen, setEvaluationPreviewOpen] = useState(false);
-  
-  // Estados para geração de imagens
-  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
-  const [moduleIdForImage, setModuleIdForImage] = useState<string>("");
-  
-  // Função para gerar imagem para um módulo
-  const generateModuleImage = async (moduleId: string) => {
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const [isGeneratingActivitiesPDF, setIsGeneratingActivitiesPDF] = useState(false);
+
+  const handleNextPhase = () => {
+    moveToNextPhase();
+  };
+
+  const generateCoursePDF = async () => {
+    if (!course) return;
+    
+    setIsGeneratingPDF(true);
     try {
-      setIsGeneratingImage(true);
-      setModuleIdForImage(moduleId);
-      
-      const moduleToUpdate = course?.modules.find(m => m.id === moduleId);
-      
-      if (!moduleToUpdate) {
-        throw new Error("Módulo não encontrado");
-      }
-      
-      const response = await apiRequest("POST", "/api/generate/module-image", {
-        courseId: course?.id,
-        moduleId: moduleId,
-        moduleInfo: {
-          title: moduleToUpdate.title,
-          description: moduleToUpdate.description,
-          order: moduleToUpdate.order,
-          estimatedHours: moduleToUpdate.estimatedHours
+      const response = await fetch('/api/generate/course-pdf', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        courseDetails: {
-          title: course?.title,
-          theme: course?.theme,
-          format: course?.format,
-          platform: course?.platform,
-          deliveryFormat: course?.deliveryFormat
-        }
+        body: JSON.stringify({ courseId: course.id }),
       });
-      
-      const data = await response.json();
-      
-      if (data && data.imageUrl) {
-        // Atualiza o módulo com a URL da imagem
-        const updatedModule = { ...moduleToUpdate, imageUrl: data.imageUrl };
-        updateModuleStatus(moduleId, moduleToUpdate.status);
-        
-        // Atualize o curso no contexto
-        setCourse(prev => {
-          if (!prev) return null;
-          return {
-            ...prev,
-            modules: prev.modules.map(mod => 
-              mod.id === moduleId ? { ...mod, imageUrl: data.imageUrl } : mod
-            )
-          };
-        });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `${course.title}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
         
         toast({
-          title: "Imagem gerada com sucesso",
-          description: "A imagem para o módulo foi gerada e adicionada.",
+          title: "PDF gerado com sucesso!",
+          description: "O curso completo foi baixado em formato PDF.",
         });
       } else {
-        throw new Error("Não foi possível gerar a imagem");
+        throw new Error('Erro ao gerar PDF');
       }
     } catch (error) {
-      console.error("Erro ao gerar imagem:", error);
+      console.error('Error generating PDF:', error);
       toast({
-        title: "Erro ao gerar imagem",
-        description: "Não foi possível gerar a imagem para o módulo. Tente novamente.",
-        variant: "destructive"
+        title: "Erro ao gerar PDF",
+        description: "Não foi possível gerar o PDF do curso. Tente novamente.",
+        variant: "destructive",
       });
     } finally {
-      setIsGeneratingImage(false);
-      setModuleIdForImage("");
+      setIsGeneratingPDF(false);
     }
   };
 
-  const reviewCourse = useMutation({
-    mutationFn: async () => {
-      const response = await apiRequest("POST", "/api/generate/review", {
-        courseId: course?.id,
-        reviewNotes
-      });
-      return response.json();
-    },
-    onSuccess: (data) => {
-      updatePhaseData(5, {
-        ...course?.phaseData?.phase5,
-        aiReview: data,
-        reviewNotes,
-        completed: true
-      });
-      
-      toast({
-        title: "Course Review Complete",
-        description: "Your course has been reviewed successfully.",
-      });
-    }
-  });
-
-  // Função para gerar e baixar o CSV diretamente
-  const generateAndExportCSV = () => {
+  const generateActivitiesPDF = async () => {
     if (!course) return;
     
-    // CSV header
-    let csv = "Data Type,ID,Title,Description,Content\n";
-    
-    // Informações básicas do curso
-    csv += `Course,${course.id || ""},${course.title || ""},"${course.theme || ""} (${course.format || ""})","${JSON.stringify({
-      estimatedHours: course.estimatedHours,
-      platform: course.platform,
-      deliveryFormat: course.deliveryFormat,
-      currentPhase: course.currentPhase,
-      progress: course.progress || {}
-    }).replace(/"/g, '""')}"\n`;
-    
-    // Dados das fases (se existirem)
-    if (course.phaseData) {
-      Object.entries(course.phaseData).forEach(([phase, phaseData]) => {
-        if (phaseData) {
-          csv += `PhaseData,${phase},"Phase ${phase.replace('phase', '')} Data","","${JSON.stringify(phaseData).replace(/"/g, '""')}"\n`;
-        }
+    setIsGeneratingActivitiesPDF(true);
+    try {
+      const response = await fetch('/api/generate/activities-pdf', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ courseId: course.id }),
       });
-    }
-    
-    // Módulos
-    if (course.modules && Array.isArray(course.modules)) {
-      course.modules.forEach((module) => {
-        // Informações básicas do módulo
-        csv += `Module,${module.id || ""},${module.title || ""},"${module.description || ""}","${JSON.stringify({
-          order: module.order,
-          estimatedHours: module.estimatedHours,
-          status: module.status,
-          imageUrl: module.imageUrl || ""
-        }).replace(/"/g, '""')}"\n`;
-        
-        // Conteúdo do módulo (se existir)
-        if (module.content) {
-          // Conteúdo textual
-          if (module.content.text) {
-            const textContent = module.content.text.replace(/"/g, '""').substring(0, 1000) + (module.content.text.length > 1000 ? "..." : "");
-            csv += `Content,${module.id}_text,"Text Content for ${module.title}","","${textContent}"\n`;
-          }
-          
-          // Script de vídeo
-          if (module.content.videoScript) {
-            const videoScript = module.content.videoScript.replace(/"/g, '""').substring(0, 1000) + (module.content.videoScript.length > 1000 ? "..." : "");
-            csv += `Content,${module.id}_video,"Video Script for ${module.title}","","${videoScript}"\n`;
-          }
-          
-          // Atividades
-          if (module.content.activities && module.content.activities.length > 0) {
-            module.content.activities.forEach((activity, activityIndex) => {
-              csv += `Activity,${module.id}_activity_${activityIndex},${activity.title || ""},"${activity.description || ""}","${JSON.stringify(activity).replace(/"/g, '""')}"\n`;
-            });
-          }
-        }
-      });
-    }
-    
-    // Download do arquivo CSV
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `curso_${course.id}_completo.csv`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-  
-  // Função para gerar e baixar o JSON diretamente
-  const generateAndExportJSON = () => {
-    if (!course) return;
-    
-    const jsonContent = JSON.stringify(course, null, 2);
-    const blob = new Blob([jsonContent], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `curso_${course.id}_completo.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-  
-  const exportCourse = useMutation({
-    mutationFn: async (format: 'json' | 'csv' = 'json') => {
-      try {
-        if (format === 'csv') {
-          generateAndExportCSV();
-        } else {
-          generateAndExportJSON();
-        }
-        
-        return { success: true };
-      } catch (error) {
-        console.error("Erro ao exportar curso:", error);
-        throw error;
-      }
-    },
-    onSuccess: () => {
-      toast({
-        title: "Exportação Concluída",
-        description: "Seu curso foi exportado com sucesso.",
-        variant: "success"
-      });
-    },
-    onError: () => {
-      toast({
-        title: "Falha na Exportação",
-        description: "Não foi possível exportar seu curso. Tente novamente.",
-        variant: "destructive"
-      });
-    }
-  });
 
-  const handleSaveReviewNotes = () => {
-    updatePhaseData(5, {
-      ...course?.phaseData?.phase5,
-      reviewNotes
-    });
-    
-    toast({
-      title: "Review Notes Saved",
-      description: "Your review notes have been saved.",
-    });
-  };
-
-  // Estado para controlar a exibição de modais e feedback
-  const [googleDriveAuthUrl, setGoogleDriveAuthUrl] = useState<string | null>(null);
-  const [googleDriveFileUrl, setGoogleDriveFileUrl] = useState<string | null>(null);
-  const [showDriveAuthModal, setShowDriveAuthModal] = useState(false);
-  const [showDriveSuccessModal, setShowDriveSuccessModal] = useState(false);
-  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
-  const [isUploadingToDrive, setIsUploadingToDrive] = useState(false);
-
-  // Mutação para gerar PDF localmente
-  const generatePdf = useMutation({
-    mutationFn: async () => {
-      if (!course) throw new Error("Nenhum curso selecionado");
-      
-      const response = await apiRequest(
-        "GET", 
-        `/api/course/${course.id}/generate-pdf`, 
-        {}
-      );
-      
-      return response.json();
-    },
-    onMutate: () => {
-      setIsGeneratingPdf(true);
-    },
-    onSuccess: async (data) => {
-      if (data.downloadUrl) {
-        // Abrir o download em uma nova aba
-        window.open(data.downloadUrl, '_blank');
-      }
-      
-      toast({
-        title: "PDF Gerado com Sucesso",
-        description: "Seu curso foi exportado para PDF."
-      });
-    },
-    onError: (error) => {
-      console.error("Erro ao gerar PDF:", error);
-      toast({
-        title: "Falha ao Gerar PDF",
-        description: "Não foi possível criar o PDF do curso.",
-        variant: "destructive"
-      });
-    },
-    onSettled: () => {
-      setIsGeneratingPdf(false);
-    }
-  });
-
-  // Mutação para obter URL de autorização do Google Drive
-  const getGoogleAuthUrl = useMutation({
-    mutationFn: async () => {
-      const response = await apiRequest("GET", "/api/auth/google", {});
-      return response.json();
-    },
-    onSuccess: (data) => {
-      if (data.authUrl) {
-        setGoogleDriveAuthUrl(data.authUrl);
-        setShowDriveAuthModal(true);
-      }
-    },
-    onError: (error) => {
-      console.error("Erro ao obter URL de autorização:", error);
-      toast({
-        title: "Falha na Configuração",
-        description: "Não foi possível conectar ao Google Drive.",
-        variant: "destructive"
-      });
-    }
-  });
-
-  // Mutação para fazer upload do PDF para o Google Drive
-  const uploadToDrive = useMutation({
-    mutationFn: async () => {
-      if (!course) throw new Error("Nenhum curso selecionado");
-      
-      const response = await apiRequest(
-        "POST", 
-        `/api/course/${course.id}/upload-to-drive`, 
-        {}
-      );
-      
-      return response.json();
-    },
-    onMutate: () => {
-      setIsUploadingToDrive(true);
-    },
-    onSuccess: (data) => {
-      if (data.needsAuth && data.authUrl) {
-        // Precisamos de autorização
-        setGoogleDriveAuthUrl(data.authUrl);
-        setShowDriveAuthModal(true);
-      } else if (data.success && data.viewLink) {
-        // Upload bem-sucedido
-        setGoogleDriveFileUrl(data.viewLink);
-        setShowDriveSuccessModal(true);
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `${course.title}_Atividades.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
         
         toast({
-          title: "Upload Concluído",
-          description: "Seu curso foi salvo no Google Drive com sucesso."
+          title: "PDF de atividades gerado!",
+          description: "Todas as atividades e questões foram compiladas em PDF.",
         });
+      } else {
+        throw new Error('Erro ao gerar PDF de atividades');
       }
-    },
-    onError: (error) => {
-      console.error("Erro ao fazer upload para o Drive:", error);
+    } catch (error) {
+      console.error('Error generating activities PDF:', error);
       toast({
-        title: "Falha no Upload",
-        description: "Não foi possível enviar o curso para o Google Drive.",
-        variant: "destructive"
+        title: "Erro ao gerar PDF de atividades",
+        description: "Não foi possível gerar o PDF das atividades. Tente novamente.",
+        variant: "destructive",
       });
-    },
-    onSettled: () => {
-      setIsUploadingToDrive(false);
-    }
-  });
-
-  // Função para iniciar o fluxo de autorização do Google
-  const handleGoogleAuth = () => {
-    if (googleDriveAuthUrl) {
-      // Abre a janela de autorização do Google em uma nova aba
-      const authWindow = window.open(googleDriveAuthUrl, '_blank');
-      
-      // Mostra instruções para o usuário
-      setShowDriveAuthModal(false);
-      
-      toast({
-        title: "Autorização Necessária",
-        description: "Complete a autorização no Google e volte para esta página. Depois tente novamente o upload.",
-      });
-      
-      // Configuramos um intervalo para verificar se a autorização foi concluída
-      // Isso é simplificado e em um app real precisaria de uma abordagem mais robusta
-      const checkAuth = () => {
-        try {
-          // Se a janela foi fechada, podemos tentar o upload novamente
-          if (authWindow && authWindow.closed) {
-            toast({
-              title: "Verificando Autorização",
-              description: "Tente fazer o upload novamente para o Google Drive."
-            });
-            clearInterval(checkInterval);
-          }
-        } catch (e) {
-          console.error("Erro ao verificar janela de autenticação:", e);
-          clearInterval(checkInterval);
-        }
-      };
-      
-      const checkInterval = setInterval(checkAuth, 1000);
-      
-      // Limpa o intervalo após 5 minutos para evitar vazamento de memória
-      setTimeout(() => clearInterval(checkInterval), 300000);
+    } finally {
+      setIsGeneratingActivitiesPDF(false);
     }
   };
+
+  // Calculate statistics
+  const totalModules = course?.modules?.length || 0;
+  const totalLessons = course?.modules?.reduce((sum, module) => 
+    sum + (module.content?.lessons?.length || 0), 0) || 0;
+  const totalQuestions = course?.modules?.reduce((sum, module) => 
+    sum + (module.content?.lessons?.reduce((lessonSum: number, lesson: any) => 
+      lessonSum + (lesson.detailedContent?.assessmentQuestions?.length || 0) +
+      (lesson.detailedContent?.practicalExercises?.reduce((exerciseSum: number, exercise: any) => 
+        exerciseSum + (exercise.questions?.length || 0), 0) || 0), 0) || 0), 0) || 0;
+
+  const lessonsWithContent = course?.modules?.reduce((sum, module) => 
+    sum + (module.content?.lessons?.filter((lesson: any) => lesson.detailedContent)?.length || 0), 0) || 0;
+  
+  const completionPercentage = totalLessons > 0 ? Math.round((lessonsWithContent / totalLessons) * 100) : 0;
+
+  if (!course) {
+    return (
+      <div className="container mx-auto px-4 py-6">
+        <div className="text-center">
+          <p className="text-gray-500">Nenhum curso encontrado</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-6">
@@ -564,382 +136,234 @@ export default function Phase5() {
       <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200 mb-8">
         <PhaseNav 
           currentPhase={5}
-          title="Fase 5: Revisão e Finalização" 
-          description="Revise, refine e finalize o conteúdo do seu curso"
+          title="Fase 5: Revisão e Exportação" 
+          description="Revise o curso completo e exporte para PDF"
+          onNext={handleNextPhase}
         />
-
+        
+        {/* Course Summary */}
         <div className="mb-8">
-          <h3 className="text-lg font-heading font-medium text-neutral-800 mb-4">Visão Geral do Curso</h3>
-          
-          <Card className="mb-6">
-            <CardHeader className="pb-2">
-              <CardTitle>{course?.title || "Untitled Course"}</CardTitle>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center space-x-2">
+                  <Book className="h-5 w-5 text-blue-600" />
+                  <div>
+                    <p className="text-sm font-medium">Módulos</p>
+                    <p className="text-2xl font-bold text-blue-600">{totalModules}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center space-x-2">
+                  <FileText className="h-5 w-5 text-green-600" />
+                  <div>
+                    <p className="text-sm font-medium">Aulas</p>
+                    <p className="text-2xl font-bold text-green-600">{totalLessons}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center space-x-2">
+                  <ClipboardList className="h-5 w-5 text-purple-600" />
+                  <div>
+                    <p className="text-sm font-medium">Questões</p>
+                    <p className="text-2xl font-bold text-purple-600">{totalQuestions}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center space-x-2">
+                  <CheckCircle className="h-5 w-5 text-orange-600" />
+                  <div>
+                    <p className="text-sm font-medium">Progresso</p>
+                    <p className="text-2xl font-bold text-orange-600">{completionPercentage}%</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Course Details */}
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Book className="h-5 w-5" />
+              <span>Detalhes do Curso</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Título</p>
+                <p className="text-lg">{course.title}</p>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-600">Tema</p>
+                <p className="text-lg">{course.theme}</p>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-600">Carga Horária</p>
+                <p className="text-lg">{course.estimatedHours} horas</p>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-600">Formato</p>
+                <p className="text-lg">{course.format}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Export Options */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <FileText className="h-5 w-5" />
+                <span>Curso Completo</span>
+              </CardTitle>
               <CardDescription>
-                {course?.theme || "No theme specified"}
+                Baixe o curso completo com todo o conteúdo das aulas, objetivos e materiais
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                <div>
-                  <h4 className="text-sm font-medium text-neutral-700">Total Modules</h4>
-                  <p className="text-2xl font-semibold text-primary">{course?.modules.length || 0}</p>
+              <div className="space-y-3">
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="outline">📖 Conteúdo das Aulas</Badge>
+                  <Badge variant="outline">🎯 Objetivos</Badge>
+                  <Badge variant="outline">📚 Materiais</Badge>
+                  <Badge variant="outline">⏰ Cronograma</Badge>
                 </div>
-                <div>
-                  <h4 className="text-sm font-medium text-neutral-700">Estimated Hours</h4>
-                  <p className="text-2xl font-semibold text-primary">{course?.estimatedHours || 0}</p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium text-neutral-700">Format</h4>
-                  <p className="text-lg font-medium">{course?.format || "Not specified"}</p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium text-neutral-700">Platform</h4>
-                  <p className="text-lg font-medium">{course?.platform || "Not specified"}</p>
-                </div>
-              </div>
-              
-              <div className="mb-4">
-                <h4 className="text-sm font-medium text-neutral-700 mb-2">Module Completion Status</h4>
-                <div className="h-2 bg-neutral-200 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-primary rounded-full" 
-                    style={{ 
-                      width: `${course ? 
-                        (course.modules.filter(m => m.status === "generated" || m.status === "approved").length / 
-                        Math.max(course.modules.length, 1)) * 100 : 0}%` 
-                    }}
-                  ></div>
-                </div>
-                <div className="flex justify-between text-xs text-neutral-500 mt-1">
-                  <span>0%</span>
-                  <span>
-                    {course ? 
-                      Math.round((course.modules.filter(m => m.status === "generated" || m.status === "approved").length / 
-                      Math.max(course.modules.length, 1)) * 100) : 0}%
-                  </span>
-                  <span>100%</span>
-                </div>
+                <Button 
+                  onClick={generateCoursePDF}
+                  disabled={isGeneratingPDF}
+                  className="w-full"
+                >
+                  {isGeneratingPDF ? (
+                    <span className="flex items-center">
+                      <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
+                      Gerando PDF...
+                    </span>
+                  ) : (
+                    <>
+                      <Download className="mr-2 h-4 w-4" />
+                      Baixar Curso Completo (PDF)
+                    </>
+                  )}
+                </Button>
               </div>
             </CardContent>
           </Card>
-          
-          <Tabs defaultValue="modules">
-            <TabsList className="mb-4">
-              <TabsTrigger value="modules">Modules</TabsTrigger>
-              <TabsTrigger value="evaluation">Evaluation</TabsTrigger>
-              <TabsTrigger value="reviewer">Review Assistant</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="modules">
-              <div className="space-y-4">
-                {course?.modules.map(module => (
-                  <Card key={module.id}>
-                    <CardHeader className="pb-2">
-                      <div className="flex justify-between items-center">
-                        <CardTitle className="text-base">{module.title}</CardTitle>
-                        <span className={`text-xs px-2 py-1 rounded ${
-                          module.status === "approved" 
-                            ? "bg-green-100 text-green-800" 
-                            : module.status === "generated" 
-                            ? "bg-blue-100 text-blue-800"
-                            : "bg-neutral-100"
-                        }`}>
-                          {module.status === "approved" ? "Approved" : 
-                           module.status === "generated" ? "Generated" : 
-                           module.status === "in_progress" ? "In Progress" : "Not Started"}
-                        </span>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="pb-2">
-                      <p className="text-sm text-neutral-600">{module.description}</p>
-                      
-                      <div className="mt-2 flex items-center gap-2 text-xs text-neutral-500">
-                        <div className="flex items-center">
-                          <span className="material-icons text-xs mr-1">schedule</span>
-                          <span>{module.estimatedHours} hours</span>
-                        </div>
-                        {module.content && (
-                          <>
-                            <span>•</span>
-                            <div className="flex items-center">
-                              <span className="material-icons text-xs mr-1">description</span>
-                              <span>Content available</span>
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    </CardContent>
-                    <CardFooter className="pt-2">
-                      <div className="flex space-x-2">
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          disabled={!module.content}
-                          className="text-xs"
-                          onClick={() => {
-                            if (module.content) {
-                              setSelectedModule(module);
-                              setContentPreviewOpen(true);
-                            }
-                          }}
-                        >
-                          <span className="material-icons text-xs mr-1">visibility</span>
-                          View Content
-                        </Button>
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          disabled={!course?.phaseData?.phase4?.evaluations?.[module.id]}
-                          className="text-xs"
-                          onClick={() => {
-                            if (course?.phaseData?.phase4?.evaluations?.[module.id]) {
-                              setSelectedEvaluation(course.phaseData.phase4.evaluations[module.id]);
-                              setEvaluationPreviewOpen(true);
-                            }
-                          }}
-                        >
-                          <span className="material-icons text-xs mr-1">quiz</span>
-                          View Evaluation
-                        </Button>
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          className="text-xs"
-                          onClick={() => generateModuleImage(module.id)}
-                          disabled={isGeneratingImage}
-                        >
-                          <span className="material-icons text-xs mr-1">image</span>
-                          {isGeneratingImage && moduleIdForImage === module.id ? "Generating..." : "Generate Image"}
-                        </Button>
-                      </div>
-                    </CardFooter>
-                  </Card>
-                ))}
-                
-                {(!course?.modules || course.modules.length === 0) && (
-                  <div className="text-center p-6 border border-dashed border-neutral-300 rounded-md">
-                    <p className="text-neutral-600">No modules available. Return to Phase 2 to create modules.</p>
-                  </div>
-                )}
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="evaluation">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Evaluation Summary</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {course?.phaseData?.phase4?.evaluations ? (
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <h4 className="text-sm font-medium mb-1">Module Evaluations</h4>
-                          <p className="text-2xl font-semibold text-primary">
-                            {Object.keys(course.phaseData.phase4.evaluations).length} / {course.modules.length}
-                          </p>
-                        </div>
-                        <div>
-                          <h4 className="text-sm font-medium mb-1">Final Evaluation</h4>
-                          <p className="text-lg font-medium">
-                            {course.phaseData.phase4.courseEvaluation ? "Created" : "Not created"}
-                          </p>
-                        </div>
-                      </div>
-                      
-                      <Button 
-                        variant="outline"
-                        onClick={() => navigate("/phase4")}
-                      >
-                        View & Edit Evaluations
-                      </Button>
-                    </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <ClipboardList className="h-5 w-5" />
+                <span>Atividades e Avaliações</span>
+              </CardTitle>
+              <CardDescription>
+                Baixe apenas as atividades e questões de avaliação para aplicação
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="outline">❓ {totalQuestions} Questões</Badge>
+                  <Badge variant="outline">⚡ Atividades Práticas</Badge>
+                  <Badge variant="outline">✅ Respostas</Badge>
+                  <Badge variant="outline">📝 Explicações</Badge>
+                </div>
+                <Button 
+                  onClick={generateActivitiesPDF}
+                  disabled={isGeneratingActivitiesPDF}
+                  className="w-full"
+                  variant="outline"
+                >
+                  {isGeneratingActivitiesPDF ? (
+                    <span className="flex items-center">
+                      <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-gray-600 rounded-full"></span>
+                      Gerando PDF...
+                    </span>
                   ) : (
-                    <div className="text-center py-8">
-                      <span className="material-icons text-4xl text-neutral-300 mb-2">assessment</span>
-                      <p className="text-neutral-600">No evaluations have been created yet.</p>
-                      <Button 
-                        className="mt-4"
-                        onClick={() => navigate("/phase4")}
-                      >
-                        Go to Evaluation Phase
-                      </Button>
-                    </div>
+                    <>
+                      <Download className="mr-2 h-4 w-4" />
+                      Baixar Atividades (PDF)
+                    </>
                   )}
-                </CardContent>
-              </Card>
-            </TabsContent>
-            
-            <TabsContent value="reviewer">
-              <div className="space-y-4">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">Review Notes</CardTitle>
-                    <CardDescription>
-                      Add your notes for the AI reviewer to consider
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Textarea 
-                      placeholder="Add any notes or specific aspects you want the AI to focus on during review..."
-                      value={reviewNotes}
-                      onChange={(e) => setReviewNotes(e.target.value)}
-                      className="min-h-32"
-                    />
-                  </CardContent>
-                  <CardFooter className="flex justify-between">
-                    <Button 
-                      variant="outline"
-                      onClick={handleSaveReviewNotes}
-                    >
-                      Save Notes
-                    </Button>
-                    <Button 
-                      onClick={() => reviewCourse.mutate()}
-                      disabled={reviewCourse.isPending}
-                    >
-                      <span className="material-icons text-sm mr-1">rate_review</span>
-                      {reviewCourse.isPending ? "Reviewing..." : "Generate AI Review"}
-                    </Button>
-                  </CardFooter>
-                </Card>
-                
-                {course?.phaseData?.phase5?.aiReview && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-lg">AI Review Results</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="prose max-w-none text-sm">
-                        <div dangerouslySetInnerHTML={{ 
-                          __html: typeof course.phaseData.phase5.aiReview === "string" 
-                            ? course.phaseData.phase5.aiReview.replace(/\n/g, '<br />') 
-                            : JSON.stringify(course.phaseData.phase5.aiReview, null, 2)
-                        }} />
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
+                </Button>
               </div>
-            </TabsContent>
-          </Tabs>
+            </CardContent>
+          </Card>
         </div>
 
-        <div className="flex items-center justify-end space-x-3">
+        {/* Module Overview */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Visão Geral dos Módulos</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {course.modules.map((module, index) => {
+                const moduleQuestions = module.content?.lessons?.reduce((sum: number, lesson: any) => 
+                  sum + (lesson.detailedContent?.assessmentQuestions?.length || 0) +
+                  (lesson.detailedContent?.practicalExercises?.reduce((exerciseSum: number, exercise: any) => 
+                    exerciseSum + (exercise.questions?.length || 0), 0) || 0), 0) || 0;
+                
+                const moduleLessons = module.content?.lessons?.length || 0;
+                const lessonsWithContent = module.content?.lessons?.filter((lesson: any) => lesson.detailedContent)?.length || 0;
+                
+                return (
+                  <div key={module.id} className="border border-gray-200 rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="font-medium">{index + 1}. {module.title}</h4>
+                      <Badge 
+                        variant={lessonsWithContent === moduleLessons ? "default" : "outline"}
+                        className={lessonsWithContent === moduleLessons ? "bg-green-100 text-green-800" : ""}
+                      >
+                        {lessonsWithContent}/{moduleLessons} aulas
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-gray-600 mb-3">{module.description}</p>
+                    <div className="flex items-center space-x-4 text-sm">
+                      <span className="flex items-center">
+                        <FileText className="h-4 w-4 mr-1" />
+                        {moduleLessons} aulas
+                      </span>
+                      <span className="flex items-center">
+                        <ClipboardList className="h-4 w-4 mr-1" />
+                        {moduleQuestions} questões
+                      </span>
+                      <span className="flex items-center">
+                        <CheckCircle className="h-4 w-4 mr-1" />
+                        {Math.round((lessonsWithContent / moduleLessons) * 100)}% completo
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="flex items-center justify-end space-x-3 mt-6">
           <Button 
-            variant="outline" 
-            onClick={() => navigate("/")}
+            onClick={handleNextPhase}
+            className="bg-blue-600 hover:bg-blue-700"
           >
-            <span className="material-icons text-sm mr-1">home</span>
-            Voltar ao Início
+            Finalizar Curso
           </Button>
-          <div className="flex space-x-2">
-            <Button 
-              variant="outline"
-              onClick={() => generatePdf.mutate()}
-              disabled={isGeneratingPdf}
-            >
-              <span className="material-icons text-sm mr-1">picture_as_pdf</span>
-              {isGeneratingPdf ? "Gerando..." : "Baixar PDF"}
-            </Button>
-            <Button 
-              variant="outline"
-              onClick={() => exportCourse.mutate('json')}
-              disabled={exportCourse.isPending}
-            >
-              <span className="material-icons text-sm mr-1">code</span>
-              {exportCourse.isPending ? "Exportando..." : "Exportar JSON"}
-            </Button>
-            <Button 
-              onClick={() => exportCourse.mutate('csv')}
-              disabled={exportCourse.isPending}
-            >
-              <span className="material-icons text-sm mr-1">table_view</span>
-              {exportCourse.isPending ? "Exportando..." : "Exportar CSV"}
-            </Button>
-            <Button 
-              onClick={() => uploadToDrive.mutate()}
-              disabled={isUploadingToDrive}
-            >
-              <span className="material-icons text-sm mr-1">cloud_upload</span>
-              {isUploadingToDrive ? "Enviando..." : "Salvar no Drive"}
-            </Button>
-          </div>
         </div>
-        
-        {/* Modal de autorização do Google Drive */}
-        <Dialog open={showDriveAuthModal} onOpenChange={setShowDriveAuthModal}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Autorização Necessária</DialogTitle>
-              <DialogDescription>
-                Para salvar o PDF do seu curso no Google Drive, precisamos da sua autorização.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="py-4">
-              <p className="text-sm text-slate-600 mb-4">
-                Ao clicar no botão abaixo, você será redirecionado para a página de autorização do Google.
-                Após autorizar, retorne a esta página para continuar.
-              </p>
-            </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setShowDriveAuthModal(false)}>
-                Cancelar
-              </Button>
-              <Button onClick={handleGoogleAuth}>
-                Autorizar Google Drive
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-        
-        {/* Modal de sucesso do Google Drive */}
-        <Dialog open={showDriveSuccessModal} onOpenChange={setShowDriveSuccessModal}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Upload Concluído com Sucesso</DialogTitle>
-              <DialogDescription>
-                Seu curso foi enviado para o Google Drive.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="py-4">
-              <p className="text-sm text-slate-600 mb-4">
-                O PDF do seu curso está disponível no seu Google Drive. Você pode acessá-lo através do link abaixo:
-              </p>
-              
-              {googleDriveFileUrl && (
-                <div className="bg-slate-50 p-3 rounded-md border border-slate-200">
-                  <a 
-                    href={googleDriveFileUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline flex items-center"
-                  >
-                    <span className="material-icons text-sm mr-1">link</span>
-                    Abrir no Google Drive
-                  </a>
-                </div>
-              )}
-            </div>
-            <DialogFooter>
-              <Button onClick={() => setShowDriveSuccessModal(false)}>
-                Fechar
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
       </div>
-      
-      {/* Renderizar os componentes de visualização */}
-      <ModuleContentPreview 
-        module={selectedModule} 
-        onClose={() => setContentPreviewOpen(false)} 
-      />
-      
-      <EvaluationPreview 
-        evaluation={selectedEvaluation} 
-        onClose={() => setEvaluationPreviewOpen(false)} 
-      />
     </div>
   );
 }
