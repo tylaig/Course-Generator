@@ -420,8 +420,11 @@ export default function Phase3() {
                       <div className="bg-slate-50 p-4 rounded-md">
                         <div className="prose prose-sm max-w-none">
                           {/* Debug: Show raw content structure */}
-                          <div className="mb-4 p-2 bg-yellow-100 text-xs">
-                            <strong>Debug:</strong> {JSON.stringify(lesson.detailedContent, null, 2)}
+                          <div className="mb-4 p-2 bg-yellow-100 text-xs overflow-auto max-h-40">
+                            <strong>Debug - Estrutura dos dados:</strong>
+                            <pre className="whitespace-pre-wrap text-xs mt-1">
+                              {JSON.stringify(lesson.detailedContent, null, 2)}
+                            </pre>
                           </div>
                           
                           {lesson.detailedContent?.content ? (
