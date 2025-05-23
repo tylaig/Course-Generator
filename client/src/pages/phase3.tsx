@@ -204,7 +204,7 @@ export default function Phase3() {
 
           {actualContent.homework && (
             <div className="bg-yellow-50 p-3 rounded-lg">
-              <h6 className="font-medium text-yellow-900 mb-2">Tarefa de Casa:</h6>
+              <h6 className="font-medium text-yellow-900 mb-2">Homework:</h6>
               <p className="text-sm text-yellow-800">{actualContent.homework}</p>
             </div>
           )}
@@ -216,7 +216,7 @@ export default function Phase3() {
     return <div className="text-sm">{JSON.stringify(actualContent, null, 2)}</div>;
   };
 
-  // Persistência simples
+  // Simple persistence
   useEffect(() => {
     if (!course?.id) return;
     
@@ -229,14 +229,14 @@ export default function Phase3() {
         setCurrentGenerating(state.current || "");
         setGenerationStatus(state.status || "idle");
         
-        // Se estava gerando, continuar
+        // If it was generating, continue
         if (state.isGenerating && state.status === "generating") {
           setTimeout(() => {
             handleGenerateAll();
           }, 2000);
         }
       } catch (error) {
-        console.error('Erro ao carregar estado:', error);
+        console.error('Error loading state:', error);
       }
     }
   }, [course?.id]);
@@ -316,8 +316,8 @@ export default function Phase3() {
       }
       
       toast({
-        title: "Conteúdo gerado!",
-        description: `O conteúdo da aula "${data.lessonId}" foi gerado com sucesso.`,
+        title: "Content Generated!",
+        description: `The content for lesson "${data.lessonId}" was generated successfully.`,
       });
     },
     onError: (error) => {
@@ -325,8 +325,8 @@ export default function Phase3() {
       
       console.error("Lesson generation error:", error);
       toast({
-        title: "Erro na geração",
-        description: "Houve um problema ao gerar o conteúdo da aula. Tente novamente.",
+        title: "Generation Error",
+        description: "There was a problem generating the lesson content. Please try again.",
         variant: "destructive",
       });
     }
@@ -352,7 +352,7 @@ export default function Phase3() {
       });
 
       if (lessonsToGenerate.length === 0) {
-        throw new Error("Nenhuma aula para gerar");
+        throw new Error("No lessons to generate");
       }
 
       const results = [];
@@ -363,7 +363,7 @@ export default function Phase3() {
         const progress = Math.round(((i + 1) / total) * 100);
         
         setGenerationProgress(progress);
-        setCurrentGenerating(`Gerando: ${lessonInfo.lessonName}`);
+        setCurrentGenerating(`Generating: ${lessonInfo.lessonName}`);
         
         try {
           const moduleToGenerate = course?.modules.find(m => m.id === lessonInfo.moduleId);
@@ -451,8 +451,8 @@ export default function Phase3() {
       });
       
       toast({
-        title: "Geração completa!",
-        description: `Foram gerados conteúdos para ${data.length} aulas com sucesso.`,
+        title: "Generation Complete!",
+        description: `Content was successfully generated for ${data.length} lessons.`,
       });
     },
     onError: (error) => {
@@ -467,8 +467,8 @@ export default function Phase3() {
       
       console.error("Generation error:", error);
       toast({
-        title: "Erro na geração",
-        description: "Houve um problema ao gerar o conteúdo. Tente novamente.",
+        title: "Generation Error",
+        description: "There was a problem generating the content. Please try again.",
         variant: "destructive",
       });
     }
@@ -489,7 +489,7 @@ export default function Phase3() {
     setIsGeneratingAll(true);
     setGenerationStatus("generating");
     setGenerationProgress(0);
-    setCurrentGenerating("Iniciando geração...");
+    setCurrentGenerating("Starting generation...");
     generateAllContent.mutate();
   };
 
