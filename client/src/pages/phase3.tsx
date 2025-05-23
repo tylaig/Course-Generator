@@ -694,7 +694,8 @@ export default function Phase3() {
                             } else if (lesson.content) {
                               // Fallback para conteúdo básico
                               addText('CONTEÚDO DA AULA', 14, 'bold');
-                              addText(lesson.content, 12, 'normal');
+                              const contentText = typeof lesson.content === 'string' ? lesson.content : JSON.stringify(lesson.content, null, 2);
+                              addText(contentText, 12, 'normal');
                             }
                             
                             // Salvar o PDF
