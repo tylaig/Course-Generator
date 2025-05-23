@@ -7,7 +7,7 @@ import { Database, AlertCircle, CheckCircle } from "lucide-react";
 export default function Header() {
   const [dbStatus, setDbStatus] = useState<'checking' | 'connected' | 'disconnected'>('checking');
 
-  // Verificar status do PostgreSQL
+  // Check PostgreSQL status
   useEffect(() => {
     const checkDatabaseStatus = async () => {
       try {
@@ -24,7 +24,7 @@ export default function Header() {
     };
 
     checkDatabaseStatus();
-    // Verificar a cada 30 segundos
+    // Check every 30 seconds
     const interval = setInterval(checkDatabaseStatus, 30000);
     return () => clearInterval(interval);
   }, []);
@@ -46,21 +46,21 @@ export default function Header() {
         return (
           <Badge variant="outline" className="text-green-700 border-green-300 bg-green-50">
             {getStatusIcon()}
-            <span className="ml-1">PostgreSQL Conectado</span>
+            <span className="ml-1">PostgreSQL Connected</span>
           </Badge>
         );
       case 'disconnected':
         return (
           <Badge variant="outline" className="text-red-700 border-red-300 bg-red-50">
             {getStatusIcon()}
-            <span className="ml-1">PostgreSQL Desconectado</span>
+            <span className="ml-1">PostgreSQL Disconnected</span>
           </Badge>
         );
       default:
         return (
           <Badge variant="outline" className="text-yellow-700 border-yellow-300 bg-yellow-50">
             {getStatusIcon()}
-            <span className="ml-1">Verificando...</span>
+            <span className="ml-1">Checking...</span>
           </Badge>
         );
     }
@@ -72,24 +72,24 @@ export default function Header() {
         <Link href="/">
           <div className="flex items-center cursor-pointer">
             <span className="material-icons text-primary text-2xl mr-2">school</span>
-            <h1 className="text-xl font-semibold text-slate-800">Gerador de Cursos com IA</h1>
+            <h1 className="text-xl font-semibold text-slate-800">AI Course Generator</h1>
           </div>
         </Link>
         
         <div className="flex items-center">
           <div className="flex items-center space-x-3">
-            {/* Status do PostgreSQL */}
+            {/* PostgreSQL Status */}
             {getStatusBadge()}
             <Link href="/lms-view">
               <Button variant="outline" size="sm">
                 <span className="material-icons text-sm mr-1">visibility</span>
-                Visualizar LMS
+                View LMS
               </Button>
             </Link>
             
             <Button variant="outline" size="sm">
               <span className="material-icons text-sm mr-1">help</span>
-              Ajuda
+              Help
             </Button>
           </div>
         </div>

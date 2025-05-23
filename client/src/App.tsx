@@ -23,7 +23,7 @@ function App() {
   const [isContextReady, setIsContextReady] = useState(false);
   
   useEffect(() => {
-    // Verificar se o contexto está pronto
+    // Check if context is ready
     setTimeout(() => {
       setIsContextReady(true);
     }, 1000);
@@ -54,7 +54,7 @@ function App() {
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mx-auto mb-4"></div>
-                    <p className="text-gray-600">Carregando o ambiente pedagógico...</p>
+                    <p className="text-gray-600">Loading pedagogical environment...</p>
                   </div>
                 </div>
               )}
