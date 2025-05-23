@@ -325,10 +325,21 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
       
       const updatedCourse = { ...prev, modules };
       
-      // Salvar cada módulo individualmente também
-      if (prev.id) {
-        modules.forEach(module => {
-          CourseStorage.saveModule(prev.id, module);
+      // Save to database instead of localStorage
+      if (prev.id && typeof prev.id === 'number') {
+        modules.forEach(async (module) => {
+          try {
+            await fetch(`/api/modules/${module.id}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                content: module.content,
+                status: module.status
+              })
+            });
+          } catch (error) {
+            console.error('Error updating module in database:', error);
+          }
         });
       }
       
@@ -359,8 +370,19 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
             ? { ...mod, status, imageUrl } 
             : { ...mod, status };
             
-          // Salvar o módulo atualizado individualmente
-          CourseStorage.saveModule(prev.id, updatedModule);
+          // Save to database instead of localStorage
+          if (typeof prev.id === 'number') {
+            fetch(`/api/modules/${moduleId}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                status: updatedModule.status
+              })
+            }).catch(error => {
+              console.error('Error updating module status in database:', error);
+            });
+          }
+          
           return updatedModule;
         }
         return mod;
@@ -369,7 +391,7 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  const updateModuleContent = (moduleId: string, content: any) => {
+  const updateModuleContent = async (moduleId: string, content: any) => {
     setCourse((prev) => {
       if (!prev) return null;
       const updatedModules = prev.modules.map(mod => {
@@ -381,8 +403,20 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
               ...content 
             } 
           };
-          // Salvar o módulo atualizado individualmente
-          CourseStorage.saveModule(prev.id, updatedModule);
+          
+          // Save to database instead of localStorage
+          if (typeof prev.id === 'number') {
+            fetch(`/api/modules/${moduleId}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                content: updatedModule.content
+              })
+            }).catch(error => {
+              console.error('Error updating module content in database:', error);
+            });
+          }
+          
           return updatedModule;
         }
         return mod;
