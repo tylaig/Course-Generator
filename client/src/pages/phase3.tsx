@@ -720,9 +720,9 @@ export default function Phase3() {
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
                       <AlertDialogAction onClick={handleGenerateAll}>
-                        Confirmar Geração
+                        Confirm Generation
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
@@ -733,13 +733,13 @@ export default function Phase3() {
                   onClick={handleNextPhase}
                   disabled={!allModulesReady}
                 >
-                  Prosseguir para Avaliação
+                  Proceed to Evaluation
                 </Button>
               </div>
               
               {!allModulesReady && (
                 <p className="text-sm text-amber-600">
-                  Complete a geração de conteúdo para todos os módulos antes de prosseguir.
+                  Complete content generation for all modules before proceeding.
                 </p>
               )}
             </div>
@@ -757,7 +757,7 @@ export default function Phase3() {
                 className="flex flex-col items-start p-3 h-auto text-left"
               >
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="font-medium">Módulo {index + 1}</span>
+                  <span className="font-medium">Module {index + 1}</span>
                   {module.status === "generated" ? (
                     <Badge variant="default" className="bg-green-100 text-green-800">✓</Badge>
                   ) : (
