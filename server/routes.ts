@@ -979,21 +979,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { code, error } = req.query;
       
       if (error) {
-        return res.redirect(`/?error=${encodeURIComponent(error as string)}`);
+        return res.send(`
+          <html>
+            <body>
+              <script>
+                window.opener.postMessage({type: 'GOOGLE_AUTH_ERROR', error: '${error}'}, '*');
+                window.close();
+              </script>
+              <p>Authentication failed. This window should close automatically.</p>
+            </body>
+          </html>
+        `);
       }
       
       if (!code || typeof code !== 'string') {
-        return res.redirect('/?error=no_code');
+        return res.send(`
+          <html>
+            <body>
+              <script>
+                window.opener.postMessage({type: 'GOOGLE_AUTH_ERROR', error: 'no_code'}, '*');
+                window.close();
+              </script>
+              <p>No authorization code received. This window should close automatically.</p>
+            </body>
+          </html>
+        `);
       }
 
       const { getTokenFromCode } = await import("./googleDrive");
       const tokens = await getTokenFromCode(code);
       
-      // Redirect back to the frontend with success
-      res.redirect('/?google_auth=success');
+      // Send success message to parent window and close popup
+      res.send(`
+        <html>
+          <body>
+            <script>
+              window.opener.postMessage({type: 'GOOGLE_AUTH_SUCCESS', tokens: ${JSON.stringify(tokens)}}, '*');
+              window.close();
+            </script>
+            <p>Authentication successful! This window should close automatically.</p>
+          </body>
+        </html>
+      `);
     } catch (error) {
       console.error("Error in Google callback:", error);
-      res.redirect('/?error=auth_failed');
+      res.send(`
+        <html>
+          <body>
+            <script>
+              window.opener.postMessage({type: 'GOOGLE_AUTH_ERROR', error: 'auth_failed'}, '*');
+              window.close();
+            </script>
+            <p>Authentication failed. This window should close automatically.</p>
+          </body>
+        </html>
+      `);
     }
   });
 
