@@ -110,20 +110,20 @@ export default function CourseList() {
   });
 
   // Criar novo curso
-  const handleCreateNewCourse = () => {
+  const handleCreateNewCourse = async () => {
     if (createNewCourse) {
       try {
-        const newCourseData = createNewCourse();
+        await createNewCourse();
         toast({
           title: "Curso Criado",
-          description: "Um novo curso foi criado com sucesso!"
+          description: "Um novo curso foi criado com sucesso no banco de dados!"
         });
         navigate("/phase1");
       } catch (error) {
         console.error("Erro ao criar curso:", error);
         toast({
           title: "Erro",
-          description: "Não foi possível criar o curso. Tente novamente.",
+          description: "Não foi possível criar o curso no banco de dados. Tente novamente.",
           variant: "destructive"
         });
       }

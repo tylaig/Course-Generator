@@ -97,100 +97,79 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const createNewCourse = () => {
-    console.log("Criando novo curso no CourseContext...");
+  const createNewCourse = async (): Promise<Course> => {
+    console.log("Criando novo curso no PostgreSQL...");
     
-    // Verificar se há um curso em rascunho que pode ser continuado
-    const currentId = localStorage.getItem('currentCourseId');
-    const currentCourse = currentId ? CourseStorage.getCourse(currentId) : null;
-    
-    // Se já temos um curso em rascunho na fase 1, vamos permitir continuar onde parou
-    if (currentCourse && currentCourse.currentPhase === 1 && 
-        (!currentCourse.progress || currentCourse.progress.phase1 < 100)) {
-      console.log("Curso em rascunho encontrado na fase 1. Continuando...", currentCourse);
-      setCourse(currentCourse);
-      return currentCourse;
-    }
-    
-    // Se temos um ID atual mas não estamos continuando, limpar os dados deste curso
-    if (currentId) {
-      CourseStorage.clearCourseData(currentId);
-    }
-    
-    // Criar o objeto do curso com ID único
-    const courseId = `course_${Date.now().toString()}`;
-    
-    // Criar o objeto do curso
-    const newCourse: Course = {
-      id: courseId,
-      title: "Novo Curso Educacional",
-      theme: "Educação e Aprendizagem",
-      estimatedHours: 20,
-      format: "Online",
-      platform: "Web",
-      deliveryFormat: "Self-paced",
-      currentPhase: 1,
-      progress: {
-        phase1: 0,
-        phase2: 0,
-        phase3: 0,
-        phase4: 0,
-        phase5: 0,
-        overall: 0,
-        lastUpdated: new Date().toISOString()
-      },
-      aiConfig: {
-        model: "gpt-4o", // o modelo mais recente da OpenAI
-        optimization: "balanced",
-        languageStyle: "professional",
-        difficultyLevel: "intermediate",
-        contentDensity: 0.7,
-        teachingApproach: "practical",
-        contentTypes: ["text", "video", "quiz", "exercise", "case"],
-        language: "pt-BR"
-      },
-      modules: [],
-      phaseData: {
-        phase1: {
+    try {
+      // Criar curso diretamente no PostgreSQL primeiro
+      const response = await apiRequest("POST", "/api/courses", {
+        title: "Novo Curso Educacional",
+        theme: "Educação e Aprendizagem",
+        estimatedHours: 20,
+        format: "Online",
+        platform: "Web",
+        deliveryFormat: "PDF",
+        currentPhase: 1
+      });
+      
+      const courseData = await response.json();
+      console.log("Curso criado no banco:", courseData);
+      
+      // Criar o objeto do curso completo baseado na resposta do banco
+      const newCourse: Course = {
+        id: courseData.id.toString(), // Usar o ID real do banco
+        title: courseData.title,
+        theme: courseData.theme,
+        estimatedHours: courseData.estimatedHours,
+        format: courseData.format,
+        platform: courseData.platform,
+        deliveryFormat: courseData.deliveryFormat,
+        currentPhase: courseData.currentPhase,
+        progress: {
+          phase1: 0,
+          phase2: 0,
+          phase3: 0,
+          phase4: 0,
+          phase5: 0,
+          overall: 0,
           lastUpdated: new Date().toISOString()
         },
-        phase2: {},
-        phase3: {},
-        phase4: {},
-        phase5: {}
-      }
-    };
-    
-    // Atualizar o estado do React
-    setCourse(newCourse);
-    
-    // Persistir no armazenamento local
-    CourseStorage.saveCourse(newCourse);
-    localStorage.setItem('currentCourseId', courseId);
-    
-    // Tentativa de sincronização com o servidor (não bloqueante)
-    setTimeout(() => {
-      try {
-        apiRequest("POST", "/api/courses", {
-          title: newCourse.title,
-          theme: newCourse.theme,
-          estimatedHours: newCourse.estimatedHours,
-          format: newCourse.format,
-          platform: newCourse.platform,
-          deliveryFormat: newCourse.deliveryFormat,
-          currentPhase: newCourse.currentPhase,
-          aiConfig: newCourse.aiConfig,
-          modules: newCourse.modules
-        }).catch(error => {
-          console.warn("Erro ao salvar curso no servidor, mas o armazenamento local está funcionando:", error);
-        });
-      } catch (error) {
-        console.warn("Falha ao comunicar com o servidor:", error);
-      }
-    }, 0);
-    
-    console.log("Novo curso criado com sucesso:", newCourse);
-    return newCourse;
+        aiConfig: {
+          model: "gpt-4o",
+          optimization: "balanced",
+          languageStyle: "professional",
+          difficultyLevel: "intermediate",
+          contentDensity: 0.7,
+          teachingApproach: "practical",
+          contentTypes: ["text", "video", "quiz", "exercise", "case"],
+          language: "pt-BR"
+        },
+        modules: [],
+        phaseData: {
+          phase1: {
+            lastUpdated: new Date().toISOString()
+          },
+          phase2: {},
+          phase3: {},
+          phase4: {},
+          phase5: {}
+        }
+      };
+      
+      // Atualizar o estado do React
+      setCourse(newCourse);
+      
+      // Salvar também no localStorage para compatibilidade
+      CourseStorage.saveCourse(newCourse);
+      localStorage.setItem('currentCourseId', newCourse.id);
+      
+      console.log("Novo curso criado com sucesso:", newCourse);
+      return newCourse;
+      
+    } catch (error) {
+      console.error("Erro ao criar curso no banco:", error);
+      throw new Error("Falha ao criar curso no banco de dados");
+    }
   };
 
   const loadCourse = async (courseId: string) => {
