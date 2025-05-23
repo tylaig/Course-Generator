@@ -14,46 +14,12 @@ export default function Phase4() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [currentGeneratingLesson, setCurrentGeneratingLesson] = useState("");
 
-  // Auto-resume generation on page load if there are pending activities
+  // Check for incomplete activities but don't auto-resume
   useEffect(() => {
-    const autoResumeGeneration = async () => {
-      if (!course?.modules) return;
-      
-      // Check if there are lessons without activities
-      const lessonsWithoutActivities = [];
-      course.modules.forEach(module => {
-        if (module.content?.lessons) {
-          module.content.lessons.forEach(lesson => {
-            const hasActivities = lesson.detailedContent?.practicalExercises?.length > 0 ||
-                                 lesson.detailedContent?.assessmentQuestions?.length > 0;
-            if (!hasActivities) {
-              lessonsWithoutActivities.push({
-                moduleId: module.id,
-                lessonId: lesson.title,
-                lessonName: lesson.title,
-                lessonContent: lesson.detailedContent?.content || ""
-              });
-            }
-          });
-        }
-      });
-
-      // If there are pending activities and user was generating, auto-resume (but only once)
-      const wasGenerating = localStorage.getItem('wasGeneratingActivities');
-      const hasAutoResumed = sessionStorage.getItem('hasAutoResumed');
-      
-      if (lessonsWithoutActivities.length > 0 && wasGenerating === 'true' && !hasAutoResumed) {
-        console.log(`🔄 Retomando geração automática para ${lessonsWithoutActivities.length} aulas pendentes`);
-        sessionStorage.setItem('hasAutoResumed', 'true'); // Prevent multiple auto-resumes
-        localStorage.removeItem('wasGeneratingActivities'); // Clear flag
-        await generateActivities(); // Resume generation
-      }
-    };
-
-    // Small delay to ensure course is loaded
-    const timer = setTimeout(autoResumeGeneration, 1000);
-    return () => clearTimeout(timer);
-  }, [course]);
+    // Clear any leftover generation flags to prevent auto-resume
+    localStorage.removeItem('wasGeneratingActivities');
+    sessionStorage.removeItem('hasAutoResumed');
+  }, []);
 
   // Generate activities with AI for all lessons without activities
   const generateActivities = async () => {
