@@ -317,15 +317,32 @@ export default function Phase4() {
     
     const activities: any[] = [];
     module.content.lessons.forEach((lesson: any) => {
-      if (lesson.detailedContent?.activities) {
-        lesson.detailedContent.activities.forEach((activity: any) => {
+      if (lesson.detailedContent) {
+        // Adicionar exercícios práticos
+        if (lesson.detailedContent.practicalExercises) {
+          lesson.detailedContent.practicalExercises.forEach((exercise: any) => {
+            activities.push({
+              ...exercise,
+              type: 'practical',
+              lessonTitle: lesson.title,
+              moduleTitle: module.title,
+              moduleId: module.id
+            });
+          });
+        }
+        
+        // Adicionar questões de avaliação como atividades
+        if (lesson.detailedContent.assessmentQuestions) {
           activities.push({
-            ...activity,
+            title: `Avaliação - ${lesson.title}`,
+            description: `Questões de avaliação para ${lesson.title}`,
+            type: 'assessment',
+            questions: lesson.detailedContent.assessmentQuestions,
             lessonTitle: lesson.title,
             moduleTitle: module.title,
             moduleId: module.id
           });
-        });
+        }
       }
     });
     return activities;
@@ -532,33 +549,51 @@ export default function Phase4() {
                 {getModuleActivityCount(selectedModule) > 0 ? (
                   <div className="space-y-4">
                     {selectedModule.content?.lessons?.map((lesson: any) => {
-                      if (!lesson.detailedContent?.activities || lesson.detailedContent.activities.length === 0) {
+                      const hasActivities = (lesson.detailedContent?.practicalExercises && lesson.detailedContent.practicalExercises.length > 0) ||
+                                          (lesson.detailedContent?.assessmentQuestions && lesson.detailedContent.assessmentQuestions.length > 0);
+                      
+                      if (!hasActivities) {
                         return null;
                       }
                       
                       return (
-                        <Card key={lesson.id} className="border border-gray-200">
+                        <Card key={lesson.title} className="border border-gray-200">
                           <CardHeader className="pb-3">
                             <CardTitle className="text-base">{lesson.title}</CardTitle>
                             <CardDescription className="text-sm">
-                              {lesson.detailedContent.activities.length} atividade(s) disponível(eis)
+                              {(lesson.detailedContent?.practicalExercises?.length || 0) + (lesson.detailedContent?.assessmentQuestions ? 1 : 0)} atividade(s) disponível(eis)
                             </CardDescription>
                           </CardHeader>
                           <CardContent>
                             <Accordion type="single" collapsible className="w-full">
-                              {lesson.detailedContent.activities.map((activity: any, actIdx: number) => (
-                                <AccordionItem key={actIdx} value={`activity-${actIdx}`}>
+                              {/* Exercícios Práticos */}
+                              {lesson.detailedContent?.practicalExercises?.map((exercise: any, actIdx: number) => (
+                                <AccordionItem key={`practical-${actIdx}`} value={`practical-${actIdx}`}>
                                   <AccordionTrigger className="text-sm font-medium">
-                                    {activity.type === 'quiz' ? '📝' : '⚡'} {activity.title}
+                                    ⚡ {exercise.title}
                                   </AccordionTrigger>
                                   <AccordionContent>
                                     <div className="space-y-3">
-                                      <p className="text-sm text-gray-600">{activity.description}</p>
+                                      <p className="text-sm text-gray-600">{exercise.description}</p>
                                       
-                                      {activity.questions && activity.questions.length > 0 && (
+                                      {exercise.instructions && exercise.instructions.length > 0 && (
+                                        <div>
+                                          <h4 className="font-medium text-sm mb-2">Instruções:</h4>
+                                          <ul className="text-sm text-gray-600 space-y-1">
+                                            {exercise.instructions.map((instruction: string, idx: number) => (
+                                              <li key={idx} className="flex items-start">
+                                                <span className="text-blue-500 mr-2">•</span>
+                                                {instruction}
+                                              </li>
+                                            ))}
+                                          </ul>
+                                        </div>
+                                      )}
+                                      
+                                      {exercise.questions && exercise.questions.length > 0 && (
                                         <div className="space-y-3">
                                           <h4 className="font-medium text-sm">Questões:</h4>
-                                          {activity.questions.map((question: any, qIdx: number) => (
+                                          {exercise.questions.map((question: any, qIdx: number) => (
                                             <div key={qIdx} className="bg-purple-50 p-3 rounded border border-purple-200">
                                               <p className="font-medium text-sm mb-2">{qIdx + 1}. {question.question}</p>
                                               {question.options && (
@@ -603,6 +638,68 @@ export default function Phase4() {
                                   </AccordionContent>
                                 </AccordionItem>
                               ))}
+                              
+                              {/* Questões de Avaliação */}
+                              {lesson.detailedContent?.assessmentQuestions && lesson.detailedContent.assessmentQuestions.length > 0 && (
+                                <AccordionItem value="assessment">
+                                  <AccordionTrigger className="text-sm font-medium">
+                                    📝 Avaliação - {lesson.title}
+                                  </AccordionTrigger>
+                                  <AccordionContent>
+                                    <div className="space-y-3">
+                                      <p className="text-sm text-gray-600">Questões de avaliação para esta aula</p>
+                                      
+                                      <div className="space-y-3">
+                                        <h4 className="font-medium text-sm">Questões ({lesson.detailedContent.assessmentQuestions.length}):</h4>
+                                        {lesson.detailedContent.assessmentQuestions.map((question: any, qIdx: number) => (
+                                          <div key={qIdx} className="bg-blue-50 p-3 rounded border border-blue-200">
+                                            <p className="font-medium text-sm mb-2">{qIdx + 1}. {question.question}</p>
+                                            {question.options && (
+                                              <div className="space-y-1">
+                                                {question.options.map((option: string, oIdx: number) => (
+                                                  <div key={oIdx} className={`text-xs p-2 rounded ${
+                                                    oIdx === question.correct_answer 
+                                                      ? 'bg-green-100 text-green-800 font-medium' 
+                                                      : 'bg-gray-100'
+                                                  }`}>
+                                                    {String.fromCharCode(65 + oIdx)}) {option}
+                                                    {oIdx === question.correct_answer && ' ✓'}
+                                                  </div>
+                                                ))}
+                                              </div>
+                                            )}
+                                            {question.explanation && (
+                                              <div className="mt-2 text-xs text-gray-600 bg-gray-50 p-2 rounded">
+                                                <strong>Explicação:</strong> {question.explanation}
+                                              </div>
+                                            )}
+                                          </div>
+                                        ))}
+                                        
+                                        <div className="mt-3 flex space-x-2">
+                                          <Button 
+                                            size="sm" 
+                                            variant="outline"
+                                            onClick={() => {
+                                              const assessmentText = `Avaliação - ${lesson.title}\n\nQuestões de avaliação para esta aula\n\n${lesson.detailedContent.assessmentQuestions.map((q: any, i: number) => 
+                                                `${i+1}. ${q.question}\n${q.options.map((opt: string, j: number) => 
+                                                  `${String.fromCharCode(65 + j)}) ${opt}`).join('\n')}\nResposta: ${String.fromCharCode(65 + q.correct_answer)}\nExplicação: ${q.explanation || 'N/A'}`).join('\n\n')}`;
+                                              
+                                              navigator.clipboard.writeText(assessmentText);
+                                              toast({
+                                                title: "Avaliação copiada!",
+                                                description: "A avaliação foi copiada para a área de transferência.",
+                                              });
+                                            }}
+                                          >
+                                            📋 Copiar Avaliação
+                                          </Button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </AccordionContent>
+                                </AccordionItem>
+                              )}
                             </Accordion>
                           </CardContent>
                         </Card>
