@@ -8,7 +8,7 @@ import { CheckCircle, AlertCircle, Clock, Download, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Phase4() {
-  const { course, updateModuleContent } = useCourse();
+  const { course, updateModuleContent, setCourse } = useCourse();
   const { toast } = useToast();
   const [generationProgress, setGenerationProgress] = useState(0);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -113,9 +113,20 @@ export default function Phase4() {
                 };
               }
 
-              // Save activities using updateModuleContent (context handles persistence)
+              // Save activities and force interface update
               console.log(`💾 Atividades salvas para: ${lessonInfo.lessonName}`);
               await updateModuleContent(moduleToUpdate.id, moduleToUpdate.content);
+              
+              // Force immediate UI update by updating the course state directly
+              setCourse(prevCourse => {
+                if (!prevCourse) return prevCourse;
+                return {
+                  ...prevCourse,
+                  modules: prevCourse.modules.map(m => 
+                    m.id === moduleToUpdate.id ? moduleToUpdate : m
+                  )
+                };
+              });
             }
           }
         } else {
