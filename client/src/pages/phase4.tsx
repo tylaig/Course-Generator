@@ -113,28 +113,9 @@ export default function Phase4() {
                 };
               }
 
-              // CRITICAL: Save to database FIRST, then update context
-              try {
-                const saveResponse = await fetch(`/api/modules/${moduleToUpdate.id}`, {
-                  method: 'PUT',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({
-                    content: moduleToUpdate.content
-                  })
-                });
-                
-                if (saveResponse.ok) {
-                  console.log(`💾 Atividades salvas no banco para: ${lessonInfo.lessonName}`);
-                  // Only update context after successful database save
-                  await updateModuleContent(moduleToUpdate.id, moduleToUpdate.content);
-                } else {
-                  console.error(`❌ Falha ao salvar no banco para ${lessonInfo.lessonName}`);
-                }
-              } catch (dbError) {
-                console.error(`❌ Erro ao salvar no banco para ${lessonInfo.lessonName}:`, dbError);
-              }
+              // Save activities using updateModuleContent (context handles persistence)
+              console.log(`💾 Atividades salvas para: ${lessonInfo.lessonName}`);
+              await updateModuleContent(moduleToUpdate.id, moduleToUpdate.content);
             }
           }
         } else {
