@@ -22,6 +22,18 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Progress } from "@/components/ui/progress";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function Phase3() {
   const [_, navigate] = useLocation();
@@ -37,6 +49,9 @@ export default function Phase3() {
   } = useCourse();
   
   const [selectedModule, setSelectedModule] = useState<CourseModule | null>(null);
+  const [isGeneratingAll, setIsGeneratingAll] = useState(false);
+  const [generationProgress, setGenerationProgress] = useState(0);
+  const [currentGenerating, setCurrentGenerating] = useState<string>("");
 
   // Generate content for a single lesson
   const generateLessonContent = useMutation({
@@ -112,6 +127,135 @@ export default function Phase3() {
       toast({
         title: "Erro ao gerar conteúdo da aula",
         description: "Não foi possível gerar o conteúdo da aula. Tente novamente.",
+        variant: "destructive",
+      });
+    }
+  });
+
+  // Generate all lessons from all modules
+  const generateAllLessons = useMutation({
+    mutationFn: async () => {
+      setIsGeneratingAll(true);
+      setGenerationProgress(0);
+      setGenerationStatus("generating");
+      
+      // Get all lessons from all modules
+      const allLessons: Array<{moduleId: string, moduleName: string, lessonId: string, lessonName: string}> = [];
+      
+      course?.modules.forEach(module => {
+        if (module.content?.lessons) {
+          module.content.lessons.forEach((lesson: any) => {
+            if (!lesson.detailedContent) {
+              allLessons.push({
+                moduleId: module.id,
+                moduleName: module.title,
+                lessonId: lesson.title,
+                lessonName: lesson.title
+              });
+            }
+          });
+        }
+      });
+      
+      if (allLessons.length === 0) {
+        throw new Error("Todas as aulas já possuem conteúdo gerado");
+      }
+      
+      const results = [];
+      
+      // Generate content for each lesson sequentially
+      for (let i = 0; i < allLessons.length; i++) {
+        const lessonInfo = allLessons[i];
+        setCurrentGenerating(`${lessonInfo.moduleName} - ${lessonInfo.lessonName}`);
+        setGenerationProgress(Math.round((i / allLessons.length) * 100));
+        
+        try {
+          const moduleToGenerate = course?.modules.find(m => m.id === lessonInfo.moduleId);
+          if (!moduleToGenerate) continue;
+          
+          const lessonToGenerate = moduleToGenerate.content?.lessons?.find((l: any) => l.title === lessonInfo.lessonId);
+          if (!lessonToGenerate) continue;
+          
+          const response = await apiRequest(
+            "POST", 
+            "/api/generate/lesson-content", 
+            {
+              lesson: lessonToGenerate,
+              module: moduleToGenerate,
+              courseDetails: {
+                title: course?.title,
+                theme: course?.theme,
+                estimatedHours: course?.estimatedHours,
+                format: course?.format,
+                platform: course?.platform,
+                deliveryFormat: course?.deliveryFormat,
+                phaseData: course?.phaseData?.phase1
+              },
+              aiConfig: course?.aiConfig
+            }
+          );
+          
+          const content = await response.json();
+          results.push({ moduleId: lessonInfo.moduleId, lessonId: lessonInfo.lessonId, content });
+          
+          // Update lesson content immediately
+          const updatedModule = { ...moduleToGenerate };
+          if (updatedModule.content?.lessons) {
+            const lessonIndex = updatedModule.content.lessons.findIndex((l: any) => l.title === lessonInfo.lessonId);
+            if (lessonIndex !== -1) {
+              updatedModule.content.lessons[lessonIndex] = {
+                ...updatedModule.content.lessons[lessonIndex],
+                detailedContent: content.content,
+                status: "generated"
+              };
+            }
+          }
+          
+          // Update module with updated lessons
+          updateModuleContent(moduleToGenerate.id, updatedModule.content);
+          
+          // Short pause between requests to avoid rate limiting
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          
+        } catch (error) {
+          console.error(`Error generating content for lesson ${lessonInfo.lessonName}:`, error);
+          // Continue with next lesson
+        }
+      }
+      
+      return results;
+    },
+    onSuccess: (data) => {
+      setIsGeneratingAll(false);
+      setGenerationStatus("success");
+      setGenerationProgress(100);
+      setCurrentGenerating("");
+      
+      // Update module statuses
+      course?.modules.forEach(module => {
+        const allLessonsGenerated = module.content?.lessons?.every((lesson: any) => lesson.detailedContent);
+        if (allLessonsGenerated) {
+          updateModuleStatus(module.id, "generated");
+        }
+      });
+      
+      toast({
+        title: "Geração completa!",
+        description: `Foram gerados conteúdos para ${data.length} aulas com sucesso.`,
+      });
+      
+      // Update progress
+      updateProgress(3, calculateModuleProgress());
+    },
+    onError: (error) => {
+      console.error("Error generating all lessons:", error);
+      setIsGeneratingAll(false);
+      setGenerationStatus("error");
+      setCurrentGenerating("");
+      
+      toast({
+        title: "Erro na geração em lote",
+        description: error.message || "Ocorreu um erro ao gerar o conteúdo das aulas.",
         variant: "destructive",
       });
     }
@@ -251,6 +395,65 @@ export default function Phase3() {
           description="Gere conteúdo detalhado para cada aula dos módulos do curso"
           onNext={handleNextPhase}
         />
+        
+        {/* Botão para gerar todas as aulas */}
+        <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="font-semibold text-blue-900">Geração em Lote</h3>
+              <p className="text-sm text-blue-700">Gere conteúdo para todas as aulas de todos os módulos automaticamente</p>
+            </div>
+            
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button 
+                  className="bg-blue-600 hover:bg-blue-700"
+                  disabled={isGeneratingAll || generationStatus === "generating"}
+                >
+                  {isGeneratingAll ? (
+                    <span className="flex items-center">
+                      <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
+                      Gerando...
+                    </span>
+                  ) : (
+                    "Gerar Todas as Aulas"
+                  )}
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Gerar Todas as Aulas</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Esta ação irá gerar conteúdo para todas as aulas de todos os módulos que ainda não possuem conteúdo. 
+                    Isso pode levar alguns minutos. Deseja continuar?
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => generateAllLessons.mutate()}>
+                    Gerar Todas
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+          
+          {/* Barra de progresso durante geração */}
+          {isGeneratingAll && (
+            <div className="mt-4 space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-blue-700">Progresso</span>
+                <span className="text-blue-700">{generationProgress}%</span>
+              </div>
+              <Progress value={generationProgress} className="w-full" />
+              {currentGenerating && (
+                <p className="text-xs text-blue-600">
+                  Gerando: {currentGenerating}
+                </p>
+              )}
+            </div>
+          )}
+        </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
           {/* Módulos disponíveis */}
