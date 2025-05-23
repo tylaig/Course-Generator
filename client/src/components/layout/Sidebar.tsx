@@ -4,19 +4,19 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useCourse } from '@/context/CourseContext';
 
-// Organizando o menu em categorias
+// Organizing the menu in categories
 const courseMenuItems = [
-  { label: 'Meus Cursos', icon: 'dashboard', path: '/courses' },
-  { label: 'Criar Novo Curso', icon: 'add_circle', path: '/new-course' },
-  { label: 'Visualização LMS', icon: 'school', path: '/lms-view' },
+  { label: 'My Courses', icon: 'dashboard', path: '/courses' },
+  { label: 'Create New Course', icon: 'add_circle', path: '/new-course' },
+  { label: 'LMS View', icon: 'school', path: '/lms-view' },
 ];
 
 const phasesMenuItems = [
-  { label: 'Fase 1: Estratégia', icon: 'lightbulb', path: '/phase1', phaseNumber: 1 },
-  { label: 'Fase 2: Estrutura', icon: 'architecture', path: '/phase2', phaseNumber: 2 },
-  { label: 'Fase 3: Conteúdo', icon: 'article', path: '/phase3', phaseNumber: 3 },
-  { label: 'Fase 4: Avaliação', icon: 'quiz', path: '/phase4', phaseNumber: 4 },
-  { label: 'Fase 5: Revisão', icon: 'rate_review', path: '/phase5', phaseNumber: 5 },
+  { label: 'Phase 1: Strategy', icon: 'lightbulb', path: '/phase1', phaseNumber: 1 },
+  { label: 'Phase 2: Structure', icon: 'architecture', path: '/phase2', phaseNumber: 2 },
+  { label: 'Phase 3: Content', icon: 'article', path: '/phase3', phaseNumber: 3 },
+  { label: 'Phase 4: Evaluation', icon: 'quiz', path: '/phase4', phaseNumber: 4 },
+  { label: 'Phase 5: Review', icon: 'rate_review', path: '/phase5', phaseNumber: 5 },
 ];
 
 export default function Sidebar() {
@@ -27,7 +27,7 @@ export default function Sidebar() {
     phases: true
   });
 
-  // Função para alternar a expansão das seções
+  // Function to toggle section expansion
   const toggleSection = (section: 'courses' | 'phases') => {
     setExpandedSections(prev => ({
       ...prev,
@@ -35,13 +35,13 @@ export default function Sidebar() {
     }));
   };
 
-  // Determinar qual fase está ativa
+  // Determine which phase is active
   const currentPhase = course?.currentPhase || 1;
 
   return (
     <div className="w-64 bg-slate-50 border-r border-slate-200 h-screen fixed left-0 top-0 pt-16 overflow-y-auto">
       <div className="flex flex-col p-4 space-y-4">
-        {/* Seção de Cursos */}
+        {/* Courses Section */}
         <div className="flex flex-col">
           <button 
             onClick={() => toggleSection('courses')}
@@ -49,7 +49,7 @@ export default function Sidebar() {
           >
             <span className="flex items-center">
               <span className="material-icons text-sm mr-2">library_books</span>
-              Cursos
+              Courses
             </span>
             <span className="material-icons text-sm">
               {expandedSections.courses ? 'expand_less' : 'expand_more'}
@@ -77,7 +77,7 @@ export default function Sidebar() {
           )}
         </div>
 
-        {/* Seção de Fases de Desenvolvimento */}
+        {/* Development Phases Section */}
         <div className="flex flex-col">
           <button 
             onClick={() => toggleSection('phases')}
@@ -85,7 +85,7 @@ export default function Sidebar() {
           >
             <span className="flex items-center">
               <span className="material-icons text-sm mr-2">fact_check</span>
-              Fases da Criação
+              Creation Phases
             </span>
             <span className="material-icons text-sm">
               {expandedSections.phases ? 'expand_less' : 'expand_more'}
