@@ -142,7 +142,7 @@ export default function Phase3() {
               <div className="space-y-2">
                 {content.practicalExercises.map((exercise: any, idx: number) => (
                   <div key={idx} className="bg-white p-2 rounded border-l-2 border-orange-400">
-                    <h7 className="font-medium text-sm">{exercise.title || `Exercício ${idx + 1}`}</h7>
+                    <h6 className="font-medium text-sm">{exercise.title || `Exercício ${idx + 1}`}</h6>
                     {exercise.description && (
                       <p className="text-xs text-gray-700 mt-1">{exercise.description}</p>
                     )}
@@ -583,11 +583,11 @@ export default function Phase3() {
                     </div>
                   )}
                   
-                  {lesson.detailedContent.content && (
+                  {lesson.detailedContent && (
                     <div>
-                      <h4 className="font-semibold mb-2">Conteúdo:</h4>
+                      <h4 className="font-semibold mb-2">Conteúdo Detalhado:</h4>
                       <div className="bg-gray-50 p-3 rounded">
-                        <LessonContentRenderer content={lesson.detailedContent.content} />
+                        <LessonContentRenderer content={lesson.detailedContent} />
                       </div>
                     </div>
                   )}
