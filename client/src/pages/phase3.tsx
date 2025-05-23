@@ -367,7 +367,7 @@ export default function Phase3() {
                       <Badge variant="default" className="bg-green-100 text-green-800 text-xs">
                         ✅ Gerado
                       </Badge>
-                      {lesson.detailedContent?.content?.audioScript && (
+                      {lesson.detailedContent?.content && (
                         <Badge variant="outline" className="bg-blue-100 text-blue-800 text-xs">
                           🎙️ Áudio
                         </Badge>
@@ -427,127 +427,79 @@ export default function Phase3() {
                             </pre>
                           </div>
                           
-                          {lesson.detailedContent?.content ? (
+                          {lesson.detailedContent ? (
                             <div className="space-y-4">
                               <div className="bg-white p-4 rounded border">
                                 <h4 className="font-semibold mb-2 text-gray-800">Informações da Aula:</h4>
-                                <p><strong>Título:</strong> {lesson.detailedContent.content.title}</p>
-                                <p><strong>Duração:</strong> {lesson.detailedContent.content.duration}</p>
+                                <p><strong>Título:</strong> {lesson.detailedContent.title}</p>
+                                <p><strong>Duração:</strong> {lesson.detailedContent.duration}</p>
                               </div>
                               
-                              {lesson.detailedContent.content.objectives && (
+                              {lesson.detailedContent.objectives && (
                                 <div className="bg-white p-4 rounded border">
                                   <h4 className="font-semibold mb-2 text-gray-800">Objetivos:</h4>
                                   <ul className="list-disc list-inside space-y-1">
-                                    {lesson.detailedContent.content.objectives.map((obj: string, idx: number) => (
+                                    {lesson.detailedContent.objectives.map((obj: string, idx: number) => (
                                       <li key={idx}>{obj}</li>
                                     ))}
                                   </ul>
                                 </div>
                               )}
                               
-                              {lesson.detailedContent.content.audioScript && (
+                              {lesson.detailedContent.content && (
                                 <div className="bg-white p-4 rounded border">
-                                  <h4 className="font-semibold mb-2 text-gray-800">Script de Áudio:</h4>
-                                  <div className="font-mono text-sm whitespace-pre-wrap bg-gray-50 p-3 rounded">
-                                    {lesson.detailedContent.content.audioScript}
+                                  <h4 className="font-semibold mb-2 text-gray-800">Conteúdo da Aula:</h4>
+                                  <div className="prose prose-sm max-w-none">
+                                    <div className="whitespace-pre-wrap text-sm bg-gray-50 p-3 rounded">
+                                      {lesson.detailedContent.content}
+                                    </div>
                                   </div>
                                 </div>
                               )}
                               
-                              {lesson.detailedContent.content.lessonStructure && (
+                              {lesson.detailedContent.activities && (
                                 <div className="bg-white p-4 rounded border">
-                                  <h4 className="font-semibold mb-2 text-gray-800">Estrutura da Aula:</h4>
-                                  {Object.entries(lesson.detailedContent.content.lessonStructure).map(([phase, details]: [string, any]) => (
-                                    <div key={phase} className="mb-3 p-3 bg-gray-50 rounded">
-                                      <h5 className="font-medium text-sm mb-1">
-                                        {phase === 'introduction' && '🚀 Introdução'}
-                                        {phase === 'development' && '📚 Desenvolvimento'}
-                                        {phase === 'activities' && '⚡ Atividades'}
-                                        {phase === 'conclusion' && '🎯 Conclusão'}
-                                        {!['introduction', 'development', 'activities', 'conclusion'].includes(phase) && `📝 ${phase}`}
-                                        {details.duration && ` (${details.duration})`}
-                                      </h5>
-                                      <p className="text-sm mb-2">{details.content}</p>
-                                      {details.talking_points && (
-                                        <div className="text-xs">
-                                          <strong>Pontos principais:</strong>
-                                          <ul className="list-disc list-inside ml-2">
-                                            {details.talking_points.map((point: string, idx: number) => (
-                                              <li key={idx}>{point}</li>
-                                            ))}
-                                          </ul>
-                                        </div>
-                                      )}
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
-                              
-                              {lesson.detailedContent.content.practicalExercises && (
-                                <div className="bg-white p-4 rounded border">
-                                  <h4 className="font-semibold mb-2 text-gray-800">Exercícios Práticos:</h4>
-                                  {lesson.detailedContent.content.practicalExercises.map((exercise: any, idx: number) => (
+                                  <h4 className="font-semibold mb-2 text-gray-800">Atividades:</h4>
+                                  {lesson.detailedContent.activities.map((activity: any, idx: number) => (
                                     <div key={idx} className="mb-3 p-3 bg-yellow-50 rounded border border-yellow-200">
-                                      <h5 className="font-medium text-sm">{exercise.title} ({exercise.time_required})</h5>
-                                      <p className="text-sm mb-2">{exercise.description}</p>
-                                      {exercise.instructions && (
-                                        <ol className="list-decimal list-inside text-xs">
-                                          {exercise.instructions.map((instruction: string, iIdx: number) => (
-                                            <li key={iIdx}>{instruction}</li>
-                                          ))}
-                                        </ol>
-                                      )}
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
-                              
-                              {lesson.detailedContent.content.assessmentQuestions && (
-                                <div className="bg-white p-4 rounded border">
-                                  <h4 className="font-semibold mb-2 text-gray-800">Questões de Avaliação:</h4>
-                                  {lesson.detailedContent.content.assessmentQuestions.map((question: any, idx: number) => (
-                                    <div key={idx} className="mb-3 p-3 bg-purple-50 rounded border border-purple-200">
-                                      <p className="font-medium text-sm mb-2">{idx + 1}. {question.question}</p>
-                                      {question.options && (
-                                        <div className="text-xs space-y-1">
-                                          {question.options.map((option: string, oIdx: number) => (
-                                            <div key={oIdx} className={`p-1 rounded ${
-                                              oIdx === question.correct_answer 
-                                                ? 'bg-green-100 text-green-800 font-medium' 
-                                                : 'bg-gray-100'
-                                            }`}>
-                                              {String.fromCharCode(65 + oIdx)}) {option}
-                                              {oIdx === question.correct_answer && ' ✓'}
+                                      <h5 className="font-medium text-sm">{activity.title}</h5>
+                                      <p className="text-sm mb-2">{activity.description}</p>
+                                      {activity.questions && (
+                                        <div className="mt-2">
+                                          {activity.questions.map((question: any, qIdx: number) => (
+                                            <div key={qIdx} className="mb-2 p-2 bg-white rounded border">
+                                              <p className="text-xs font-medium">{question.question}</p>
+                                              {question.options && (
+                                                <div className="mt-1 space-y-1">
+                                                  {question.options.map((option: string, oIdx: number) => (
+                                                    <div key={oIdx} className={`text-xs p-1 rounded ${
+                                                      oIdx === question.correct 
+                                                        ? 'bg-green-100 text-green-800 font-medium' 
+                                                        : 'bg-gray-100'
+                                                    }`}>
+                                                      {String.fromCharCode(65 + oIdx)}) {option}
+                                                      {oIdx === question.correct && ' ✓'}
+                                                    </div>
+                                                  ))}
+                                                </div>
+                                              )}
                                             </div>
                                           ))}
                                         </div>
                                       )}
-                                      {question.explanation && (
-                                        <div className="mt-2 text-xs bg-white p-2 rounded border-l-4 border-purple-400">
-                                          <strong>Explicação:</strong> {question.explanation}
-                                        </div>
-                                      )}
                                     </div>
                                   ))}
                                 </div>
                               )}
                               
-                              {lesson.detailedContent.content.materials && (
+                              {lesson.detailedContent.materials && (
                                 <div className="bg-white p-4 rounded border">
                                   <h4 className="font-semibold mb-2 text-gray-800">Materiais:</h4>
                                   <ul className="list-disc list-inside text-sm">
-                                    {lesson.detailedContent.content.materials.map((material: string, idx: number) => (
+                                    {lesson.detailedContent.materials.map((material: string, idx: number) => (
                                       <li key={idx}>{material}</li>
                                     ))}
                                   </ul>
-                                </div>
-                              )}
-                              
-                              {lesson.detailedContent.content.homework && (
-                                <div className="bg-white p-4 rounded border">
-                                  <h4 className="font-semibold mb-2 text-gray-800">Tarefa de Casa:</h4>
-                                  <p className="text-sm">{lesson.detailedContent.content.homework}</p>
                                 </div>
                               )}
                             </div>
@@ -560,7 +512,7 @@ export default function Phase3() {
                   </AccordionItem>
                   
                   {/* Objetivos da Aula */}
-                  {lesson.detailedContent?.content?.objectives && (
+                  {lesson.detailedContent?.objectives && (
                     <AccordionItem value="objectives">
                       <AccordionTrigger className="text-sm font-medium">
                         🎯 Objetivos da Aula
@@ -568,7 +520,7 @@ export default function Phase3() {
                       <AccordionContent>
                         <div className="bg-blue-50 p-4 rounded-md">
                           <ul className="list-disc list-inside space-y-1">
-                            {lesson.detailedContent?.content?.objectives?.map((obj: string, idx: number) => (
+                            {lesson.detailedContent?.objectives?.map((obj: string, idx: number) => (
                               <li key={idx} className="text-sm text-blue-800">{obj}</li>
                             ))}
                           </ul>
@@ -581,13 +533,13 @@ export default function Phase3() {
                   {lesson.detailedContent?.content?.audioScript && (
                     <AccordionItem value="audio-script">
                       <AccordionTrigger className="text-sm font-medium">
-                        🎙️ Script de Áudio para Gravação
+                        📝 Conteúdo da Aula Completo
                       </AccordionTrigger>
                       <AccordionContent>
                         <div className="bg-green-50 p-4 rounded-md">
                           <div className="mb-3 flex items-center space-x-2">
                             <Badge variant="outline" className="bg-green-100 text-green-800">
-                              Duração: {lesson.detailedContent?.content?.duration || "45min"}
+                              Duração: {lesson.detailedContent?.duration || "45min"}
                             </Badge>
                             <Button 
                               size="sm" 
@@ -595,19 +547,19 @@ export default function Phase3() {
                               className="text-xs"
                               onClick={() => {
                                 // Copiar script para área de transferência
-                                navigator.clipboard.writeText(lesson.detailedContent?.content?.audioScript || "");
+                                navigator.clipboard.writeText(lesson.detailedContent?.content || "");
                                 toast({
                                   title: "Script copiado!",
                                   description: "O script foi copiado para a área de transferência.",
                                 });
                               }}
                             >
-                              📋 Copiar Script
+                              📋 Copiar Conteúdo
                             </Button>
                           </div>
                           <div className="bg-white p-3 rounded border text-sm font-mono">
                             <pre className="whitespace-pre-wrap">
-                              {lesson.detailedContent?.content?.audioScript}
+                              {lesson.detailedContent?.content}
                             </pre>
                           </div>
                         </div>
