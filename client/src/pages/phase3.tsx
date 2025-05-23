@@ -607,6 +607,73 @@ export default function Phase3() {
                               }
                             };
                             
+                            // Função para processar conteúdo estruturado
+                            const processStructuredContent = (content: any) => {
+                              if (typeof content === 'string') {
+                                return content;
+                              }
+                              
+                              if (content && typeof content === 'object') {
+                                let result = '';
+                                
+                                // Processar audioScript
+                                if (content.audioScript) {
+                                  result += `SCRIPT DE ÁUDIO:\n${content.audioScript}\n\n`;
+                                }
+                                
+                                // Processar estrutura da aula
+                                if (content.lessonStructure) {
+                                  result += 'ESTRUTURA DA AULA:\n\n';
+                                  const structure = content.lessonStructure;
+                                  
+                                  if (structure.introduction) {
+                                    result += `INTRODUÇÃO (${structure.introduction.duration || '5min'}):\n`;
+                                    result += `${structure.introduction.content || ''}\n`;
+                                    if (structure.introduction.talking_points) {
+                                      result += 'Pontos principais:\n';
+                                      structure.introduction.talking_points.forEach((point: string) => {
+                                        result += `• ${point}\n`;
+                                      });
+                                    }
+                                    result += '\n';
+                                  }
+                                  
+                                  if (structure.development) {
+                                    result += `DESENVOLVIMENTO (${structure.development.duration || '30min'}):\n`;
+                                    result += `${structure.development.content || ''}\n`;
+                                    if (structure.development.talking_points) {
+                                      result += 'Pontos principais:\n';
+                                      structure.development.talking_points.forEach((point: string) => {
+                                        result += `• ${point}\n`;
+                                      });
+                                    }
+                                    result += '\n';
+                                  }
+                                  
+                                  if (structure.conclusion) {
+                                    result += `CONCLUSÃO (${structure.conclusion.duration || '10min'}):\n`;
+                                    result += `${structure.conclusion.content || ''}\n`;
+                                    if (structure.conclusion.talking_points) {
+                                      result += 'Pontos principais:\n';
+                                      structure.conclusion.talking_points.forEach((point: string) => {
+                                        result += `• ${point}\n`;
+                                      });
+                                    }
+                                    result += '\n';
+                                  }
+                                }
+                                
+                                // Se não conseguiu processar estruturadamente, converte para JSON formatado
+                                if (!result) {
+                                  result = JSON.stringify(content, null, 2);
+                                }
+                                
+                                return result;
+                              }
+                              
+                              return String(content);
+                            };
+                            
                             // Título do curso
                             addText(`${course?.title || 'Curso'}`, 18, 'bold');
                             addText(`Tema: ${course?.theme || 'N/A'}`, 14, 'normal');
@@ -648,10 +715,8 @@ export default function Phase3() {
                               // Conteúdo principal
                               if (content.content) {
                                 addText('CONTEÚDO', 14, 'bold');
-                                const contentText = typeof content.content === 'string' 
-                                  ? content.content 
-                                  : JSON.stringify(content.content, null, 2);
-                                addText(contentText, 12, 'normal');
+                                const processedContent = processStructuredContent(content.content);
+                                addText(processedContent, 12, 'normal');
                                 yPosition += 10;
                               }
                               
