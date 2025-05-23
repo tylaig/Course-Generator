@@ -252,8 +252,31 @@ export class DatabaseStorage implements IStorage {
   }
 
   async deleteCourse(id: string): Promise<boolean> {
-    const result = await db.delete(courses).where(eq(courses.id, parseInt(id)));
-    return (result.rowCount || 0) > 0;
+    try {
+      const numericId = parseInt(id);
+      console.log("Tentando deletar curso com ID:", numericId);
+      
+      // Primeiro deletar módulos relacionados
+      await db.delete(modules).where(eq(modules.courseId, numericId));
+      console.log("Módulos relacionados deletados");
+      
+      // Deletar dados de fase relacionados
+      await db.delete(phaseData).where(eq(phaseData.courseId, numericId));
+      console.log("Dados de fase relacionados deletados");
+      
+      // Deletar configurações AI relacionadas
+      await db.delete(aiSettings).where(eq(aiSettings.courseId, numericId));
+      console.log("Configurações AI relacionadas deletadas");
+      
+      // Finalmente deletar o curso
+      const result = await db.delete(courses).where(eq(courses.id, numericId));
+      console.log("Resultado da exclusão do curso:", result);
+      
+      return (result.rowCount || 0) > 0;
+    } catch (error) {
+      console.error("Erro ao deletar curso:", error);
+      return false;
+    }
   }
 
   async getModule(id: string): Promise<Module | undefined> {
