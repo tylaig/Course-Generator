@@ -281,6 +281,17 @@ export default function Phase3() {
   // Handle module selection
   const handleSelectModule = (module: CourseModule) => {
     setSelectedModule(module);
+    setExpandedLessons(new Set()); // Reset expanded lessons when changing module
+  };
+
+  const toggleLessonExpansion = (lessonTitle: string) => {
+    const newExpanded = new Set(expandedLessons);
+    if (newExpanded.has(lessonTitle)) {
+      newExpanded.delete(lessonTitle);
+    } else {
+      newExpanded.add(lessonTitle);
+    }
+    setExpandedLessons(newExpanded);
   };
 
   // Handle moving to the next phase
@@ -322,16 +333,32 @@ export default function Phase3() {
           Aulas do Módulo ({module.content.lessons.length})
         </h3>
         
-        {module.content.lessons.map((lesson: any, index: number) => (
-          <Card key={lesson.title || index} className="border border-gray-200">
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-base">{lesson.title}</CardTitle>
-                  <CardDescription className="text-sm">
-                    Duração: {lesson.duration || "45min"}
-                  </CardDescription>
-                </div>
+        {module.content.lessons.map((lesson: any, index: number) => {
+          const isExpanded = expandedLessons.has(lesson.title);
+          const hasContent = lesson.detailedContent;
+          
+          return (
+            <Card key={lesson.title || index} className="border border-gray-200">
+              <CardHeader 
+                className={`pb-3 ${hasContent ? 'cursor-pointer hover:bg-gray-50' : ''}`}
+                onClick={() => hasContent && toggleLessonExpansion(lesson.title)}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <div>
+                      <CardTitle className="text-base flex items-center">
+                        {lesson.title}
+                        {hasContent && (
+                          <span className="ml-2 text-gray-400">
+                            {isExpanded ? '👁️' : '👁️‍🗨️'}
+                          </span>
+                        )}
+                      </CardTitle>
+                      <CardDescription className="text-sm">
+                        Duração: {lesson.duration || "45min"}
+                      </CardDescription>
+                    </div>
+                  </div>
                 
                 <div className="flex items-center space-x-2">
                   {lesson.detailedContent ? (
@@ -358,10 +385,13 @@ export default function Phase3() {
                   
                   <Button
                     size="sm"
-                    onClick={() => generateLessonContent.mutate({ 
-                      moduleId: module.id, 
-                      lessonId: lesson.title 
-                    })}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent card click when clicking button
+                      generateLessonContent.mutate({ 
+                        moduleId: module.id, 
+                        lessonId: lesson.title 
+                      });
+                    }}
                     disabled={generationStatus === "generating"}
                   >
                     {generationStatus === "generating" ? (
@@ -374,9 +404,9 @@ export default function Phase3() {
                   </Button>
                 </div>
               </div>
-            </CardHeader>
-            
-            {lesson.detailedContent && (
+              </CardHeader>
+              
+              {hasContent && isExpanded && (
               <CardContent className="pt-0">
                 <Accordion type="multiple" className="w-full">
                   
@@ -594,10 +624,11 @@ export default function Phase3() {
                   )}
 
                 </Accordion>
-              </CardContent>
-            )}
-          </Card>
-        ))}
+                </CardContent>
+              )}
+            </Card>
+          );
+        })}
       </div>
     );
   };
