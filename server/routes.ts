@@ -262,77 +262,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       console.log(`Gerando conteúdo para aula: ${lesson.title}`);
       
-      // Usar função simplificada por enquanto
-      const lessonContent = {
-        title: lesson.title,
-        objectives: [
-          `Compreender ${courseDetails.theme} no contexto de ${lesson.title}`,
-          "Aplicar conhecimentos práticos",
-          "Desenvolver habilidades específicas"
-        ],
-        content: `
-## ${lesson.title}
+      // Verificar se temos chave da OpenAI
+      if (!process.env.OPENAI_API_KEY) {
+        return res.status(500).json({ 
+          error: "Chave da OpenAI não configurada",
+          message: "Configure a variável OPENAI_API_KEY para usar a geração avançada de conteúdo"
+        });
+      }
 
-### Objetivos da Aula
-- Compreender conceitos fundamentais de ${courseDetails.theme}
-- Aplicar conhecimentos na prática
-- Desenvolver competências específicas
-
-### Conteúdo Principal
-
-#### Introdução (10 min)
-- Contextualização do tópico
-- Conexão com aulas anteriores
-- Objetivos da aula
-
-#### Desenvolvimento (25 min)
-- Conceitos teóricos fundamentais
-- Exemplos práticos relevantes
-- Demonstrações aplicadas
-
-#### Atividade Prática (8 min)
-- Exercícios dirigidos
-- Atividades hands-on
-- Aplicação imediata
-
-#### Conclusão (2 min)
-- Resumo dos pontos principais
-- Próximos passos
-- Preparação para próxima aula
-
-### Recursos Necessários
-- Material de apoio
-- Exercícios práticos
-- Quiz de verificação
-
-### Avaliação
-- Participação em atividades
-- Compreensão dos conceitos
-- Aplicação prática
-        `,
-        activities: [
-          {
-            type: "quiz",
-            title: `Quiz: ${lesson.title}`,
-            description: "Verificação de aprendizado",
-            questions: [
-              {
-                question: `Qual é o conceito principal abordado em ${lesson.title}?`,
-                options: ["Opção A", "Opção B", "Opção C", "Opção D"],
-                correct: 0
-              }
-            ]
-          }
-        ],
-        materials: [
-          "Slides da aula",
-          "Material de leitura",
-          "Exercícios práticos",
-          "Recursos complementares"
-        ],
-        duration: lesson.duration || "45min",
-        difficulty: aiConfig?.difficultyLevel || "intermediate"
-      };
+      // Usar OpenAI para gerar conteúdo estruturado da aula
+      const { generateAdvancedLessonContent } = await import('./openai');
+      const lessonContent = await generateAdvancedLessonContent(
+        lesson, 
+        module, 
+        courseDetails, 
+        aiConfig
+      );
       
       res.json({
         success: true,
