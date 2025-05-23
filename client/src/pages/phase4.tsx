@@ -282,6 +282,26 @@ export default function Phase4() {
 
   const pendingActivitiesCount = totalLessons - lessonsWithActivities;
 
+  // Função para extrair atividades das aulas de um módulo
+  const getModuleActivities = (module: any) => {
+    if (!module.content?.lessons) return [];
+    
+    const activities: any[] = [];
+    module.content.lessons.forEach((lesson: any) => {
+      if (lesson.detailedContent?.activities) {
+        lesson.detailedContent.activities.forEach((activity: any) => {
+          activities.push({
+            ...activity,
+            lessonTitle: lesson.title,
+            moduleTitle: module.title,
+            moduleId: module.id
+          });
+        });
+      }
+    });
+    return activities;
+  };
+
   // Função para contar questões por módulo
   const getModuleQuestionCount = (module: any) => {
     const activities = getModuleActivities(module);
