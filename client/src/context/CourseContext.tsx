@@ -62,31 +62,35 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
 
   const saveCourseToDatabase = async (courseData: Course) => {
     try {
-      // Salvar curso
-      await apiRequest("PUT", `/api/courses/${courseData.id}`, {
-        title: courseData.title,
-        theme: courseData.theme,
-        estimatedHours: courseData.estimatedHours,
-        format: courseData.format,
-        platform: courseData.platform,
-        deliveryFormat: courseData.deliveryFormat,
-        currentPhase: courseData.currentPhase,
-        progress: courseData.progress,
-        phaseData: courseData.phaseData,
-        aiConfig: courseData.aiConfig
-      });
-
-      // Salvar módulos
-      for (const module of courseData.modules) {
-        await apiRequest("PUT", `/api/modules/${module.id}`, {
-          title: module.title,
-          description: module.description,
-          order: module.order,
-          estimatedHours: module.estimatedHours,
-          status: module.status,
-          content: module.content,
-          courseId: courseData.id
+      // Só tentar salvar se o ID for numérico (já existe no banco)
+      const numericId = parseInt(courseData.id);
+      if (!isNaN(numericId)) {
+        // Salvar curso
+        await apiRequest("PUT", `/api/courses/${numericId}`, {
+          title: courseData.title,
+          theme: courseData.theme,
+          estimatedHours: courseData.estimatedHours,
+          format: courseData.format,
+          platform: courseData.platform,
+          deliveryFormat: courseData.deliveryFormat,
+          currentPhase: courseData.currentPhase
         });
+
+        // Salvar módulos
+        for (const module of courseData.modules) {
+          const moduleNumericId = parseInt(module.id);
+          if (!isNaN(moduleNumericId)) {
+            await apiRequest("PUT", `/api/modules/${moduleNumericId}`, {
+              title: module.title,
+              description: module.description,
+              order: module.order,
+              estimatedHours: module.estimatedHours,
+              status: module.status,
+              content: module.content,
+              courseId: numericId
+            });
+          }
+        }
       }
     } catch (error) {
       console.error("Erro ao salvar no banco:", error);
@@ -191,21 +195,62 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
 
   const loadCourse = async (courseId: string) => {
     try {
-      // Tentar carregar do banco primeiro
-      const courseResponse = await apiRequest("GET", `/api/courses/${courseId}`);
-      const courseData = await courseResponse.json();
+      const numericId = parseInt(courseId);
       
-      // Carregar módulos
-      const modulesResponse = await apiRequest("GET", `/api/courses/${courseId}/modules`);
-      const modules = await modulesResponse.json();
-      
-      const fullCourse = {
-        ...courseData,
-        modules: modules
-      };
-      
-      setCourse(fullCourse);
-      return fullCourse;
+      if (!isNaN(numericId)) {
+        // Tentar carregar do banco primeiro
+        const courseResponse = await apiRequest("GET", `/api/courses/${numericId}`);
+        const courseData = await courseResponse.json();
+        
+        // Carregar módulos
+        const modulesResponse = await apiRequest("GET", `/api/courses/${numericId}/modules`);
+        const modules = await modulesResponse.json();
+        
+        const fullCourse = {
+          ...courseData,
+          id: courseData.id.toString(), // Garantir que o ID seja string
+          modules: modules.map((m: any) => ({
+            ...m,
+            id: m.id.toString(), // Garantir que os IDs dos módulos sejam strings
+            courseId: m.courseId.toString()
+          })),
+          // Adicionar dados padrão se não existirem
+          progress: courseData.progress || {
+            phase1: 0,
+            phase2: 0,
+            phase3: 0,
+            phase4: 0,
+            phase5: 0,
+            overall: 0,
+            lastUpdated: new Date().toISOString(),
+          },
+          phaseData: courseData.phaseData || {
+            phase1: {},
+            phase2: {},
+          },
+          aiConfig: courseData.aiConfig || {
+            model: "gpt-4o",
+            optimization: "balanced",
+            languageStyle: "professional",
+            difficultyLevel: "intermediate",
+            contentDensity: 0.7,
+            teachingApproach: "practical",
+            contentTypes: ["text", "video", "quiz", "exercise", "case"] as ContentType[],
+            language: "pt-BR",
+          }
+        };
+        
+        setCourse(fullCourse);
+        return fullCourse;
+      } else {
+        // Fallback para localStorage se o ID não for numérico
+        const loadedCourse = CourseStorage.getCourse(courseId);
+        if (loadedCourse) {
+          setCourse(loadedCourse);
+          return loadedCourse;
+        }
+        throw new Error("Curso não encontrado");
+      }
     } catch (error) {
       console.error("Erro ao carregar curso do banco:", error);
       // Fallback para localStorage

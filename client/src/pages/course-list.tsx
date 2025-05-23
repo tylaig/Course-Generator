@@ -22,7 +22,38 @@ export default function CourseList() {
       try {
         const response = await apiRequest("GET", "/api/courses");
         const coursesData = await response.json();
-        setCourses(coursesData);
+        
+        // Converter IDs para string para compatibilidade
+        const coursesWithStringIds = coursesData.map((course: any) => ({
+          ...course,
+          id: course.id.toString(),
+          // Adicionar dados padrão se não existirem
+          progress: course.progress || {
+            phase1: 0,
+            phase2: 0,
+            phase3: 0,
+            phase4: 0,
+            phase5: 0,
+            overall: 0,
+            lastUpdated: new Date().toISOString(),
+          },
+          phaseData: course.phaseData || {
+            phase1: {},
+            phase2: {},
+          },
+          aiConfig: course.aiConfig || {
+            model: "gpt-4o",
+            optimization: "balanced",
+            languageStyle: "professional",
+            difficultyLevel: "intermediate",
+            contentDensity: 0.7,
+            teachingApproach: "practical",
+            contentTypes: ["text", "video", "quiz", "exercise", "case"],
+            language: "pt-BR",
+          }
+        }));
+        
+        setCourses(coursesWithStringIds);
       } catch (error) {
         console.error("Erro ao carregar cursos do banco:", error);
         
