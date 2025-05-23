@@ -335,21 +335,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log("- lesson:", lesson, "tipo:", typeof lesson);
       console.log("- courseDetails:", courseDetails, "tipo:", typeof courseDetails);
       
-      // More flexible validation - accept any meaningful lesson identifier
-      const hasValidLessonData = 
-        lessonTitle || 
-        (lesson && (lesson.title || lesson.name || lesson.id)) ||
-        courseDetails; // Even just courseDetails is enough to generate content
-      
-      console.log("- hasValidLessonData:", hasValidLessonData);
-      
-      if (!hasValidLessonData) {
-        console.log("❌ Erro: Nenhum dado válido fornecido");
-        console.log("lessonTitle:", lessonTitle);
-        console.log("lesson:", lesson);
-        console.log("courseDetails:", courseDetails);
+      // Accept any request that has lessonTitle OR courseDetails
+      if (!lessonTitle && !courseDetails) {
+        console.log("❌ Erro: Nem lessonTitle nem courseDetails fornecidos");
         return res.status(400).json({ error: "Dados obrigatórios não fornecidos" });
       }
+      
+      console.log("✅ Validação passou - dados suficientes encontrados");
       
       const lessonData = lesson || { title: lessonTitle };
       const moduleData = module || { title: "Módulo Padrão", description: "Módulo gerado automaticamente" };
