@@ -94,10 +94,9 @@ export default function Phase4() {
           
           const response = await apiRequest(
             "POST", 
-            "/api/generate/lesson-content", 
+            "/api/generate/activities-only", 
             {
-              lesson: lessonToGenerate,
-              module: moduleToGenerate,
+              lessons: [lessonInfo],
               courseDetails: {
                 title: course?.title,
                 theme: course?.theme,
@@ -112,8 +111,15 @@ export default function Phase4() {
           );
           
           const result = await response.json();
-          const content = result.success ? result.content : result;
-          results.push({ moduleId: lessonInfo.moduleId, lessonId: lessonInfo.lessonId, content });
+          if (result.success && result.results && result.results.length > 0) {
+            const activitiesData = result.results[0];
+            results.push({ 
+              moduleId: lessonInfo.moduleId, 
+              lessonId: lessonInfo.lessonId, 
+              activities: activitiesData.activities,
+              assessmentQuestions: activitiesData.assessmentQuestions
+            });
+          }
           
           // Update lesson content immediately
           const updatedModule = { ...moduleToGenerate };
