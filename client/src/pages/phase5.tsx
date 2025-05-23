@@ -4,8 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Download, FileText, CheckCircle, Book, ClipboardList } from "lucide-react";
-import { PhaseNav } from "@/components/layout/PhaseNav";
-import { WorkflowProgress } from "@/components/layout/WorkflowProgress";
+import PhaseNav from "@/components/layout/PhaseNav";
+import WorkflowProgress from "@/components/shared/WorkflowProgress";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Phase5() {

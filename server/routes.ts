@@ -301,5 +301,77 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Generate course PDF
+  app.post("/api/generate/course-pdf", async (req, res) => {
+    try {
+      const { courseId } = req.body;
+      
+      const course = await storage.getCourse(courseId);
+      if (!course) {
+        return res.status(404).json({ error: "Course not found" });
+      }
+
+      const modules = await storage.listModulesByCourse(courseId);
+      
+      const { generateCoursePDF } = await import("./pdf-generator");
+      
+      const courseData = {
+        title: course.title,
+        theme: course.theme,
+        modules: modules.map(module => ({
+          id: module.id.toString(),
+          title: module.title,
+          description: module.description,
+          content: module.content || { lessons: [] }
+        }))
+      };
+
+      const pdfBuffer = await generateCoursePDF(courseData);
+      
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="${course.title}.pdf"`);
+      res.send(pdfBuffer);
+    } catch (error) {
+      console.error("Error generating course PDF:", error);
+      res.status(500).json({ error: "Failed to generate PDF" });
+    }
+  });
+
+  // Generate activities summary PDF
+  app.post("/api/generate/activities-pdf", async (req, res) => {
+    try {
+      const { courseId } = req.body;
+      
+      const course = await storage.getCourse(courseId);
+      if (!course) {
+        return res.status(404).json({ error: "Course not found" });
+      }
+
+      const modules = await storage.listModulesByCourse(courseId);
+      
+      const { generateActivitySummaryPDF } = await import("./pdf-generator");
+      
+      const courseData = {
+        title: course.title,
+        theme: course.theme,
+        modules: modules.map(module => ({
+          id: module.id.toString(),
+          title: module.title,
+          description: module.description,
+          content: module.content || { lessons: [] }
+        }))
+      };
+
+      const pdfBuffer = await generateActivitySummaryPDF(courseData);
+      
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="${course.title}_Atividades.pdf"`);
+      res.send(pdfBuffer);
+    } catch (error) {
+      console.error("Error generating activities PDF:", error);
+      res.status(500).json({ error: "Failed to generate activities PDF" });
+    }
+  });
+
   return httpServer;
 }
