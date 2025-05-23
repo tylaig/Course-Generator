@@ -3,13 +3,14 @@ import * as fs from 'fs';
 import * as path from 'path';
 import PDFDocument from 'pdfkit';
 
+// Armazenamento temporário do refresh token (em produção, usar banco de dados)
+let storedRefreshToken: string | null = null;
+
 // Configuração do cliente OAuth2 para o Google Drive
 const setupGoogleDriveClient = () => {
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-  // Ajustando o URL de redirecionamento para corresponder ao configurado no Google Cloud
   const redirectUri = process.env.GOOGLE_REDIRECT_URI || 'https://1197fac5-6589-455f-b82c-a0116cf784c2-00-2e9zkl3fv96gq.janeway.replit.dev/api/auth/google/callback';
-  const refreshToken = process.env.GOOGLE_REFRESH_TOKEN;
 
   if (!clientId || !clientSecret) {
     throw new Error('Credenciais do Google Drive não configuradas');
@@ -17,9 +18,9 @@ const setupGoogleDriveClient = () => {
 
   const oauth2Client = new google.auth.OAuth2(clientId, clientSecret, redirectUri);
   
-  // Se tivermos um refresh token, configuramos para uso
-  if (refreshToken) {
-    oauth2Client.setCredentials({ refresh_token: refreshToken });
+  // Se tivermos um refresh token armazenado, configuramos para uso
+  if (storedRefreshToken) {
+    oauth2Client.setCredentials({ refresh_token: storedRefreshToken });
   }
 
   return oauth2Client;
@@ -53,11 +54,31 @@ export const getTokenFromCode = async (code: string) => {
   try {
     const oauth2Client = setupGoogleDriveClient();
     const { tokens } = await oauth2Client.getToken(code);
+    
+    // Armazenar o refresh token para uso futuro
+    if (tokens.refresh_token) {
+      storedRefreshToken = tokens.refresh_token;
+      console.log('Refresh token armazenado com sucesso');
+    }
+    
+    // Configurar as credenciais no cliente
+    oauth2Client.setCredentials(tokens);
+    
     return tokens;
   } catch (error) {
     console.error('Erro ao obter token de acesso:', error);
     throw error;
   }
+};
+
+// Função para verificar se o usuário está autenticado
+export const isAuthenticated = () => {
+  return storedRefreshToken !== null;
+};
+
+// Função para limpar a autenticação
+export const clearAuthentication = () => {
+  storedRefreshToken = null;
 };
 
 // Função para gerar PDF a partir de um curso
@@ -309,8 +330,16 @@ export const createCourseStructureOnDrive = async (course: any) => {
   try {
     console.log('Creating course structure on Google Drive...');
     
+    // Verificar se está autenticado
+    if (!storedRefreshToken) {
+      throw new Error('Google Drive não autorizado. Faça login primeiro.');
+    }
+    
     // Create main course folder
     const courseFolderId = await createFolder(course.title);
+    if (!courseFolderId) {
+      throw new Error('Falha ao criar pasta principal do curso');
+    }
     console.log(`Created course folder: ${course.title} (${courseFolderId})`);
     
     const results = {
@@ -322,6 +351,11 @@ export const createCourseStructureOnDrive = async (course: any) => {
     for (const module of course.modules) {
       console.log(`Creating module folder: ${module.title}`);
       const moduleFolderId = await createFolder(module.title, courseFolderId);
+      
+      if (!moduleFolderId) {
+        console.error(`Falha ao criar pasta para módulo: ${module.title}`);
+        continue;
+      }
       
       const moduleResult = {
         id: module.id,
@@ -335,25 +369,30 @@ export const createCourseStructureOnDrive = async (course: any) => {
         for (const lesson of module.content.lessons) {
           console.log(`Creating lesson content for: ${lesson.title}`);
           
-          // Generate lesson content PDF
-          const lessonPDF = await generateLessonPDF(lesson, module, course);
-          const lessonFileName = `${lesson.title}_Conteudo.pdf`;
-          const lessonFileId = await uploadPDFBuffer(lessonFileName, moduleFolderId, lessonPDF);
-          
-          // Generate lesson activities PDF if there are activities
-          let activitiesFileId = null;
-          if (lesson.detailedContent?.assessmentQuestions?.length > 0 || 
-              lesson.detailedContent?.practicalExercises?.length > 0) {
-            const activitiesPDF = await generateLessonActivitiesPDF(lesson, module, course);
-            const activitiesFileName = `${lesson.title}_Atividades.pdf`;
-            activitiesFileId = await uploadPDFBuffer(activitiesFileName, moduleFolderId, activitiesPDF);
+          try {
+            // Generate lesson content PDF
+            const lessonPDF = await generateLessonPDF(lesson, module, course);
+            const lessonFileName = `${lesson.title}_Conteudo.pdf`;
+            const lessonFileId = await uploadPDFBuffer(lessonFileName, moduleFolderId, lessonPDF);
+            
+            // Generate lesson activities PDF if there are activities
+            let activitiesFileId = null;
+            if (lesson.detailedContent?.assessmentQuestions?.length > 0 || 
+                lesson.detailedContent?.practicalExercises?.length > 0) {
+              const activitiesPDF = await generateLessonActivitiesPDF(lesson, module, course);
+              const activitiesFileName = `${lesson.title}_Atividades.pdf`;
+              activitiesFileId = await uploadPDFBuffer(activitiesFileName, moduleFolderId, activitiesPDF);
+            }
+            
+            moduleResult.lessons.push({
+              title: lesson.title,
+              contentFileId: lessonFileId,
+              activitiesFileId
+            });
+          } catch (lessonError) {
+            console.error(`Erro ao processar aula ${lesson.title}:`, lessonError);
+            // Continue com as outras aulas mesmo se uma falhar
           }
-          
-          moduleResult.lessons.push({
-            title: lesson.title,
-            contentFileId: lessonFileId,
-            activitiesFileId
-          });
         }
       }
       

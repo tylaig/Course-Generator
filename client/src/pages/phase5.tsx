@@ -13,9 +13,109 @@ export default function Phase5() {
   const { toast } = useToast();
   const [isUploadingToDrive, setIsUploadingToDrive] = useState(false);
   const [driveUploadResult, setDriveUploadResult] = useState<any>(null);
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [isAuthorizing, setIsAuthorizing] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  // Check authentication status on component mount
+  useEffect(() => {
+    checkAuthStatus();
+  }, []);
+
+  const checkAuthStatus = async () => {
+    try {
+      const response = await fetch('/api/google-drive/auth-status');
+      const data = await response.json();
+      setIsAuthorized(data.authenticated);
+    } catch (error) {
+      console.error('Error checking auth status:', error);
+      setIsAuthorized(false);
+    } finally {
+      setCheckingAuth(false);
+    }
+  };
 
   const handleNextPhase = () => {
     moveToNextPhase();
+  };
+
+  const authorizeGoogleDrive = async () => {
+    setIsAuthorizing(true);
+    try {
+      const response = await fetch('/api/google-drive/auth-url');
+      const data = await response.json();
+      
+      if (data.authUrl) {
+        // Open Google authorization in a new window
+        const authWindow = window.open(data.authUrl, 'googleAuth', 'width=500,height=600');
+        
+        // Listen for the authorization code from the popup
+        const handleAuthMessage = async (event: MessageEvent) => {
+          if (event.origin !== window.location.origin) return;
+          
+          if (event.data.type === 'GOOGLE_AUTH_SUCCESS' && event.data.code) {
+            window.removeEventListener('message', handleAuthMessage);
+            authWindow?.close();
+            
+            // Process the authorization code
+            const callbackResponse = await fetch('/api/google-drive/callback', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ code: event.data.code })
+            });
+            
+            if (callbackResponse.ok) {
+              setIsAuthorized(true);
+              toast({
+                title: "Google Drive autorizado!",
+                description: "Agora você pode organizar seus arquivos no Google Drive.",
+              });
+            } else {
+              throw new Error('Falha na autorização');
+            }
+          }
+        };
+        
+        window.addEventListener('message', handleAuthMessage);
+        
+        // Check if window was closed without authorization
+        const checkClosed = setInterval(() => {
+          if (authWindow?.closed) {
+            clearInterval(checkClosed);
+            window.removeEventListener('message', handleAuthMessage);
+            setIsAuthorizing(false);
+          }
+        }, 1000);
+      }
+    } catch (error) {
+      console.error('Error authorizing Google Drive:', error);
+      toast({
+        title: "Erro na autorização",
+        description: "Não foi possível autorizar o Google Drive. Tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAuthorizing(false);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await fetch('/api/google-drive/logout', { method: 'POST' });
+      setIsAuthorized(false);
+      setDriveUploadResult(null);
+      toast({
+        title: "Desconectado com sucesso",
+        description: "Você foi desconectado do Google Drive.",
+      });
+    } catch (error) {
+      console.error('Error logging out:', error);
+      toast({
+        title: "Erro ao desconectar",
+        description: "Não foi possível desconectar. Tente novamente.",
+        variant: "destructive",
+      });
+    }
   };
 
   const uploadToGoogleDrive = async () => {
@@ -199,51 +299,104 @@ export default function Phase5() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                <h4 className="font-medium text-blue-900 mb-2">Estrutura que será criada:</h4>
-                <div className="text-sm text-blue-800 space-y-1">
-                  <div>📁 {course.title}</div>
-                  {course.modules.map((module, idx) => (
-                    <div key={module.id} className="ml-4">
-                      <div>📁 {module.title}</div>
-                      {module.content?.lessons?.map((lesson: any, lessonIdx: number) => (
-                        <div key={lessonIdx} className="ml-8 text-xs">
-                          <div>📄 {lesson.title}_Conteudo.pdf</div>
-                          <div>📄 {lesson.title}_Atividades.pdf</div>
+              {checkingAuth ? (
+                <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                  <div className="flex items-center">
+                    <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-gray-600 rounded-full"></span>
+                    <span className="text-gray-700">Verificando autorização...</span>
+                  </div>
+                </div>
+              ) : !isAuthorized ? (
+                <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                  <h4 className="font-medium text-yellow-900 mb-2">🔐 Autorização necessária</h4>
+                  <p className="text-sm text-yellow-800 mb-3">
+                    Para organizar seus arquivos no Google Drive, primeiro precisamos autorizar o acesso.
+                  </p>
+                  <Button 
+                    onClick={authorizeGoogleDrive}
+                    disabled={isAuthorizing}
+                    className="bg-blue-600 hover:bg-blue-700"
+                  >
+                    {isAuthorizing ? (
+                      <span className="flex items-center">
+                        <span className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></span>
+                        Autorizando...
+                      </span>
+                    ) : (
+                      <>
+                        🔓 Autorizar Google Drive
+                      </>
+                    )}
+                  </Button>
+                </div>
+              ) : (
+                <>
+                  <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4 className="font-medium text-green-900 mb-1">✅ Google Drive autorizado</h4>
+                        <p className="text-sm text-green-800">
+                          Pronto para organizar seus arquivos no Google Drive!
+                        </p>
+                      </div>
+                      <Button
+                        onClick={logout}
+                        variant="outline"
+                        size="sm"
+                        className="text-red-600 border-red-300 hover:bg-red-50"
+                      >
+                        Desconectar
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <h4 className="font-medium text-blue-900 mb-2">Estrutura que será criada:</h4>
+                    <div className="text-sm text-blue-800 space-y-1">
+                      <div>📁 {course.title}</div>
+                      {course.modules.map((module, idx) => (
+                        <div key={module.id} className="ml-4">
+                          <div>📁 {module.title}</div>
+                          {module.content?.lessons?.map((lesson: any, lessonIdx: number) => (
+                            <div key={lessonIdx} className="ml-8 text-xs">
+                              <div>📄 {lesson.title}_Conteudo.pdf</div>
+                              <div>📄 {lesson.title}_Atividades.pdf</div>
+                            </div>
+                          ))}
                         </div>
                       ))}
                     </div>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="flex flex-wrap gap-2 mb-4">
-                <Badge variant="outline">📁 {course.modules.length} Pastas de Módulos</Badge>
-                <Badge variant="outline">📄 {totalLessons * 2} PDFs Individuais</Badge>
-                <Badge variant="outline">☁️ Sincronização Automática</Badge>
-                <Badge variant="outline">🔗 Links Compartilháveis</Badge>
-              </div>
-              
-              <Button 
-                onClick={uploadToGoogleDrive}
-                disabled={isUploadingToDrive}
-                className="w-full bg-green-600 hover:bg-green-700"
-                size="lg"
-              >
-                {isUploadingToDrive ? (
-                  <span className="flex items-center">
-                    <span className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-white rounded-full"></span>
-                    Criando estrutura no Google Drive...
-                  </span>
-                ) : (
-                  <>
-                    <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M6.24 8.64L12 2.88L17.76 8.64L22.08 12L12 22.08L1.92 12L6.24 8.64Z"/>
-                    </svg>
-                    Organizar no Google Drive
-                  </>
-                )}
-              </Button>
+                  </div>
+                  
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <Badge variant="outline">📁 {course.modules.length} Pastas de Módulos</Badge>
+                    <Badge variant="outline">📄 {totalLessons * 2} PDFs Individuais</Badge>
+                    <Badge variant="outline">☁️ Sincronização Automática</Badge>
+                    <Badge variant="outline">🔗 Links Compartilháveis</Badge>
+                  </div>
+                  
+                  <Button 
+                    onClick={uploadToGoogleDrive}
+                    disabled={isUploadingToDrive}
+                    className="w-full bg-green-600 hover:bg-green-700"
+                    size="lg"
+                  >
+                    {isUploadingToDrive ? (
+                      <span className="flex items-center">
+                        <span className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-white rounded-full"></span>
+                        Criando estrutura no Google Drive...
+                      </span>
+                    ) : (
+                      <>
+                        <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M6.24 8.64L12 2.88L17.76 8.64L22.08 12L12 22.08L1.92 12L6.24 8.64Z"/>
+                        </svg>
+                        Organizar no Google Drive
+                      </>
+                    )}
+                  </Button>
+                </>
+              )}
               
               {driveUploadResult && (
                 <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">

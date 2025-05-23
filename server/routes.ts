@@ -397,6 +397,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Google Drive authentication
+  app.get("/api/google-drive/auth-url", async (req, res) => {
+    try {
+      const { getAuthUrl } = await import("./googleDrive");
+      const authUrl = getAuthUrl();
+      res.json({ authUrl });
+    } catch (error) {
+      console.error("Error getting Google Drive auth URL:", error);
+      res.status(500).json({ error: "Failed to generate auth URL" });
+    }
+  });
+
+  app.post("/api/google-drive/callback", async (req, res) => {
+    try {
+      const { code } = req.body;
+      if (!code) {
+        return res.status(400).json({ error: "Authorization code is required" });
+      }
+
+      const { getTokenFromCode } = await import("./googleDrive");
+      const tokens = await getTokenFromCode(code);
+      
+      res.json({ 
+        success: true,
+        message: "Google Drive authorized successfully",
+        tokens 
+      });
+    } catch (error) {
+      console.error("Error processing Google Drive callback:", error);
+      res.status(500).json({ error: "Failed to process authorization" });
+    }
+  });
+
+  app.get("/api/google-drive/auth-status", async (req, res) => {
+    try {
+      const { isAuthenticated } = await import("./googleDrive");
+      res.json({ authenticated: isAuthenticated() });
+    } catch (error) {
+      console.error("Error checking auth status:", error);
+      res.status(500).json({ error: "Failed to check auth status" });
+    }
+  });
+
+  app.post("/api/google-drive/logout", async (req, res) => {
+    try {
+      const { clearAuthentication } = await import("./googleDrive");
+      clearAuthentication();
+      res.json({ success: true, message: "Logged out successfully" });
+    } catch (error) {
+      console.error("Error logging out:", error);
+      res.status(500).json({ error: "Failed to logout" });
+    }
+  });
+
   // Upload course structure to Google Drive
   app.post("/api/google-drive/upload-course", async (req, res) => {
     try {
