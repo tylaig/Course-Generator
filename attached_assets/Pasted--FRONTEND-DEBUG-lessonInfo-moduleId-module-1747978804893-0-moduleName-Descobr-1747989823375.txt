@@ -1,0 +1,89 @@
+🔍 FRONTEND DEBUG - lessonInfo: {
+  "moduleId": "module-1747978804893-0",
+  "moduleName": "Descobrindo o Mundo da Aprendizagem",
+  "lessonName": "Objetivo: Demonstrar como os jogos podem ser ferramentas eficazes de aprendizagem e desenvolvimento cognitivo.",
+  "lesson": {
+    "id": "lesson_1_6",
+    "title": "Objetivo: Demonstrar como os jogos podem ser ferramentas eficazes de aprendizagem e desenvolvimento cognitivo.",
+    "description": "Aula especializada em Educação e Aprendizagem, adequada para Crianças (até 12 anos)",
+    "order": 6,
+    "duration": "45min",
+    "content": "\n## Objetivo: Demonstrar como os jogos podem ser ferramentas eficazes de aprendizagem e desenvolvimento cognitivo.\n\n### Objetivos da Aula\n- Compreender os conceitos fundamentais\n- Aplicar conhecimentos na prática\n- Desenvolver competências específicas\n\n### Conteúdo Principal\n1. **Introdução** (5 min)\n   - Contextualização do tópico\n   - Conexão com aulas anteriores\n\n2. **Desenvolvimento** (30 min)\n   - Conceitos teóricos\n   - Exemplos práticos\n   - Demonstrações\n\n3. **Prática** (8 min)\n   - Exercícios dirigidos\n   - Atividades hands-on\n\n4. **Conclusão** (2 min)\n   - Resumo dos pontos principais\n   - Próximos passos\n\n### Recursos\n- Vídeo aula principal\n- Material de apoio em PDF\n- Exercícios práticos\n- Quiz de fixação\n  ",
+    "objectives": [
+      "Compreender conceitos específicos de Educação e Aprendizagem",
+      "Aplicar conhecimentos na prática",
+      "Desenvolver competências relevantes"
+    ],
+    "type": "video",
+    "materials": [
+      "Vídeo aula principal",
+      "Material de apoio",
+      "Exercícios práticos",
+      "Quiz de fixação"
+    ],
+    "detailedContent": {
+      "success": true,
+      "content": {
+        "title": "Objetivo: Demonstrar como os jogos podem ser ferramentas eficazes de aprendizagem e desenvolvimento cognitivo.",
+        "duration": "45min",
+        "objectives": [
+          "Entender como os jogos podem facilitar a aprendizagem",
+          "Explorar os benefícios cognitivos dos jogos",
+          "Identificar exemplos práticos de jogos educacionais"
+        ],
+        "audioScript": "Olá a todos! Bem-vindos à nossa aula sobre como os jogos podem ser ferramentas eficazes de aprendizagem e desenvolvimento cognitivo. [Pausa 2s] Hoje, vamos explorar como os jogos podem ajudar no desenvolvimento das habilidades mentais e como podem ser incorporados na educação. [Ênfase] Prepare-se para uma aula divertida e interativa! [Pausa 2s] Vamos começar!",
+        "lessonStructure": {
+          "introduction": {
+            "duration": "5min",
+            "content": "Apresentação do tema e objetivos da aula.",
+            "talking_points": [
+              "Definição de jogos educacionais",
+              "Importância dos jogos na aprendizagem"
+            ]
+          },
+          "development": {
+            "duration": "30min",
+            "content": "Discussão sobre os benefícios cognitivos dos jogos e exemplos práticos.",
+            "talking_points": [
+              "Conceito de desenvolvimento cognitivo",
+              "Benefícios dos jogos: memória, resolução de problemas, criatividade",
+              "Exemplo prático: uso de jogos de estratégia para melhorar habilidades de planejamento"
+            ]
+          },
+          "activities": {
+            "duration": "8min",
+            "content": "Atividades práticas para aplicação do conhecimento",
+            "exercises": [
+              "Criar um jogo simples usando conceitos discutidos",
+              "Debate sobre a eficácia de jogos específicos"
+            ]
+          },
+          "conclusion": {
+            "duration": "2min",
+            "content": "Conclusão e próximos passos",
+            "summary_points": [
+              "Revisão dos benefícios dos jogos na aprendizagem",
+              "Encorajamento para explorar jogos como ferramentas educacionais"
+            ]
+          }
+        },
+        "practicalExercises": [
+          {
+            "type": "individual_activity",
+            "title": "Criação de Jogo Educacional",
+            "description": "Crie um jogo simples que ensine um conceito básico utilizando os princípios discutidos na…
+🔍 FRONTEND DEBUG - safeModuleId: 1
+🔍 FRONTEND DEBUG - requestPayload: {
+  "lessons": [
+    {
+      "moduleId": 1,
+      "lessonName": "Objetivo: Demonstrar como os jogos podem ser ferramentas eficazes de aprendizagem e desenvolvimento cognitivo.",
+      "content": "\n## Objetivo: Demonstrar como os jogos podem ser ferramentas eficazes de aprendizagem e desenvolvimento cognitivo.\n\n### Objetivos da Aula\n- Compreender os conceitos fundamentais\n- Aplicar conhecimentos na prática\n- Desenvolver competências específicas\n\n### Conteúdo Principal\n1. **Introdução** (5 min)\n   - Contextualização do tópico\n   - Conexão com aulas anteriores\n\n2. **Desenvolvimento** (30 min)\n   - Conceitos teóricos\n   - Exemplos práticos\n   - Demonstrações\n\n3. **Prática** (8 min)\n   - Exercícios dirigidos\n   - Atividades hands-on\n\n4. **Conclusão** (2 min)\n   - Resumo dos pontos principais\n   - Próximos passos\n\n### Recursos\n- Vídeo aula principal\n- Material de apoio em PDF\n- Exercícios práticos\n- Quiz de fixação\n  "
+    }
+  ],
+  "courseDetails": {
+    "title": "Novo Curso Educacional",
+    "theme": "Educação e Aprendizagem",
+    "estimatedHours": 20
+  }
+}

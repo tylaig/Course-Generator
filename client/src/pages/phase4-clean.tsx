@@ -318,59 +318,93 @@ export default function Phase4Clean() {
         </CardContent>
       </Card>
 
-      {/* Generated Activities List */}
+      {/* Generated Activities List - ÚNICA SEÇÃO NECESSÁRIA */}
       {generatedActivities.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Atividades Geradas (PostgreSQL)</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-600" />
+              Atividades Geradas ({generatedActivities.length})
+            </CardTitle>
             <CardDescription>
-              Atividades criadas e salvas automaticamente no banco de dados
+              Atividades criadas via IA e vinculadas permanentemente às aulas do curso
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               {generatedActivities.map((activity, index) => (
-                <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-4 border rounded-lg bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-green-200 dark:border-green-800"
+                >
                   <div className="flex-1">
-                    <h4 className="font-medium">{activity.lessonName}</h4>
-                    <p className="text-sm text-muted-foreground">{activity.moduleName}</p>
+                    <h3 className="font-medium text-gray-900 dark:text-gray-100 mb-1">
+                      {activity.lessonName}
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                      {activity.moduleName}
+                    </p>
+                    <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                      <span className="flex items-center gap-1">
+                        <BookOpen className="h-3 w-3" />
+                        {activity.savedActivities} atividades
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <AlertCircle className="h-3 w-3" />
+                        {activity.savedQuestions} questões
+                      </span>
+                    </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Badge variant="secondary">
-                      {activity.savedActivities} atividades
-                    </Badge>
-                    <Badge variant="outline">
-                      {activity.savedQuestions} questões
-                    </Badge>
-                    <Badge variant="default" className="bg-green-100 text-green-800">
-                      PostgreSQL
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        console.log("🔍 Visualizando atividade:", activity);
+                        alert(`📚 Atividade: ${activity.lessonName}\n\n📊 Estatísticas:\n• ${activity.savedActivities} atividades práticas\n• ${activity.savedQuestions} questões de avaliação\n\n✅ Status: Salva permanentemente e vinculada ao curso\n\n🎯 Pronta para integração com Google Drive!`);
+                      }}
+                    >
+                      <Eye className="h-3 w-3 mr-1" />
+                      Visualizar
+                    </Button>
+                    <Badge variant="outline" className="text-green-700 dark:text-green-300 border-green-300 dark:border-green-700">
+                      <CheckCircle className="h-3 w-3 mr-1" />
+                      Vinculada
                     </Badge>
                   </div>
                 </div>
               ))}
+              
+              {/* Botão para integração com Google Drive */}
+              <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="font-medium text-blue-900 dark:text-blue-100">
+                      Criar Pastas no Google Drive
+                    </h4>
+                    <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
+                      Organize as atividades em pastas estruturadas no Google Drive
+                    </p>
+                  </div>
+                  <Button
+                    onClick={() => {
+                      console.log("🚀 Preparando integração com Google Drive para", generatedActivities.length, "atividades");
+                      alert("🚀 Funcionalidade em desenvolvimento!\n\nEsta integração criará:\n• Pasta do curso\n• Subpastas por módulo\n• Arquivos de atividades organizados\n\nEm breve estará disponível!");
+                    }}
+                    className="bg-blue-600 hover:bg-blue-700"
+                  >
+                    <BookOpen className="h-4 w-4 mr-2" />
+                    Criar Estrutura
+                  </Button>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
       )}
-
-      {/* Lessons Awaiting Generation */}
-      {lessonsToGenerate.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Aulas Aguardando Atividades</CardTitle>
-            <CardDescription>
-              Estas aulas ainda não possuem atividades geradas
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              {lessonsToGenerate.map((lesson, index) => (
-                <div key={index} className="flex items-center justify-between p-2 border rounded">
-                  <div>
-                    <p className="font-medium">{lesson.lessonName}</p>
-                    <p className="text-sm text-muted-foreground">{lesson.moduleName}</p>
-                  </div>
-                  <Badge variant="outline" className="text-orange-600 border-orange-300">
+    </div>
+  );
+}
                     Pendente
                   </Badge>
                 </div>
