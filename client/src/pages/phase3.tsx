@@ -419,14 +419,6 @@ export default function Phase3() {
                     <AccordionContent>
                       <div className="bg-slate-50 p-4 rounded-md">
                         <div className="prose prose-sm max-w-none">
-                          {/* Debug: Show raw content structure */}
-                          <div className="mb-4 p-2 bg-yellow-100 text-xs overflow-auto max-h-40">
-                            <strong>Debug - Estrutura dos dados:</strong>
-                            <pre className="whitespace-pre-wrap text-xs mt-1">
-                              {JSON.stringify(lesson.detailedContent, null, 2)}
-                            </pre>
-                          </div>
-                          
                           {lesson.detailedContent ? (
                             <div className="space-y-4">
                               <div className="bg-white p-4 rounded border">
