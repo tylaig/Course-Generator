@@ -128,7 +128,7 @@ export default function Phase3() {
       const content = result.success ? result.content : result;
       return { moduleId, lessonId, content };
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       setGenerationStatus("success");
       
       // Update the course module with new content
@@ -142,7 +142,18 @@ export default function Phase3() {
             detailedContent: data.content,
             status: "generated"
           };
-          updateModuleContent(data.moduleId, { lessons: updatedLessons });
+          
+          // Update both locally and in database
+          await updateModuleContent(data.moduleId, { lessons: updatedLessons });
+          
+          // Also save to database immediately
+          try {
+            await apiRequest("PUT", `/api/modules/${data.moduleId}`, {
+              content: { lessons: updatedLessons }
+            });
+          } catch (error) {
+            console.error("Error saving lesson content to database:", error);
+          }
         }
       }
       
@@ -239,8 +250,17 @@ export default function Phase3() {
             }
           }
           
-          // Update module with updated lessons
-          updateModuleContent(moduleToGenerate.id, updatedModule.content);
+          // Update module with updated lessons locally
+          await updateModuleContent(moduleToGenerate.id, updatedModule.content);
+          
+          // Save to database immediately
+          try {
+            await apiRequest("PUT", `/api/modules/${moduleToGenerate.id}`, {
+              content: updatedModule.content
+            });
+          } catch (error) {
+            console.error("Error saving to database:", error);
+          }
           
           // Short pause between requests to avoid rate limiting
           await new Promise(resolve => setTimeout(resolve, 1000));
