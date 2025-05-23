@@ -238,9 +238,6 @@ export default function Phase1() {
                             <SelectContent>
                               <SelectItem value="PDF">PDF</SelectItem>
                               <SelectItem value="DOCX">DOCX (Word)</SelectItem>
-                              <SelectItem value="HTML5">HTML5</SelectItem>
-                              <SelectItem value="SCORM">SCORM</SelectItem>
-                              <SelectItem value="Outros">Outros</SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
@@ -264,12 +261,7 @@ export default function Phase1() {
                               <SelectValue placeholder="Selecione a plataforma" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="Moodle">Moodle</SelectItem>
-                              <SelectItem value="Canvas">Canvas</SelectItem>
-                              <SelectItem value="Blackboard">Blackboard</SelectItem>
-                              <SelectItem value="Google Classroom">Google Classroom</SelectItem>
                               <SelectItem value="Web">Web</SelectItem>
-                              <SelectItem value="Outras">Outras</SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
