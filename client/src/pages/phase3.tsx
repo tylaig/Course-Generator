@@ -704,64 +704,57 @@ export default function Phase3() {
                             }
                             yPosition += 15;
                             
-                            // Conteúdo detalhado
+                            // Conteúdo detalhado - igual ao "View Content"
                             if (lesson.detailedContent) {
-                              const content = lesson.detailedContent;
-                              
                               // Objetivos
-                              if (content.objectives && content.objectives.length > 0) {
-                                addText('OBJETIVOS DA AULA', 14, 'bold');
-                                content.objectives.forEach((obj: string, index: number) => {
-                                  addText(`${index + 1}. ${obj}`, 12, 'normal');
+                              if (lesson.detailedContent.objectives && lesson.detailedContent.objectives.length > 0) {
+                                addText('OBJETIVOS DA AULA:', 14, 'bold');
+                                lesson.detailedContent.objectives.forEach((obj: string, idx: number) => {
+                                  const objText = typeof obj === 'string' ? obj : JSON.stringify(obj);
+                                  addText(`• ${objText}`, 12, 'normal');
                                 });
                                 yPosition += 10;
                               }
                               
-                              // Conteúdo principal
-                              if (content.content) {
-                                addText('CONTEÚDO', 14, 'bold');
-                                const processedContent = processStructuredContent(content.content);
-                                addText(processedContent, 12, 'normal');
-                                yPosition += 10;
-                              }
+                              // Conteúdo detalhado (renderização igual ao componente)
+                              addText('CONTEÚDO DETALHADO:', 14, 'bold');
+                              const contentStr = JSON.stringify(lesson.detailedContent, null, 2);
+                              addText(contentStr, 10, 'normal');
+                              yPosition += 10;
                               
                               // Exercícios práticos
-                              if (content.practicalExercises && content.practicalExercises.length > 0) {
-                                addText('EXERCÍCIOS PRÁTICOS', 14, 'bold');
-                                content.practicalExercises.forEach((exercise: any, index: number) => {
-                                  addText(`${index + 1}. ${exercise.title}`, 13, 'bold');
-                                  addText(exercise.description, 12, 'normal');
+                              if (lesson.detailedContent.practicalExercises && lesson.detailedContent.practicalExercises.length > 0) {
+                                addText('EXERCÍCIOS PRÁTICOS:', 14, 'bold');
+                                lesson.detailedContent.practicalExercises.forEach((exercise: any, idx: number) => {
+                                  const title = (typeof exercise.title === 'string' ? exercise.title : JSON.stringify(exercise.title)) || `Exercise ${idx + 1}`;
+                                  const description = (typeof exercise.description === 'string' ? exercise.description : JSON.stringify(exercise.description)) || 'Description not available';
+                                  
+                                  addText(`${idx + 1}. ${title}`, 13, 'bold');
+                                  addText(description, 12, 'normal');
                                   
                                   if (exercise.questions && exercise.questions.length > 0) {
-                                    exercise.questions.forEach((q: any, qIndex: number) => {
-                                      addText(`Questão ${qIndex + 1}: ${q.question}`, 12, 'bold');
-                                      q.options?.forEach((option: string, oIndex: number) => {
-                                        const marker = oIndex === q.correct_answer ? '✓' : '•';
-                                        addText(`  ${marker} ${option}`, 11, 'normal');
-                                      });
-                                      if (q.explanation) {
-                                        addText(`Explicação: ${q.explanation}`, 11, 'italic');
-                                      }
-                                      yPosition += 5;
-                                    });
+                                    addText(`Questões: ${exercise.questions.length}`, 11, 'normal');
                                   }
-                                  yPosition += 10;
+                                  yPosition += 5;
                                 });
+                                yPosition += 10;
                               }
                               
                               // Questões de avaliação
-                              if (content.assessmentQuestions && content.assessmentQuestions.length > 0) {
-                                addText('QUESTÕES DE AVALIAÇÃO', 14, 'bold');
-                                content.assessmentQuestions.forEach((q: any, index: number) => {
-                                  addText(`${index + 1}. ${q.question}`, 12, 'bold');
-                                  q.options?.forEach((option: string, oIndex: number) => {
-                                    const marker = oIndex === q.correct_answer ? '✓' : '•';
-                                    addText(`  ${marker} ${option}`, 11, 'normal');
+                              if (lesson.detailedContent.assessmentQuestions && lesson.detailedContent.assessmentQuestions.length > 0) {
+                                addText('QUESTÕES DE AVALIAÇÃO:', 14, 'bold');
+                                lesson.detailedContent.assessmentQuestions.forEach((question: any, idx: number) => {
+                                  addText(`${idx + 1}. ${question.question}`, 12, 'bold');
+                                  
+                                  question.options?.forEach((option: string, optIdx: number) => {
+                                    const marker = optIdx === question.correct_answer ? '✓' : '•';
+                                    addText(`   ${marker} ${option}`, 11, 'normal');
                                   });
-                                  if (q.explanation) {
-                                    addText(`Explicação: ${q.explanation}`, 11, 'italic');
+                                  
+                                  if (question.explanation) {
+                                    addText(`   Explicação: ${question.explanation}`, 11, 'italic');
                                   }
-                                  yPosition += 10;
+                                  yPosition += 5;
                                 });
                               }
                             } else if (lesson.content) {
