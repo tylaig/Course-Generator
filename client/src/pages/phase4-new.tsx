@@ -277,15 +277,23 @@ export default function Phase4New() {
           if (result.success && result.content) {
             console.log(`✅ Atividades geradas para: ${lessonInfo.lessonName}`);
             
-            // Update lesson with generated activities
+            // Update lesson with generated activities - ESTRUTURA CORRETA
             const updatedLesson = {
               ...lessonInfo.lesson,
               detailedContent: {
                 ...lessonInfo.lesson.detailedContent,
                 practicalExercises: result.content.practicalExercises || [],
-                assessmentQuestions: result.content.assessmentQuestions || []
+                assessmentQuestions: result.content.assessmentQuestions || [],
+                objectives: result.content.objectives || [],
+                content: result.content.content || lessonInfo.lesson.content
               }
             };
+            
+            console.log(`🔧 Aula atualizada com atividades:`, {
+              title: updatedLesson.title,
+              practicalExercises: updatedLesson.detailedContent.practicalExercises.length,
+              assessmentQuestions: updatedLesson.detailedContent.assessmentQuestions.length
+            });
 
             // Update module with new lesson content
             const updatedModule = {
