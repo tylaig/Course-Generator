@@ -302,11 +302,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // DEBUG ENDPOINT - TEMPORÁRIO
+  app.post("/api/debug-lesson-content", async (req, res) => {
+    console.log("🔍 DEBUG: Dados recebidos:", JSON.stringify(req.body, null, 2));
+    res.json({
+      received: req.body,
+      keys: Object.keys(req.body || {}),
+      hasLessonTitle: !!req.body?.lessonTitle,
+      hasCourseDetails: !!req.body?.courseDetails
+    });
+  });
+
   // ---- Lesson Content Generation (Phase 3) ----
   app.post("/api/generate/lesson-content", async (req, res) => {
+    console.log("🟢 ENDPOINT ATINGIDO - /api/generate/lesson-content");
+    console.log("🟢 Request method:", req.method);
+    console.log("🟢 Request raw body:", req.body);
+    
     try {
       console.log("=== GERAÇÃO DE CONTEÚDO DE AULA INICIADA ===");
-      console.log("Dados recebidos:", JSON.stringify(req.body, null, 2));
+      console.log("🔍 DEBUGGING DETALHADO - INÍCIO");
+      console.log("- req.body existe?", !!req.body);
+      console.log("- req.body type:", typeof req.body);
+      console.log("- req.body keys:", Object.keys(req.body || {}));
+      console.log("Dados recebidos (COMPLETO):", JSON.stringify(req.body, null, 2));
       
       const { lesson, module, courseDetails, aiConfig, lessonTitle } = req.body;
       
@@ -361,10 +380,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
       
     } catch (error) {
-      console.error("Erro na geração de conteúdo da aula:", error);
+      console.error("🚨 ERRO CAPTURADO NO CATCH:");
+      console.error("- Tipo do erro:", typeof error);
+      console.error("- Erro completo:", error);
+      console.error("- Stack trace:", error instanceof Error ? error.stack : "N/A");
+      console.error("- req.body no momento do erro:", JSON.stringify(req.body, null, 2));
+      
       res.status(500).json({ 
         message: "Falha ao gerar conteúdo da aula", 
-        error: error instanceof Error ? error.message : "Erro desconhecido" 
+        error: error instanceof Error ? error.message : "Erro desconhecido",
+        debug: {
+          errorType: typeof error,
+          requestBody: req.body
+        }
+      });
+    } catch (error) {
+      console.error("🚨 ERRO CAPTURADO NO CATCH:");
+      console.error("- Tipo do erro:", typeof error);
+      console.error("- Erro completo:", error);
+      console.error("- Stack trace:", error instanceof Error ? error.stack : "N/A");
+      console.error("- req.body no momento do erro:", JSON.stringify(req.body, null, 2));
+      
+      res.status(500).json({ 
+        message: "Falha ao gerar conteúdo da aula", 
+        error: error instanceof Error ? error.message : "Erro desconhecido",
+        debug: {
+          errorType: typeof error,
+          requestBody: req.body
+        }
       });
     }
   });
