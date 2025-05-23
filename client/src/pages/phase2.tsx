@@ -329,55 +329,55 @@ export default function Phase2() {
       <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200 mb-8">
         <PhaseNav 
           currentPhase={2}
-          title="Fase 2: Estrutura" 
-          description="Configure e organize a estrutura do curso"
+          title="Phase 2: Structure" 
+          description="Configure and organize the course structure"
           onNext={handleSubmit}
         />
         
         <Tabs defaultValue="configurations" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="configurations">Configurações</TabsTrigger>
-            <TabsTrigger value="modules" disabled={!configurationsSaved}>Módulos</TabsTrigger>
-            <TabsTrigger value="competencies" disabled={modules.length === 0}>Mapeamento</TabsTrigger>
+            <TabsTrigger value="configurations">Configuration</TabsTrigger>
+            <TabsTrigger value="modules" disabled={!configurationsSaved}>Modules</TabsTrigger>
+            <TabsTrigger value="competencies" disabled={modules.length === 0}>Mapping</TabsTrigger>
           </TabsList>
           
-          {/* ABA 1: CONFIGURAÇÕES */}
+          {/* TAB 1: CONFIGURATION */}
           <TabsContent value="configurations" className="space-y-6">
             <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-2">Configurações da Estrutura</h2>
-              <p className="text-muted-foreground">Defina a estrutura básica do seu curso</p>
+              <h2 className="text-xl font-semibold mb-2">Structure Configuration</h2>
+              <p className="text-muted-foreground">Define the basic structure of your course</p>
             </div>
 
-            {/* Resumo do Curso */}
+            {/* Course Summary */}
             <Card>
               <CardHeader>
-                <CardTitle>Resumo do Curso</CardTitle>
-                <CardDescription>Informações básicas definidas na Phase 1</CardDescription>
+                <CardTitle>Course Summary</CardTitle>
+                <CardDescription>Basic information defined in Phase 1</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Título</p>
-                    <p className="text-lg font-semibold">{course?.title || "Não definido"}</p>
+                    <p className="text-sm font-medium text-muted-foreground">Title</p>
+                    <p className="text-lg font-semibold">{course?.title || "Not defined"}</p>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Tema</p>
-                    <p className="text-lg font-semibold">{course?.theme || "Não definido"}</p>
+                    <p className="text-sm font-medium text-muted-foreground">Theme</p>
+                    <p className="text-lg font-semibold">{course?.theme || "Not defined"}</p>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Carga Horária</p>
-                    <p className="text-lg font-semibold">{course?.estimatedHours || 0} horas</p>
+                    <p className="text-sm font-medium text-muted-foreground">Estimated Hours</p>
+                    <p className="text-lg font-semibold">{course?.estimatedHours || 0} hours</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Configurações de Estrutura */}
+            {/* Structure Configuration */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Número de Módulos</CardTitle>
-                  <CardDescription>Quantos módulos o curso terá</CardDescription>
+                  <CardTitle>Number of Modules</CardTitle>
+                  <CardDescription>How many modules the course will have</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center space-x-4">
@@ -391,7 +391,7 @@ export default function Phase2() {
                     </Button>
                     <div className="flex-1 text-center">
                       <span className="text-3xl font-bold text-primary">{moduleCount}</span>
-                      <p className="text-sm text-muted-foreground">módulos</p>
+                      <p className="text-sm text-muted-foreground">modules</p>
                     </div>
                     <Button 
                       variant="outline" 
@@ -403,21 +403,21 @@ export default function Phase2() {
                     </Button>
                   </div>
                   <div className="text-xs text-muted-foreground text-center">
-                    Mínimo: 1 | Máximo: 20
+                    Minimum: 1 | Maximum: 20
                   </div>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Aulas por Módulo</CardTitle>
-                  <CardDescription>Quantas aulas cada módulo terá</CardDescription>
+                  <CardTitle>Lessons per Module</CardTitle>
+                  <CardDescription>How many lessons each module will have</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-3">
                     <div className="text-center">
                       <span className="text-3xl font-bold text-primary">{lessonsPerModule[0]}</span>
-                      <p className="text-sm text-muted-foreground">aulas por módulo</p>
+                      <p className="text-sm text-muted-foreground">lessons per module</p>
                     </div>
                     <Slider
                       value={lessonsPerModule}
@@ -437,28 +437,28 @@ export default function Phase2() {
               </Card>
             </div>
 
-            {/* Estatísticas */}
+            {/* Statistics */}
             <Card>
               <CardHeader>
-                <CardTitle>Estatísticas Calculadas</CardTitle>
+                <CardTitle>Calculated Statistics</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   <div className="text-center">
                     <p className="text-2xl font-bold text-blue-600">{moduleCount}</p>
-                    <p className="text-sm text-muted-foreground">Módulos</p>
+                    <p className="text-sm text-muted-foreground">Modules</p>
                   </div>
                   <div className="text-center">
                     <p className="text-2xl font-bold text-green-600">{moduleCount * lessonsPerModule[0]}</p>
-                    <p className="text-sm text-muted-foreground">Aulas Totais</p>
+                    <p className="text-sm text-muted-foreground">Total Lessons</p>
                   </div>
                   <div className="text-center">
                     <p className="text-2xl font-bold text-purple-600">{Math.round((course?.estimatedHours || 0) / moduleCount)}</p>
-                    <p className="text-sm text-muted-foreground">Horas/Módulo</p>
+                    <p className="text-sm text-muted-foreground">Hours/Module</p>
                   </div>
                   <div className="text-center">
                     <p className="text-2xl font-bold text-orange-600">{Math.round((course?.estimatedHours || 0) / (moduleCount * lessonsPerModule[0]))}</p>
-                    <p className="text-sm text-muted-foreground">Horas/Aula</p>
+                    <p className="text-sm text-muted-foreground">Hours/Lesson</p>
                   </div>
                 </div>
               </CardContent>
