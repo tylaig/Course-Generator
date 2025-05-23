@@ -26,21 +26,26 @@ import PhaseNav from "@/components/layout/PhaseNav";
 import { useCourse } from "@/context/CourseContext";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { BookOpen, Plus, CheckCircle, AlertCircle, Zap } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 
 export default function Phase4() {
   const [_, navigate] = useLocation();
   const { course, moveToNextPhase, updatePhaseData, updateModuleContent } = useCourse();
   const [selectedModule, setSelectedModule] = useState<any>(null);
   const [generationStatus, setGenerationStatus] = useState<"idle" | "generating" | "success" | "error">("idle");
+  const [generationProgress, setGenerationProgress] = useState(0);
+  const [currentGeneratingLesson, setCurrentGeneratingLesson] = useState<string>("");
+  const [totalLessonsToGenerate, setTotalLessonsToGenerate] = useState(0);
   const { toast } = useToast();
 
   // Generate missing activities for lessons
   const generateMissingActivities = useMutation({
     mutationFn: async () => {
       setGenerationStatus("generating");
+      setGenerationProgress(0);
       
       const lessonsToGenerate: { moduleId: string; lessonId: string; lessonName: string }[] = [];
       
@@ -63,11 +68,13 @@ export default function Phase4() {
         }
       });
 
+      setTotalLessonsToGenerate(lessonsToGenerate.length);
       console.log(`Gerando atividades para ${lessonsToGenerate.length} aulas`);
       
       const results = [];
       
-      for (const lessonInfo of lessonsToGenerate) {
+      for (let i = 0; i < lessonsToGenerate.length; i++) {
+        const lessonInfo = lessonsToGenerate[i];
         try {
           const moduleToGenerate = course?.modules.find(m => m.id === lessonInfo.moduleId);
           if (!moduleToGenerate) continue;
@@ -136,6 +143,8 @@ export default function Phase4() {
     },
     onSuccess: (data) => {
       setGenerationStatus("success");
+      setGenerationProgress(100);
+      setCurrentGeneratingLesson("");
       
       toast({
         title: "Atividades geradas!",
@@ -144,6 +153,7 @@ export default function Phase4() {
     },
     onError: (error) => {
       setGenerationStatus("error");
+      setCurrentGeneratingLesson("");
       
       console.error("Activities generation error:", error);
       toast({
@@ -158,6 +168,7 @@ export default function Phase4() {
   const generateAllContent = useMutation({
     mutationFn: async () => {
       setGenerationStatus("generating");
+      setGenerationProgress(0);
       
       const allLessons: { moduleId: string; lessonId: string; lessonName: string }[] = [];
       
@@ -174,11 +185,13 @@ export default function Phase4() {
         }
       });
 
+      setTotalLessonsToGenerate(allLessons.length);
       console.log(`Gerando conteúdo completo para ${allLessons.length} aulas`);
       
       const results = [];
       
-      for (const lessonInfo of allLessons) {
+      for (let i = 0; i < allLessons.length; i++) {
+        const lessonInfo = allLessons[i];
         try {
           const moduleToGenerate = course?.modules.find(m => m.id === lessonInfo.moduleId);
           if (!moduleToGenerate) continue;
@@ -234,11 +247,16 @@ export default function Phase4() {
             console.error("Error saving to database:", error);
           }
           
+          // Update progress
+          setGenerationProgress(((i + 1) / allLessons.length) * 100);
+          
           // Short pause between requests to avoid rate limiting
           await new Promise(resolve => setTimeout(resolve, 1000));
           
         } catch (error) {
           console.error(`Error generating content for lesson ${lessonInfo.lessonName}:`, error);
+          // Update progress even on error
+          setGenerationProgress(((i + 1) / allLessons.length) * 100);
           // Continue with next lesson
         }
       }
@@ -247,6 +265,8 @@ export default function Phase4() {
     },
     onSuccess: (data) => {
       setGenerationStatus("success");
+      setGenerationProgress(100);
+      setCurrentGeneratingLesson("");
       
       toast({
         title: "Conteúdo completo gerado!",
@@ -255,6 +275,7 @@ export default function Phase4() {
     },
     onError: (error) => {
       setGenerationStatus("error");
+      setCurrentGeneratingLesson("");
       
       console.error("All content generation error:", error);
       toast({
@@ -363,9 +384,22 @@ export default function Phase4() {
                 </div>
               )}
               {generationStatus === "generating" && (
-                <div className="flex items-center space-x-2 text-blue-700">
-                  <div className="animate-spin h-4 w-4 border-2 border-blue-600 border-t-transparent rounded-full"></div>
-                  <span className="text-sm">Gerando atividades...</span>
+                <div className="flex flex-col space-y-2 text-blue-700">
+                  <div className="flex items-center space-x-2">
+                    <div className="animate-spin h-4 w-4 border-2 border-blue-600 border-t-transparent rounded-full"></div>
+                    <span className="text-sm">Gerando atividades...</span>
+                  </div>
+                  {currentGeneratingLesson && (
+                    <div className="text-xs text-blue-600">
+                      Processando: {currentGeneratingLesson}
+                    </div>
+                  )}
+                  <div className="w-48">
+                    <Progress value={generationProgress} className="h-2" />
+                    <div className="text-xs text-blue-600 mt-1">
+                      {Math.round(generationProgress)}% concluído
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
