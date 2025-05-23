@@ -42,114 +42,152 @@ export interface CourseDataForZip {
 // Generate PDF buffer for a lesson
 export async function generateLessonPDF(lesson: any, module: any, course: any): Promise<Buffer> {
   return new Promise((resolve, reject) => {
-    const doc = new PDFDocument();
-    const chunks: Buffer[] = [];
+    try {
+      const doc = new PDFDocument({ margin: 50 });
+      const chunks: Buffer[] = [];
 
-    doc.on('data', (chunk: Buffer) => chunks.push(chunk));
-    doc.on('end', () => resolve(Buffer.concat(chunks)));
-    doc.on('error', reject);
+      doc.on('data', (chunk: Buffer) => chunks.push(chunk));
+      doc.on('end', () => resolve(Buffer.concat(chunks)));
+      doc.on('error', reject);
 
-    // Course header
-    doc.fontSize(20).text(course.title, { align: 'center' });
-    doc.fontSize(16).text(`${module.title}`, { align: 'center' });
-    doc.moveDown();
+      // Course header
+      doc.fontSize(20).text(course.title || 'Course', { align: 'center' });
+      doc.fontSize(16).text(module.title || 'Module', { align: 'center' });
+      doc.moveDown(2);
 
-    // Lesson title
-    doc.fontSize(18).text(lesson.title, { underline: true });
-    doc.moveDown();
-
-    // Lesson content
-    if (lesson.detailedContent?.content) {
-      doc.fontSize(12).text(lesson.detailedContent.content);
-    } else if (lesson.content) {
-      doc.fontSize(12).text(lesson.content);
-    } else {
-      doc.fontSize(12).text(`Content for ${lesson.title}\n\nThis lesson covers important topics related to ${module.title}.`);
-    }
-
-    // Objectives
-    if (lesson.detailedContent?.objectives) {
+      // Lesson title
+      doc.fontSize(18).text(lesson.title || 'Lesson', { underline: true });
       doc.moveDown();
-      doc.fontSize(14).text('Learning Objectives:', { underline: true });
-      lesson.detailedContent.objectives.forEach((objective: string, index: number) => {
-        doc.fontSize(12).text(`${index + 1}. ${objective}`);
-      });
-    }
 
-    doc.end();
+      // Lesson content
+      let contentText = '';
+      if (lesson.detailedContent?.content) {
+        contentText = lesson.detailedContent.content;
+      } else if (lesson.content) {
+        contentText = lesson.content;
+      } else {
+        contentText = `Welcome to ${lesson.title || 'this lesson'}!\n\nThis lesson is part of ${module.title || 'the module'} in ${course.title || 'the course'}.\n\nKey topics covered:\n• Introduction to the subject\n• Core concepts and principles\n• Practical applications\n• Summary and next steps`;
+      }
+
+      // Clean and format content
+      const cleanContent = contentText.replace(/#+\s*/g, '').replace(/\*\*/g, '');
+      doc.fontSize(12).text(cleanContent, { align: 'left', lineGap: 5 });
+
+      // Objectives
+      if (lesson.detailedContent?.objectives && lesson.detailedContent.objectives.length > 0) {
+        doc.moveDown(2);
+        doc.fontSize(14).text('Learning Objectives:', { underline: true });
+        doc.moveDown(0.5);
+        lesson.detailedContent.objectives.forEach((objective: string, index: number) => {
+          doc.fontSize(12).text(`${index + 1}. ${objective}`, { indent: 20 });
+        });
+      }
+
+      // Add footer
+      doc.moveDown(2);
+      doc.fontSize(10).text(`Generated from ${course.title} - ${module.title}`, { align: 'center' });
+
+      doc.end();
+    } catch (error) {
+      reject(error);
+    }
   });
 }
 
 // Generate PDF buffer for module tasks/activities
 export async function generateModuleTasksPDF(module: any, course: any): Promise<Buffer> {
   return new Promise((resolve, reject) => {
-    const doc = new PDFDocument();
-    const chunks: Buffer[] = [];
+    try {
+      const doc = new PDFDocument({ margin: 50 });
+      const chunks: Buffer[] = [];
 
-    doc.on('data', (chunk: Buffer) => chunks.push(chunk));
-    doc.on('end', () => resolve(Buffer.concat(chunks)));
-    doc.on('error', reject);
+      doc.on('data', (chunk: Buffer) => chunks.push(chunk));
+      doc.on('end', () => resolve(Buffer.concat(chunks)));
+      doc.on('error', reject);
 
-    // Header
-    doc.fontSize(20).text(course.title, { align: 'center' });
-    doc.fontSize(16).text(`Tasks and Activities - ${module.title}`, { align: 'center' });
-    doc.moveDown();
+      // Header
+      doc.fontSize(20).text(course.title || 'Course', { align: 'center' });
+      doc.fontSize(16).text(`Tasks and Activities - ${module.title || 'Module'}`, { align: 'center' });
+      doc.moveDown(2);
 
-    let hasContent = false;
+      let hasContent = false;
+      const lessons = module.content?.lessons || [];
 
-    // Collect all exercises and assessments from all lessons
-    module.content.lessons.forEach((lesson: any, lessonIndex: number) => {
-      if (lesson.detailedContent?.practicalExercises || lesson.detailedContent?.assessmentQuestions) {
-        hasContent = true;
+      // Collect all exercises and assessments from all lessons
+      lessons.forEach((lesson: any, lessonIndex: number) => {
+        const exercises = lesson.detailedContent?.practicalExercises || [];
+        const assessments = lesson.detailedContent?.assessmentQuestions || [];
         
-        doc.fontSize(16).text(`Lesson ${lessonIndex + 1}: ${lesson.title}`, { underline: true });
-        doc.moveDown();
+        if (exercises.length > 0 || assessments.length > 0) {
+          hasContent = true;
+          
+          doc.fontSize(16).text(`Lesson ${lessonIndex + 1}: ${lesson.title || 'Lesson'}`, { underline: true });
+          doc.moveDown();
 
-        // Practical exercises
-        if (lesson.detailedContent.practicalExercises) {
-          doc.fontSize(14).text('Practical Exercises:', { underline: true });
-          lesson.detailedContent.practicalExercises.forEach((exercise: any, index: number) => {
-            doc.fontSize(12).text(`Exercise ${index + 1}: ${exercise.title}`);
-            doc.fontSize(11).text(exercise.description);
+          // Practical exercises
+          if (exercises.length > 0) {
+            doc.fontSize(14).text('Practical Exercises:', { underline: true });
+            doc.moveDown(0.5);
             
-            if (exercise.questions) {
-              exercise.questions.forEach((question: any, qIndex: number) => {
-                doc.fontSize(11).text(`Q${qIndex + 1}: ${question.question}`);
-                question.options.forEach((option: string, oIndex: number) => {
-                  doc.fontSize(10).text(`  ${String.fromCharCode(65 + oIndex)}) ${option}`);
+            exercises.forEach((exercise: any, index: number) => {
+              doc.fontSize(12).text(`Exercise ${index + 1}: ${exercise.title || 'Exercise'}`);
+              doc.fontSize(11).text(exercise.description || 'Complete the following tasks...');
+              doc.moveDown(0.5);
+              
+              const questions = exercise.questions || [];
+              if (questions.length > 0) {
+                questions.forEach((question: any, qIndex: number) => {
+                  doc.fontSize(11).text(`Q${qIndex + 1}: ${question.question}`);
+                  const options = question.options || [];
+                  options.forEach((option: string, oIndex: number) => {
+                    doc.fontSize(10).text(`  ${String.fromCharCode(65 + oIndex)}) ${option}`, { indent: 20 });
+                  });
+                  doc.fontSize(10).text(`Answer: ${String.fromCharCode(65 + (question.correct_answer || 0))}`, { indent: 20 });
+                  if (question.explanation) {
+                    doc.fontSize(10).text(`Explanation: ${question.explanation}`, { indent: 20 });
+                  }
+                  doc.moveDown(0.5);
                 });
-                doc.fontSize(10).text(`Answer: ${String.fromCharCode(65 + question.correct_answer)}`);
-                doc.fontSize(10).text(`Explanation: ${question.explanation}`);
-                doc.moveDown();
-              });
-            }
-            doc.moveDown();
-          });
-        }
-
-        // Assessment questions
-        if (lesson.detailedContent.assessmentQuestions) {
-          doc.fontSize(14).text('Assessment Questions:', { underline: true });
-          lesson.detailedContent.assessmentQuestions.forEach((question: any, index: number) => {
-            doc.fontSize(11).text(`${index + 1}. ${question.question}`);
-            question.options.forEach((option: string, oIndex: number) => {
-              doc.fontSize(10).text(`  ${String.fromCharCode(65 + oIndex)}) ${option}`);
+              }
+              doc.moveDown();
             });
-            doc.fontSize(10).text(`Answer: ${String.fromCharCode(65 + question.correct_answer)}`);
-            doc.fontSize(10).text(`Explanation: ${question.explanation}`);
-            doc.moveDown();
-          });
+          }
+
+          // Assessment questions
+          if (assessments.length > 0) {
+            doc.fontSize(14).text('Assessment Questions:', { underline: true });
+            doc.moveDown(0.5);
+            
+            assessments.forEach((question: any, index: number) => {
+              doc.fontSize(11).text(`${index + 1}. ${question.question}`);
+              const options = question.options || [];
+              options.forEach((option: string, oIndex: number) => {
+                doc.fontSize(10).text(`  ${String.fromCharCode(65 + oIndex)}) ${option}`, { indent: 20 });
+              });
+              doc.fontSize(10).text(`Answer: ${String.fromCharCode(65 + (question.correct_answer || 0))}`, { indent: 20 });
+              if (question.explanation) {
+                doc.fontSize(10).text(`Explanation: ${question.explanation}`, { indent: 20 });
+              }
+              doc.moveDown();
+            });
+          }
+
+          doc.moveDown();
         }
+      });
 
-        doc.moveDown();
+      if (!hasContent) {
+        doc.fontSize(12).text(`This module contains ${lessons.length} lesson${lessons.length !== 1 ? 's' : ''}.\n\nPractical exercises and assessment questions will be displayed here once they are generated for the lessons.\n\nTo add activities:\n1. Go to Phase 3 (Content Generation)\n2. Generate detailed content for each lesson\n3. Activities will automatically appear in this section`);
       }
-    });
 
-    if (!hasContent) {
-      doc.fontSize(12).text('Tasks and activities will be available after content generation.');
+      // Add footer
+      doc.moveDown(2);
+      doc.fontSize(10).text(`Generated from ${course.title} - ${module.title}`, { align: 'center' });
+
+      doc.end();
+    } catch (error) {
+      reject(error);
     }
-
-    doc.end();
   });
 }
 
@@ -204,30 +242,85 @@ export async function generateCourseZip(courseData: CourseDataForZip): Promise<B
     archive.on('error', reject);
 
     try {
+      console.log('Starting ZIP generation for:', courseData.title);
+      console.log('Number of modules:', courseData.modules?.length || 0);
+
+      // Validate course data
+      if (!courseData.modules || courseData.modules.length === 0) {
+        console.log('No modules found, creating default structure');
+        courseData.modules = [{
+          id: "1",
+          title: "Introduction",
+          description: `Introduction to ${courseData.theme}`,
+          content: {
+            lessons: [{
+              id: "1",
+              title: "Getting Started",
+              content: `Welcome to ${courseData.title}`,
+              detailedContent: {
+                objectives: [`Learn about ${courseData.theme}`],
+                content: `This course covers ${courseData.theme}`,
+                practicalExercises: [],
+                assessmentQuestions: []
+              }
+            }]
+          }
+        }];
+      }
+
       // Create course summary
+      console.log('Generating course summary PDF...');
       const courseSummaryPDF = await generateCourseSummaryPDF(courseData);
       archive.append(courseSummaryPDF, { name: 'Course_Summary.pdf' });
 
       // Process each module
-      for (const module of courseData.modules) {
-        const moduleFolder = `Module_${module.title.replace(/[^a-zA-Z0-9]/g, '_')}/`;
+      for (let moduleIndex = 0; moduleIndex < courseData.modules.length; moduleIndex++) {
+        const module = courseData.modules[moduleIndex];
+        console.log(`Processing module ${moduleIndex + 1}: ${module.title}`);
+        
+        // Clean module name for folder
+        const cleanModuleName = module.title.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
+        const moduleFolder = `Module_${moduleIndex + 1}_${cleanModuleName}/`;
+
+        // Ensure module has lessons
+        const lessons = module.content?.lessons || [];
+        if (lessons.length === 0) {
+          console.log(`No lessons found for module ${module.title}, creating default lesson`);
+          lessons.push({
+            id: "1",
+            title: `Introduction to ${module.title}`,
+            content: `Content for ${module.title}`,
+            detailedContent: {
+              objectives: [`Learn about ${module.title}`],
+              content: `This module covers ${module.title}`,
+              practicalExercises: [],
+              assessmentQuestions: []
+            }
+          });
+        }
 
         // Generate lesson PDFs
-        for (let i = 0; i < module.content.lessons.length; i++) {
-          const lesson = module.content.lessons[i];
+        for (let lessonIndex = 0; lessonIndex < lessons.length; lessonIndex++) {
+          const lesson = lessons[lessonIndex];
+          console.log(`  Generating lesson ${lessonIndex + 1}: ${lesson.title}`);
+          
           const lessonPDF = await generateLessonPDF(lesson, module, courseData);
-          const lessonFileName = `Lesson_${i + 1}_${lesson.title.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+          const cleanLessonName = lesson.title.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
+          const lessonFileName = `Lesson_${lessonIndex + 1}_${cleanLessonName}.pdf`;
           archive.append(lessonPDF, { name: moduleFolder + lessonFileName });
         }
 
         // Generate tasks/activities PDF for the module
+        console.log(`  Generating tasks PDF for module: ${module.title}`);
         const tasksPDF = await generateModuleTasksPDF(module, courseData);
-        const tasksFileName = `Tasks_${module.title.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+        const tasksFileName = `Tasks_${cleanModuleName}.pdf`;
         archive.append(tasksPDF, { name: moduleFolder + tasksFileName });
       }
 
+      console.log('Finalizing ZIP archive...');
       archive.finalize();
     } catch (error) {
+      console.error('Error generating ZIP:', error);
       reject(error);
     }
   });
