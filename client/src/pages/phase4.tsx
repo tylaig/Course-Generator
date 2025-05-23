@@ -105,6 +105,22 @@ export default function Phase4() {
 
               // Update course context immediately - shows in real time!
               await updateModuleContent(moduleToUpdate.id, moduleToUpdate.content);
+              
+              // CRITICAL: Save to database immediately
+              try {
+                await fetch(`/api/modules/${moduleToUpdate.id}`, {
+                  method: 'PUT',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    content: moduleToUpdate.content
+                  })
+                });
+                console.log(`💾 Atividades salvas no banco para: ${lessonInfo.lessonName}`);
+              } catch (dbError) {
+                console.error(`❌ Erro ao salvar no banco para ${lessonInfo.lessonName}:`, dbError);
+              }
             }
           }
         } else {

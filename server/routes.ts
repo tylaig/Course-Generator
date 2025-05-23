@@ -107,6 +107,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // ---- Module Routes ----
+  app.put("/api/modules/:id", async (req, res) => {
+    try {
+      const moduleId = req.params.id;
+      const { content, status } = req.body;
+      
+      console.log(`💾 Salvando módulo ${moduleId} no banco de dados`);
+      
+      const updatedModule = await storage.updateModule(moduleId, { content, status });
+      if (!updatedModule) {
+        return res.status(404).json({ error: "Módulo não encontrado" });
+      }
+      
+      console.log(`✅ Módulo ${moduleId} salvo com sucesso!`);
+      res.json(updatedModule);
+    } catch (error) {
+      console.error("Erro ao atualizar módulo:", error);
+      res.status(500).json({ error: "Falha ao atualizar módulo" });
+    }
+  });
+
   // ---- Phase Data Routes ----
   app.get("/api/courses/:courseId/phase/:phaseNumber", async (req, res) => {
     try {
