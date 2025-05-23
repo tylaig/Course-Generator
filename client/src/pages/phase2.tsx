@@ -170,7 +170,7 @@ export default function Phase2() {
       return response.json();
     },
     onSuccess: (data) => {
-      console.log("Dados recebidos da API:", data);
+      console.log("Data received from API:", data);
       if (data.modules && Array.isArray(data.modules)) {
         // Convert generated modules to expected format
         const newModules = data.modules.map((module: any, index: number) => {
@@ -186,52 +186,52 @@ export default function Phase2() {
             estimatedHours: module.estimatedHours || 3,
             status: "not_started" as const,
             content: {
-              lessons: lessons, // Preservar a estrutura de aulas
-              ...module.content // Preservar outros dados do conteúdo
+              lessons: lessons, // Preserve lessons structure
+              ...module.content // Preserve other content data
             },
             imageUrl: null
           };
         });
         
         const totalLessons = newModules.reduce((acc: number, mod: any) => acc + (mod.content?.lessons?.length || 0), 0);
-        console.log(`Total de aulas criadas: ${totalLessons}`);
+        console.log(`Total lessons created: ${totalLessons}`);
         
         setModules(newModules);
         updateModules(newModules);
         updateProgress(2, 50);
         
         toast({
-          title: "Estrutura Gerada!",
-          description: `${data.modules.length} módulos criados com ${totalLessons} aulas no total.`,
+          title: "Structure Generated!",
+          description: `${data.modules.length} modules created with ${totalLessons} lessons in total.`,
           variant: "default",
         });
       } else {
-        throw new Error("Formato de resposta inválido");
+        throw new Error("Invalid response format");
       }
     },
     onError: (error) => {
-      console.error("Erro ao gerar estrutura:", error);
+      console.error("Error generating structure:", error);
       toast({
-        title: "Erro",
-        description: "Falha ao gerar estrutura. Tente novamente.",
+        title: "Error",
+        description: "Failed to generate structure. Please try again.",
         variant: "destructive",
       });
     }
   });
 
-  // Mutação para gerar mapeamento de competências
+  // Mutation to generate competency mapping
   const generateCompetencyMapping = useMutation({
     mutationFn: async () => {
       const phase1Data = course?.phaseData?.phase1;
       if (!phase1Data) {
-        throw new Error("Dados da Phase 1 não encontrados. Complete a Phase 1 primeiro.");
+        throw new Error("Phase 1 data not found. Complete Phase 1 first.");
       }
 
       if (modules.length === 0) {
-        throw new Error("Nenhum módulo encontrado. Gere a estrutura primeiro.");
+        throw new Error("No modules found. Generate structure first.");
       }
 
-      // Enviar apenas dados essenciais dos módulos para evitar payload muito grande
+      // Send only essential module data to avoid large payload
       const modulesSummary = modules.map(module => ({
         id: module.id,
         title: module.title,
@@ -250,39 +250,39 @@ export default function Phase2() {
       );
       
       const responseText = await response.text();
-      console.log("Resposta bruta do servidor:", responseText);
+      console.log("Raw server response:", responseText);
       
       try {
         return JSON.parse(responseText);
       } catch (parseError) {
-        console.error("Erro ao parsear JSON:", parseError);
-        console.error("Resposta recebida:", responseText);
-        throw new Error("Resposta inválida do servidor");
+        console.error("Error parsing JSON:", parseError);
+        console.error("Response received:", responseText);
+        throw new Error("Invalid server response");
       }
     },
     onSuccess: (data) => {
-      console.log("Mapeamento de competências recebido:", data);
+      console.log("Competency mapping received:", data);
       if (data.mapping) {
         setCompetenciesMap(data.mapping);
         
         toast({
-          title: "Mapeamento Gerado!",
-          description: `Competências distribuídas para ${modules.length} módulos.`,
+          title: "Mapping Generated!",
+          description: `Competencies distributed across ${modules.length} modules.`,
           variant: "default",
         });
       }
     },
     onError: (error) => {
-      console.error("Erro ao gerar mapeamento:", error);
+      console.error("Error generating mapping:", error);
       toast({
-        title: "Erro",
-        description: "Falha ao gerar mapeamento de competências. Tente novamente.",
+        title: "Error",
+        description: "Failed to generate competency mapping. Please try again.",
         variant: "destructive",
       });
     }
   });
 
-  // Reordenar módulos
+  // Reorder modules
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
 
@@ -299,12 +299,12 @@ export default function Phase2() {
     updateModules(reorderedModules);
   };
 
-  // Submeter e avançar para próxima fase
+  // Submit and advance to next phase
   const handleSubmit = () => {
     if (modules.length === 0) {
       toast({
-        title: "Nenhum módulo criado",
-        description: "Por favor, crie pelo menos um módulo antes de continuar.",
+        title: "No modules created",
+        description: "Please create at least one module before continuing.",
         variant: "destructive"
       });
       return;
