@@ -29,6 +29,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Use PostgreSQL storage for activities integration
   const pgStorage = new PostgresStorage();
   
+  // ===== PRIORITY: PDF ENDPOINT MUST BE FIRST! =====
+  app.post("/api/pdf/lesson", async (req, res) => {
+    try {
+      console.log("🚀 LESSON PDF ENDPOINT HIT!");
+      
+      const { lesson, module, course } = req.body;
+      console.log("📋 Received data:", {
+        lessonTitle: lesson?.title,
+        moduleTitle: module?.title,
+        courseTitle: course?.title,
+        hasDetailedContent: !!lesson?.detailedContent
+      });
+      
+      if (!lesson || !module || !course) {
+        console.error("❌ Missing required data");
+        return res.status(400).json({ error: "Lesson, module, and course data are required" });
+      }
+
+      console.log("🏭 Generating PDF...");
+      const { generateLessonPDF } = await import("./zip-generator");
+      const pdfBuffer = await generateLessonPDF(lesson, module, course);
+      
+      console.log(`✅ PDF generated: ${pdfBuffer.length} bytes`);
+      
+      // Validate PDF
+      const pdfHeader = pdfBuffer.slice(0, 4).toString();
+      console.log(`📄 PDF Header: "${pdfHeader}"`);
+      
+      if (!pdfHeader.startsWith('%PDF')) {
+        console.error("❌ NOT A VALID PDF!");
+        console.error("❌ Buffer start:", pdfBuffer.slice(0, 200).toString());
+        return res.status(500).json({ error: "Generated file is not a valid PDF" });
+      }
+      
+      const fileName = `${lesson.title.replace(/[^a-zA-Z0-9]/g, '_')}_Lesson.pdf`;
+      
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+      res.setHeader('Content-Length', pdfBuffer.length);
+      
+      res.send(pdfBuffer);
+      console.log("✅ PDF SENT SUCCESSFULLY!");
+      
+    } catch (error) {
+      console.error("❌ PDF GENERATION ERROR:", error);
+      res.status(500).json({ 
+        error: "Failed to generate PDF",
+        details: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+  
   // ---- Course CRUD Routes ----
   app.get("/api/courses", async (req, res) => {
     try {
@@ -1037,73 +1089,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Individual Lesson PDF Download endpoint - NEW PATH
-  app.post("/api/pdf/lesson", async (req, res) => {
-    try {
-      console.log("🚀 LESSON PDF ENDPOINT STARTED!");
-      
-      const { lesson, module, course } = req.body;
-      console.log("📋 Raw request body:", JSON.stringify(req.body, null, 2));
-      
-      if (!lesson || !module || !course) {
-        console.error("❌ Missing required data for lesson PDF");
-        return res.status(400).json({ error: "Lesson, module, and course data are required" });
-      }
 
-      console.log("📖 DETAILED Lesson data:", {
-        lessonTitle: lesson.title,
-        lessonContent: lesson.content,
-        hasDetailedContent: !!lesson.detailedContent,
-        detailedContentKeys: lesson.detailedContent ? Object.keys(lesson.detailedContent) : [],
-        moduleTitle: module.title,
-        courseTitle: course.title
-      });
-
-      console.log("🏭 Importing PDF generator...");
-      const { generateLessonPDF } = await import("./zip-generator");
-      
-      console.log("📦 Calling generateLessonPDF with validated data...");
-      const pdfBuffer = await generateLessonPDF(lesson, module, course);
-      
-      console.log(`✅ PDF Buffer generated successfully!`);
-      console.log(`📊 Buffer type: ${typeof pdfBuffer}`);
-      console.log(`📊 Buffer length: ${pdfBuffer.length} bytes`);
-      console.log(`📊 Buffer first 50 chars: ${pdfBuffer.toString('hex').substring(0, 50)}`);
-      
-      // Validate that it's actually a PDF
-      const pdfHeader = pdfBuffer.slice(0, 4).toString();
-      console.log(`📄 PDF Header check: "${pdfHeader}" (should be "%PDF")`);
-      
-      if (!pdfHeader.startsWith('%PDF')) {
-        console.error("❌ CRITICAL: Generated buffer is NOT a PDF!");
-        console.error("❌ Buffer start (as string):", pdfBuffer.slice(0, 200).toString());
-        return res.status(500).json({ error: "Generated file is not a valid PDF" });
-      }
-      
-      const fileName = `${lesson.title.replace(/[^a-zA-Z0-9]/g, '_')}_Lesson.pdf`;
-      console.log(`📁 Setting filename: ${fileName}`);
-      
-      console.log("📤 Setting response headers...");
-      res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
-      res.setHeader('Content-Length', pdfBuffer.length);
-      res.setHeader('Cache-Control', 'no-cache');
-      
-      console.log("🚀 Sending PDF buffer to client...");
-      res.send(pdfBuffer);
-      console.log("✅ LESSON PDF DOWNLOAD COMPLETED SUCCESSFULLY!");
-      
-    } catch (error) {
-      console.error("❌ CRITICAL ERROR in lesson PDF endpoint:");
-      console.error("Error type:", error?.constructor?.name);
-      console.error("Error message:", error?.message);
-      console.error("Error stack:", error?.stack);
-      res.status(500).json({ 
-        error: "Failed to generate lesson PDF",
-        details: error instanceof Error ? error.message : "Unknown error"
-      });
-    }
-  });
 
   // ZIP Download endpoint - Download course as ZIP with PDF files
   app.post("/api/courses/:courseId/download-zip", async (req, res) => {
