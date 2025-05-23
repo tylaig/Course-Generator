@@ -164,22 +164,44 @@ export default function Phase4() {
   // Calculate statistics
   const stats = course?.modules?.reduce(
     (acc, module) => {
+      acc.totalModules++;
+      
       if (module.content?.lessons) {
         module.content.lessons.forEach(lesson => {
           acc.totalLessons++;
-          const hasActivities = lesson.detailedContent?.practicalExercises?.length > 0 ||
-                               lesson.detailedContent?.assessmentQuestions?.length > 0;
+          
+          // Check if lesson has activities (either practicalExercises or assessmentQuestions)
+          const practicalExercises = lesson.detailedContent?.practicalExercises || [];
+          const assessmentQuestions = lesson.detailedContent?.assessmentQuestions || [];
+          
+          const hasActivities = practicalExercises.length > 0 || assessmentQuestions.length > 0;
+          
           if (hasActivities) {
             acc.lessonsWithActivities++;
-            acc.totalQuestions += (lesson.detailedContent?.practicalExercises?.reduce((sum, ex) => sum + (ex.questions?.length || 0), 0) || 0) +
-                                 (lesson.detailedContent?.assessmentQuestions?.length || 0);
+            
+            // Count questions from practical exercises
+            const practicalQuestionsCount = practicalExercises.reduce((sum, ex) => {
+              return sum + (ex.questions?.length || 0);
+            }, 0);
+            
+            // Count assessment questions
+            const assessmentQuestionsCount = assessmentQuestions.length;
+            
+            acc.totalQuestions += practicalQuestionsCount + assessmentQuestionsCount;
           }
         });
+        
+        // Check if module has any activities
+        const moduleHasActivities = module.content.lessons.some(l => 
+          (l.detailedContent?.practicalExercises?.length || 0) > 0 || 
+          (l.detailedContent?.assessmentQuestions?.length || 0) > 0
+        );
+        
+        if (moduleHasActivities) {
+          acc.modulesWithActivities++;
+        }
       }
-      acc.totalModules++;
-      if (module.content?.lessons?.some(l => l.detailedContent?.practicalExercises?.length > 0)) {
-        acc.modulesWithActivities++;
-      }
+      
       return acc;
     },
     { totalModules: 0, modulesWithActivities: 0, totalLessons: 0, lessonsWithActivities: 0, totalQuestions: 0 }
@@ -300,13 +322,27 @@ export default function Phase4() {
               const moduleStats = module.content?.lessons?.reduce(
                 (acc, lesson) => {
                   acc.total++;
-                  const hasActivities = lesson.detailedContent?.practicalExercises?.length > 0 ||
-                                       lesson.detailedContent?.assessmentQuestions?.length > 0;
-                  if (hasActivities) acc.withActivities++;
+                  
+                  const practicalExercises = lesson.detailedContent?.practicalExercises || [];
+                  const assessmentQuestions = lesson.detailedContent?.assessmentQuestions || [];
+                  
+                  const hasActivities = practicalExercises.length > 0 || assessmentQuestions.length > 0;
+                  
+                  if (hasActivities) {
+                    acc.withActivities++;
+                    
+                    // Count total questions in this lesson
+                    const practicalQuestionsCount = practicalExercises.reduce((sum, ex) => {
+                      return sum + (ex.questions?.length || 0);
+                    }, 0);
+                    
+                    acc.totalQuestions += practicalQuestionsCount + assessmentQuestions.length;
+                  }
+                  
                   return acc;
                 },
-                { total: 0, withActivities: 0 }
-              ) || { total: 0, withActivities: 0 };
+                { total: 0, withActivities: 0, totalQuestions: 0 }
+              ) || { total: 0, withActivities: 0, totalQuestions: 0 };
 
               return (
                 <Card key={module.id}>
@@ -321,13 +357,13 @@ export default function Phase4() {
                         </p>
                       </div>
                       <Badge variant={moduleStats.withActivities === moduleStats.total ? "default" : "secondary"}>
-                        {moduleStats.withActivities === moduleStats.total ? "Sem atividades" : "Sem atividades"}
+                        {moduleStats.withActivities === moduleStats.total ? "Completo" : "Sem atividades"}
                       </Badge>
                     </div>
                   </CardHeader>
                   <CardContent>
                     <div className="text-sm text-gray-600 dark:text-gray-300">
-                      {moduleStats.withActivities} questões • {moduleStats.total} aulas
+                      {moduleStats.totalQuestions} questões • {moduleStats.total} aulas ({moduleStats.withActivities} com atividades)
                     </div>
                   </CardContent>
                 </Card>
