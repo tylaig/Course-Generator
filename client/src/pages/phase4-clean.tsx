@@ -405,14 +405,3 @@ export default function Phase4Clean() {
     </div>
   );
 }
-                    Pendente
-                  </Badge>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-    </div>
-  );
-}
