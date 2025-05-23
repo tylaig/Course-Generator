@@ -57,6 +57,14 @@ export default function Phase3() {
   const [currentGenerating, setCurrentGenerating] = useState("");
   const [generationStatus, setGenerationStatus] = useState<"idle" | "generating" | "success" | "error">("idle");
   const [expandedLessons, setExpandedLessons] = useState<Set<string>>(new Set());
+  
+  // Helper function to safely render content
+  const safeRender = (content: any): string => {
+    if (content === null || content === undefined) return '';
+    if (typeof content === 'string') return content;
+    if (typeof content === 'number' || typeof content === 'boolean') return String(content);
+    return JSON.stringify(content, null, 2);
+  };
 
   // Persistência simples
   useEffect(() => {
@@ -431,7 +439,7 @@ export default function Phase3() {
                       <h4 className="font-semibold mb-2">Objetivos da Aula:</h4>
                       <ul className="list-disc list-inside space-y-1 text-sm">
                         {lesson.detailedContent.objectives.map((obj: string, idx: number) => (
-                          <li key={idx}>{safeRender(obj)}</li>
+                          <li key={idx}>{typeof obj === 'string' ? obj : JSON.stringify(obj)}</li>
                         ))}
                       </ul>
                     </div>
@@ -441,7 +449,9 @@ export default function Phase3() {
                     <div>
                       <h4 className="font-semibold mb-2">Conteúdo:</h4>
                       <div className="text-sm whitespace-pre-wrap bg-gray-50 p-3 rounded">
-                        {safeRender(lesson.detailedContent.content)}
+                        {typeof lesson.detailedContent.content === 'string' 
+                          ? lesson.detailedContent.content 
+                          : JSON.stringify(lesson.detailedContent.content, null, 2)}
                       </div>
                     </div>
                   )}
@@ -452,8 +462,8 @@ export default function Phase3() {
                       <div className="space-y-2">
                         {lesson.detailedContent.practicalExercises.map((exercise: any, idx: number) => (
                           <div key={idx} className="bg-blue-50 p-3 rounded">
-                            <h5 className="font-medium">{safeRender(exercise.title) || `Exercício ${idx + 1}`}</h5>
-                            <p className="text-sm mt-1">{safeRender(exercise.description) || 'Descrição não disponível'}</p>
+                            <h5 className="font-medium">{(typeof exercise.title === 'string' ? exercise.title : JSON.stringify(exercise.title)) || `Exercício ${idx + 1}`}</h5>
+                            <p className="text-sm mt-1">{(typeof exercise.description === 'string' ? exercise.description : JSON.stringify(exercise.description)) || 'Descrição não disponível'}</p>
                             {exercise.questions && exercise.questions.length > 0 && (
                               <div className="mt-2">
                                 <p className="text-xs font-medium text-blue-700">Questões: {exercise.questions.length}</p>
