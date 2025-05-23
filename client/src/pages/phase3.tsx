@@ -10,6 +10,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { 
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
 import WorkflowProgress from "@/components/shared/WorkflowProgress";
 import PhaseNav from "@/components/layout/PhaseNav";
 import { useCourse } from "@/context/CourseContext";
@@ -329,9 +335,21 @@ export default function Phase3() {
                 
                 <div className="flex items-center space-x-2">
                   {lesson.detailedContent ? (
-                    <Badge variant="default" className="bg-green-100 text-green-800">
-                      Conteúdo Gerado
-                    </Badge>
+                    <div className="flex space-x-1">
+                      <Badge variant="default" className="bg-green-100 text-green-800 text-xs">
+                        ✅ Gerado
+                      </Badge>
+                      {lesson.detailedContent.content?.audioScript && (
+                        <Badge variant="outline" className="bg-blue-100 text-blue-800 text-xs">
+                          🎙️ Áudio
+                        </Badge>
+                      )}
+                      {lesson.detailedContent.content?.practicalExercises?.length > 0 && (
+                        <Badge variant="outline" className="bg-purple-100 text-purple-800 text-xs">
+                          ⚡ Atividades
+                        </Badge>
+                      )}
+                    </div>
                   ) : (
                     <Badge variant="outline" className="bg-gray-100">
                       Sem Conteúdo
@@ -360,21 +378,221 @@ export default function Phase3() {
             
             {lesson.detailedContent && (
               <CardContent className="pt-0">
-                <Accordion type="single" collapsible>
-                  <AccordionItem value="content">
-                    <AccordionTrigger className="text-sm">
-                      Ver Conteúdo Gerado
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <div className="bg-gray-50 p-4 rounded-md">
-                        <div className="prose prose-sm max-w-none">
-                          <pre className="whitespace-pre-wrap text-sm">
-                            {lesson.detailedContent?.content || "Conteúdo não disponível"}
-                          </pre>
+                <Accordion type="multiple" collapsible className="w-full">
+                  
+                  {/* Objetivos da Aula */}
+                  {lesson.detailedContent.content?.objectives && (
+                    <AccordionItem value="objectives">
+                      <AccordionTrigger className="text-sm font-medium">
+                        🎯 Objetivos da Aula
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="bg-blue-50 p-4 rounded-md">
+                          <ul className="list-disc list-inside space-y-1">
+                            {lesson.detailedContent.content.objectives.map((obj: string, idx: number) => (
+                              <li key={idx} className="text-sm text-blue-800">{obj}</li>
+                            ))}
+                          </ul>
                         </div>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
+                      </AccordionContent>
+                    </AccordionItem>
+                  )}
+
+                  {/* Script de Áudio */}
+                  {lesson.detailedContent.content?.audioScript && (
+                    <AccordionItem value="audio-script">
+                      <AccordionTrigger className="text-sm font-medium">
+                        🎙️ Script de Áudio para Gravação
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="bg-green-50 p-4 rounded-md">
+                          <div className="mb-3 flex items-center space-x-2">
+                            <Badge variant="outline" className="bg-green-100 text-green-800">
+                              Duração: {lesson.detailedContent.content.duration || "45min"}
+                            </Badge>
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              className="text-xs"
+                              onClick={() => {
+                                // Copiar script para área de transferência
+                                navigator.clipboard.writeText(lesson.detailedContent.content.audioScript);
+                                toast({
+                                  title: "Script copiado!",
+                                  description: "O script foi copiado para a área de transferência.",
+                                });
+                              }}
+                            >
+                              📋 Copiar Script
+                            </Button>
+                          </div>
+                          <div className="bg-white p-3 rounded border text-sm font-mono">
+                            <pre className="whitespace-pre-wrap">
+                              {lesson.detailedContent.content.audioScript}
+                            </pre>
+                          </div>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  )}
+
+                  {/* Estrutura da Aula */}
+                  {lesson.detailedContent.content?.lessonStructure && (
+                    <AccordionItem value="structure">
+                      <AccordionTrigger className="text-sm font-medium">
+                        📋 Estrutura Pedagógica
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="space-y-4">
+                          {Object.entries(lesson.detailedContent.content.lessonStructure).map(([phase, details]: [string, any]) => (
+                            <div key={phase} className="border border-gray-200 rounded-lg p-3">
+                              <div className="flex items-center justify-between mb-2">
+                                <h4 className="font-medium text-sm capitalize">
+                                  {phase === 'introduction' && '🚀 Introdução'}
+                                  {phase === 'development' && '📚 Desenvolvimento'}
+                                  {phase === 'activities' && '⚡ Atividades'}
+                                  {phase === 'conclusion' && '🎯 Conclusão'}
+                                  {!['introduction', 'development', 'activities', 'conclusion'].includes(phase) && `📝 ${phase}`}
+                                </h4>
+                                <Badge variant="outline" className="text-xs">
+                                  {details.duration}
+                                </Badge>
+                              </div>
+                              <p className="text-sm text-gray-600 mb-2">{details.content}</p>
+                              {details.talking_points && (
+                                <ul className="list-disc list-inside text-xs text-gray-500 space-y-1">
+                                  {details.talking_points.map((point: string, idx: number) => (
+                                    <li key={idx}>{point}</li>
+                                  ))}
+                                </ul>
+                              )}
+                              {details.exercises && (
+                                <ul className="list-disc list-inside text-xs text-gray-500 space-y-1">
+                                  {details.exercises.map((exercise: string, idx: number) => (
+                                    <li key={idx}>{exercise}</li>
+                                  ))}
+                                </ul>
+                              )}
+                              {details.summary_points && (
+                                <ul className="list-disc list-inside text-xs text-gray-500 space-y-1">
+                                  {details.summary_points.map((point: string, idx: number) => (
+                                    <li key={idx}>{point}</li>
+                                  ))}
+                                </ul>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  )}
+
+                  {/* Atividades Práticas */}
+                  {lesson.detailedContent.content?.practicalExercises && (
+                    <AccordionItem value="exercises">
+                      <AccordionTrigger className="text-sm font-medium">
+                        ⚡ Atividades Práticas
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="space-y-3">
+                          {lesson.detailedContent.content.practicalExercises.map((exercise: any, idx: number) => (
+                            <div key={idx} className="bg-yellow-50 p-3 rounded-lg border border-yellow-200">
+                              <div className="flex items-center justify-between mb-2">
+                                <h4 className="font-medium text-sm">{exercise.title}</h4>
+                                <Badge variant="outline" className="bg-yellow-100 text-yellow-800 text-xs">
+                                  {exercise.time_required}
+                                </Badge>
+                              </div>
+                              <p className="text-sm text-gray-600 mb-2">{exercise.description}</p>
+                              {exercise.instructions && (
+                                <div>
+                                  <p className="text-xs font-medium text-gray-700 mb-1">Instruções:</p>
+                                  <ol className="list-decimal list-inside text-xs text-gray-600 space-y-1">
+                                    {exercise.instructions.map((instruction: string, iIdx: number) => (
+                                      <li key={iIdx}>{instruction}</li>
+                                    ))}
+                                  </ol>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  )}
+
+                  {/* Questões de Avaliação */}
+                  {lesson.detailedContent.content?.assessmentQuestions && (
+                    <AccordionItem value="assessment">
+                      <AccordionTrigger className="text-sm font-medium">
+                        ✅ Questões de Avaliação
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="space-y-3">
+                          {lesson.detailedContent.content.assessmentQuestions.map((question: any, idx: number) => (
+                            <div key={idx} className="bg-purple-50 p-3 rounded-lg border border-purple-200">
+                              <h4 className="font-medium text-sm mb-2">Questão {idx + 1}</h4>
+                              <p className="text-sm text-gray-700 mb-2">{question.question}</p>
+                              {question.options && (
+                                <div className="space-y-1 mb-2">
+                                  {question.options.map((option: string, oIdx: number) => (
+                                    <div key={oIdx} className={`text-xs p-2 rounded ${
+                                      oIdx === question.correct_answer 
+                                        ? 'bg-green-100 text-green-800 font-medium' 
+                                        : 'bg-gray-100 text-gray-600'
+                                    }`}>
+                                      {String.fromCharCode(65 + oIdx)}) {option}
+                                      {oIdx === question.correct_answer && ' ✓'}
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                              {question.explanation && (
+                                <div className="bg-white p-2 rounded border-l-4 border-purple-400">
+                                  <p className="text-xs text-gray-600">
+                                    <strong>Explicação:</strong> {question.explanation}
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  )}
+
+                  {/* Materiais e Recursos */}
+                  {lesson.detailedContent.content?.materials && (
+                    <AccordionItem value="materials">
+                      <AccordionTrigger className="text-sm font-medium">
+                        📚 Materiais e Recursos
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="bg-gray-50 p-3 rounded-lg">
+                          <ul className="list-disc list-inside space-y-1">
+                            {lesson.detailedContent.content.materials.map((material: string, idx: number) => (
+                              <li key={idx} className="text-sm text-gray-700">{material}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  )}
+
+                  {/* Tarefa de Casa */}
+                  {lesson.detailedContent.content?.homework && (
+                    <AccordionItem value="homework">
+                      <AccordionTrigger className="text-sm font-medium">
+                        🏠 Tarefa de Casa
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="bg-orange-50 p-3 rounded-lg border border-orange-200">
+                          <p className="text-sm text-orange-800">{lesson.detailedContent.content.homework}</p>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  )}
+
                 </Accordion>
               </CardContent>
             )}

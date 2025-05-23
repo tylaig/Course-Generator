@@ -1,0 +1,163 @@
+Fase 2 – Organização de Módulos 
+ Gerado por: Agente GPT_Estrutura_Modular
+ Objetivo: detalhar os módulos do curso com lógica instrucional, objetivos específicos, tópicos e tipos de entrega.
+
+1. Sumário do Curso
+Título do Curso: _________________________________
+
+
+Carga Horária Total: _____________________________
+
+
+Nº de Módulos: _________________________________
+
+
+Público-Alvo: _________________________________
+
+
+Formato: _________________________________
+
+
+
+2. Visão Geral da Estrutura Modular
+Módulo
+Título do Módulo
+Carga Horária
+Objetivo Específico (verbo + conteúdo + contexto)
+1
+[Título]
+[Xh]
+[Ex: Compreender conceitos de X em contexto Y]
+2
+[Título]
+[Xh]
+[Ex: Aplicar técnica Y em problema Z]
+...
+...
+...
+...
+
+
+3. Mapa Instrucional por Módulo
+Preencha esta seção por módulo. Cada bloco representa o conteúdo mínimo esperado de entrega para produção na Fase 3.
+
+🔹 Módulo 1 – [Título do Módulo]
+Objetivo Específico:
+ [Verbo da taxonomia + conhecimento + aplicação prática]
+
+
+Tópicos a serem abordados:
+
+
+[Tópico 1]
+
+
+[Tópico 2]
+
+
+[Tópico 3]
+
+
+Conteúdos esperados (formato):
+
+
+[Ex: Vídeo explicativo, infográfico, simulação, quiz, leitura obrigatória]
+
+
+Atividades esperadas:
+
+
+[Ex: Quiz com 5 questões, exercício prático, estudo de caso]
+
+
+Competências desenvolvidas neste módulo:
+
+
+Cognitivas: __________
+
+
+Comportamentais: __________
+
+
+Técnicas: __________
+
+
+Tipo de avaliação prevista:
+
+
+[Ex: Avaliação objetiva, checklist, autoavaliação com feedback, mini-projeto]
+
+
+
+(Repita o bloco acima para os demais módulos)
+
+4. Mapeamento de Competências por Módulo
+Esse mapa conecta as competências da Fase 1 com os módulos da Fase 2.
+Competência
+Módulo(s) em que será trabalhada
+[Ex: Analisar dados]
+Módulo 2, 3
+[Ex: Resolver problemas de forma crítica]
+Módulo 3, 5
+[Ex: Aplicar conhecimento técnico]
+Módulo 2, 4
+
+
+5. Carga Horária e Progressão Cognitiva
+Módulo
+Carga Horária (h)
+Nível de Bloom
+Justificativa Didática
+1
+
+
+Compreender
+Introdução e contextualização
+2
+
+
+Aplicar
+Aplicação prática de conceitos
+3
+
+
+Analisar
+Estudo crítico e reflexivo
+...
+
+
+...
+...
+
+
+6. Pré-indicação de Roteiros/Recursos por Módulo
+(Opcional, caso deseje antecipar recursos ou formatos para a Fase 3)
+Módulo
+Recurso Recomendado
+Observações
+1
+Vídeo animado + quiz
+Introdução leve e conceitual
+2
+Infográfico + simulação
+Ferramenta visual + prática
+3
+Estudo de caso interativo
+Construção de pensamento crítico
+
+
+7. Entregáveis da Fase 2
+✅ Lista completa de módulos com títulos e objetivos específicos
+
+
+✅ Distribuição de carga horária e nível cognitivo por módulo
+
+
+✅ Tópicos, tipos de conteúdo e tipos de atividade esperados
+
+
+✅ Mapa de competências por módulo
+
+
+✅ Documento instrucional pronto para Fase 3: Produção de Conteúdo
+
