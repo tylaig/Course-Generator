@@ -310,15 +310,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const { lesson, module, courseDetails, aiConfig, lessonTitle } = req.body;
       
-      // Support both old and new formats
-      const lessonData = lesson || { title: lessonTitle || "Aula sem título" };
-      const moduleData = module || { title: "Módulo Padrão", description: "Módulo gerado automaticamente" };
-      const courseData = courseDetails || {};
-      
-      // Ensure we have at least basic data
-      if (!lessonData.title && !lessonTitle) {
-        return res.status(400).json({ error: "Título da aula é obrigatório" });
+      // Support both old and new formats - accept any format with lessonTitle
+      if (!lessonTitle) {
+        console.log("❌ Erro: lessonTitle não fornecido");
+        return res.status(400).json({ error: "Dados obrigatórios não fornecidos" });
       }
+      
+      const lessonData = lesson || { title: lessonTitle };
+      const moduleData = module || { title: "Módulo Padrão", description: "Módulo gerado automaticamente" };
+      const courseData = courseDetails || { title: "Curso Padrão", theme: "Educação" };
       
       console.log(`Gerando conteúdo para aula: ${lessonData.title}`);
       
