@@ -523,14 +523,14 @@ export default function Phase3() {
   if (!course) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <p>Carregando curso...</p>
+        <p>Loading course...</p>
       </div>
     );
   }
 
   const renderModuleContent = (module: CourseModule) => {
     if (!module.content?.lessons) {
-      return <p className="text-gray-500">Nenhuma aula encontrada para este módulo.</p>;
+      return <p className="text-gray-500">No lessons found for this module.</p>;
     }
 
     return (
@@ -544,13 +544,13 @@ export default function Phase3() {
                   <div className="flex items-center gap-2 mt-2">
                     {lesson.detailedContent ? (
                       <Badge variant="default" className="bg-green-100 text-green-800">
-                        ✓ Gerado
+                        ✓ Generated
                       </Badge>
                     ) : (
-                      <Badge variant="secondary">Pendente</Badge>
+                      <Badge variant="secondary">Pending</Badge>
                     )}
                     <span className="text-sm text-gray-500">
-                      {lesson.duration || "30 min"} • {lesson.difficulty || "Intermediário"}
+                      {lesson.duration || "30 min"} • {lesson.difficulty || "Intermediate"}
                     </span>
                   </div>
                 </div>
@@ -565,7 +565,7 @@ export default function Phase3() {
                       })}
                       disabled={generateLessonContent.isPending}
                     >
-                      {generateLessonContent.isPending ? "Gerando..." : "Gerar Conteúdo"}
+                      {generateLessonContent.isPending ? "Generating..." : "Generate Content"}
                     </Button>
                   )}
                   {lesson.detailedContent && (
@@ -574,7 +574,7 @@ export default function Phase3() {
                       size="sm"
                       onClick={() => toggleLessonExpansion(lesson.title)}
                     >
-                      {expandedLessons.has(lesson.title) ? "Ocultar" : "Ver Conteúdo"}
+                      {expandedLessons.has(lesson.title) ? "Hide" : "View Content"}
                     </Button>
                   )}
                 </div>
@@ -586,7 +586,7 @@ export default function Phase3() {
                 <div className="space-y-4">
                   {lesson.detailedContent.objectives && lesson.detailedContent.objectives.length > 0 && (
                     <div>
-                      <h4 className="font-semibold mb-2">Objetivos da Aula:</h4>
+                      <h4 className="font-semibold mb-2">Lesson Objectives:</h4>
                       <ul className="list-disc list-inside space-y-1 text-sm">
                         {lesson.detailedContent.objectives.map((obj: string, idx: number) => (
                           <li key={idx}>{typeof obj === 'string' ? obj : JSON.stringify(obj)}</li>
@@ -597,7 +597,7 @@ export default function Phase3() {
                   
                   {lesson.detailedContent && (
                     <div>
-                      <h4 className="font-semibold mb-2">Conteúdo Detalhado:</h4>
+                      <h4 className="font-semibold mb-2">Detailed Content:</h4>
                       <div className="bg-gray-50 p-3 rounded">
                         <LessonContentRenderer content={lesson.detailedContent} />
                         
