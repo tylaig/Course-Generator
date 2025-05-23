@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { 
   Card,
@@ -57,13 +57,64 @@ export default function Phase3() {
   const [selectedModule, setSelectedModule] = useState<CourseModule | null>(null);
   const [isGeneratingAll, setIsGeneratingAll] = useState(false);
   const [generationProgress, setGenerationProgress] = useState(0);
-  const [currentGenerating, setCurrentGenerating] = useState<string>("");
+  const [currentGenerating, setCurrentGenerating] = useState("");
+  const [generationStatus, setGenerationStatus] = useState<"idle" | "generating" | "success" | "error">("idle");
   const [expandedLessons, setExpandedLessons] = useState<Set<string>>(new Set());
+
+  // Persistir estado da geração
+  const saveGenerationState = (state: any) => {
+    if (course?.id) {
+      localStorage.setItem(`generation_state_${course.id}`, JSON.stringify(state));
+    }
+  };
+
+  const loadGenerationState = () => {
+    if (course?.id) {
+      const saved = localStorage.getItem(`generation_state_${course.id}`);
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (error) {
+          console.error('Error loading generation state:', error);
+        }
+      }
+    }
+    return null;
+  };
+
+  const clearGenerationState = () => {
+    if (course?.id) {
+      localStorage.removeItem(`generation_state_${course.id}`);
+    }
+  };
+
+  // Restaurar estado ao carregar a página
+  useEffect(() => {
+    const savedState = loadGenerationState();
+    if (savedState) {
+      setIsGeneratingAll(savedState.isGeneratingAll || false);
+      setGenerationProgress(savedState.generationProgress || 0);
+      setCurrentGenerating(savedState.currentGenerating || "");
+      setLocalGenerationStatus(savedState.generationStatus || "idle");
+    }
+  }, [course?.id]);
+
+  // Salvar estado quando houver mudanças
+  useEffect(() => {
+    if (course?.id) {
+      saveGenerationState({
+        isGeneratingAll,
+        generationProgress,
+        currentGenerating,
+        generationStatus: localGenerationStatus
+      });
+    }
+  }, [isGeneratingAll, generationProgress, currentGenerating, localGenerationStatus, course?.id]);
 
   // Generate content for a single lesson
   const generateLessonContent = useMutation({
     mutationFn: async ({ moduleId, lessonId }: { moduleId: string, lessonId: string }) => {
-      setGenerationStatus("generating");
+      setLocalGenerationStatus("generating");
       
       const moduleToGenerate = course?.modules.find(m => m.id === moduleId);
       if (!moduleToGenerate) throw new Error("Module not found");
@@ -234,9 +285,10 @@ export default function Phase3() {
     },
     onSuccess: (data) => {
       setIsGeneratingAll(false);
-      setGenerationStatus("success");
+      setLocalGenerationStatus("success");
       setGenerationProgress(100);
       setCurrentGenerating("");
+      clearGenerationState(); // Limpar estado salvo após conclusão
       
       // Update module statuses
       course?.modules.forEach(module => {
@@ -277,6 +329,14 @@ export default function Phase3() {
     ).length;
     
     return Math.round((generatedModules / course.modules.length) * 100);
+  };
+
+  const handleGenerateAll = () => {
+    setIsGeneratingAll(true);
+    setLocalGenerationStatus("generating");
+    setGenerationProgress(0);
+    setCurrentGenerating("Iniciando geração...");
+    generateAllContent.mutate();
   };
 
   // Handle module selection
