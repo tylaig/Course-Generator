@@ -14,6 +14,44 @@ export default function Phase4Clean() {
   const [currentGeneratingLesson, setCurrentGeneratingLesson] = useState("");
   const [generatedActivities, setGeneratedActivities] = useState<any[]>([]);
 
+  // 🚀 CARREGAR ATIVIDADES SALVAS DO POSTGRESQL AO MONTAR O COMPONENTE
+  useEffect(() => {
+    loadSavedActivities();
+  }, [course]);
+
+  const loadSavedActivities = async () => {
+    if (!course?.modules) return;
+
+    try {
+      console.log("🔍 Carregando atividades salvas do PostgreSQL...");
+      
+      // Buscar todas as atividades salvas no PostgreSQL para este curso
+      const response = await fetch("/api/lessons/all");
+      if (response.ok) {
+        const savedLessons = await response.json();
+        console.log("✅ Atividades carregadas do PostgreSQL:", savedLessons);
+        
+        // Converter dados do PostgreSQL para o formato esperado pelo frontend
+        const activitiesFromDB = savedLessons.map((lesson: any) => ({
+          moduleId: lesson.moduleId,
+          moduleName: `Módulo ${lesson.moduleId}`,
+          lessonName: lesson.title,
+          savedActivities: lesson.activities?.length || 0,
+          savedQuestions: lesson.activities?.reduce((total: number, activity: any) => 
+            total + (activity.questions?.length || 0), 0) || 0,
+          postgresLessonId: lesson.id,
+          practicalExercises: lesson.activities || [],
+          assessmentQuestions: lesson.activities?.flatMap((a: any) => a.questions || []) || []
+        }));
+        
+        setGeneratedActivities(activitiesFromDB);
+        console.log(`📊 ${activitiesFromDB.length} atividades recuperadas do banco`);
+      }
+    } catch (error) {
+      console.error("❌ Erro ao carregar atividades salvas:", error);
+    }
+  };
+
   // Calculate statistics from PostgreSQL generated activities
   const getStatistics = () => {
     const totalLessons = course?.modules?.reduce((total, module) => {
@@ -111,7 +149,7 @@ export default function Phase4Clean() {
             console.log(`✅ Atividades salvas no PostgreSQL para: ${lessonInfo.lessonName}`);
             console.log(`📊 Estatísticas: ${activityData.savedActivities} atividades, ${activityData.savedQuestions} questões`);
 
-            newActivities.push({
+            const newActivity = {
               moduleId: lessonInfo.moduleId,
               moduleName: lessonInfo.moduleName,
               lessonName: lessonInfo.lessonName,
@@ -120,7 +158,12 @@ export default function Phase4Clean() {
               postgresLessonId: activityData.postgresLessonId,
               practicalExercises: activityData.activities || [],
               assessmentQuestions: activityData.assessmentQuestions || []
-            });
+            };
+
+            newActivities.push(newActivity);
+            
+            // 🚀 ATUALIZAR A TELA EM TEMPO REAL conforme as atividades são geradas
+            setGeneratedActivities(prev => [...prev, newActivity]);
           }
         } else {
           console.error(`❌ Erro na API para ${lessonInfo.lessonName}:`, await response.text());
