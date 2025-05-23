@@ -1041,30 +1041,73 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/courses/:courseId/download-zip", async (req, res) => {
     try {
       const courseId = parseInt(req.params.courseId);
+      console.log("🚀 ZIP DOWNLOAD ENDPOINT STARTED for course ID:", courseId);
       
       // Use the course data from the request body (same as Google Drive integration)
       const courseData = req.body;
+      console.log("📋 Received course data:", {
+        title: courseData?.title,
+        theme: courseData?.theme,
+        modulesCount: courseData?.modules?.length || 0,
+        hasModules: !!courseData?.modules,
+        dataKeys: Object.keys(courseData || {})
+      });
       
       if (!courseData || !courseData.title) {
+        console.error("❌ Invalid course data - missing title");
         return res.status(400).json({ error: "Course data is required" });
       }
 
-      console.log("Generating ZIP for course:", courseData.title);
-      console.log("Modules:", courseData.modules?.length || 0);
+      // Validate modules structure
+      if (!courseData.modules || courseData.modules.length === 0) {
+        console.warn("⚠️ No modules found in course data");
+      } else {
+        console.log("📚 Module validation:");
+        courseData.modules.forEach((module: any, index: number) => {
+          console.log(`  Module ${index + 1}: ${module.title}`);
+          console.log(`    - Description: ${module.description ? 'Present' : 'Missing'}`);
+          console.log(`    - Content: ${module.content ? 'Present' : 'Missing'}`);
+          console.log(`    - Lessons: ${module.content?.lessons?.length || 0}`);
+        });
+      }
 
+      console.log("🏭 Starting ZIP generation process...");
       const { generateCourseZip } = await import("./zip-generator");
+      
+      console.log("📦 Calling generateCourseZip function...");
       const zipBuffer = await generateCourseZip(courseData);
       
-      const fileName = `${courseData.title.replace(/[^a-zA-Z0-9]/g, '_')}_Course.zip`;
+      console.log("✅ ZIP buffer generated successfully!");
+      console.log(`📊 ZIP buffer size: ${zipBuffer.length} bytes (${Math.round(zipBuffer.length / 1024)} KB)`);
       
+      const fileName = `${courseData.title.replace(/[^a-zA-Z0-9]/g, '_')}_Course.zip`;
+      console.log(`📁 ZIP filename: ${fileName}`);
+      
+      // Validate ZIP buffer
+      if (!zipBuffer || zipBuffer.length === 0) {
+        console.error("❌ ZIP buffer is empty or invalid");
+        return res.status(500).json({ error: "Generated ZIP file is empty" });
+      }
+      
+      console.log("📤 Setting response headers...");
       res.setHeader('Content-Type', 'application/zip');
       res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
       res.setHeader('Content-Length', zipBuffer.length);
+      res.setHeader('Cache-Control', 'no-cache');
       
+      console.log("🚀 Sending ZIP buffer to client...");
       res.send(zipBuffer);
+      console.log("✅ ZIP download completed successfully!");
+      
     } catch (error) {
-      console.error("Error generating course ZIP:", error);
-      res.status(500).json({ error: "Failed to generate course ZIP" });
+      console.error("❌ CRITICAL ERROR in ZIP download endpoint:");
+      console.error("Error type:", error?.constructor?.name);
+      console.error("Error message:", error?.message);
+      console.error("Error stack:", error?.stack);
+      res.status(500).json({ 
+        error: "Failed to generate course ZIP", 
+        details: error instanceof Error ? error.message : "Unknown error"
+      });
     }
   });
 
