@@ -36,8 +36,8 @@ export default function Phase4Clean() {
           moduleId: lesson.moduleId,
           moduleName: `Módulo ${lesson.moduleId}`,
           lessonName: lesson.title,
-          savedActivities: lesson.activities?.length || 0,
-          savedQuestions: lesson.activities?.reduce((total: number, activity: any) => 
+          savedActivities: lesson.totalActivities || lesson.activities?.length || 0,
+          savedQuestions: lesson.totalQuestions || lesson.activities?.reduce((total: number, activity: any) => 
             total + (activity.questions?.length || 0), 0) || 0,
           postgresLessonId: lesson.id,
           practicalExercises: lesson.activities || [],
@@ -46,6 +46,9 @@ export default function Phase4Clean() {
         
         setGeneratedActivities(activitiesFromDB);
         console.log(`📊 ${activitiesFromDB.length} atividades recuperadas do banco`);
+        console.log(`📊 Atividades por aula:`, activitiesFromDB.map(a => `${a.lessonName}: ${a.savedActivities} atividades, ${a.savedQuestions} questões`));
+      } else {
+        console.error("❌ Erro na resposta da API:", response.status, response.statusText);
       }
     } catch (error) {
       console.error("❌ Erro ao carregar atividades salvas:", error);
