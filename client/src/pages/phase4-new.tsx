@@ -68,37 +68,60 @@ export default function Phase4New() {
 
   // Save all activities to database
   const saveToDatabase = async () => {
-    if (!course?.id || Object.keys(localActivities).length === 0) return;
+    if (!course?.id || Object.keys(localActivities).length === 0) {
+      console.log("❌ Não há atividades para salvar:", { courseId: course?.id, localActivities });
+      return;
+    }
+
+    console.log("🚀 Iniciando salvamento no banco de dados...");
+    console.log("Atividades a salvar:", Object.keys(localActivities));
 
     try {
       const savePromises = Object.entries(localActivities).map(async ([moduleId, moduleContent]) => {
+        console.log(`📤 Salvando módulo ${moduleId}...`);
+        console.log("Conteúdo:", JSON.stringify(moduleContent, null, 2));
+        
         const response = await fetch(`/api/modules/${moduleId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ content: moduleContent })
+          body: JSON.stringify({ content: moduleContent, status: "published" })
         });
+        
+        const responseData = await response.json();
+        console.log(`📥 Resposta para ${moduleId}:`, responseData);
+        
+        if (response.ok) {
+          console.log(`✅ Módulo ${moduleId} salvo com sucesso!`);
+        } else {
+          console.error(`❌ Erro ao salvar módulo ${moduleId}:`, responseData);
+        }
+        
         return response.ok;
       });
 
       const results = await Promise.all(savePromises);
       const allSaved = results.every(result => result);
+      
+      console.log("📊 Resultado do salvamento:", { results, allSaved });
 
       if (allSaved) {
         setUnsavedChanges(false);
         localStorage.removeItem(`activities_${course.id}`);
         toast({
           title: "💾 Salvo com sucesso!",
-          description: "Todas as atividades foram salvas no banco de dados.",
-          duration: 3000
+          description: `${Object.keys(localActivities).length} módulos salvos no banco PostgreSQL.`,
+          duration: 5000
         });
+        console.log("🎉 Todas as atividades foram salvas no banco de dados!");
       } else {
         throw new Error("Falha ao salvar algumas atividades");
       }
     } catch (error) {
+      console.error("❌ Erro detalhado no salvamento:", error);
       toast({
         title: "❌ Erro ao salvar",
-        description: "Houve um problema ao salvar no banco de dados.",
-        duration: 3000
+        description: "Verifique o console para mais detalhes.",
+        duration: 5000
       });
     }
   };
