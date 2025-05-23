@@ -242,12 +242,12 @@ export async function generateCourseZip(courseData: CourseDataForZip): Promise<B
     archive.on('error', reject);
 
     try {
-      console.log('Starting ZIP generation for:', courseData.title);
-      console.log('Number of modules:', courseData.modules?.length || 0);
+      console.log('🚀 Starting ZIP generation for:', courseData.title);
+      console.log('📚 Number of modules:', courseData.modules?.length || 0);
 
       // Validate course data
       if (!courseData.modules || courseData.modules.length === 0) {
-        console.log('No modules found, creating default structure');
+        console.log('⚠️ No modules found, creating default structure');
         courseData.modules = [{
           id: "1",
           title: "Introduction",
@@ -268,15 +268,22 @@ export async function generateCourseZip(courseData: CourseDataForZip): Promise<B
         }];
       }
 
-      // Create course summary
-      console.log('Generating course summary PDF...');
-      const courseSummaryPDF = await generateCourseSummaryPDF(courseData);
-      archive.append(courseSummaryPDF, { name: 'Course_Summary.pdf' });
+      // STEP 1: Generate all PDFs first (same as Google Drive)
+      console.log('📄 STEP 1: Generating all PDF files...');
+      const generatedPDFs: Array<{buffer: Buffer, path: string}> = [];
 
-      // Process each module
+      // Generate course summary PDF
+      console.log('📋 Generating course summary PDF...');
+      const courseSummaryPDF = await generateCourseSummaryPDF(courseData);
+      generatedPDFs.push({
+        buffer: courseSummaryPDF,
+        path: 'Course_Summary.pdf'
+      });
+
+      // Generate all lesson and task PDFs
       for (let moduleIndex = 0; moduleIndex < courseData.modules.length; moduleIndex++) {
         const module = courseData.modules[moduleIndex];
-        console.log(`Processing module ${moduleIndex + 1}: ${module.title}`);
+        console.log(`📁 Processing module ${moduleIndex + 1}: ${module.title}`);
         
         // Clean module name for folder
         const cleanModuleName = module.title.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
@@ -285,7 +292,7 @@ export async function generateCourseZip(courseData: CourseDataForZip): Promise<B
         // Ensure module has lessons
         const lessons = module.content?.lessons || [];
         if (lessons.length === 0) {
-          console.log(`No lessons found for module ${module.title}, creating default lesson`);
+          console.log(`⚠️ No lessons found for module ${module.title}, creating default lesson`);
           lessons.push({
             id: "1",
             title: `Introduction to ${module.title}`,
@@ -299,25 +306,42 @@ export async function generateCourseZip(courseData: CourseDataForZip): Promise<B
           });
         }
 
-        // Generate lesson PDFs
+        // Generate all lesson PDFs for this module
         for (let lessonIndex = 0; lessonIndex < lessons.length; lessonIndex++) {
           const lesson = lessons[lessonIndex];
-          console.log(`  Generating lesson ${lessonIndex + 1}: ${lesson.title}`);
+          console.log(`  📖 Generating lesson PDF ${lessonIndex + 1}: ${lesson.title}`);
           
           const lessonPDF = await generateLessonPDF(lesson, module, courseData);
           const cleanLessonName = lesson.title.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
           const lessonFileName = `Lesson_${lessonIndex + 1}_${cleanLessonName}.pdf`;
-          archive.append(lessonPDF, { name: moduleFolder + lessonFileName });
+          
+          generatedPDFs.push({
+            buffer: lessonPDF,
+            path: moduleFolder + lessonFileName
+          });
         }
 
-        // Generate tasks/activities PDF for the module
-        console.log(`  Generating tasks PDF for module: ${module.title}`);
+        // Generate tasks PDF for this module
+        console.log(`  📝 Generating tasks PDF for module: ${module.title}`);
         const tasksPDF = await generateModuleTasksPDF(module, courseData);
         const tasksFileName = `Tasks_${cleanModuleName}.pdf`;
-        archive.append(tasksPDF, { name: moduleFolder + tasksFileName });
+        
+        generatedPDFs.push({
+          buffer: tasksPDF,
+          path: moduleFolder + tasksFileName
+        });
       }
 
-      console.log('Finalizing ZIP archive...');
+      // STEP 2: Create ZIP structure with all generated PDFs
+      console.log('🗂️ STEP 2: Creating ZIP file structure...');
+      console.log(`📦 Total PDFs generated: ${generatedPDFs.length}`);
+      
+      for (const pdf of generatedPDFs) {
+        console.log(`   Adding to ZIP: ${pdf.path}`);
+        archive.append(pdf.buffer, { name: pdf.path });
+      }
+
+      console.log('✅ Finalizing ZIP archive...');
       archive.finalize();
     } catch (error) {
       console.error('Error generating ZIP:', error);
