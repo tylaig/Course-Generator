@@ -68,6 +68,8 @@ export default function Phase3() {
 
   // Component to render structured lesson content
   const LessonContentRenderer = ({ content }: { content: any }) => {
+    console.log('LessonContentRenderer received content:', content);
+    
     // If content is a string, render as is
     if (typeof content === 'string') {
       return <div className="text-sm whitespace-pre-wrap">{content}</div>;
@@ -588,6 +590,14 @@ export default function Phase3() {
                       <h4 className="font-semibold mb-2">Conteúdo Detalhado:</h4>
                       <div className="bg-gray-50 p-3 rounded">
                         <LessonContentRenderer content={lesson.detailedContent} />
+                        
+                        {/* Debug info */}
+                        <details className="mt-4">
+                          <summary className="text-xs text-gray-500 cursor-pointer">Debug: Ver dados brutos</summary>
+                          <pre className="text-xs bg-gray-800 text-green-400 p-2 rounded mt-2 overflow-auto max-h-64">
+                            {JSON.stringify(lesson.detailedContent, null, 2)}
+                          </pre>
+                        </details>
                       </div>
                     </div>
                   )}
