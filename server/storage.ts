@@ -7,6 +7,12 @@ import {
   type InsertPhaseData,
   type AISettings,
   type InsertAISettings,
+  type Lesson,
+  type InsertLesson,
+  type Activity,
+  type InsertActivity,
+  type Question,
+  type InsertQuestion,
 } from "@shared/schema";
 
 // Storage interface for course-related operations
@@ -34,6 +40,27 @@ export interface IStorage {
   getAISettings(courseId: string): Promise<AISettings | undefined>;
   createAISettings(settings: InsertAISettings): Promise<AISettings>;
   updateAISettings(id: string, settings: Partial<AISettings>): Promise<AISettings | undefined>;
+  
+  // Lesson operations
+  getLesson(id: string): Promise<Lesson | undefined>;
+  createLesson(lesson: InsertLesson): Promise<Lesson>;
+  updateLesson(id: string, lesson: Partial<Lesson>): Promise<Lesson | undefined>;
+  deleteLesson(id: string): Promise<boolean>;
+  listLessonsByModule(moduleId: string): Promise<Lesson[]>;
+  
+  // Activity operations
+  getActivity(id: string): Promise<Activity | undefined>;
+  createActivity(activity: InsertActivity): Promise<Activity>;
+  updateActivity(id: string, activity: Partial<Activity>): Promise<Activity | undefined>;
+  deleteActivity(id: string): Promise<boolean>;
+  listActivitiesByLesson(lessonId: string): Promise<Activity[]>;
+  
+  // Question operations
+  getQuestion(id: string): Promise<Question | undefined>;
+  createQuestion(question: InsertQuestion): Promise<Question>;
+  updateQuestion(id: string, question: Partial<Question>): Promise<Question | undefined>;
+  deleteQuestion(id: string): Promise<boolean>;
+  listQuestionsByActivity(activityId: string): Promise<Question[]>;
 }
 
 // In-memory implementation of the storage interface

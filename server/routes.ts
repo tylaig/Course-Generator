@@ -2,6 +2,7 @@ import { Express } from "express";
 import { createServer, Server } from "http";
 import { z } from "zod";
 import { storage } from "./storage";
+import { PostgresStorage } from "./postgres-storage";
 import { generateStrategy, generateStructure, generateCompetencyMapping } from "./openai";
 import { getAuthUrl, getTokenFromCode, generateAndUploadCourse } from "./googleDrive";
 

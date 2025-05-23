@@ -55,6 +55,48 @@ export const aiSettings = pgTable("ai_settings", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+// Lessons table for detailed lesson content and activities
+export const lessons = pgTable("lessons", {
+  id: serial("id").primaryKey(),
+  moduleId: integer("module_id").notNull(),
+  title: text("title").notNull(),
+  description: text("description"),
+  order: integer("order").notNull(),
+  duration: text("duration").notNull().default("45min"),
+  content: text("content"), // Main lesson content
+  objectives: jsonb("objectives"), // Learning objectives array
+  status: text("status").notNull().default("draft"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+// Activities table for practical exercises and assessments
+export const activities = pgTable("activities", {
+  id: serial("id").primaryKey(),
+  lessonId: integer("lesson_id").notNull(),
+  title: text("title").notNull(),
+  type: text("type").notNull(), // "practical_exercise" or "assessment"
+  description: text("description"),
+  instructions: jsonb("instructions"), // Array of instruction strings
+  timeRequired: text("time_required").default("5-10min"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+// Questions table for activity questions
+export const questions = pgTable("questions", {
+  id: serial("id").primaryKey(),
+  activityId: integer("activity_id").notNull(),
+  question: text("question").notNull(),
+  type: text("type").notNull().default("multiple_choice"),
+  options: jsonb("options").notNull(), // Array of option strings
+  correctAnswer: integer("correct_answer").notNull(),
+  explanation: text("explanation").notNull(),
+  order: integer("order").notNull().default(1),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 // Define insert schemas
 export const insertCourseSchema = createInsertSchema(courses).omit({
   id: true,
@@ -80,6 +122,24 @@ export const insertAISettingsSchema = createInsertSchema(aiSettings).omit({
   updatedAt: true,
 });
 
+export const insertLessonSchema = createInsertSchema(lessons).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertActivitySchema = createInsertSchema(activities).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertQuestionSchema = createInsertSchema(questions).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Define types
 export type Course = typeof courses.$inferSelect;
 export type InsertCourse = z.infer<typeof insertCourseSchema>;
@@ -92,6 +152,15 @@ export type InsertPhaseData = z.infer<typeof insertPhaseDataSchema>;
 
 export type AISettings = typeof aiSettings.$inferSelect;
 export type InsertAISettings = z.infer<typeof insertAISettingsSchema>;
+
+export type Lesson = typeof lessons.$inferSelect;
+export type InsertLesson = z.infer<typeof insertLessonSchema>;
+
+export type Activity = typeof activities.$inferSelect;
+export type InsertActivity = z.infer<typeof insertActivitySchema>;
+
+export type Question = typeof questions.$inferSelect;
+export type InsertQuestion = z.infer<typeof insertQuestionSchema>;
 
 // Phase-specific zod schemas for form validation
 export const phase1Schema = z.object({
