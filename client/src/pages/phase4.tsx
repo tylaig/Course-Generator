@@ -94,7 +94,7 @@ export default function Phase4() {
           
           const response = await apiRequest(
             "POST", 
-            "/api/generate/activities-only", 
+            "/generate-activities", 
             {
               lessons: [lessonInfo],
               courseDetails: {
@@ -234,7 +234,7 @@ export default function Phase4() {
           
           const response = await apiRequest(
             "POST", 
-            "/api/generate/activities-only", 
+            "/generate-activities", 
             {
               lessons: [lessonInfo],
               courseDetails: {
