@@ -270,15 +270,22 @@ export async function generateCourseZip(courseData: CourseDataForZip): Promise<B
 
       // STEP 1: Generate all PDFs first (same as Google Drive)
       console.log('📄 STEP 1: Generating all PDF files...');
-      const generatedPDFs: Array<{buffer: Buffer, path: string}> = [];
+      const generatedPDFs: Array<{buffer: Buffer, path: string, name: string}> = [];
 
       // Generate course summary PDF
       console.log('📋 Generating course summary PDF...');
-      const courseSummaryPDF = await generateCourseSummaryPDF(courseData);
-      generatedPDFs.push({
-        buffer: courseSummaryPDF,
-        path: 'Course_Summary.pdf'
-      });
+      try {
+        const courseSummaryPDF = await generateCourseSummaryPDF(courseData);
+        console.log('✅ Course summary PDF generated successfully');
+        generatedPDFs.push({
+          buffer: courseSummaryPDF,
+          path: 'Course_Summary.pdf',
+          name: 'Course Summary'
+        });
+      } catch (error) {
+        console.error('❌ Failed to generate course summary PDF:', error);
+        throw error;
+      }
 
       // Generate all lesson and task PDFs
       for (let moduleIndex = 0; moduleIndex < courseData.modules.length; moduleIndex++) {
@@ -311,36 +318,55 @@ export async function generateCourseZip(courseData: CourseDataForZip): Promise<B
           const lesson = lessons[lessonIndex];
           console.log(`  📖 Generating lesson PDF ${lessonIndex + 1}: ${lesson.title}`);
           
-          const lessonPDF = await generateLessonPDF(lesson, module, courseData);
-          const cleanLessonName = lesson.title.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
-          const lessonFileName = `Lesson_${lessonIndex + 1}_${cleanLessonName}.pdf`;
-          
-          generatedPDFs.push({
-            buffer: lessonPDF,
-            path: moduleFolder + lessonFileName
-          });
+          try {
+            const lessonPDF = await generateLessonPDF(lesson, module, courseData);
+            const cleanLessonName = lesson.title.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
+            const lessonFileName = `Lesson_${lessonIndex + 1}_${cleanLessonName}.pdf`;
+            
+            console.log(`     ✅ Lesson PDF generated: ${lessonFileName} (${lessonPDF.length} bytes)`);
+            
+            generatedPDFs.push({
+              buffer: lessonPDF,
+              path: moduleFolder + lessonFileName,
+              name: `${module.title} - ${lesson.title}`
+            });
+          } catch (error) {
+            console.error(`     ❌ Failed to generate lesson PDF for ${lesson.title}:`, error);
+            throw error;
+          }
         }
 
         // Generate tasks PDF for this module
         console.log(`  📝 Generating tasks PDF for module: ${module.title}`);
-        const tasksPDF = await generateModuleTasksPDF(module, courseData);
-        const tasksFileName = `Tasks_${cleanModuleName}.pdf`;
-        
-        generatedPDFs.push({
-          buffer: tasksPDF,
-          path: moduleFolder + tasksFileName
-        });
+        try {
+          const tasksPDF = await generateModuleTasksPDF(module, courseData);
+          const tasksFileName = `Tasks_${cleanModuleName}.pdf`;
+          
+          console.log(`     ✅ Tasks PDF generated: ${tasksFileName} (${tasksPDF.length} bytes)`);
+          
+          generatedPDFs.push({
+            buffer: tasksPDF,
+            path: moduleFolder + tasksFileName,
+            name: `${module.title} - Tasks`
+          });
+        } catch (error) {
+          console.error(`     ❌ Failed to generate tasks PDF for ${module.title}:`, error);
+          throw error;
+        }
       }
 
       // STEP 2: Create ZIP structure with all generated PDFs
       console.log('🗂️ STEP 2: Creating ZIP file structure...');
       console.log(`📦 Total PDFs generated: ${generatedPDFs.length}`);
       
+      let totalSize = 0;
       for (const pdf of generatedPDFs) {
-        console.log(`   Adding to ZIP: ${pdf.path}`);
+        console.log(`   📁 Adding to ZIP: ${pdf.path} (${pdf.buffer.length} bytes)`);
         archive.append(pdf.buffer, { name: pdf.path });
+        totalSize += pdf.buffer.length;
       }
 
+      console.log(`📊 Total content size: ${Math.round(totalSize / 1024)} KB`);
       console.log('✅ Finalizing ZIP archive...');
       archive.finalize();
     } catch (error) {
