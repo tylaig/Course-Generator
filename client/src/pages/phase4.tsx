@@ -151,10 +151,13 @@ export default function Phase4() {
       
       return results;
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       setGenerationStatus("success");
       setGenerationProgress(100);
       setCurrentGeneratingLesson("");
+      
+      // Force refresh course data to show updated activities
+      await updateCourse();
       
       toast({
         title: "Atividades geradas!",
