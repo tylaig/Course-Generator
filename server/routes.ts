@@ -253,7 +253,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Primeiro, tenta usar o courseId diretamente se for um número
       let courseId = parseInt(courseIdStr);
       
-      // Se não for um número válido, busca no banco
+      // Se não for um número válido OU se o curso não existir, busca no banco
       if (isNaN(courseId)) {
         const courses = await pgStorage.listCourses();
         const course = courses.find(c => 
@@ -269,6 +269,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
         
         courseId = course.id;
+      } else {
+        // Verificar se o curso com ID numérico existe, senão buscar o mais recente
+        try {
+          await pgStorage.getCourse(courseId.toString());
+        } catch (error) {
+          console.log(`Curso ${courseId} não existe, buscando curso mais recente...`);
+          const courses = await pgStorage.listCourses();
+          if (courses.length > 0) {
+            const latestCourse = courses[courses.length - 1];
+            console.log(`Usando curso mais recente: ID ${latestCourse.id}`);
+            courseId = latestCourse.id;
+          }
+        }
       }
       
       // Verificar se o curso realmente existe no banco
