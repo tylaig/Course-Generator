@@ -314,11 +314,42 @@ export default function Phase4New() {
               )
             };
 
-            // Save to localStorage first (backup)
+            // Save to localStorage with CORRECT structure for frontend
             const updatedLocalActivities = {
               ...localActivities,
-              [lessonInfo.moduleId]: updatedModule.content
+              [lessonInfo.moduleId]: {
+                ...updatedModule.content,
+                lessons: updatedModule.content.lessons.map((lesson: any) => {
+                  // Ensure lessons have detailedContent structure that frontend expects
+                  if (lesson.title === lessonInfo.lessonName) {
+                    return {
+                      ...lesson,
+                      detailedContent: {
+                        practicalExercises: result.content.practicalExercises || [],
+                        assessmentQuestions: result.content.assessmentQuestions || [],
+                        objectives: result.content.objectives || [],
+                        content: result.content.content || lesson.content || ""
+                      }
+                    };
+                  }
+                  return {
+                    ...lesson,
+                    detailedContent: lesson.detailedContent || {
+                      practicalExercises: [],
+                      assessmentQuestions: [],
+                      objectives: [],
+                      content: lesson.content || ""
+                    }
+                  };
+                })
+              }
             };
+            
+            console.log(`🔧 Estrutura corrigida para ${lessonInfo.lessonName}:`, {
+              practicalExercises: result.content.practicalExercises?.length || 0,
+              assessmentQuestions: result.content.assessmentQuestions?.length || 0
+            });
+            
             saveToLocalStorage(updatedLocalActivities);
             
             // Update local state immediately
