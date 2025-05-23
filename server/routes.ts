@@ -310,11 +310,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const { lesson, module, courseDetails, aiConfig, lessonTitle } = req.body;
       
-      // Always accept if we have either lessonTitle OR lesson object
-      if (!lessonTitle && (!lesson || !lesson.title)) {
-        console.log("❌ Erro: Nem lessonTitle nem lesson.title fornecidos");
+      // More flexible validation - accept any meaningful lesson identifier
+      const hasValidLessonData = 
+        lessonTitle || 
+        (lesson && (lesson.title || lesson.name || lesson.id)) ||
+        courseDetails; // Even just courseDetails is enough to generate content
+      
+      if (!hasValidLessonData) {
+        console.log("❌ Erro: Nenhum dado válido fornecido");
         console.log("lessonTitle:", lessonTitle);
         console.log("lesson:", lesson);
+        console.log("courseDetails:", courseDetails);
         return res.status(400).json({ error: "Dados obrigatórios não fornecidos" });
       }
       
