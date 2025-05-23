@@ -1,0 +1,52 @@
+Para resolver o erro 400, siga estes passos:
+
+Inspecione shared/schema.ts no seu projeto:
+
+Abra o arquivo shared/schema.ts.
+Localize a definição de lessonContentSchema.
+Verifique quais campos são definidos como z.string(), z.number(), z.array(), etc., e quais deles não são marcados com .optional(). Estes são os campos obrigatórios.
+Compare com seu Request Data:
+
+Identifique quais campos obrigatórios definidos em lessonContentSchema estão faltando no seu Request Data.
+É muito provável que a função generateLessonContent (em server/openai.ts ou similar) precise de mais contexto para gerar o conteúdo da lição, como por exemplo:
+courseId: O ID do curso ao qual esta lição pertence.
+moduleId: O ID do módulo ao qual esta lição pertence.
+lessonIndex: A posição da lição dentro do módulo.
+courseOutline ou moduleOutline: A estrutura ou tópicos do curso/módulo, para que a IA possa gerar um conteúdo coerente.
+previousLessonContent: Se o conteúdo da lição atual depende do conteúdo da lição anterior.
+Atualize seu Request Data:
+
+Adicione todos os campos obrigatórios que você identificou no lessonContentSchema ao seu Request Data. Certifique-se de que os tipos de dados e os formatos correspondam ao que é esperado pelo schema.
+Exemplo hipotético:
+
+Se lessonContentSchema em shared/schema.ts for algo como:
+
+TypeScript
+
+export const lessonContentSchema = z.object({
+  lessonTitle: z.string(),
+  courseDetails: courseDetailsSchema,
+  courseId: z.string(), // Provavelmente faltante
+  moduleId: z.string(),   // Provavelmente faltante
+  lessonNumber: z.number(), // Provavelmente faltante
+  courseOutline: z.array(z.string()), // Se precisar do outline do curso
+});
+Você precisaria ajustar seu Request Data para incluir esses campos:
+
+JSON
+
+{
+  "lessonTitle": "Objetivo: Estimular a curiosidade natural das crianças, mostrando como perguntas e descobertas levam ao aprendizado.",
+  "courseDetails": {
+    "title": "Novo Curso Educacional",
+    "theme": "Educação e Aprendizagem",
+    "publicTarget": "Educação e Aprendizagem",
+    "educationalLevel": "Iniciante",
+    "estimatedHours": 20
+  },
+  "courseId": "some-course-id-123",  // Exemplo: ID do curso
+  "moduleId": "some-module-id-456",  // Exemplo: ID do módulo
+  "lessonNumber": 1,                 // Exemplo: Número da lição
+  "courseOutline": ["Introdução", "Tópico 1", "Tópico 2"] // Exemplo: Outline
+}
+A mensagem de erro "Dados obrigatórios não fornecidos" é gerada especificamente quando a validação com Zod falha porque faltam campos ou os tipos estão incorretos. Uma vez que você alinhe o Request Data com o lessonContentSchema, o erro 400 deverá ser resolvido.

@@ -310,11 +310,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const { lesson, module, courseDetails, aiConfig, lessonTitle } = req.body;
       
+      // Debug detailed validation
+      console.log("🔍 Validação detalhada:");
+      console.log("- lessonTitle:", lessonTitle, "tipo:", typeof lessonTitle);
+      console.log("- lesson:", lesson, "tipo:", typeof lesson);
+      console.log("- courseDetails:", courseDetails, "tipo:", typeof courseDetails);
+      
       // More flexible validation - accept any meaningful lesson identifier
       const hasValidLessonData = 
         lessonTitle || 
         (lesson && (lesson.title || lesson.name || lesson.id)) ||
         courseDetails; // Even just courseDetails is enough to generate content
+      
+      console.log("- hasValidLessonData:", hasValidLessonData);
       
       if (!hasValidLessonData) {
         console.log("❌ Erro: Nenhum dado válido fornecido");
