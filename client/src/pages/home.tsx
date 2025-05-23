@@ -220,28 +220,28 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Iniciar Novo Curso</CardTitle>
+                <CardTitle className="text-lg">Start New Course</CardTitle>
                 <CardDescription>
-                  Crie um curso educacional completo com IA
+                  Create a complete educational course with AI
                 </CardDescription>
               </CardHeader>
               <CardContent className="pb-3">
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start">
                     <span className="material-icons text-primary text-sm mr-2">check_circle</span>
-                    <span>Definição de metas pedagógicas</span>
+                    <span>Define pedagogical goals</span>
                   </li>
                   <li className="flex items-start">
                     <span className="material-icons text-primary text-sm mr-2">check_circle</span>
-                    <span>Estruturação automática de módulos</span>
+                    <span>Automatic module structuring</span>
                   </li>
                   <li className="flex items-start">
                     <span className="material-icons text-primary text-sm mr-2">check_circle</span>
-                    <span>Geração de conteúdo didático rico</span>
+                    <span>Rich educational content generation</span>
                   </li>
                   <li className="flex items-start">
                     <span className="material-icons text-primary text-sm mr-2">check_circle</span>
-                    <span>Criação de atividades e avaliações</span>
+                    <span>Create activities and assessments</span>
                   </li>
                 </ul>
               </CardContent>
@@ -254,12 +254,12 @@ export default function Home() {
                   {createCourseMutation.isPending ? (
                     <>
                       <span className="animate-spin h-4 w-4 mr-2 border-t-2 border-b-2 border-current rounded-full"></span>
-                      Criando...
+                      Creating...
                     </>
                   ) : (
                     <>
                       <span className="material-icons text-sm mr-2">add_circle</span>
-                      Criar Novo Curso
+                      Create New Course
                     </>
                   )}
                 </Button>
@@ -268,31 +268,31 @@ export default function Home() {
 
             <Card className={!course ? "opacity-70" : ""}>
               <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Continuar Curso</CardTitle>
+                <CardTitle className="text-lg">Continue Course</CardTitle>
                 <CardDescription>
-                  Retome seu projeto em andamento
+                  Resume your project in progress
                 </CardDescription>
               </CardHeader>
               <CardContent className="pb-3">
                 {course ? (
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-slate-700">Curso atual:</span>
-                      <span className="text-sm text-primary font-semibold">{course.title || "Sem título"}</span>
+                      <span className="text-sm font-medium text-slate-700">Current course:</span>
+                      <span className="text-sm text-primary font-semibold">{course.title || "No title"}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-slate-700">Fase atual:</span>
+                      <span className="text-sm font-medium text-slate-700">Current phase:</span>
                       <div className="flex items-center">
                         <span className="material-icons text-primary text-sm mr-1">auto_awesome</span>
-                        <span className="text-sm text-primary font-semibold">Fase {course.currentPhase}</span>
+                        <span className="text-sm text-primary font-semibold">Phase {course.currentPhase}</span>
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-slate-700">Módulos:</span>
+                      <span className="text-sm font-medium text-slate-700">Modules:</span>
                       <span className="text-sm text-primary font-semibold">{course.modules.length}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-slate-700">Progresso:</span>
+                      <span className="text-sm font-medium text-slate-700">Progress:</span>
                       <div className="w-24 bg-slate-200 rounded-full h-1.5">
                         <div className="bg-primary h-1.5 rounded-full" 
                           style={{ width: `${course.progress?.overall || 0}%` }}></div>
@@ -301,7 +301,7 @@ export default function Home() {
                   </div>
                 ) : (
                   <p className="text-sm text-slate-500">
-                    Você não tem cursos em andamento. Crie um novo curso para começar.
+                    You don't have any courses in progress. Create a new course to get started.
                   </p>
                 )}
               </CardContent>
@@ -313,7 +313,7 @@ export default function Home() {
                   className="w-full"
                 >
                   <span className="material-icons text-sm mr-2">play_arrow</span>
-                  Continuar Curso
+                  Continue Course
                 </Button>
               </CardFooter>
             </Card>
