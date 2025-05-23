@@ -324,49 +324,49 @@ export default function Home() {
           <div className="bg-white rounded-lg border border-slate-200 shadow-sm h-full p-5">
             <h2 className="text-lg font-semibold mb-4 flex items-center">
               <span className="material-icons text-slate-700 mr-2">auto_awesome</span>
-              Sobre nosso Gerador de Cursos com IA
+              About our AI Course Generator
             </h2>
             
             <div className="text-sm text-slate-600 space-y-4">
               <p>
-                Nossa plataforma integra a poderosa API da OpenAI para criar cursos educacionais completos através de um processo estruturado em 5 fases.
+                Our platform integrates OpenAI's powerful API to create complete educational courses through a structured 5-phase process.
               </p>
               
               <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
-                <h3 className="font-medium text-slate-800 mb-2">Framework Pedagógico</h3>
+                <h3 className="font-medium text-slate-800 mb-2">Pedagogical Framework</h3>
                 <p className="text-xs text-slate-600 mb-3">
-                  Nosso modelo segue uma abordagem estruturada para garantir conteúdo educacional de alta qualidade:
+                  Our model follows a structured approach to ensure high-quality educational content:
                 </p>
                 <ul className="text-xs text-slate-600 space-y-2">
                   <li className="flex items-start">
                     <span className="material-icons text-emerald-500 text-xs mr-1">check</span>
-                    <span>Definição de objetivos claros e mensuráveis</span>
+                    <span>Definition of clear and measurable objectives</span>
                   </li>
                   <li className="flex items-start">
                     <span className="material-icons text-emerald-500 text-xs mr-1">check</span>
-                    <span>Estruturação de módulos com carga horária balanceada</span>
+                    <span>Module structuring with balanced workload</span>
                   </li>
                   <li className="flex items-start">
                     <span className="material-icons text-emerald-500 text-xs mr-1">check</span>
-                    <span>Geração de conteúdo didático em múltiplos formatos</span>
+                    <span>Generation of educational content in multiple formats</span>
                   </li>
                   <li className="flex items-start">
                     <span className="material-icons text-emerald-500 text-xs mr-1">check</span>
-                    <span>Desenvolvimento de avaliações alinhadas com objetivos</span>
+                    <span>Development of assessments aligned with objectives</span>
                   </li>
                   <li className="flex items-start">
                     <span className="material-icons text-emerald-500 text-xs mr-1">check</span>
-                    <span>Revisão completa de alinhamento pedagógico</span>
+                    <span>Complete review of pedagogical alignment</span>
                   </li>
                 </ul>
               </div>
               
               <p>
-                Cada fase do processo permite customização completa, incluindo ajustes no modelo de IA, densidade de conteúdo, abordagem didática e níveis de dificuldade.
+                Each phase of the process allows complete customization, including adjustments to the AI model, content density, teaching approach, and difficulty levels.
               </p>
               
               <div className="mt-4">
-                <h3 className="font-medium text-slate-800 mb-2">Recursos</h3>
+                <h3 className="font-medium text-slate-800 mb-2">Features</h3>
                 <div className="grid grid-cols-2 gap-2">
                   <div className="p-2 bg-blue-50 rounded text-xs text-center text-blue-700">
                     <span className="material-icons text-xs mb-1">description</span>
