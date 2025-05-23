@@ -214,10 +214,9 @@ export default function Phase4() {
           
           const response = await apiRequest(
             "POST", 
-            "/api/generate/lesson-content", 
+            "/api/generate/activities-only", 
             {
-              lesson: lessonToGenerate,
-              module: moduleToGenerate,
+              lessons: [lessonInfo],
               courseDetails: {
                 title: course?.title,
                 theme: course?.theme,
@@ -232,30 +231,35 @@ export default function Phase4() {
           );
           
           const result = await response.json();
-          const content = result.success ? result.content : result;
-          results.push({ moduleId: lessonInfo.moduleId, lessonId: lessonInfo.lessonId, content });
-          
-          // Update lesson content immediately
-          const updatedModule = { ...moduleToGenerate };
-          if (updatedModule.content?.lessons) {
-            const lessonIndex = updatedModule.content.lessons.findIndex((l: any) => l.title === lessonInfo.lessonId);
-            if (lessonIndex !== -1) {
-              updatedModule.content.lessons[lessonIndex] = {
-                ...updatedModule.content.lessons[lessonIndex],
-                detailedContent: content,
-                status: "generated"
-              };
+          if (result.success && result.results && result.results.length > 0) {
+            const activitiesData = result.results[0];
+            results.push({ 
+              moduleId: lessonInfo.moduleId, 
+              lessonId: lessonInfo.lessonId, 
+              activities: activitiesData.activities,
+              assessmentQuestions: activitiesData.assessmentQuestions
+            });
+            
+            // Update lesson with ONLY the activities
+            const updatedModule = { ...moduleToGenerate };
+            if (updatedModule.content?.lessons) {
+              const lessonIndex = updatedModule.content.lessons.findIndex((l: any) => l.title === lessonInfo.lessonId);
+              if (lessonIndex !== -1) {
+                updatedModule.content.lessons[lessonIndex] = {
+                  ...updatedModule.content.lessons[lessonIndex],
+                  detailedContent: {
+                    ...updatedModule.content.lessons[lessonIndex].detailedContent,
+                    practicalExercises: activitiesData.activities || [],
+                    assessmentQuestions: activitiesData.assessmentQuestions || []
+                  },
+                  status: "generated"
+                };
+              }
             }
+            
+            // Update course context immediately to show real-time changes
+            updateModuleContent(moduleToGenerate.id, updatedModule.content);
           }
-          
-          // Update course context immediately to show real-time changes
-          setCourse(prevCourse => {
-            if (!prevCourse) return null;
-            const updatedModules = prevCourse.modules.map(mod => 
-              mod.id === moduleToGenerate.id ? updatedModule : mod
-            );
-            return { ...prevCourse, modules: updatedModules };
-          });
           
           // Save to database immediately
           try {

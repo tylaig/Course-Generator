@@ -318,6 +318,100 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Generate ONLY activities for specific lessons  
+  app.post("/api/generate/activities-only", async (req: Request, res: Response) => {
+    try {
+      const { lessons, courseDetails } = req.body;
+      
+      if (!lessons || !courseDetails) {
+        return res.status(400).json({ error: "Dados obrigatórios não fornecidos" });
+      }
+
+      console.log(`🎯 Gerando APENAS atividades para ${lessons.length} aulas`);
+      
+      const results = [];
+      
+      for (let i = 0; i < lessons.length; i++) {
+        const lessonInfo = lessons[i];
+        try {
+          console.log(`📝 [${i+1}/${lessons.length}] Criando atividades para: ${lessonInfo.lessonName}`);
+          
+          // Generate only activities using OpenAI
+          const activitiesResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+              messages: [{
+                role: "system",
+                content: "Você é um especialista em criação de atividades educacionais. Gere apenas atividades práticas e questões de avaliação específicas para a aula fornecida. Responda SEMPRE em JSON válido com esta estrutura exata: {\"practicalExercises\": [...], \"assessmentQuestions\": [...]}"
+              }, {
+                role: "user", 
+                content: `Gere atividades específicas para a aula "${lessonInfo.lessonName}" do curso "${courseDetails.title}". 
+                
+                Crie EXATAMENTE:
+                - 2 exercícios práticos (practicalExercises) com 1 questão cada
+                - 3 questões de avaliação (assessmentQuestions)
+                
+                Cada questão deve ter:
+                - question: texto da pergunta sobre o conteúdo da aula
+                - options: array com 4 opções de resposta
+                - correct_answer: índice da resposta correta (0, 1, 2 ou 3)
+                - explanation: explicação detalhada da resposta correta
+                
+                Tema: ${courseDetails.theme}
+                Foque no conteúdo específico desta aula.`
+              }],
+              response_format: { type: "json_object" },
+              temperature: 0.7
+            })
+          });
+          
+          if (!activitiesResponse.ok) {
+            throw new Error(`OpenAI API error: ${activitiesResponse.status}`);
+          }
+          
+          const activitiesData = await activitiesResponse.json();
+          const activities = JSON.parse(activitiesData.choices[0].message.content);
+          
+          results.push({
+            moduleId: lessonInfo.moduleId,
+            lessonId: lessonInfo.lessonId,
+            activities: activities.practicalExercises || [],
+            assessmentQuestions: activities.assessmentQuestions || []
+          });
+          
+          console.log(`✅ Atividades criadas para: ${lessonInfo.lessonName}`);
+          
+        } catch (error) {
+          console.error(`❌ Erro ao gerar atividades para ${lessonInfo.lessonName}:`, error);
+          results.push({
+            moduleId: lessonInfo.moduleId,
+            lessonId: lessonInfo.lessonId,
+            activities: [],
+            assessmentQuestions: [],
+            error: error instanceof Error ? error.message : "Erro desconhecido"
+          });
+        }
+      }
+      
+      res.json({
+        success: true,
+        results: results
+      });
+      
+    } catch (error) {
+      console.error("Erro na geração de atividades:", error);
+      res.status(500).json({ 
+        message: "Falha ao gerar atividades", 
+        error: error instanceof Error ? error.message : "Erro desconhecido" 
+      });
+    }
+  });
+
   // Generate course PDF
   app.post("/api/generate/course-pdf", async (req, res) => {
     try {
