@@ -73,7 +73,7 @@ export default function LMSView() {
     queryFn: async () => {
       if (!currentCourseId) return null;
       try {
-        // Tentamos obter dados da API primeiro
+        // Try to get data from API first
         try {
           const response = await apiRequest("GET", `/api/courses/${currentCourseId}`, {});
           if (response.ok) {
@@ -84,8 +84,8 @@ export default function LMSView() {
           console.log("API request failed, falling back to localStorage:", apiError);
         }
         
-        // Se a API falhar, usamos os dados do localStorage
-        console.log("Carregando curso do localStorage");
+        // If API fails, use localStorage data
+        console.log("Loading course from localStorage");
         const courseData = CourseStorage.getCourse(currentCourseId);
         if (courseData) {
           return courseData as Course;
@@ -154,7 +154,7 @@ export default function LMSView() {
   });
   
   const handleGenerateAllImages = async () => {
-    if (!course || !course.modules.length) return;
+    if (!course || !course.modules?.length) return;
     
     toast({
       title: "Gerando Imagens",
@@ -228,12 +228,12 @@ export default function LMSView() {
                 onValueChange={handleCourseChange}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Selecione um curso" />
+                  <SelectValue placeholder="Select a course" />
                 </SelectTrigger>
                 <SelectContent>
                   {availableCourses.length === 0 ? (
                     <SelectItem value="no-courses" disabled>
-                      Nenhum curso disponível
+                      No courses available
                     </SelectItem>
                   ) : (
                     availableCourses.map(course => (
@@ -248,7 +248,7 @@ export default function LMSView() {
             
             {course && (
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">{course.title || "Curso sem título"}</h1>
+                <h1 className="text-3xl font-bold text-gray-900">{course.title || "Untitled Course"}</h1>
                 <p className="text-gray-600 mt-1">{course.theme}</p>
               </div>
             )}
@@ -261,9 +261,9 @@ export default function LMSView() {
             {course && (
               <Button 
                 onClick={handleGenerateAllImages}
-                disabled={!course.modules.length}
+                disabled={!course.modules?.length}
               >
-                Gerar Todas as Imagens
+                Generate All Images
               </Button>
             )}
           </div>
@@ -273,11 +273,11 @@ export default function LMSView() {
           <div className="flex items-center mt-6 text-sm text-gray-600">
             <div className="flex items-center mr-6">
               <span className="material-icons text-gray-400 mr-1 text-base">schedule</span>
-              <span>{course.estimatedHours} horas</span>
+              <span>{course.estimatedHours} hours</span>
             </div>
             <div className="flex items-center mr-6">
               <span className="material-icons text-gray-400 mr-1 text-base">view_module</span>
-              <span>{course.modules.length} módulos</span>
+              <span>{course.modules?.length || 0} modules</span>
             </div>
             <div className="flex items-center mr-6">
               <span className="material-icons text-gray-400 mr-1 text-base">laptop</span>
