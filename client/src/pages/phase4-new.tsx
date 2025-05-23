@@ -14,6 +14,70 @@ export default function Phase4New() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [currentGeneratingLesson, setCurrentGeneratingLesson] = useState("");
   const [generatedActivities, setGeneratedActivities] = useState<Set<string>>(new Set());
+  const [localActivities, setLocalActivities] = useState<any>({});
+  const [unsavedChanges, setUnsavedChanges] = useState(false);
+
+  // Load activities from localStorage on mount
+  useEffect(() => {
+    if (course?.id) {
+      const savedActivities = localStorage.getItem(`activities_${course.id}`);
+      if (savedActivities) {
+        try {
+          const activities = JSON.parse(savedActivities);
+          setLocalActivities(activities);
+          setUnsavedChanges(Object.keys(activities).length > 0);
+        } catch (error) {
+          console.error('Erro ao carregar atividades do localStorage:', error);
+        }
+      }
+    }
+  }, [course?.id]);
+
+  // Save activities to localStorage whenever they change
+  const saveToLocalStorage = (activities: any) => {
+    if (course?.id) {
+      localStorage.setItem(`activities_${course.id}`, JSON.stringify(activities));
+      setLocalActivities(activities);
+      setUnsavedChanges(true);
+    }
+  };
+
+  // Save all activities to database
+  const saveToDatabase = async () => {
+    if (!course?.id || Object.keys(localActivities).length === 0) return;
+
+    try {
+      const savePromises = Object.entries(localActivities).map(async ([moduleId, moduleContent]) => {
+        const response = await fetch(`/api/modules/${moduleId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ content: moduleContent })
+        });
+        return response.ok;
+      });
+
+      const results = await Promise.all(savePromises);
+      const allSaved = results.every(result => result);
+
+      if (allSaved) {
+        setUnsavedChanges(false);
+        localStorage.removeItem(`activities_${course.id}`);
+        toast({
+          title: "💾 Salvo com sucesso!",
+          description: "Todas as atividades foram salvas no banco de dados.",
+          duration: 3000
+        });
+      } else {
+        throw new Error("Falha ao salvar algumas atividades");
+      }
+    } catch (error) {
+      toast({
+        title: "❌ Erro ao salvar",
+        description: "Houve um problema ao salvar no banco de dados.",
+        duration: 3000
+      });
+    }
+  };
 
   // Calculate activity statistics
   const stats = course?.modules?.reduce(
@@ -154,32 +218,24 @@ export default function Phase4New() {
               )
             };
 
-            // Save to database first - save only the module
-            try {
-              const saveResponse = await fetch(`/api/modules/${lessonInfo.moduleId}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  content: updatedModule.content
-                })
-              });
-              
-              if (saveResponse.ok) {
-                console.log(`💾 Atividades salvas no banco para: ${lessonInfo.lessonName}`);
-                
-                // Update local state
-                setCourse(updatedCourse);
-                setGeneratedActivities(prev => new Set([...Array.from(prev), lessonInfo.lessonName]));
-                
-                toast({
-                  title: "Atividades Geradas! ✅",
-                  description: `${lessonInfo.lessonName} - Atividades criadas com sucesso!`,
-                  duration: 2000
-                });
-              }
-            } catch (saveError) {
-              console.error(`❌ Erro ao salvar no banco: ${lessonInfo.lessonName}`, saveError);
-            }
+            // Save to localStorage first (backup)
+            const updatedLocalActivities = {
+              ...localActivities,
+              [lessonInfo.moduleId]: updatedModule.content
+            };
+            saveToLocalStorage(updatedLocalActivities);
+            
+            // Update local state immediately
+            setCourse(updatedCourse);
+            setGeneratedActivities(prev => new Set([...Array.from(prev), lessonInfo.lessonName]));
+            
+            console.log(`💾 Atividade salva localmente para: ${lessonInfo.lessonName}`);
+            
+            toast({
+              title: "Atividades Geradas! ✅",
+              description: `${lessonInfo.lessonName} - Salvo localmente. Use 'Salvar no Banco' para persistir.`,
+              duration: 3000
+            });
           }
         } else {
           console.error(`❌ Erro na API para: ${lessonInfo.lessonName}`);
@@ -302,10 +358,25 @@ export default function Phase4New() {
                       Gere atividades práticas e questões de avaliação automaticamente
                     </p>
                   </div>
-                  <Button onClick={generateActivities} disabled={!course?.modules}>
-                    <Zap className="mr-2 h-4 w-4" />
-                    Gerar Atividades
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button onClick={generateActivities} disabled={!course?.modules}>
+                      <Zap className="mr-2 h-4 w-4" />
+                      Gerar Atividades
+                    </Button>
+                    
+                    {unsavedChanges && (
+                      <Button 
+                        onClick={saveToDatabase} 
+                        variant="outline"
+                        className="border-green-500 text-green-700 hover:bg-green-50"
+                      >
+                        💾 Salvar no Banco
+                        <Badge variant="destructive" className="ml-2 text-xs">
+                          {Object.keys(localActivities).length}
+                        </Badge>
+                      </Button>
+                    )}
+                  </div>
                 </div>
               )}
             </CardContent>
