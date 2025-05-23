@@ -26,12 +26,36 @@ export default function Phase4New() {
           const activities = JSON.parse(savedActivities);
           setLocalActivities(activities);
           setUnsavedChanges(Object.keys(activities).length > 0);
+          
+          // Apply localStorage activities to course state immediately
+          applyLocalActivitiesToCourse(activities);
         } catch (error) {
           console.error('Erro ao carregar atividades do localStorage:', error);
         }
       }
     }
   }, [course?.id]);
+
+  // Function to apply localStorage activities to course state
+  const applyLocalActivitiesToCourse = (activities: any) => {
+    if (!course || Object.keys(activities).length === 0) return;
+
+    const updatedCourse = {
+      ...course,
+      modules: course.modules.map(module => {
+        const localModuleContent = activities[module.id];
+        if (localModuleContent) {
+          return {
+            ...module,
+            content: localModuleContent
+          };
+        }
+        return module;
+      })
+    };
+
+    setCourse(updatedCourse);
+  };
 
   // Save activities to localStorage whenever they change
   const saveToLocalStorage = (activities: any) => {
@@ -228,6 +252,9 @@ export default function Phase4New() {
             // Update local state immediately
             setCourse(updatedCourse);
             setGeneratedActivities(prev => new Set([...Array.from(prev), lessonInfo.lessonName]));
+            
+            // Apply the new activities to course state immediately
+            applyLocalActivitiesToCourse(updatedLocalActivities);
             
             console.log(`💾 Atividade salva localmente para: ${lessonInfo.lessonName}`);
             
