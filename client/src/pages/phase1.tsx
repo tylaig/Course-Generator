@@ -30,24 +30,24 @@ import {
 } from "@/components/ui/select";
 // Removed imports for components that don't exist
 
-// Schema de validação para o formulário da Phase 1
+// Validation schema for Phase 1 form
 const phase1Schema = z.object({
-  title: z.string().min(1, "Título é obrigatório"),
-  theme: z.string().min(1, "Tema é obrigatório"),
-  estimatedHours: z.number().min(1, "Carga horária deve ser pelo menos 1 hora"),
-  format: z.string().min(1, "Formato é obrigatório"),
-  platform: z.string().min(1, "Plataforma é obrigatória"),
-  deliveryFormat: z.string().min(1, "Formato de entrega é obrigatório"),
-  publicTarget: z.string().min(1, "Público-alvo é obrigatório"),
-  educationalLevel: z.string().min(1, "Nível educacional é obrigatório"),
-  familiarityLevel: z.string().min(1, "Nível de familiaridade é obrigatório"),
-  motivation: z.string().min(1, "Motivação é obrigatória"),
-  cognitiveSkills: z.string().min(1, "Competências cognitivas são obrigatórias"),
-  behavioralSkills: z.string().min(1, "Competências comportamentais são obrigatórias"),
-  technicalSkills: z.string().min(1, "Competências técnicas são obrigatórias"),
-  languageLevel: z.string().min(1, "Nível de linguagem é obrigatório"),
-  accessibilityNeeds: z.string().min(1, "Necessidades de acessibilidade são obrigatórias"),
-  courseLanguage: z.string().min(1, "Idioma do curso é obrigatório"),
+  title: z.string().min(1, "Title is required"),
+  theme: z.string().min(1, "Theme is required"),
+  estimatedHours: z.number().min(1, "Duration must be at least 1 hour"),
+  format: z.string().min(1, "Format is required"),
+  platform: z.string().min(1, "Platform is required"),
+  deliveryFormat: z.string().min(1, "Delivery format is required"),
+  publicTarget: z.string().min(1, "Target audience is required"),
+  educationalLevel: z.string().min(1, "Educational level is required"),
+  familiarityLevel: z.string().min(1, "Familiarity level is required"),
+  motivation: z.string().min(1, "Motivation is required"),
+  cognitiveSkills: z.string().min(1, "Cognitive skills are required"),
+  behavioralSkills: z.string().min(1, "Behavioral skills are required"),
+  technicalSkills: z.string().min(1, "Technical skills are required"),
+  languageLevel: z.string().min(1, "Language level is required"),
+  accessibilityNeeds: z.string().min(1, "Accessibility needs are required"),
+  courseLanguage: z.string().min(1, "Course language is required"),
 });
 
 type Phase1FormData = z.infer<typeof phase1Schema>;
@@ -60,30 +60,30 @@ export default function Phase1() {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
 
-  // Configuração do formulário usando react-hook-form com validação Zod
+  // Form configuration using react-hook-form with Zod validation
   const form = useForm<Phase1FormData>({
     resolver: zodResolver(phase1Schema),
     defaultValues: {
-      title: course?.phaseData?.phase1?.title || "Novo Curso Educacional",
-      theme: course?.phaseData?.phase1?.theme || "Educação e Aprendizagem",
+      title: course?.phaseData?.phase1?.title || "New Educational Course",
+      theme: course?.phaseData?.phase1?.theme || "Education and Learning",
       estimatedHours: course?.phaseData?.phase1?.estimatedHours || 20,
       format: course?.phaseData?.phase1?.format || "Online",
       platform: course?.phaseData?.phase1?.platform || "Web",
       deliveryFormat: course?.phaseData?.phase1?.deliveryFormat || "PDF",
-      publicTarget: course?.phaseData?.phase1?.publicTarget || "Crianças (até 12 anos)",
-      educationalLevel: course?.phaseData?.phase1?.educationalLevel || "Fundamental",
-      familiarityLevel: course?.phaseData?.phase1?.familiarityLevel || "Nenhum",
-      motivation: course?.phaseData?.phase1?.motivation || "Profissional",
+      publicTarget: course?.phaseData?.phase1?.publicTarget || "Children (up to 12 years)",
+      educationalLevel: course?.phaseData?.phase1?.educationalLevel || "Elementary",
+      familiarityLevel: course?.phaseData?.phase1?.familiarityLevel || "None",
+      motivation: course?.phaseData?.phase1?.motivation || "Professional",
       cognitiveSkills: course?.phaseData?.phase1?.cognitiveSkills || "",
       behavioralSkills: course?.phaseData?.phase1?.behavioralSkills || "",
       technicalSkills: course?.phaseData?.phase1?.technicalSkills || "",
-      languageLevel: course?.phaseData?.phase1?.languageLevel || "Simples",
-      accessibilityNeeds: course?.phaseData?.phase1?.accessibilityNeeds || "Sem necessidades específicas",
-      courseLanguage: course?.phaseData?.phase1?.courseLanguage || "Português",
+      languageLevel: course?.phaseData?.phase1?.languageLevel || "Simple",
+      accessibilityNeeds: course?.phaseData?.phase1?.accessibilityNeeds || "No specific needs",
+      courseLanguage: course?.phaseData?.phase1?.courseLanguage || "English",
     },
   });
 
-  // Navegação entre steps
+  // Navigation between steps
   const nextStep = () => {
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
@@ -96,18 +96,18 @@ export default function Phase1() {
     }
   };
 
-  // Manipulador de envio do formulário
+  // Form submission handler
   const onSubmit = (data: Phase1FormData) => {
     setIsSubmitting(true);
     
     try {
-      // Salvar os dados do formulário
+      // Save form data
       updatePhaseData(1, {
         ...data,
         completed: true
       });
       
-      // Atualizar informações básicas do curso
+      // Update basic course information
       setBasicInfo({
         title: data.title,
         theme: data.theme,
@@ -117,17 +117,17 @@ export default function Phase1() {
         deliveryFormat: data.deliveryFormat,
       });
       
-      // Atualizar o progresso da fase 1
+      // Update phase 1 progress
       updateProgress(1, 100);
       moveToNextPhase();
       navigate("/phase2");
       
     } catch (error) {
-      console.error("Erro ao enviar formulário:", error);
+      console.error("Form submission error:", error);
       
       toast({
-        title: "Erro",
-        description: "Não foi possível salvar os dados. Tente novamente.",
+        title: "Error",
+        description: "Unable to save data. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -139,16 +139,16 @@ export default function Phase1() {
     <div className="container mx-auto px-4 py-6">
       <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200 mb-8">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-primary">Fase 1: Estratégia</h1>
-          <p className="text-muted-foreground">Defina os objetivos e o público-alvo do curso</p>
+          <h1 className="text-2xl font-bold text-primary">Phase 1: Strategy</h1>
+          <p className="text-muted-foreground">Define the objectives and target audience of the course</p>
         </div>
         
         {/* Progress Steps */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold">Etapa {currentStep} de {totalSteps}</h3>
+            <h3 className="text-lg font-semibold">Step {currentStep} of {totalSteps}</h3>
             <div className="text-sm text-muted-foreground">
-              {Math.round((currentStep / totalSteps) * 100)}% concluído
+              {Math.round((currentStep / totalSteps) * 100)}% completed
             </div>
           </div>
           <div className="flex space-x-2">
@@ -165,12 +165,12 @@ export default function Phase1() {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            {/* Etapa 1: Informações Gerais */}
+            {/* Step 1: General Information */}
             {currentStep === 1 && (
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-xl font-semibold text-primary mb-2">1. Informações Gerais</h3>
-                  <p className="text-muted-foreground mb-6">Configure as informações básicas do seu curso</p>
+                  <h3 className="text-xl font-semibold text-primary mb-2">1. General Information</h3>
+                  <p className="text-muted-foreground mb-6">Configure the basic information for your course</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <FormField
@@ -178,9 +178,9 @@ export default function Phase1() {
                     name="title"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Título do curso</FormLabel>
+                        <FormLabel>Course Title</FormLabel>
                         <FormControl>
-                          <Input placeholder="Ex: Fundamentos de Programação em JavaScript" {...field} />
+                          <Input placeholder="e.g., JavaScript Programming Fundamentals" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -192,9 +192,9 @@ export default function Phase1() {
                     name="theme"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Tema principal</FormLabel>
+                        <FormLabel>Main Theme</FormLabel>
                         <FormControl>
-                          <Input placeholder="Ex: Desenvolvimento Web" {...field} />
+                          <Input placeholder="e.g., Web Development" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
