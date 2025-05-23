@@ -29,6 +29,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Use PostgreSQL storage for activities integration
   const pgStorage = new PostgresStorage();
   
+  // DEBUG: Log all requests to check routing
+  app.use((req, res, next) => {
+    if (req.path === '/api/pdf/lesson' && req.method === 'POST') {
+      console.log("🚨 PDF LESSON REQUEST INTERCEPTED BY MIDDLEWARE!");
+      console.log("📍 Path:", req.path);
+      console.log("📍 Method:", req.method);
+    }
+    next();
+  });
+  
   // ===== PRIORITY: PDF ENDPOINT MUST BE FIRST! =====
   app.post("/api/pdf/lesson", async (req, res) => {
     try {
