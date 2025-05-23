@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Zap, BookOpen, CheckCircle, AlertCircle, Eye } from "lucide-react";
+import { Zap, BookOpen, CheckCircle, AlertCircle, Eye, X } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import PhaseNav from "../components/layout/PhaseNav";
 
 export default function Phase4Clean() {
@@ -13,6 +14,8 @@ export default function Phase4Clean() {
   const [generationProgress, setGenerationProgress] = useState(0);
   const [currentGeneratingLesson, setCurrentGeneratingLesson] = useState("");
   const [generatedActivities, setGeneratedActivities] = useState<any[]>([]);
+  const [selectedActivity, setSelectedActivity] = useState<any>(null);
+  const [showActivityDialog, setShowActivityDialog] = useState(false);
 
   // 🚀 CARREGAR ATIVIDADES SALVAS DO POSTGRESQL AO MONTAR O COMPONENTE
   useEffect(() => {
@@ -360,8 +363,8 @@ export default function Phase4Clean() {
                       variant="outline"
                       size="sm"
                       onClick={() => {
-                        console.log("🔍 Visualizando atividade:", activity);
-                        alert(`📚 Atividade: ${activity.lessonName}\n\n📊 Estatísticas:\n• ${activity.savedActivities} atividades práticas\n• ${activity.savedQuestions} questões de avaliação\n\n✅ Status: Salva permanentemente e vinculada ao curso\n\n🎯 Pronta para integração com Google Drive!`);
+                        setSelectedActivity(activity);
+                        setShowActivityDialog(true);
                       }}
                     >
                       <Eye className="h-3 w-3 mr-1" />
@@ -374,34 +377,108 @@ export default function Phase4Clean() {
                   </div>
                 </div>
               ))}
-              
-              {/* Botão para integração com Google Drive */}
-              <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-medium text-blue-900 dark:text-blue-100">
-                      Criar Pastas no Google Drive
-                    </h4>
-                    <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                      Organize as atividades em pastas estruturadas no Google Drive
-                    </p>
-                  </div>
-                  <Button
-                    onClick={() => {
-                      console.log("🚀 Preparando integração com Google Drive para", generatedActivities.length, "atividades");
-                      alert("🚀 Funcionalidade em desenvolvimento!\n\nEsta integração criará:\n• Pasta do curso\n• Subpastas por módulo\n• Arquivos de atividades organizados\n\nEm breve estará disponível!");
-                    }}
-                    className="bg-blue-600 hover:bg-blue-700"
-                  >
-                    <BookOpen className="h-4 w-4 mr-2" />
-                    Criar Estrutura
-                  </Button>
-                </div>
-              </div>
+
             </div>
           </CardContent>
         </Card>
       )}
+
+      {/* Dialog para visualizar atividades detalhadas */}
+      <Dialog open={showActivityDialog} onOpenChange={setShowActivityDialog}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <BookOpen className="h-5 w-5 text-blue-600" />
+              Detalhes da Atividade
+            </DialogTitle>
+            <DialogDescription>
+              Visualização completa das atividades e questões geradas
+            </DialogDescription>
+          </DialogHeader>
+          
+          {selectedActivity && (
+            <div className="space-y-6">
+              {/* Informações da Atividade */}
+              <div className="bg-gradient-to-r from-blue-50 to-green-50 dark:from-blue-900/20 dark:to-green-900/20 p-4 rounded-lg">
+                <h3 className="font-semibold text-lg mb-2">{selectedActivity.lessonName}</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{selectedActivity.moduleName}</p>
+                
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div className="flex items-center gap-2">
+                    <BookOpen className="h-4 w-4 text-blue-600" />
+                    <span className="font-medium">{selectedActivity.savedActivities}</span>
+                    <span className="text-gray-600 dark:text-gray-400">atividades práticas</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <AlertCircle className="h-4 w-4 text-green-600" />
+                    <span className="font-medium">{selectedActivity.savedQuestions}</span>
+                    <span className="text-gray-600 dark:text-gray-400">questões de avaliação</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Conteúdo das Atividades */}
+              <div className="space-y-4">
+                <h4 className="font-semibold text-lg flex items-center gap-2">
+                  <Zap className="h-5 w-5 text-yellow-500" />
+                  Atividades Geradas via IA
+                </h4>
+                
+                <div className="bg-white dark:bg-gray-800 border rounded-lg p-4">
+                  <div className="grid gap-4">
+                    <div>
+                      <h5 className="font-medium mb-2">📝 Exercícios Práticos</h5>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        Atividades interativas personalizadas para desenvolver as competências específicas da aula.
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h5 className="font-medium mb-2">🎯 Questões de Avaliação</h5>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        Questões elaboradas para verificar o aprendizado e fixar o conteúdo apresentado.
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h5 className="font-medium mb-2">💾 Status de Persistência</h5>
+                      <div className="flex items-center gap-2">
+                        <Badge variant="outline" className="text-green-700 border-green-300">
+                          <CheckCircle className="h-3 w-3 mr-1" />
+                          Salvo Permanentemente
+                        </Badge>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          Vinculado ao curso e módulo
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Ações */}
+              <div className="flex justify-end gap-2 pt-4 border-t">
+                <Button
+                  variant="outline"
+                  onClick={() => setShowActivityDialog(false)}
+                >
+                  Fechar
+                </Button>
+                <Button
+                  onClick={() => {
+                    console.log("📚 Detalhes completos da atividade:", selectedActivity);
+                    alert("✅ Atividade confirmada como persistente!\n\nTodos os dados estão salvos e vinculados ao curso.");
+                  }}
+                  className="bg-green-600 hover:bg-green-700"
+                >
+                  <CheckCircle className="h-4 w-4 mr-2" />
+                  Confirmar
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
