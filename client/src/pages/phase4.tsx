@@ -294,19 +294,13 @@ export default function Phase4() {
             )}
           </div>
         </div>
-          
-
 
         <div className="flex items-center justify-end space-x-3 mt-6">
           <Button 
-            variant="outline"
-          >
-            Preview Evaluations
-          </Button>
-          <Button 
             onClick={handleNextPhase}
+            className="bg-blue-600 hover:bg-blue-700"
           >
-            Continue to Phase 5
+            Continuar para Próxima Fase
           </Button>
         </div>
       </div>
