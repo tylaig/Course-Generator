@@ -123,22 +123,40 @@ export default function Phase4Clean() {
         setCurrentGeneratingLesson(lessonInfo.lessonName);
         console.log(`🔥 Gerando para: ${lessonInfo.lessonName}`);
 
+        // 🚀 LOGS DETALHADOS PARA DEBUG COMPLETO
+        console.log(`🔍 FRONTEND DEBUG - lessonInfo:`, JSON.stringify(lessonInfo, null, 2));
+        
+        // GARANTIR QUE moduleId NUNCA SEJA "NaN" OU INVÁLIDO
+        const safeModuleId = (lessonInfo.moduleId && 
+                             lessonInfo.moduleId !== "NaN" && 
+                             lessonInfo.moduleId !== null && 
+                             lessonInfo.moduleId !== undefined && 
+                             !isNaN(parseInt(lessonInfo.moduleId.toString()))) 
+          ? lessonInfo.moduleId 
+          : 1; // Fallback sempre válido
+
+        console.log(`🔍 FRONTEND DEBUG - safeModuleId:`, safeModuleId);
+
+        const requestPayload = {
+          lessons: [{
+            moduleId: safeModuleId,
+            lessonName: lessonInfo.lessonName,
+            content: lessonInfo.lesson?.content || ""
+          }],
+          courseDetails: {
+            title: course?.title || "Curso Educacional",
+            theme: course?.theme || "Educação e Aprendizagem", 
+            estimatedHours: course?.estimatedHours || 40
+          }
+        };
+
+        console.log(`🔍 FRONTEND DEBUG - requestPayload:`, JSON.stringify(requestPayload, null, 2));
+
         // Call the integrated PostgreSQL endpoint
         const response = await fetch("/api/generate-activities", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            lessons: [{
-              moduleId: lessonInfo.moduleId, // This should be a string ID from the existing module
-              lessonName: lessonInfo.lessonName,
-              content: lessonInfo.lesson.content || ""
-            }],
-            courseDetails: {
-              title: course?.title || "Curso Educacional",
-              theme: course?.theme || "Educação e Aprendizagem",
-              estimatedHours: course?.estimatedHours || 40
-            }
-          })
+          body: JSON.stringify(requestPayload)
         });
 
         if (response.ok) {

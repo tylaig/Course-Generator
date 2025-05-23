@@ -589,22 +589,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
           // 🚀 AUTO-SAVE TO POSTGRESQL: Create lesson if not exists
           let lesson;
           try {
-            // DEBUG: Log what moduleId we're receiving
-            console.log(`🔍 DEBUG moduleId received:`, lessonInfo.moduleId, `type:`, typeof lessonInfo.moduleId);
+            // 🚀 LOGS DETALHADOS PARA DEBUG COMPLETO
+            console.log(`🔍 FULL DEBUG - lessonInfo completo:`, JSON.stringify(lessonInfo, null, 2));
+            console.log(`🔍 FULL DEBUG - moduleId recebido:`, lessonInfo.moduleId, `tipo:`, typeof lessonInfo.moduleId);
+            console.log(`🔍 FULL DEBUG - lessonName:`, lessonInfo.lessonName);
             
             // SOLUÇÃO DEFINITIVA: Use o index do módulo como fallback se moduleId for inválido
             let moduleIdNum;
-            if (lessonInfo.moduleId && !isNaN(parseInt(lessonInfo.moduleId.toString()))) {
-              moduleIdNum = parseInt(lessonInfo.moduleId.toString());
+            const moduleIdInput = lessonInfo.moduleId?.toString() || "1";
+            
+            console.log(`🔍 FULL DEBUG - moduleIdInput convertido:`, moduleIdInput);
+            
+            if (moduleIdInput && moduleIdInput !== "NaN" && !isNaN(parseInt(moduleIdInput))) {
+              moduleIdNum = parseInt(moduleIdInput);
+              console.log(`✅ FULL DEBUG - moduleIdNum válido:`, moduleIdNum);
             } else {
               // Fallback: usar 1 como moduleId padrão para o primeiro módulo
               moduleIdNum = 1;
-              console.log(`🔧 FALLBACK: Usando moduleId = 1 como padrão`);
+              console.log(`🔧 FULL DEBUG - FALLBACK aplicado: usando moduleId = 1`);
+              console.log(`🔧 FULL DEBUG - Motivo do fallback: moduleIdInput era "${moduleIdInput}"`);
             }
             
-            console.log(`✅ ModuleId final usado: ${moduleIdNum}`);
+            console.log(`✅ FULL DEBUG - ModuleId final confirmado: ${moduleIdNum} (tipo: ${typeof moduleIdNum})`);
             
+            console.log(`🔍 FULL DEBUG - Chamando pgStorage.listLessonsByModule com: "${moduleIdNum}"`);
             const existingLessons = await pgStorage.listLessonsByModule(moduleIdNum.toString());
+            console.log(`🔍 FULL DEBUG - Aulas existentes encontradas:`, existingLessons.length);
             lesson = existingLessons.find(l => l.title === lessonInfo.lessonName);
             
             if (!lesson) {
