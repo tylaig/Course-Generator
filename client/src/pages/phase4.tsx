@@ -113,13 +113,16 @@ export default function Phase4() {
           const result = await response.json();
           console.log("API Response:", result);
           
-          if (result.success && result.results && result.results.length > 0) {
-            const activitiesData = result.results[0];
+          // Extract activities from the lesson content response
+          if (result.success && result.content) {
+            const activities = result.content.practicalExercises || [];
+            const assessmentQuestions = result.content.assessmentQuestions || [];
+            
             results.push({ 
               moduleId: lessonInfo.moduleId, 
               lessonId: lessonInfo.lessonId, 
-              activities: activitiesData.activities,
-              assessmentQuestions: activitiesData.assessmentQuestions
+              activities: activities,
+              assessmentQuestions: assessmentQuestions
             });
           } else {
             console.error("Resposta inválida da API:", result);
