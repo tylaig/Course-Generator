@@ -95,7 +95,7 @@ export default function Sidebar() {
           {expandedSections.phases && (
             <div className="pl-2 space-y-1">
               {phasesMenuItems.map((item) => {
-                // Determinar se esta fase está disponível
+                // Determine if this phase is available
                 const isAvailable = course && item.phaseNumber <= currentPhase;
                 const isActive = location === item.path;
                 
@@ -134,13 +134,13 @@ export default function Sidebar() {
 
       <div className="p-4 mt-4">
         <div className="p-4 bg-slate-100 rounded-lg">
-          <h4 className="font-medium text-sm text-slate-700 mb-2">Estrutura Pedagógica</h4>
+          <h4 className="font-medium text-sm text-slate-700 mb-2">Pedagogical Structure</h4>
           <p className="text-xs text-slate-500">
-            Baseado no framework de design educacional com 5 fases de desenvolvimento sequencial.
+            Based on the educational design framework with 5 sequential development phases.
           </p>
           {course && (
             <div className="mt-2 pt-2 border-t border-slate-200">
-              <p className="text-xs font-medium text-slate-700">Curso Atual:</p>
+              <p className="text-xs font-medium text-slate-700">Current Course:</p>
               <p className="text-xs text-slate-600 truncate">{course.title}</p>
               <div className="mt-1 w-full bg-slate-200 h-1 rounded-full overflow-hidden">
                 <div 
