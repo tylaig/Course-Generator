@@ -42,12 +42,36 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Carregar curso salvo quando o componente é montado
   useEffect(() => {
-    // Primeiro tentar localStorage para compatibilidade
-    const savedCourse = CourseStorage.getCurrentCourse();
-    if (savedCourse) {
-      setCourse(savedCourse);
-    }
-    setIsInitialized(true);
+    const initializeCourse = async () => {
+      try {
+        // Primeiro tentar localStorage para compatibilidade
+        const savedCourse = CourseStorage.getCurrentCourse();
+        if (savedCourse) {
+          // Verificar se o curso existe no banco de dados
+          const numericId = parseInt(savedCourse.id);
+          if (!isNaN(numericId)) {
+            try {
+              const response = await apiRequest("GET", `/api/courses/${numericId}`);
+              const dbCourse = await response.json();
+              // Sincronizar com os dados do banco
+              savedCourse.id = dbCourse.id.toString();
+              setCourse(savedCourse);
+            } catch (error) {
+              console.log("Curso não encontrado no banco, usando localStorage");
+              setCourse(savedCourse);
+            }
+          } else {
+            setCourse(savedCourse);
+          }
+        }
+      } catch (error) {
+        console.error("Erro ao inicializar curso:", error);
+      } finally {
+        setIsInitialized(true);
+      }
+    };
+    
+    initializeCourse();
   }, []);
 
   // Salvar automaticamente no banco de dados sempre que o curso mudar
