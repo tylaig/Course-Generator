@@ -76,11 +76,21 @@ export default function Phase4() {
       for (let i = 0; i < lessonsToGenerate.length; i++) {
         const lessonInfo = lessonsToGenerate[i];
         try {
+          // Update progress at the start of each iteration
+          setCurrentGeneratingLesson(lessonInfo.lessonName);
+          setGenerationProgress(((i) / lessonsToGenerate.length) * 100);
+          
           const moduleToGenerate = course?.modules.find(m => m.id === lessonInfo.moduleId);
-          if (!moduleToGenerate) continue;
+          if (!moduleToGenerate) {
+            setGenerationProgress(((i + 1) / lessonsToGenerate.length) * 100);
+            continue;
+          }
           
           const lessonToGenerate = moduleToGenerate.content?.lessons?.find((l: any) => l.title === lessonInfo.lessonId);
-          if (!lessonToGenerate) continue;
+          if (!lessonToGenerate) {
+            setGenerationProgress(((i + 1) / lessonsToGenerate.length) * 100);
+            continue;
+          }
           
           const response = await apiRequest(
             "POST", 
