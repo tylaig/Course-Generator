@@ -755,10 +755,10 @@ export default function Phase2() {
                               </CardHeader>
                               <CardContent className="pt-0">
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                  {/* Competências Cognitivas */}
+                                  {/* Cognitive Skills */}
                                   <div>
                                     <h5 className="font-medium text-blue-600 mb-2 flex items-center">
-                                      🧠 Cognitivas
+                                      🧠 Cognitive
                                     </h5>
                                     {(moduleCompetencies as any).cognitive && (moduleCompetencies as any).cognitive.length > 0 ? (
                                       <ul className="text-sm text-gray-600 space-y-1">
@@ -770,14 +770,14 @@ export default function Phase2() {
                                         ))}
                                       </ul>
                                     ) : (
-                                      <p className="text-sm text-gray-400">Nenhuma competência cognitiva</p>
+                                      <p className="text-sm text-gray-400">No cognitive skills</p>
                                     )}
                                   </div>
 
-                                  {/* Competências Comportamentais */}
+                                  {/* Behavioral Skills */}
                                   <div>
                                     <h5 className="font-medium text-green-600 mb-2 flex items-center">
-                                      🤝 Comportamentais
+                                      🤝 Behavioral
                                     </h5>
                                     {(moduleCompetencies as any).behavioral && (moduleCompetencies as any).behavioral.length > 0 ? (
                                       <ul className="text-sm text-gray-600 space-y-1">
@@ -789,14 +789,14 @@ export default function Phase2() {
                                         ))}
                                       </ul>
                                     ) : (
-                                      <p className="text-sm text-gray-400">Nenhuma competência comportamental</p>
+                                      <p className="text-sm text-gray-400">No behavioral skills</p>
                                     )}
                                   </div>
 
-                                  {/* Competências Técnicas */}
+                                  {/* Technical Skills */}
                                   <div>
                                     <h5 className="font-medium text-purple-600 mb-2 flex items-center">
-                                      ⚙️ Técnicas
+                                      ⚙️ Technical
                                     </h5>
                                     {(moduleCompetencies as any).technical && (moduleCompetencies as any).technical.length > 0 ? (
                                       <ul className="text-sm text-gray-600 space-y-1">
@@ -808,7 +808,7 @@ export default function Phase2() {
                                         ))}
                                       </ul>
                                     ) : (
-                                      <p className="text-sm text-gray-400">Nenhuma competência técnica</p>
+                                      <p className="text-sm text-gray-400">No technical skills</p>
                                     )}
                                   </div>
                                 </div>
