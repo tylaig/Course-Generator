@@ -591,7 +591,7 @@ export default function Phase3() {
                               }
                             };
 
-                            const response = await fetch(`/api/courses/${course?.id}/lesson-pdf`, {
+                            const response = await fetch(`/api/pdf/lesson`, {
                               method: 'POST',
                               headers: {
                                 'Content-Type': 'application/json',

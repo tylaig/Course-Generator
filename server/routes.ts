@@ -1037,11 +1037,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Individual Lesson PDF Download endpoint
-  app.post("/api/courses/:courseId/lesson-pdf", async (req, res) => {
+  // Individual Lesson PDF Download endpoint - NEW PATH
+  app.post("/api/pdf/lesson", async (req, res) => {
     try {
-      const courseId = parseInt(req.params.courseId);
-      console.log("🚀 LESSON PDF ENDPOINT STARTED for course ID:", courseId);
+      console.log("🚀 LESSON PDF ENDPOINT STARTED!");
       
       const { lesson, module, course } = req.body;
       console.log("📋 Raw request body:", JSON.stringify(req.body, null, 2));
